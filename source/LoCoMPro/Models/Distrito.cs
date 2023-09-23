@@ -11,31 +11,29 @@ namespace LoCoMPro.Models
         [StringLength(25, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Distrito")]
-        public string nombre { get; set; }
+        public required string nombre { get; set; }
 
         // Cantón
         [StringLength(20, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre cantón")]
-        public string nombreCanton { get; set; }
+        public required string nombreCanton { get; set; }
 
         // Nombre provincia
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre de la provincia")]
-        public string nombreProvincia { get; set; }
-
+        public required string nombreProvincia { get; set; }
 
         [ForeignKey("nombreCanton, nombreProvincia")]
-        public Canton canton { get; set; }
-
-
-        // TODO(nosotros): deescomentar las colecciones de distrito
-        // cuando ya estén los modelos de Usuario y Tiendas
+        public required Canton canton { get; set; }
 
         // Colecciones
-        // public ICollection<Usuario> habitantes { get; set; }
+        public ICollection<Usuario>? habitantes { get; set; }
 
-        // public ICollection<Tienda> tiendas { get; set; }
+        // TODO(Luis): Integrar con Tienda
+        /*
+        public ICollection<Tienda>? tiendas { get; set; }
+        */
     }
 }
