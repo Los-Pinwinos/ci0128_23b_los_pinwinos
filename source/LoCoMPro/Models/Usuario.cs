@@ -57,11 +57,9 @@ namespace LoCoMPro.Models
         // Propiedad de navegación vivienda
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
-
-        // TODO(Emilia): Integrar con Registro
-        /*
+        
         // Colección
         public ICollection<Registro>? registros { get; set; }
-        */
+        
     }
 }

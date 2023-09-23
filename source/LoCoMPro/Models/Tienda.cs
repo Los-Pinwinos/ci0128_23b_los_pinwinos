@@ -37,10 +37,7 @@ namespace LoCoMPro.Models
         public Distrito? distrito { get; set; }
 
         // Colección
-        // TODO (Emilia): Integrar con Registro
-        /*
         public ICollection<Registro>? registros { get; set; }
-        */
 
         // Coordenadas
         // TODO(Los Pinwinos): coordenadas

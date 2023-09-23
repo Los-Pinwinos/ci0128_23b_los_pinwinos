@@ -19,14 +19,12 @@ namespace LoCoMPro.Models
 
         // Usuario creador
         [StringLength(12, MinimumLength = 10)]
-        [Display(Name = "Crreador")]
+        [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 
         // Propiedad de navegación registro
-        // TODO(Emilia): Integrar con Registro
-        /*
         [ForeignKey("creacion, usuarioCreador")]
         public Registro? registro { get; set; }
-        */
+        
     }
 }

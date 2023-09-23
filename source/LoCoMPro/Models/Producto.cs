@@ -40,9 +40,7 @@ namespace LoCoMPro.Models
         [ForeignKey("nombreCategoria")]
         public Categoria? categoria { get; set; }
 
-        // TODO(Emilia): Integrar con Registro
-        /*
         // Colección
-        public ICollection<Registro>? registros { get; set; }*/
+        public ICollection<Registro>? registros { get; set; }
     }
 }
