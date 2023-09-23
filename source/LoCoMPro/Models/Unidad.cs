@@ -14,6 +14,6 @@ namespace LoCoMPro.Models
         public required string nombre { get; set; }
 
         // Collecciones
-        // public ICollection<Producto>? productos { get; set; }
+        public ICollection<Producto>? productos { get; set; }
     }
 }

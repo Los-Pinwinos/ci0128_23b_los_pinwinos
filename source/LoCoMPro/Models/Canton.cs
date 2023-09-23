@@ -21,7 +21,7 @@ namespace LoCoMPro.Models
 
         // Propiedad de navegación provincia
         [ForeignKey("nombreProvincia")]
-        public required Provincia provincia { get; set; }
+        public Provincia? provincia { get; set; }
 
         // Colección
         public ICollection<Distrito>? distritos { get; set; }

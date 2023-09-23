@@ -27,7 +27,7 @@ namespace LoCoMPro.Models
 
         // Propiedad de navegación cantón
         [ForeignKey("nombreCanton, nombreProvincia")]
-        public required Canton canton { get; set; }
+        public Canton? canton { get; set; }
 
         // Colecciones
         public ICollection<Usuario>? habitantes { get; set; }

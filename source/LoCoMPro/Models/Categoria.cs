@@ -12,7 +12,7 @@ namespace LoCoMPro.Models
         public required string nombre { get; set; }
 
         // Colecciones
-        // public ICollection<Producto>? productos { get; set; }
+        public ICollection<Producto>? productos { get; set; }
 
         // TODO(Los pinwino): Arreglar
         /*
