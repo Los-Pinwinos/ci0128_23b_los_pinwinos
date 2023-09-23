@@ -22,5 +22,8 @@ namespace LoCoMPro.Models
 
         [ForeignKey("nombreProvincia")]
         public Provincia provincia { get; set; }
+
+        // Colección
+        public ICollection<Distrito> distritos { get; set; }
     }
 }

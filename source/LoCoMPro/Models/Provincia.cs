@@ -11,5 +11,9 @@ namespace LoCoMPro.Models
         [RegularExpression(@"")]
         [Display(Name = "Nombre de la provincia")]
         public string nombre { get; set; }
+
+
+        // Colección
+        public ICollection<Canton> cantones { get; set; }
     }
 }
