@@ -31,10 +31,6 @@ namespace LoCoMPro.Models
 
         // Colecciones
         public ICollection<Usuario>? habitantes { get; set; }
-
-        // TODO(Luis): Integrar con Tienda
-        /*
         public ICollection<Tienda>? tiendas { get; set; }
-        */
     }
 }
