@@ -5,6 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoCoMPro.Models
 {
+    [Table("Usuario")]
     [PrimaryKey(nameof(nombreDeUsuario))]
     public class Usuario
     {
@@ -14,21 +15,18 @@ namespace LoCoMPro.Models
         public required string nombreDeUsuario { get; set; }
 
         // Correo (único)
-        [Required]
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Correo electronico inválido")]
         [Display(Name = "Correo electrónico")]
         public required string correo { get; set; }
 
         // Contraseña
-        [Required]
         [DataType(DataType.Password)]
         [StringLength(8)]
         [Display(Name = "Contraseña")]
         public required string contrasena { get; set; }
 
         // Estado
-        [Required]
         [RegularExpression(@"[ABI]",
             ErrorMessage =
             "El estado debe ser A (activo), I (inactivo), B(bloqueado)")]
@@ -56,6 +54,7 @@ namespace LoCoMPro.Models
         [Display(Name = "Provincia de vivienda")]
         public string? provinciaVivienda { get; set; }
 
+        // Propiedad de navegación vivienda
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
 

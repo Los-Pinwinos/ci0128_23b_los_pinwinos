@@ -25,6 +25,7 @@ namespace LoCoMPro.Models
         [Display(Name = "Nombre de la provincia")]
         public required string nombreProvincia { get; set; }
 
+        // Propiedad de navegación cantón
         [ForeignKey("nombreCanton, nombreProvincia")]
         public required Canton canton { get; set; }
 

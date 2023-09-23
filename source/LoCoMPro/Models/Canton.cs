@@ -11,19 +11,19 @@ namespace LoCoMPro.Models
         [StringLength(20, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre del cantón")]
-        public string nombre { get; set; }
+        public required string nombre { get; set; }
 
         // Nombre provincia
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre de la provincia")]
-        public string nombreProvincia { get; set; }
+        public required string nombreProvincia { get; set; }
 
-
+        // Propiedad de navegación provincia
         [ForeignKey("nombreProvincia")]
-        public Provincia provincia { get; set; }
+        public required Provincia provincia { get; set; }
 
         // Colección
-        public ICollection<Distrito> distritos { get; set; }
+        public ICollection<Distrito>? distritos { get; set; }
     }
 }

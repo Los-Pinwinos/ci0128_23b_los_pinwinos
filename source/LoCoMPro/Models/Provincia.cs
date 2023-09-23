@@ -10,10 +10,9 @@ namespace LoCoMPro.Models
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre de la provincia")]
-        public string nombre { get; set; }
-
+        public required string nombre { get; set; }
 
         // Colección
-        public ICollection<Canton> cantones { get; set; }
+        public ICollection<Canton>? cantones { get; set; }
     }
 }
