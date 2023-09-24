@@ -15,10 +15,13 @@
 
 <body>
     <form method="post">
+        <!-- Contenedor para el formulario -->
         <div class="AgregarProd-contenedor-central">
+            <!-- Titulo de la pagina -->
             <div class="AgregarProd-contenedor-texto">
                 <label class="AddP-tituloAgregarProd-titulo">Producto</label>
             </div>
+            <!-- Agregar Tienda -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="TiendaTexto">Tienda:</label>
                 <input type="text" class="AgregarProd-caja-texto-estandar" id="Tienda" name="Tienda" s>
@@ -26,6 +29,7 @@
                     <button class="AgregarProd-boton-estandar" type="button">Agregar Tienda</button>
                 </div>
             </div>
+            <!-- Agregar Producto -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Producto:</label>
                 <input type="text" class="AgregarProd-caja-texto-estandar" id="Producto" name="Producto">
@@ -33,6 +37,7 @@
                     <button class="AgregarProd-boton-estandar" type="button">Agregar Producto</button>
                 </div>
             </div>
+            <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="PrecioTexto">Precio:</label>
                 <input type="text" class="AgregarProd-caja-texto-precio" id="Precio" name="Precio">
@@ -41,16 +46,24 @@
                     <input type="text" class="AgregarProd-caja-texto-unidad" id="Unidad" name="Unidad">
                 </div>
             </div>
+            <!-- Agregar Imagen -->
             <div class="AgregarProd-contenedor-texto">
                 <button type="button" class="AgregarProd-boton-imagen">Agregar Imagen</button>
             </div>
+            <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="EtiquetaTexto">Etiqueta:</label>
                 <input type="text" class="AgregarProd-caja-texto-etiqueta" id="Etiqueta" name="Etiqueta">
             </div>
+            <!-- Descripción -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="DescripcionTexto">Descripcion:</label>
                 <input type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion" name="Descripcion">
+            </div>
+            <!-- Botones de aceptar y cancelar -->
+            <div class="AgregarProd-contenedor-texto">
+                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Aceptar">Aceptar</button>
+                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
             </div>
         </div>
     </form>
