@@ -1,0 +1,36 @@
+﻿@page
+@model LoCoMPro.Pages.Busqueda.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Metadata -->
+<head>
+    <!-- Link to the CSS file with the styles of the page -->
+    <!-- The true makes the version be appended to the URL -->
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
+</head>
+
+<div>
+    <div class="BusquedaIndex-contenedor-fila">
+        <div class="BusquedaIndex-contenedor">
+            <form class="BusquedaIndex-contenedor-form" method="get">
+                <div class="BusquedaIndex-contenedor-fila">
+                    <div style="width:85%;">
+                        <div class="BusquedaIndex-contenedor-fila">
+                            <div class="BusquedaIndex-contenedor-caja-texto">
+                                <div class="BusquedaIndex-contenedor-texto">
+                                    Producto
+                                </div>
+                                <div class="BusquedaIndex-contenedor">
+                                     <input type="text" id="CajaDeTextoProducto" class="BusquedaIndex-caja-texto" placeholder="Producto" autocomplete="off">
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+﻿/* Contenedor */
+.BusquedaIndex-contenedor {
+    margin-bottom: 5px;
+    width: 100%;
+    max-width: 1600px;
+}
+
+/* Contenedor de formulario */
+.BusquedaIndex-contenedor-form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    background-color: rgba(3, 63, 99, 0.15);
+    border-radius: 5px;
+    padding: 10px;
+    width: 91%;
+}
+
+/* Contenedor de objetos en fila */
+.BusquedaIndex-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+/* Contenedor de caja de texto */
+.BusquedaIndex-contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    width: 90%;
+}
+
+/* Caja de texto */
+.BusquedaIndex-caja-texto {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 30px;
+    padding: 1px 5px;
+    width: 70%;
+}
