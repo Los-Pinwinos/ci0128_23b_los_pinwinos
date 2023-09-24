@@ -40,3 +40,9 @@
     padding: 1px 5px;
     width: 70%;
 }
+
+/* Contenedor de texto */
+.BusquedaIndex-contenedor-texto {
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
