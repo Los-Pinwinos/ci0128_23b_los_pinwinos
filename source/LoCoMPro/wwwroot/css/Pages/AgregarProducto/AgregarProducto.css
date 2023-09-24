@@ -55,3 +55,68 @@
     border-radius: 30px;
     margin-left: 10px;
 }
+
+/* Caja de texto utilizada para el precio */
+.AgregarProd-caja-texto-precio {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    padding: 1px 10px;
+    width: 375px
+}
+
+/* Caja de texto utilizada para la unidad
+    TODO(Emilia): cambiar para que sea un combobox
+*/
+.AgregarProd-caja-texto-unidad {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    padding: 1px 10px;
+    width: 375px
+}
+
+/* Caja de texto utilizada para la etiqueta */
+.AgregarProd-caja-texto-etiqueta {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    width: 860px;
+}
+
+/* Caja de texto utilizada para la descripcion */
+.AgregarProd-caja-texto-descripcion {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    padding-top: 20px;
+    width: 860px;
+    height: 90px;
+}
+
+/* Botón utilizado para agregar imagen */
+.AgregarProd-boton-imagen {
+    width: 865px;
+    height: 30px;
+    background-color: #033F63;
+    color: white;
+    border-radius: 30px;
+    margin-bottom: 25px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+/* Texto estándar */
+.AgregarProd-texto {
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+/* TODO(Emilia): Hacer que las cajas de texto y los botones se vean alineados*/
