@@ -1,0 +1,57 @@
+﻿/* Contenedor para que la vista esté centrada */
+.AgregarProd-contenedor-central {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    justify-content: flex-start;
+    align-items: center;
+    height: calc(90vh - 200px);
+}
+
+
+/* Contenedor para los botones y el texto */
+.AgregarProd-contenedor-texto {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 13px;
+}
+
+/* Label usado en contenedor para los botones y el texto */
+.AgregarProd-contenedor-texto label { 
+    font-size: 18px;
+    white-space: nowrap;
+    margin-right: 40px;
+}
+
+/* Label utilizado para el Título */
+.AgregarProd-titulo label {
+    font-size: 600px;
+    color: black;
+    text-align: left;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+
+/* Caja de texto utilizada para ingresar producto y tienda */
+.AgregarProd-caja-texto-estandar {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 1px 10px;
+    width: 650px
+}
+
+/* Boton estandar */
+.AgregarProd-boton-estandar {
+    width: 200px;
+    height: 30px;
+    background-color: #033F63;
+    color: white;
+    border-radius: 30px;
+    margin-left: 10px;
+}

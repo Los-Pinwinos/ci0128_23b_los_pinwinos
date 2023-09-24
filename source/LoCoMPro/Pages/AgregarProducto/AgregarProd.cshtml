@@ -1,4 +1,38 @@
 ﻿@page
 @model LoCoMPro.Pages.AgregarProducto.AgregarProdModel
 @{
+    ViewData["Title"] = "Agregar Producto";
 }
+
+
+<head>
+    <!-- Titulo de la pagina -->
+    <title>Agregar Producto</title>
+    <!-- Archivo css -->
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
+</head>
+
+
+<body>
+    <form method="post">
+        <div class="AgregarProd-contenedor-central">
+            <div class="AgregarProd-contenedor-texto">
+                <label class="AddP-tituloAgregarProd-titulo">Producto</label>
+            </div>
+            <div class="AgregarProd-contenedor-texto">
+                <label for="TiendaTexto">Tienda:</label>
+                <input type="text" class="AgregarProd-caja-texto-estandar" id="Tienda" name="Tienda" s>
+               <div class="input-group-append">
+                    <button class="AgregarProd-boton-estandar" type="button">Agregar Tienda</button>
+                </div>
+            </div>
+            <div class="AgregarProd-contenedor-texto">
+                <label for="ProductoTexto">Producto:</label>
+                <input type="text" class="AgregarProd-caja-texto-estandar" id="Producto" name="Producto">
+                <div class="input-group-append">
+                    <button class="AgregarProd-boton-estandar" type="button">Agregar Producto</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
