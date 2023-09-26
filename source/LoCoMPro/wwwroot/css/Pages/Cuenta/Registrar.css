@@ -1,0 +1,69 @@
+/* Estilo para un contenedor de todos los elementos en la página */
+.Registrar-contenedor-centrado-primario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    margin-top: 5%;
+}
+
+/* Estilo para un contenedor de elementos especializado para un grupo de cajas de texto */
+.Registrar-contenedor-grupo-cajas-de-texto {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50%;
+}
+
+
+/* Estilo para el contenedor con parejas de label y caja de texto */
+.Registrar-contenedor-caja-de-texto {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 2%;
+}
+    /* Estilo para los label que acompañan las cajas de texto */
+    .Registrar-contenedor-caja-de-texto label {
+        font-size: 18px;
+        white-space: nowrap;
+        margin-right: 40px;
+    }
+
+    /* Estilo para las cajas de texto */
+    .Registrar-contenedor-caja-de-texto input {
+        background-color: #FFFBF8;
+        border-color: black;
+        border-radius: 10px;
+        border-width: 1px;
+        padding: 1px 10px;
+        width: 260px;
+    }
+
+/* Estilo para los botones básicos */
+.Registrar-boton-basico {
+    background-color: #d9996b;
+    color: black;
+    width: 260px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+    /* Cambiar el comportamiento del botón para hover */
+    .Registrar-boton-basico:hover {
+        color: black;
+    }

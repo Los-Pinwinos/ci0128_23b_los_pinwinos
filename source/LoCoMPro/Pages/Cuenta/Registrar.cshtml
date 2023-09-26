@@ -1,0 +1,71 @@
+﻿@page
+<!-- Pagina que sigue el modelo de registrar -->
+@model ModeloRegistrar
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Registrar cuenta</title>
+    <!-- Cargar el archivo JavaScript para alinear -->
+    <script src="~/js/Pages/alinear.js"></script>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Registrar.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Contenedor para todos en la página -->
+    <div class="Registrar-contenedor-centrado-primario">
+        <!-- Contenedor para las cajas de texto de nombre usuario y el correo -->
+        <div class="Registrar-contenedor-grupo-cajas-de-texto">
+            <!-- Caja de texto para el nombre de usuario -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoUsuario">Usuario:</label>
+                <input type="text" id="CajaDeTextoUsuario" placeholder="Digite un nombre de usuario">
+            </div>
+            <!-- Caja de texto para el correo -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoCorreo">Correo:</label>
+                <input type="email" id="CajaDeTextoCorreo" placeholder="Digite su correo electónico">
+            </div>
+        </div>
+        <!-- Contenedor para las cajas de texto de provincia, cantón y distrito -->
+        <div class="Registrar-contenedor-grupo-cajas-de-texto">
+            <!-- Caja de texto para la provincia -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoProvincia">Provincia:</label>
+                <input type="text" id="CajaDeTextoProvincia" placeholder="Digite su provincia de residencia">
+            </div>
+            <!-- Caja de texto para el cantón -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoCanton">Cantón:</label>
+                <input type="text" id="CajaDeTextoCanton" placeholder="Digite su cantón de residencia">
+            </div>
+            <!-- Caja de texto para la distrito -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoDistrito">Distrito:</label>
+                <input type="text" id="CajaDeTextoDistrito" placeholder="Digite su distrito de residencia">
+            </div>
+        </div>
+        <!-- Contenedor para las cajas de texto de contraseña y confirmar contraseña -->
+        <div class="Registrar-contenedor-grupo-cajas-de-texto">
+            <!-- Caja de texto para la contraseña -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoContraseña">Contraseña:</label>
+                <input type="password" id="CajaDeTextoContraseña" placeholder="Digite una contraseña">
+            </div>
+            <!-- Caja de texto para confirmar contraseña -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label for="CajaDeTextoConfirmarContraseña">Confirmar contraseña:</label>
+                <input type="password" id="CajaDeTextoConfirmarContraseña" placeholder="Redigite su contraseña">
+            </div>
+        </div>
+        <!-- Btón para crear la cuenta -->
+        <button class="Registrar-boton-basico" onclick=""> Crear cuenta </button>
+    </div>
+
+    <script>
+        // Llamar a la función para alinear los contenedores de las barras de texto
+        alinearContenedoresDeBarrasDeTexto(".Registrar-contenedor-caja-de-texto", 108);
+    </script>
+</body>
