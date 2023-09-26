@@ -13,34 +13,46 @@
 <body>
     <!-- Form de agregado de registro -->
     <form>
+        <!-- Label de tienda -->
         <label for="tienda_id">Tienda:</label>
-        <input type ="text" id="tienda_id" name="tienda"/>
-        <button>Agregar tienda</button>
+        <input type ="text" id="tienda_id" name="tienda" placeholder="Busque una tienda"/>
+        <button type="button">Agregar tienda</button>
         <br><br>
 
+        <!-- Label de producto -->
         <label for="producto_id">Producto:</label>
-        <input type="text" id="producto_id" name="producto"/>
-        <button>Agregar producto</button>
+        <input type="text" id="producto_id" name="producto" placeholder="Busque un producto" />
+        <button type="button">Agregar producto</button>
         <br><br>
 
+        <!-- Label de precio -->
         <label for="precio_id">Precio:</label>
-        <input type="text" id="precio_id" name="precio"/>
+        <input type="text" id="precio_id" name="precio" placeholder="Inserte el precio" />
         <label for="unidad_id">colones por</label>
-        <input type="text" id="unidad_id" name="unidad"/>
+        <!-- TODO(Luis): Obtener de base de datos -->
+        <select name="unidades" id="unidad_id">
+            <option value="unidad">unidad</option>
+            <option value="kilogramo">kilogramo</option>
+            <option value="litro">litro</option>
+        </select>
         <br><br>
 
-        <button>Agregar imagen</button>
+        <!-- Botón de imagen -->
+        <button type="button">Agregar imagen</button>
         <br><br>
 
+        <!-- Label de etiquetas -->
         <label for="etiqueta_id">Etiquetas:</label>
-        <input type="text" id="etiqueta_id" name="etiqueta"/>
+        <input type="text" id="etiqueta_id" name="etiqueta" placeholder="Si desea, inserte etiquetas" />
         <br><br>
 
+        <!-- Label de descripción -->
         <label for="descripcion_id">Descripcion:</label>
-        <textarea descripcion="descripcion_id" name="descripcion" style="width:100%"></textarea>
+        <textarea descripcion="descripcion_id" name="descripcion" style="width:100%" placeholder="Describa el producto"></textarea>
         <br><br>
 
-        <button>Aceptar</button>
-        <button>Cancelar</button>
+        <!-- Botones de confirmación -->
+        <button type="submit">Aceptar</button>
+        <button type="reset">Cancelar</button>
     </form>
 </body>
