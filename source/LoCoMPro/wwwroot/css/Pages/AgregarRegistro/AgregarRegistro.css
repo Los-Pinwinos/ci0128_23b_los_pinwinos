@@ -1,2 +1,17 @@
-﻿body {
+﻿/*Establece de manera general la vista de los botones*/
+button {
+    color: white;
+    background-color: #033f63;
+    /*TODO(Luis): Ask team for opinions on bolded text
+    font-weight: bold;*/
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/*Establece de manera general la vista de cajas de texto*/
+input[type=text]
+,textarea {
+    background-color: #fffcfa;
+    padding: 10px;
+    border-radius: 10px;
 }
