@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LoCoMPro.styles.css" asp-append-version="true" />
+    <!-- Incluir el archivo CSS custom para estilos de la barra de navegación -->
+    <link rel="stylesheet" href="~/css/Pages/Shared/_Layout.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -24,6 +26,20 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+
+                    <!-- Lista no ordenada para los elementos alineados a la derecha -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Elemento de navegación con el texto: "Mi perfil" que redirecciona a la página del perfil -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Perfil">Mi perfil</a>
+                        </li>
+                        <!-- Elemento de navegación con el icono del perfil -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Cuenta/Perfil">
+                                <img src="~/img/icono_perfil.png" alt="Icono del perfil" class="Layout-icono-perfil">
+                            </a>
                         </li>
                     </ul>
                 </div>
