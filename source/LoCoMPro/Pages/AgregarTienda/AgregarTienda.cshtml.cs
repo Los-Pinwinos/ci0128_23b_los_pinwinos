@@ -8,5 +8,19 @@ namespace LoCoMPro.Pages.AgregarTienda
         public void OnGet()
         {
         }
+        public void OnPostAceptar()
+        {
+            // TODO(Angie): hacer acción de aceptar
+            Console.WriteLine("Aceptar");
+
+        }
+        public void OnPostCancelar()
+        {
+            // TODO(Angie): hacer acción de aceptar
+            Console.WriteLine("Cancelar");
+        }
+
+        // TODO(Angie): ubicación
+        // TODO(Angie): fecha actual
     }
 }

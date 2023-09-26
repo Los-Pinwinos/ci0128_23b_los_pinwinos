@@ -1,0 +1,57 @@
+﻿/* Contenedor para arriba-derecha */
+.AgregarTienda-contenedor-arriba-derecha {
+    margin-top: 0px; /* Espacio antes de empezar texto */
+    margin-left: 1000px;  /* Espacio en el margen izquierdo */
+}
+
+/* Label para la fecha */
+.AgregarTienda-fecha {
+    font-size: 18px;
+}
+
+/* Contenedor para centrar */
+.AgregarTienda-contenedor-central {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;  /* Espacio antes de empezar texto */
+    justify-content: flex-start;
+    align-items: center;
+    height: calc(90vh - 200px);
+}
+
+/* Contenedor de botones y texto */
+.AgregarTienda-contenedor-texto {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 50px;  /* Espacio abajo antes de siguiente elemento */
+}
+
+/* Label para cajas de texto */
+.AgregarTienda-caja-texto-estandar {
+    background-color: #FFFBF8;
+    border-color: #033F63;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 1px 10px;
+    width: 650px
+}
+
+/* Label para el texto de la ventana */
+.AgregarTienda-contenedor-texto label {
+    font-size: 18px;
+    white-space: nowrap;
+    margin-right: 40px;
+}
+
+/* Label para aceptar y cancelar */
+.AgregarTienda-boton-estandar {
+    width: 200px;
+    height: 30px;
+    background-color: #033F63;
+    color: white;
+    border-radius: 10px;
+    margin-left: 10px;
+}
