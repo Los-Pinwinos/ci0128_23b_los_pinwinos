@@ -1,4 +1,46 @@
 ﻿@page
 @model LoCoMPro.Pages.AgregarRegistro.AgregarRegistro
 @{
+    ViewData["Title"] = "Agregar Registro";
 }
+
+<head>
+    <title>Agregar Registro</title>
+    <!-- TODO(Luis): Descomentar -->
+    <!--<link rel="stylesheet" href="~/css/Pages/AgregarRegistro/AgregarRegistro.css" asp-append-version="true" /> -->
+</head>
+
+<body>
+    <!-- Form de agregado de registro -->
+    <form>
+        <label for="tienda_id">Tienda:</label>
+        <input type ="text" id="tienda_id" name="tienda"/>
+        <button>Agregar tienda</button>
+        <br><br>
+
+        <label for="producto_id">Producto:</label>
+        <input type="text" id="producto_id" name="producto"/>
+        <button>Agregar producto</button>
+        <br><br>
+
+        <label for="precio_id">Precio:</label>
+        <input type="text" id="precio_id" name="precio"/>
+        <label for="unidad_id">colones por</label>
+        <input type="text" id="unidad_id" name="unidad"/>
+        <br><br>
+
+        <button>Agregar imagen</button>
+        <br><br>
+
+        <label for="etiqueta_id">Etiquetas:</label>
+        <input type="text" id="etiqueta_id" name="etiqueta"/>
+        <br><br>
+
+        <label for="descripcion_id">Descripcion:</label>
+        <textarea descripcion="descripcion_id" name="descripcion" style="width:100%"></textarea>
+        <br><br>
+
+        <button>Aceptar</button>
+        <button>Cancelar</button>
+    </form>
+</body>
