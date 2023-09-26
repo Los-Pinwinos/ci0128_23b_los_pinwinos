@@ -6,6 +6,8 @@
 <head>
     <!-- Titulo de la página -->
     <title>Perfil</title>
+    <!-- Cargar el archivo JavaScript para alinear -->
+    <script src="~/js/Pages/alinear.js"></script>
     <!-- Incluir el archivo de CSS con los estilos de la página -->
     <link rel="stylesheet" href="~/css/Pages/Cuenta/Perfil.css" asp-append-version="true" />
 </head>
@@ -39,4 +41,9 @@
         <!-- Botón para registrarse -->
         <a asp-page="/Cuenta/Registrar" class="Perfil-boton-registro"> Registrarse</a>
     </div>
+
+    <script>
+        // Llamar a la función para alinear los contenedores de las barras de texto
+        alinearContenedoresDeBarrasDeTexto(".Perfil-contenedor-caja-de-texto", 112);
+    </script>
 </body>
