@@ -1,0 +1,42 @@
+﻿@page
+<!-- Pagina que sigue el modelo de perfil -->
+@model ModeloPerfil
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Perfil</title>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Perfil.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Contenedor para los elementos en la sección de arriba de la página -->
+    <div class="Perfil-contenedor-centrado-primario">
+        <!-- Imagen con el icono del perfil -->
+        <img src="~/img/imagen_perfil.png" alt="Imagen del perfil" class="Perfil-imagen">
+        <!-- Caja de texto para el nombre de usuario -->
+        <div class="Perfil-contenedor-caja-de-texto">
+            <label for="CajaDeTextoUsuario">Usuario:</label>
+            <input type="text" id="CajaDeTextoUsuario" placeholder="Ingrese su nombre de usuario">
+        </div>
+        <!-- Caja de texto para la contraseña -->
+        <div class="Perfil-contenedor-caja-de-texto">
+            <label for="CajaDeTextoContraseña">Contraseña:</label>
+            <input type="password" id="CajaDeTextoContraseña" placeholder="Ingrese su contraseña">
+        </div>
+        <!-- Btón para ingresar -->
+        <button class="Perfil-boton-basico" onclick=""> Iniciar sesión </button>
+        <!-- Boton para recuperar la contraseña -->
+        <a asp-page="/Cuenta/RecuperarContraseña" class="Perfil-boton-basico"> Olvidé mi contraseña</a>
+    </div>
+
+    <!-- Contenedor para los elementos en la sección de abajo de la página -->
+    <div class="Perfil-contenedor-centrado-secundario">
+        <!-- Texto: "¿No tiene cuenta?" -->
+        <label class="Perfil-texto"> ¿No tiene cuenta?</label>
+        <!-- Botón para registrarse -->
+        <a asp-page="/Cuenta/Registrar" class="Perfil-boton-registro"> Registrarse</a>
+    </div>
+</body>
