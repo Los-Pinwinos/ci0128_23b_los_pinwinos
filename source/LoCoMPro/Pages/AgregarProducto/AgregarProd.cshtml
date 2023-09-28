@@ -8,63 +8,85 @@
 <head>
     <!-- Titulo de la pagina -->
     <title>Agregar Producto</title>
+    <script src="~/js/Pages/alinear.js"></script>
     <!-- Archivo css -->
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
 </head>
 
 
 <body>
+    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
     <form method="post">
         <!-- Contenedor para el formulario -->
         <div class="AgregarProd-contenedor-central">
-            <!-- Titulo de la pagina -->
+            <!-- Agregar Categoría -->
             <div class="AgregarProd-contenedor-texto">
-                <label class="AddP-tituloAgregarProd-titulo">Producto</label>
-            </div>
-            <!-- Agregar Tienda -->
-            <div class="AgregarProd-contenedor-texto">
-                <label for="TiendaTexto">Tienda:</label>
-                <input type="text" class="AgregarProd-caja-texto-estandar" id="Tienda" name="Tienda" s>
-               <div class="input-group-append">
-                    <button class="AgregarProd-boton-estandar" type="button">Agregar Tienda</button>
-                </div>
+                <label for="ProductoTexto">Categoría:</label>
+                <!-- Genera de manera automática los elementos del select -->
+                <select name="categoría" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar Producto -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Producto:</label>
-                <input type="text" class="AgregarProd-caja-texto-estandar" id="Producto" name="Producto">
-                <div class="input-group-append">
-                    <button class="AgregarProd-boton-estandar" type="button">Agregar Producto</button>
-                </div>
+                <input type="text" class="AgregarProd-caja-texto-larga" id="Producto" name="Producto">
+            </div>
+            <!-- Agregar Marca -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="MarcaTexto">Marca:</label>
+                <input type="text" class="AgregarProd-caja-texto-larga" id="Marca" name="Marca">
             </div>
             <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="PrecioTexto">Precio:</label>
-                <input type="text" class="AgregarProd-caja-texto-precio" id="Precio" name="Precio">
-                <div class="input-group-append">
-                    <span class="AgregarProd-texto"> colones por </span>
-                    <input type="text" class="AgregarProd-caja-texto-unidad" id="Unidad" name="Unidad">
-                </div>
+                <input type="text" class="AgregarProd-caja-texto-larga" id="Precio" name="Precio">
             </div>
-            <!-- Agregar Imagen -->
+            <!-- Agregar Unidad -->
             <div class="AgregarProd-contenedor-texto">
-                <button type="button" class="AgregarProd-boton-imagen">Agregar Imagen</button>
+                <label for="UnidadTexto">Unidad:</label>
+                <!-- Genera de manera automática los elementos del select -->
+                <select name="unidades" id="Unidad" asp-items="Model.opcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="EtiquetaTexto">Etiqueta:</label>
-                <input type="text" class="AgregarProd-caja-texto-etiqueta" id="Etiqueta" name="Etiqueta">
+                <input type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta" name="Etiqueta">
             </div>
             <!-- Descripción -->
             <div class="AgregarProd-contenedor-texto">
-                <label for="DescripcionTexto">Descripcion:</label>
+                <label for="DescripcionTexto">Descripción:</label>
                 <input type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion" name="Descripcion">
             </div>
             <!-- Botones de aceptar y cancelar -->
             <div class="AgregarProd-contenedor-texto">
-                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Aceptar">Aceptar</button>
                 <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
+                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Aceptar" onclick="return validarFormulario();">Aceptar</button>
             </div>
         </div>
     </form>
+    <script>
+        function validarFormulario() {
+            // Revisar si el formulario está incompleto
+            var productoTexto = document.getElementById('Producto').value;
+            var precioTexto = document.getElementById('Precio').value;
+
+            if (!productoTexto || !precioTexto) {
+                // Alertar usuario
+                alert("Favor completar los datos del categoría, producto, precio y unidad.");
+                return false; // No entregar el formulario
+            }
+            return true; // Enviar el formulario para procesarse
+        }
+    </script>
+    <script>
+        // Mostrar el mensaje de error si está presente
+        var errorMessage = "@ViewData["ErrorMessage"]";
+        if (errorMessage) {
+            document.getElementById("errorMessage").textContent = errorMessage;
+            document.getElementById("errorMessage").style.display = "block";
+        }
+    </script>
+    <script>
+        // Función de alineado para las cajas de texto
+        alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-texto", 112);
+    </script>
 </body>
