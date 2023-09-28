@@ -5,36 +5,37 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LoCoMProContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LoCoMProContext") ?? throw new InvalidOperationException("Connection string 'LoCoMProContext' not found.")));
 
-// Add services to the container.
+// Agrega servicios a los containers
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AddPageRoute("/Home/Index", "");  // Set default Index route to home
+    // Pone el Index default a Home
+    options.Conventions.AddPageRoute("/Home/Index", "");
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configura el pipeline de requests HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-else  // This is for errors while migration data
+// Maneja errores de migración de datos
+else
 {
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 
-// This creates the data base if it is not created
+// Crea la base de datos si se encuentra nula
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<LoCoMProContext>();
     context.Database.EnsureCreated();
-    // This feeds the DB if there is nothing
-    // DbInitializer.Initialize(context);
+    // Alimenta la base de datos
+    DBInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
