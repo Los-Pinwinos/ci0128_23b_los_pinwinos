@@ -38,3 +38,69 @@
         </div>
     </div>
 </div>
+
+<!-- Tabla de resultado -->
+<div class="BusquedaIndice-tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].nombre)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].fecha)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].tienda)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].provincia)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].canton)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
+            @foreach (var item in Model.productosVM)
+            {
+                <tr>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.fecha)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.tienda)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.provincia)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.canton)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

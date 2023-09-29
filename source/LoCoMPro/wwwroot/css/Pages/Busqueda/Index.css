@@ -72,3 +72,71 @@
     width: 30px;
     height: 30px;
 }
+
+/* Tabla */
+.BusquedaIndice-tabla {
+    width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Tabla de resultados */
+.BusquedaIndice-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    /* Thead th */
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+        padding-left: 10px;
+    }
+
+    /* Tbody td */
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding: 3px 10px;
+        border: none;
+        max-width: 100px;
+        min-width: 60px;
+        overflow-wrap: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+        /* Tbody td ultimo */
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+            border: none;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+        /* Tbody td primero */
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+            border: none;
+            padding: 0px -2px;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+    /* Tbody fila */
+    table tbody tr {
+        color: white;
+    }

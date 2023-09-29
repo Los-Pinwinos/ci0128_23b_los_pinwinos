@@ -16,8 +16,6 @@ namespace LoCoMPro.Pages.Busqueda
     {
         private readonly LoCoMPro.Data.LoCoMProContext _context;
         private readonly IConfiguration _configuration;
-
-
         public IndexVMModel(LoCoMPro.Data.LoCoMProContext context, IConfiguration configuration)
         {
             _context = context;
