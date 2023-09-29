@@ -1,20 +1,19 @@
 ﻿@page
-@model LoCoMPro.Pages.Busqueda.IndexModel
+@model LoCoMPro.Pages.Busqueda.IndexVMModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Búsqueda";
 }
 
-<!-- Metadata -->
+<!-- Metadatos -->
 <head>
-    <!-- Link to the CSS file with the styles of the page -->
-    <!-- The true makes the version be appended to the URL -->
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
 </head>
-
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page="./Index">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -23,34 +22,8 @@
                                     Producto
                                 </div>
                                 <div class="BusquedaIndice-contenedor">
-                                     <input type="text" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="BusquedaIndice-contenedor-caja-texto">
-                                <div class="BusquedaIndice-contenedor-texto">
-                                    Marca
-                                </div>
-                                <div class="BusquedaIndice-contenedor">
-                                    <input type="text" id="CajaDeTextoMarca" class="BusquedaIndice-caja-texto" placeholder="Marca" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="BusquedaIndice-contenedor-fila">
-                            <div class="BusquedaIndice-contenedor-caja-texto">
-                                <div class="BusquedaIndice-contenedor-texto">
-                                    Categoría
-                                </div>
-                                <div class="BusquedaIndice-contenedor">
-                                    <input type="text" id="CajaDeTextoCategoria" class="BusquedaIndice-caja-texto" placeholder="Categoría" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="BusquedaIndice-contenedor-caja-texto">
-                                <div class="BusquedaIndice-contenedor-texto">
-                                    Provincia, Cantón
-                                </div>
-                                <div class="BusquedaIndice-contenedor">
-                                    <!-- Cuadro de texto para provincia y cantón -->
-                                    <input type="text" id="CajaDeTextoProvinciaCanton" class="BusquedaIndice-caja-texto" placeholder="Provincia, Cantón" autocomplete="off">
+                                    <!-- Cuadro de texto para el nombre del producto -->
+                                    <input type="text" name="nombreProducto" value="@Model.producto" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off" required>
                                 </div>
                             </div>
                         </div>
