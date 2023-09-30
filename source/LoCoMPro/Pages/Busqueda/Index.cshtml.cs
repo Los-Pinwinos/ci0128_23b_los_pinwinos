@@ -12,14 +12,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LoCoMPro.Pages.Busqueda
 {
-    public class IndexVMModel : PageModel
+    public class BusquedaVMModel : PageModel
     {
         private readonly LoCoMPro.Data.LoCoMProContext _context;
         private readonly IConfiguration _configuration;
-        public IndexVMModel(LoCoMPro.Data.LoCoMProContext context, IConfiguration configuration)
+
+        public BusquedaVMModel(LoCoMPro.Data.LoCoMProContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+            // Inicializar
+            Inicializar();
         }
 
         // Busquedas
@@ -28,35 +31,66 @@ namespace LoCoMPro.Pages.Busqueda
 
         // Visual
         [BindProperty]
-        public IList<IndexVM> productosVM { get; set; } = default!;
+        public IList<BusquedaVM> productosVM { get; set; } = default!;
 
-        // On Get Async
-        public async Task OnGetAsync(string? nombreProducto)
+        // Inicializar atributos
+        public void Inicializar()
         {
-            if (_context.Productos != null)
+            // Inicializar
+            productosVM = new List<BusquedaVM>();
+        }
+
+        // ON GET buscar
+        public IActionResult OnGetBuscar(int? indicePagina
+            , string? nombreProducto, string? filtroProducto)
+        {
+            if (!string.IsNullOrEmpty(nombreProducto) && !string.IsNullOrEmpty(filtroProducto) && _context.Productos != null)
             {
-                // Crear el arreglo de productos
-                productosVM = new List<IndexVM>();
+                // Verificar parámetros y asignar índice de página correcto
+                indicePagina = verificarParametrosOnGetBuscar(indicePagina, nombreProducto, filtroProducto);
 
-                // Asignar
-                if (!string.IsNullOrEmpty(nombreProducto))
-                {
-                    producto = nombreProducto;
-                }
+                // Hacer la consulta de productos con registros
+                IQueryable<Producto> productosIQ = buscarProductos();
 
-                // Hacer la consulta
-                IQueryable<Producto> productosIQ = (from s in _context.Productos
-                                                    select s).Include(p => p.registros); ;
-                // Ver si se usa el nombre de busqueda
-                productosIQ = buscarProductos(productosIQ);
-
-                // Mappee a la vista
-                await listarProductos(productosIQ);
+                // Paginar
+                paginarProductos(productosIQ, indicePagina);
             }
+            return Page();
+        }
+
+        // Verificar parámetros de ON GET Buscar
+        private int? verificarParametrosOnGetBuscar(int? indicePagina
+            , string? nombreProducto, string? filtroProducto)
+        {
+            // Revisar si hay que regresar numero de página
+            if (!string.IsNullOrEmpty(nombreProducto))
+            {
+                indicePagina = 1;
+            }
+            else
+            {
+                nombreProducto = filtroProducto;
+            }
+            producto = nombreProducto;
+
+            return indicePagina;
         }
 
         // Buscar productos
-        public IQueryable<Producto> buscarProductos(IQueryable<Producto> productosIQ)
+        private IQueryable<Producto> buscarProductos()
+        {
+            // Consultar la base de datos
+            IQueryable<Producto> productosIQ = _context.Productos
+                    .Where(p => p.registros != null)
+                    .Include(p => p.registros.OrderByDescending(r => r.creacion));
+            // Buscar por nombre
+            productosIQ = buscarNombre(productosIQ);
+            // Retornar busqueda
+            return productosIQ;
+        }
+
+        // Buscar por nombre
+        private IQueryable<Producto> buscarNombre(IQueryable<Producto> productosIQ)
         {
             // Ver si se usa el nombre de busqueda
             if (!string.IsNullOrEmpty(producto))
@@ -69,37 +103,10 @@ namespace LoCoMPro.Pages.Busqueda
             }
         }
 
-        // Listar productos
-        public async Task listarProductos(IQueryable<Producto> productosIQ)
+        // Paginar productos
+        private void paginarProductos(IQueryable<Producto> productosFinales, int? indicePagina)
         {
-            // Obtener resultados
-            IList<Producto> productos = await productosIQ.ToListAsync();
-
-            // Por cada resultado
-            foreach (var producto in productos)
-            {
-                // Verificar que el producto tenga registros asociados
-                if (producto.registros != null)
-                {
-                    // Obtener el registro mas reciente
-                    Registro registroMasReciente = producto.registros
-                        .OrderByDescending(r => r.creacion)
-                        .ToList().First();
-                    // Agregar a productos
-                    productosVM.Add(
-                        new IndexVM
-                        {
-                            nombre = producto.nombre,
-                            precio = registroMasReciente.precio,
-                            unidad = producto.nombreUnidad,
-                            fecha = registroMasReciente.creacion,
-                            tienda = registroMasReciente.nombreTienda,
-                            provincia = registroMasReciente.nombreProvincia,
-                            canton = registroMasReciente.nombreCanton
-                        });
-                }
-            }
+            
         }
     }
 }
-

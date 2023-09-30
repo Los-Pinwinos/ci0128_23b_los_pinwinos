@@ -1,5 +1,5 @@
 ﻿@page
-@model LoCoMPro.Pages.Busqueda.IndexVMModel
+@model LoCoMPro.Pages.Busqueda.BusquedaVMModel
 @{
     ViewData["Title"] = "Búsqueda";
 }
@@ -13,7 +13,7 @@
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get" asp-page="./Index">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="Buscar">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="BusquedaIndice-contenedor">
                                     <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreProducto" value="@Model.producto" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off" required>
+                                    <input type="text" name="nombreProducto" asp-for="producto" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off">
                                 </div>
                             </div>
                         </div>
