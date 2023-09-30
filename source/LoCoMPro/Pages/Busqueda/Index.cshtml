@@ -1,0 +1,106 @@
+﻿@page
+@model LoCoMPro.Pages.Busqueda.IndexVMModel
+@{
+    ViewData["Title"] = "Búsqueda";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
+</head>
+<div>
+    <div class="BusquedaIndice-contenedor-fila">
+        <div class="BusquedaIndice-contenedor">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page="./Index">
+                <div class="BusquedaIndice-contenedor-fila">
+                    <div style="width:85%;">
+                        <div class="BusquedaIndice-contenedor-fila">
+                            <div class="BusquedaIndice-contenedor-caja-texto">
+                                <div class="BusquedaIndice-contenedor-texto">
+                                    Producto
+                                </div>
+                                <div class="BusquedaIndice-contenedor">
+                                    <!-- Cuadro de texto para el nombre del producto -->
+                                    <input type="text" name="nombreProducto" value="@Model.producto" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botón de búsqueda -->
+                    <button class="BusquedaIndice-boton-busqueda">
+                        <!-- Icono de búsqueda -->
+                        <img src="~/img/white_search_icon.png" id="imagenBusqueda" alt="Buscar" class="BusquedaIndice-icono-busqueda" />
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de resultado -->
+<div class="BusquedaIndice-tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].nombre)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].fecha)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].tienda)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].provincia)
+                </th>
+                <th>
+                    <!-- Nombre de columna -->
+                    @Html.DisplayNameFor(model => model.productosVM[0].canton)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
+            @foreach (var item in Model.productosVM)
+            {
+                <tr>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.fecha)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.tienda)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.provincia)
+                    </td>
+                    <td>
+                        <!-- Valor de la columna -->
+                        @Html.DisplayFor(modelItem => item.canton)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
