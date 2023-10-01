@@ -13,7 +13,7 @@
     margin-left: 10px;
     background-color: rgba(3, 63, 99, 0.15);
     border-radius: 5px;
-    padding: 10px;
+    padding: 6px 10px;
     width: 100%;
     margin-bottom: 10px;
 }
@@ -32,8 +32,10 @@
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    padding: 0px 6px;
     font-size: 16px;
     width: 100%;
+    height: 80%;
 }
 
 /* Caja de texto */
@@ -41,9 +43,27 @@
     background-color: #FFFBF8;
     border-color: black;
     border-radius: 30px;
-    padding: 0px 5px;
     width: 100%;
+    height: 80%;
+    display: flex;
+    border: 1px solid black;
+    flex-direction: row;
+    align-items: center;
 }
+
+    .BusquedaIndice-caja-texto input {
+        all: unset;
+        font: 13px system-ui;
+        border-color: black;
+        border-radius: 30px;
+        width: 100%;
+        height: 80%;
+        padding: 6px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
 
 /* Contenedor de texto */
 .BusquedaIndice-contenedor-texto {
@@ -140,3 +160,85 @@ table {
     table tbody tr {
         color: white;
     }
+
+/* Paginacion */
+
+/* Contenedor de paginacion */
+.BusquedaIndice-contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor de caja de paginacion */
+.BusquedaIndice-contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+/* Boton de paginacion */
+.BusquedaIndice-boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+}
+
+    /* Bordes de boton de paginacion */
+    .BusquedaIndice-boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Boton de paginacion deshabilitado */
+.BusquedaIndice-boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+}
+
+    /* Bordes de boton de paginacion deshabilitado */
+    .BusquedaIndice-boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Texto en paginacion */
+.BusquedaIndice-texto-paginacion {
+    margin: 0 10px;
+}

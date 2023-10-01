@@ -33,33 +33,37 @@ namespace LoCoMPro.Pages.Busqueda
         [BindProperty]
         public IList<BusquedaVM> productosVM { get; set; } = default!;
 
+        // Paginacion
+        public ListaPaginada<Producto> productosPaginados { get; set; } = default!;
+
         // Inicializar atributos
         public void Inicializar()
         {
             // Inicializar
             productosVM = new List<BusquedaVM>();
+            productosPaginados = new ListaPaginada<Producto>();
         }
 
         // ON GET buscar
-        public IActionResult OnGetBuscar(int? indicePagina
+        public async Task<IActionResult> OnGetAsync(int? indicePagina
             , string? nombreProducto, string? filtroProducto)
         {
-            if (!string.IsNullOrEmpty(nombreProducto) && !string.IsNullOrEmpty(filtroProducto) && _context.Productos != null)
+            if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)) && _context.Productos != null)
             {
                 // Verificar parámetros y asignar índice de página correcto
-                indicePagina = verificarParametrosOnGetBuscar(indicePagina, nombreProducto, filtroProducto);
+                indicePagina = verificarParametros(indicePagina, nombreProducto, filtroProducto);
 
                 // Hacer la consulta de productos con registros
                 IQueryable<Producto> productosIQ = buscarProductos();
 
                 // Paginar
-                paginarProductos(productosIQ, indicePagina);
+                await paginarProductos(productosIQ, indicePagina);
             }
             return Page();
         }
 
         // Verificar parámetros de ON GET Buscar
-        private int? verificarParametrosOnGetBuscar(int? indicePagina
+        private int? verificarParametros(int? indicePagina
             , string? nombreProducto, string? filtroProducto)
         {
             // Revisar si hay que regresar numero de página
@@ -104,9 +108,44 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Paginar productos
-        private void paginarProductos(IQueryable<Producto> productosFinales, int? indicePagina)
+        private async Task paginarProductos(IQueryable<Producto> productosFinales, int? indicePagina)
         {
-            
+            // Obtener tamaño de página
+            var tamPagina = _configuration.GetValue("TamPagina", 4);
+            // Crear productos paginados
+            productosPaginados = await ListaPaginada<Producto>.CrearAsync(
+                productosFinales.AsNoTracking(), indicePagina ?? 1, tamPagina);
+
+            // Por cada resultado
+            foreach (var producto in productosPaginados)
+            {
+                // Verificar que el producto tenga registros asociados
+                if (producto.registros != null)
+                {
+                    // Convertir a lista
+                    IList<Registro> listaRegistros = producto.registros.ToList();
+                    // Ver si ya no hay resultados
+                    if (listaRegistros.Count > 0)
+                    {
+                        // Obtener el registro mas reciente
+                        Registro registroMasReciente = listaRegistros.First();
+                        // Crear producto VM
+                        var nuevoProductoVM = new BusquedaVM
+                        {
+                            nombre = producto.nombre,
+                            precio = registroMasReciente.precio,
+                            unidad = producto.nombreUnidad,
+                            fecha = registroMasReciente.creacion,
+                            tienda = registroMasReciente.nombreTienda,
+                            provincia = registroMasReciente.nombreProvincia,
+                            canton = registroMasReciente.nombreCanton,
+                            marca = producto.marca
+                        };
+                        // Agregar a productos
+                        productosVM.Add(nuevoProductoVM);
+                    }
+                }
+            }
         }
     }
 }

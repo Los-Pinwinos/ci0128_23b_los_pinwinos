@@ -1,7 +1,7 @@
 ﻿@page
 @model LoCoMPro.Pages.Busqueda.BusquedaVMModel
 @{
-    ViewData["Title"] = "Búsqueda";
+    ViewData["Title"] = "Busqueda";
 }
 
 <!-- Metadatos -->
@@ -13,7 +13,7 @@
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="Buscar">
+            <form method="get" class="BusquedaIndice-contenedor-form">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -21,9 +21,9 @@
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Producto
                                 </div>
-                                <div class="BusquedaIndice-contenedor">
+                                <div class="BusquedaIndice-caja-texto">
                                     <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreProducto" asp-for="producto" id="CajaDeTextoProducto" class="BusquedaIndice-caja-texto" placeholder="Producto" autocomplete="off">
+                                    <input type="text" name="nombreProducto" asp-for="producto" id="CajaDeTextoProducto" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
+        <tbody class="BusquedaIndice-tabla-resultados" id="tablaProductos">
             @foreach (var item in Model.productosVM)
             {
                 <tr>
@@ -103,4 +103,47 @@
             }
         </tbody>
     </table>
+</div>
+
+@{
+    var prevDeshabilitado = !Model.productosPaginados.TienePaginaPrevia ? "disabled" : "";
+    var proxDeshabilitado = !Model.productosPaginados.TieneProximaPagina ? "disabled" : "";
+}
+
+<div class="BusquedaIndice-contenedor-paginacion">
+    <!-- Container box -->
+    <div class="BusquedaIndice-contenedor-caja-paginacion">
+        @{
+            if (Model.productosPaginados.TienePaginaPrevia)
+            {
+                <a asp-page="./Index"
+                   asp-route-indicePagina="@(Model.productosPaginados.IndicePagina - 1)"
+                   asp-route-filtroProducto="@(Model.producto)"
+                   class="BusquedaIndice-boton-paginacion">
+                    Anterior
+                </a>
+            }
+            else
+            {
+                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Anterior </span>
+            }
+
+            var currentIndex = Model.productosPaginados.IndicePagina;
+            <span class="BusquedaIndice-texto-paginacion"> @(currentIndex) </span>
+
+            if (Model.productosPaginados.TieneProximaPagina)
+            {
+                <a asp-page="./Index"
+                   asp-route-indicePagina="@(Model.productosPaginados.IndicePagina + 1)"
+                   asp-route-filtroProducto="@(Model.producto)"
+                   class="BusquedaIndice-boton-paginacion">
+                    Siguiente
+                </a>
+            }
+            else
+            {
+                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Siguiente </span>
+            }
+        }
+    </div>
 </div>
