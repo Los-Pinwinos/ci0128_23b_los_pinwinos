@@ -50,7 +50,13 @@
                 </th>
                 <th>
                     <!-- Nombre de columna -->
-                    @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                    <a asp-page="./Index"
+                       asp-route-sortBy="precio"
+                       asp-route-sortOrder="@(Model.SortBy == "precio" && Model.SortOrder == "asc" ? "desc" : "asc")"
+                       asp-route-indicePagina="1"
+                       asp-route-filtroProducto="@Model.producto">
+                        @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                    </a>
                 </th>
                 <th>
                     <!-- Nombre de columna -->

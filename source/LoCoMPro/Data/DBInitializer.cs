@@ -103,8 +103,8 @@ namespace LoCoMPro.Data
                 new Registro {creacion=DateTime.Parse("2019-09-01 10:30:45"), precio=13.2M, productoAsociado="Iphone 14", usuarioCreador="Usuario1", nombreTienda="Walmart", nombreDistrito="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela", descripcion="Muy bueno" },
                 new Registro {creacion=DateTime.Parse("2019-09-01 10:31:45"), precio=12.2M, productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia", descripcion="Muy bueno tambien" },
                 new Registro {creacion=DateTime.Parse("2019-09-02 10:31:45"), precio=13.2M, productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia", descripcion="Excelente" },
-                new Registro {creacion=DateTime.Parse("2019-09-03 10:31:45"), precio=10.2M, productoAsociado="Camiseta", usuarioCreador="Usuario1", nombreTienda="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia", descripcion="Genial" },
-                new Registro {creacion=DateTime.Parse("2019-09-04 10:31:45"), precio=150.2M, productoAsociado="Computadora", usuarioCreador="Usuario1", nombreTienda="Walmart", nombreDistrito="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela", descripcion="Maravilloso" },
+                new Registro {creacion=DateTime.Parse("2008-09-04 10:31:45"), precio=10.2M, productoAsociado="Camiseta", usuarioCreador="Usuario1", nombreTienda="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia", descripcion="Genial" },
+                new Registro {creacion=DateTime.Parse("2007-08-04 10:31:45"), precio=150.2M, productoAsociado="Computadora", usuarioCreador="Usuario1", nombreTienda="Walmart", nombreDistrito="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela", descripcion="Maravilloso" },
             };
 
             context.Registros.AddRange(registros);

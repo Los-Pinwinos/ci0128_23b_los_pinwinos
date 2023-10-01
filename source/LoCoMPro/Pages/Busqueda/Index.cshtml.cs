@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Models;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Data.SqlClient;
+using System.Globalization;
 
 
 namespace LoCoMPro.Pages.Busqueda
@@ -24,6 +26,10 @@ namespace LoCoMPro.Pages.Busqueda
             // Inicializar
             Inicializar();
         }
+
+        // Para ordernar por precio
+        public string SortBy { get; set; }
+        public string SortOrder { get; set; }
 
         // Busquedas
         [BindProperty(SupportsGet = true)]
@@ -56,11 +62,47 @@ namespace LoCoMPro.Pages.Busqueda
                 // Hacer la consulta de productos con registros
                 IQueryable<Producto> productosIQ = buscarProductos();
 
+
+                // Ordenar productos basado en la columna y orden
+                if (string.IsNullOrEmpty(SortBy))
+                {
+                    SortBy = "precio"; // Columna que se desea ordenar
+                }
+
+                if (string.IsNullOrEmpty(SortOrder))
+                {
+                    SortOrder = "asc"; // Por defecto es ascendente
+                }
+
+                if (SortBy == "precio")
+                {
+                    if (SortOrder == "asc")
+                    {
+                        productosIQ = productosIQ.OrderBy(p => p.registros.Min(r => r.precio));
+                    }
+                    else if (SortOrder == "desc")
+                    {
+                        productosIQ = productosIQ.OrderByDescending(p => p.registros.Min(r => r.precio));
+                    }
+                }
+
+
                 // Paginar
                 await paginarProductos(productosIQ, indicePagina);
             }
             return Page();
         }
+
+        // Ordenar los registros
+        private string GetNewSortOrder(string column)
+        {
+            if (column == SortBy)
+            {
+                return SortOrder == "asc" ? "desc" : "asc";
+            }
+            return "asc"; // Por defecto se ordena ascendentemente
+        }
+
 
         // Verificar parámetros de ON GET Buscar
         private int? verificarParametros(int? indicePagina
