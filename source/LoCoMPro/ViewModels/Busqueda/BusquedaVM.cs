@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LoCoMPro.ViewModels.Busqueda
 {
-    public class IndexVM
+    public class BusquedaVM
     {
         // Nombre
         [Display(Name = "Nombre")]
