@@ -23,9 +23,9 @@ namespace LoCoMPro.Utils
             bool resultado = true;
 
             // Obtiene las credenciales y servidor del archivo de configuración
-            string? servidor = configuracion.GetValue<string>("serverCorreos");
-            string? enviador = configuracion.GetValue<string>("correoEmpresa");
-            string? contrasena = configuracion.GetValue<string>("contrasenaEmpresa");
+            string? servidor = this.configuracion.GetValue<string>("serverCorreos");
+            string? enviador = this.configuracion.GetValue<string>("correoEmpresa");
+            string? contrasena = this.configuracion.GetValue<string>("contrasenaEmpresa");
 
             // Si las credenciales y servidor son válidas
             if (servidor != null && enviador != null && contrasena != null)

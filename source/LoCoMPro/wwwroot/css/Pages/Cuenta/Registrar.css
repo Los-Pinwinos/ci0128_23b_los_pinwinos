@@ -4,29 +4,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50%;
     margin-top: 5%;
 }
-
-/* Estilo para un contenedor de elementos especializado para un grupo de cajas de texto */
-.Registrar-contenedor-grupo-cajas-de-texto {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2%;
-    justify-content: flex-start;
-    align-items: center;
-    height: 50%;
-}
-
 
 /* Estilo para el contenedor con parejas de label y caja de texto */
 .Registrar-contenedor-caja-de-texto {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 2%;
+    margin-bottom: 0.6%;
 }
     /* Estilo para los label que acompañan las cajas de texto */
     .Registrar-contenedor-caja-de-texto label {
@@ -42,14 +27,24 @@
         border-radius: 10px;
         border-width: 1px;
         padding: 1px 10px;
-        width: 260px;
+        width: 240px;
+    }
+
+    /* Estilo para las cajas de selección */
+    .Registrar-contenedor-caja-de-texto select {
+        background-color: #FFFBF8;
+        border-color: black;
+        border-radius: 10px;
+        border-width: 1px;
+        padding: 1px 10px;
+        width: 240px;
     }
 
 /* Estilo para los botones básicos */
 .Registrar-boton-basico {
     background-color: #d9996b;
     color: black;
-    width: 260px;
+    width: 240px;
     height: 25px;
     border: none;
     border-radius: 5px;
@@ -67,3 +62,12 @@
     .Registrar-boton-basico:hover {
         color: black;
     }
+
+/* Estilo para mensajes de error */
+.Registrar-texto-error {
+    color: red;
+    font-size: 9.2px;
+    white-space: nowrap;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
