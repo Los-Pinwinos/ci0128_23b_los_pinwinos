@@ -34,7 +34,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<LoCoMProContext>();
     context.Database.EnsureCreated();
     // This feeds the DB if there is nothing
-    // DbInitializer.Initialize(context);
+    DBInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
