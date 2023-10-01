@@ -124,6 +124,7 @@
             // Limpiar las opciones de las otras cajas de selección
             cajaDeSeleccionCanton.innerHTML = "<option value=''>No deseo indicarlo</option>";
             cajaDeSeleccionDistrito.innerHTML = "<option value=''>No deseo indicarlo</option>";
+            cajaDeSeleccionDistrito.disabled = true;
 
             // Si se eligió una provincia
             if (provinciaSeleccionada) {
@@ -150,7 +151,6 @@
             } else {
                 // Deshabilitar las otras cajas de selección
                 cajaDeSeleccionCanton.disabled = true;
-                cajaDeSeleccionDistrito.disabled = true;
             }
         });
 

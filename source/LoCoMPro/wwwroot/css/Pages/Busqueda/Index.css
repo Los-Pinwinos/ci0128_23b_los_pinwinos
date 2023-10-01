@@ -1,0 +1,244 @@
+﻿/* Contenedor */
+.BusquedaIndice-contenedor {
+    margin-bottom: 5px;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+}
+
+/* Contenedor de formulario */
+.BusquedaIndice-contenedor-form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    background-color: rgba(3, 63, 99, 0.15);
+    border-radius: 5px;
+    padding: 6px 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Contenedor de fila */
+.BusquedaIndice-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 95%;
+    height: 100%;
+}
+
+/* Contenedor de caja de texto */
+.BusquedaIndice-contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    padding: 0px 6px;
+    font-size: 16px;
+    width: 100%;
+    height: 80%;
+}
+
+/* Caja de texto */
+.BusquedaIndice-caja-texto {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 30px;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    border: 1px solid black;
+    flex-direction: row;
+    align-items: center;
+}
+
+    .BusquedaIndice-caja-texto input {
+        all: unset;
+        font: 13px system-ui;
+        border-color: black;
+        border-radius: 30px;
+        width: 100%;
+        height: 80%;
+        padding: 6px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+
+/* Contenedor de texto */
+.BusquedaIndice-contenedor-texto {
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+
+/* Boton de busqueda */
+.BusquedaIndice-boton-busqueda {
+    display: flex;
+    border: none;
+    width: 40px;
+    height: 40px;
+    background-color: #033F63;
+    justify-content: center;
+    color: #033F63;
+    align-items: center;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+/* Icono de busqueda */
+.BusquedaIndice-icono-busqueda {
+    margin-top: 2px;
+    width: 30px;
+    height: 30px;
+}
+
+/* Tabla */
+.BusquedaIndice-tabla {
+    width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Tabla de resultados */
+.BusquedaIndice-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    /* Thead th */
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+        padding-left: 10px;
+    }
+
+    /* Tbody td */
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding: 3px 10px;
+        border: none;
+        max-width: 100px;
+        min-width: 60px;
+        overflow-wrap: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+        /* Tbody td ultimo */
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+            border: none;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+        /* Tbody td primero */
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+            border: none;
+            padding: 0px -2px;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+    /* Tbody fila */
+    table tbody tr {
+        color: white;
+    }
+
+/* Paginacion */
+
+/* Contenedor de paginacion */
+.BusquedaIndice-contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor de caja de paginacion */
+.BusquedaIndice-contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+/* Boton de paginacion */
+.BusquedaIndice-boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+}
+
+    /* Bordes de boton de paginacion */
+    .BusquedaIndice-boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Boton de paginacion deshabilitado */
+.BusquedaIndice-boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+}
+
+    /* Bordes de boton de paginacion deshabilitado */
+    .BusquedaIndice-boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Texto en paginacion */
+.BusquedaIndice-texto-paginacion {
+    margin: 0 10px;
+}

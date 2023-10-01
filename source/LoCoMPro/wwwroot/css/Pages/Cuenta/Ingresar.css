@@ -1,5 +1,5 @@
 /* Estilo para un contenedor de elementos al principio de la página */
-.Perfil-contenedor-centrado-primario {
+.Ingresar-contenedor-centrado-primario {
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -9,7 +9,7 @@
 }
 
 /* Estilo para un contenedor de elementos al final de la página */
-.Perfil-contenedor-centrado-secundario {
+.Ingresar-contenedor-centrado-secundario {
     /* Para establecer su posición basado en la resolución */
     margin-top: calc(90vh - 500px);
     display: flex;
@@ -19,7 +19,7 @@
 }
 
 /* Estilo para la imagen en la pagina */
-.Perfil-imagen {
+.Ingresar-imagen {
     max-width: 150px;
     /* Para mantener la relación de aspecto */
     height: auto;
@@ -27,7 +27,7 @@
 }
 
 /* Estilo para el contenedor con parejas de label y caja de texto */
-.Perfil-contenedor-caja-de-texto {
+.Ingresar-contenedor-caja-de-texto {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -37,14 +37,14 @@
     margin-bottom: -2%;
 }
     /* Estilo para los label que acompañan las cajas de texto */
-    .Perfil-contenedor-caja-de-texto label {
+    .Ingresar-contenedor-caja-de-texto label {
         font-size: 18px;
         white-space: nowrap;
         margin-right: 40px;
     }
 
     /* Estilo para las cajas de texto */
-    .Perfil-contenedor-caja-de-texto input {
+    .Ingresar-contenedor-caja-de-texto input {
         background-color: #FFFBF8;
         border-color: black;
         border-radius: 10px;
@@ -54,7 +54,7 @@
     }
 
 /* Estilo para los botones básicos */
-.Perfil-boton-basico {
+.Ingresar-boton-basico {
     background-color: #d9996b;
     color: black;
     width: 240px;
@@ -72,12 +72,12 @@
 }
 
     /* Cambiar el comportamiento del botón para hover */
-    .Perfil-boton-basico:hover {
+    .Ingresar-boton-basico:hover {
         color: black;
     }
 
 /* Estilo para el botón de registro */
-.Perfil-boton-registro {
+.Ingresar-boton-registro {
     background-color: #dcb794;
     color: black;
     width: 240px;
@@ -93,12 +93,12 @@
 }
 
     /* Estilo para el botón de registro */
-    .Perfil-boton-registro:hover {
+    .Ingresar-boton-registro:hover {
         color: black;
     }
 
 /* Estilo para textos y mensajes */
-.Perfil-texto {
+.Ingresar-texto {
     font-size: 13px;
     color: black;
     text-align: center;
