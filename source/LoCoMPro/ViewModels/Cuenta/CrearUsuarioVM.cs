@@ -20,14 +20,14 @@ namespace LoCoMPro.ViewModels.Cuenta
         // Contraseña
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Debe incluir una contraseña")]
-        [StringLength(8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
         [DebeCoincidir("confirmarContrasena", ErrorMessage = "Las contraseñas ingresadas deben ser iguales")]
         public required string contrasena { get; set; }
 
         // Repetición de la contraseña para confirmación
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Debe incluir una confirmación de la contraseña")]
-        [StringLength(8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
         public required string confirmarContrasena { get; set; }
 
         // Nombre de la provincia donde vive el usuario
