@@ -1,0 +1,33 @@
+﻿@page
+<!-- Pagina parcial que sigue el modelo de perfil -->
+@model ModeloSalirParcial
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Salir cuenta</title>
+    <!-- Inclusión de AJAX para utilizar el get -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<!-- Contenido de la página -->
+<!-- Es tan corto debido a que es parcial -->
+<body>
+    <!-- Texto que actua como botón para cerrar sesión -->
+    <href class="nav-link text-dark" type="submit" onclick="cerrarSesion()">Cerrar sesión</href>
+</body>
+
+<!-- Script para confirmar y llamar al método OnGet del modelo usando AJAX -->
+<script>
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        // Muestra un popUp de confirmación, si el suaurio acepta...
+        if (confirm("¿Está seguro que desea cerrar sesión?")) {
+            // Hace un request AJAX al método OnGetAsync del modelo
+            $.get("/Cuenta/SalirParcial", function () {
+                // Redirecciona la página de inicio
+                window.location.href = "/Index";
+            });
+        }
+    }
+</script>

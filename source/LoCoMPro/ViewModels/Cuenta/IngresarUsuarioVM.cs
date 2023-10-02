@@ -13,7 +13,7 @@ namespace LoCoMPro.ViewModels.Cuenta
         // Contraseña
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Debe incluir una contraseña")]
-        [StringLength(8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
         public required string contrasena { get; set; }
     }
 }
