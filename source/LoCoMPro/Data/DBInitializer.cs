@@ -17,7 +17,7 @@ namespace LoCoMPro.Data
             var provincias = new Provincia[]
             {
                 new Provincia{nombre="Heredia"},
-                new Provincia{nombre="Alajuela"}
+                new Provincia{nombre="San José"}
             };
 
             context.Provincias.AddRange(provincias);
@@ -27,7 +27,7 @@ namespace LoCoMPro.Data
             var cantones = new Canton[]
             {
                 new Canton{nombre="Heredia",nombreProvincia="Heredia"},
-                new Canton{nombre="Alajuela",nombreProvincia="Alajuela"}
+                new Canton{nombre="San José",nombreProvincia="San José"}
             };
 
             context.Cantones.AddRange(cantones);
@@ -36,16 +36,27 @@ namespace LoCoMPro.Data
             // Crear distritos
             var distritos = new Distrito[]
             {
-                new Distrito {nombre="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia"},
-                new Distrito {nombre="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela"}
+                new Distrito {nombre="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"},
+                new Distrito {nombre="Carmen", nombreCanton="San José", nombreProvincia="San José"}
             };
 
             context.Distritos.AddRange(distritos);
             context.SaveChanges();
 
             // Crear Usuario
-            var usuario = new Usuario { nombreDeUsuario = "Usuario1", correo = "prueba@gmail.com", contrasena = "123456", estado = 'A', calificacion = 5, distritoVivienda = "Garita", cantonVivienda = "Alajuela", provinciaVivienda = "Alajuela" };
-
+            var usuario = new Usuario
+            {
+                nombreDeUsuario = "Usuario1",
+                correo = "prueba@gmail.com"
+    ,
+                contrasena = "123456",
+                estado = 'A',
+                calificacion = 5,
+                distritoVivienda = "Carmen"
+    ,
+                cantonVivienda = "San José",
+                provinciaVivienda = "San José"
+            };
             context.Usuarios.Add(usuario);
             context.SaveChanges();
 
@@ -88,8 +99,8 @@ namespace LoCoMPro.Data
             // Crear Tiendas
             var tiendas = new Tienda[]
             {
-                new Tienda {nombre="Walmart", nombreDistrito="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela"},
-                new Tienda {nombre="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia"}
+                new Tienda {nombre="Walmart", nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"},
+                new Tienda {nombre="Maxi Pali", nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"}
             };
 
             context.Tiendas.AddRange(tiendas);
@@ -98,8 +109,14 @@ namespace LoCoMPro.Data
             // Crear registros
             var registros = new Registro[]
             {
-                new Registro {creacion=DateTime.Parse("2019-09-01 10:30:45"), precio=13.2M, productoAsociado="Iphone 14", usuarioCreador="Usuario1", nombreTienda="Walmart", nombreDistrito="Garita", nombreCanton="Alajuela", nombreProvincia="Alajuela", descripcion="Muy bueno" },
-                new Registro {creacion=DateTime.Parse("2019-09-01 10:31:45"), precio=12.2M, productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali", nombreDistrito="Mercedes", nombreCanton="Heredia", nombreProvincia="Heredia", descripcion="Muy bueno tambien" },
+                new Registro {creacion=DateTime.Parse("2019-09-01 10:30:45"), precio=13.2M
+                    , productoAsociado="Iphone 14", usuarioCreador="Usuario1", nombreTienda="Walmart"
+                    , nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"
+                    , descripcion="Muy bueno" },
+                new Registro {creacion=DateTime.Parse("2019-09-01 10:31:45"), precio=12.2M
+                    , productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali"
+                    , nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"
+                    , descripcion="Muy bueno tambien" },
             };
 
             context.Registros.AddRange(registros);
