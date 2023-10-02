@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- Botón de búsqueda -->
-                    <button class="BusquedaIndice-boton-busqueda">
+                    <button onclick="return validarFormulario();" class="BusquedaIndice-boton-busqueda">
                         <!-- Icono de búsqueda -->
                         <img src="~/img/white_search_icon.png" id="imagenBusqueda" alt="Buscar" class="BusquedaIndice-icono-busqueda" />
                     </button>
@@ -147,3 +147,20 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Boton de buscar
+        cajaProducto = document.getElementById("CajaDeTextoProducto");
+
+        // Validad formulario
+        function validarFormulario() {
+            if (!cajaProducto.value) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+    <script src="~/js/Pages/Busqueda/dropdown.js"></script>
+}
