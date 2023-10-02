@@ -1,0 +1,49 @@
+﻿@page
+<!-- Pagina que sigue el modelo de perfil -->
+@model ModeloPerfil
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Perfil</title>
+    <!-- Cargar el archivo JavaScript para alinear -->
+    <script src="~/js/Pages/alinear.js"></script>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Ingresar.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Contenedor para los elementos en la sección de arriba de la página -->
+    <div class="Ingresar-contenedor-centrado-primario">
+        <!-- Imagen con el icono del perfil -->
+        <img src="~/img/imagen_perfil.png" alt="Imagen del perfil" class="Ingresar-imagen">
+        <!-- Caja de texto para el nombre de usuario -->
+        <div class="Ingresar-contenedor-caja-de-texto">
+            <label for="CajaDeTextoUsuario">Usuario:</label>
+            <input type="text" id="CajaDeTextoUsuario" placeholder="Ingrese su nombre de usuario">
+        </div>
+        <!-- Caja de texto para la contraseña -->
+        <div class="Ingresar-contenedor-caja-de-texto">
+            <label for="CajaDeTextoContraseña">Contraseña:</label>
+            <input type="password" id="CajaDeTextoContraseña" placeholder="Ingrese su contraseña">
+        </div>
+        <!-- Btón para ingresar -->
+        <button class="Ingresar-boton-basico" onclick=""> Iniciar sesión </button>
+        <!-- Boton para recuperar la contraseña -->
+        <a asp-page="/Cuenta/RecuperarContraseña" class="Ingresar-boton-basico"> Olvidé mi contraseña</a>
+    </div>
+
+    <!-- Contenedor para los elementos en la sección de abajo de la página -->
+    <div class="Ingresar-contenedor-centrado-secundario">
+        <!-- Texto: "¿No tiene cuenta?" -->
+        <label class="Ingresar-texto"> ¿No tiene cuenta?</label>
+        <!-- Botón para registrarse -->
+        <a asp-page="/Cuenta/Registrar" class="Ingresar-boton-registro"> Registrarse</a>
+    </div>
+
+    <script>
+        // Llamar a la función para alinear los contenedores de las barras de texto
+        alinearContenedoresDeBarrasDeTexto(".Ingresar-contenedor-caja-de-texto", 112);
+    </script>
+</body>
