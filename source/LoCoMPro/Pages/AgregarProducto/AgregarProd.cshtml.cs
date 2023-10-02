@@ -1,5 +1,7 @@
 using LoCoMPro.Models;
 using LoCoMPro.ViewModels.AgregarProducto;
+// TODO(Pinwinos): descomentar
+// using LoCoMPro.ViewModels.Tienda;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -106,7 +108,6 @@ namespace LoCoMPro.Pages.AgregarProducto
                 _context.Productos.Add(nuevoProducto);
                 _context.SaveChanges();
             }
-
             // Agregarle registros al producto encontrado
             var nuevoRegistro = new Registro
             {
@@ -118,12 +119,16 @@ namespace LoCoMPro.Pages.AgregarProducto
                 precio = decimal.Parse(viewModel.precio),
                 productoAsociado = viewModel.nombreProducto,
                 // TODO(pinwinos): Reemplazar con el nombre de tienda
+                // nombreTienda = TempData["nombreTienda"].ToString(),
                 nombreTienda = "Maxi Pali",
                 // TODO(pinwinos): Reemplazar con el nombre del distrito
+                // nombreDistrito = TempData["distritoTienda"].ToString(),
                 nombreDistrito = "Heredia",
                 // TODO(pinwinos): Reemplazar con el nombre del canton
+                // nombreCanton = TempData["cantonTienda"].ToString(),
                 nombreCanton = "Heredia",
                 // TODO(pinwinos): Reemplazar con el nombre de la provincia
+                // nombreProvincia = TempData["provinciaTienda"].ToString()
                 nombreProvincia = "Heredia"
             };
 
@@ -139,7 +144,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             return RedirectToPage("/AgregarProducto/AgregarProd");
         }
 
-        // Se presionó el botón cancelar
         public void OnPostCancelar()
         {
             // TODO(Pinwinos): definir si borrar si se sale de esta página
@@ -150,7 +154,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             Console.WriteLine("Boton de cancelar fue presionado");
         }
 
-        // Rellena los select list
         public void RellenarSelectList()
         {
             // Inserta categorías en combobox
@@ -174,7 +177,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             opcionesUnidad = new SelectList(listaUnidad);
         }
 
-        // Limpia los contenidos del view model
         private void limpiarViewModel()
         {
             viewModel.nombreProducto = "";
