@@ -4,38 +4,57 @@
     ViewData["Title"] = "Agregar Tienda";
 }
 
+<!-- Metadatos -->
+<head>
+    <!-- Enlace a la biblioteca JavaScript Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Incluye su archivo de estilo CSS específico -->
+    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true" />
+    <!-- Carga la biblioteca JavaScript Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
 <!-- Header -->
 <head>
     <!-- Título -->
     <title>Agregar Tienda</title>
-    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true" />
 </head>
 
 <!-- Cuerpo de la página -->
 <body>
     <form method="post">
-        <!-- Contenedor para alineación arriba-derecha -->
-        <div class="AgregarTienda-contenedor-arriba-derecha">
-            <!-- Fecha -->
-            <div class="AgregarTienda-fecha">
-                <label for="Fecha">Día/Mes/Año</label>
-            </div>
-        </div>
         <!-- Contenedor para centrar el formulario -->
         <div class="AgregarTienda-contenedor-central">
+
+            <div class="Ubicacion-contenedor-form">
+                <!-- Cuadro de texto de Provincia -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Provincia">Provincia:</label>
+                    <input type="text" class="Ubicacion-caja-texto" id="Provincia" name="Provincia">
+                </div>
+                <!-- Cuadro de texto de Cantón -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Canton">Canton:</label>
+                    <input type="text" class="Ubicacion-caja-texto" id="Canton" name="Canton">
+                </div>
+                <!-- Botón de búsqueda -->
+                <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
+                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
+                </button>
+            </div>
+
+            <!-- TODO(Angie): agregar mapa -->
+
             <!-- Nombre de la tienda -->
             <div class="AgregarTienda-contenedor-texto">
-                <label for="NombreTexto">Nombre:</label>
-                <input type="text" class="AgregarTienda-caja-texto-estandar" id="Nombre" name="Nombre" s>
+                <label for="NombreTexto">Tienda:</label>
+                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre" s>
             </div>
-            <!-- Ubicación de la tienda -->
-            <div class="AgregarTienda-contenedor-texto">
-                <label for="UbicacionTexto">Ubicación:</label>
-                <input type="text" class="AgregarTienda-caja-texto-estandar" id="Ubicacion" name="Ubicacion" s>
-            </div>
-            <!-- Botón para aceptar y para cancelar -->
-            <div class="AgregarTienda-contenedor-texto">
-                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Aceptar">Aceptar</button>
+
+            <!-- Botón para seguir y para cancelar -->
+            <div class="AgregarTienda-contenedor-botones">
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente">Siguiente</button>
                 <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
             </div>
         </div>

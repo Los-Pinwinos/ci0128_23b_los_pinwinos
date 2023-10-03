@@ -8,19 +8,17 @@ namespace LoCoMPro.Pages.AgregarTienda
         public void OnGet()
         {
         }
-        public void OnPostAceptar()
+        public void OnPostSiguiente()
         {
-            // TODO(Angie): hacer acción de aceptar
-            Console.WriteLine("Aceptar");
+            // TODO(Angie): hacer acción de seguir a agregar producto
 
         }
-        public void OnPostCancelar()
-        {
-            // TODO(Angie): hacer acción de aceptar
-            Console.WriteLine("Cancelar");
-        }
 
-        // TODO(Angie): ubicación
-        // TODO(Angie): fecha actual
+        // Acción al presionar cancelar
+        public IActionResult OnPostCancelar()
+        {
+            // Cuando se cancela agregar un producto, se devuelve a la pantalla principal
+            return RedirectToPage("/Home/Index");
+        }
     }
 }
