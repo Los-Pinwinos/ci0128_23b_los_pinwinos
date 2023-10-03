@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\js\Pages\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
