@@ -1,5 +1,5 @@
 ﻿@page
-@model LoCoMPro.Pages.Busqueda.BusquedaModel
+@model ModeloBusqueda
 @{
     ViewData["Title"] = "Busqueda";
 }
@@ -135,8 +135,10 @@
                             @Html.DisplayNameFor(model => model.productosVM[0].tienda)
                         </th>
                         <th>
-                            <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].provincia)
+                            <a asp-page="Busqueda/Index" asp-route-sortOrder="@Model.ordenProvincia" class="BusquedaIndice-titulo-columna">
+                                <!-- Nombre de columna -->
+                                @Html.DisplayNameFor(model => model.productosVM[0].provincia)
+                            </a>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
