@@ -59,6 +59,18 @@ namespace LoCoMPro.Pages.AgregarTienda
             return Page();
         }
 
+        // Método para obtener los cantones de una provincia específica
+        public async Task<IActionResult> OnGetCantonesPorProvincia(string provincia)
+        {
+            // Obtiene los cantones de la provincia
+            var cantones = await this.contexto.Cantones
+                .Where(c => c.nombreProvincia == provincia)
+                .ToListAsync();
+
+            // Retorna un JSON con los cantones de la provincia específica
+            return new JsonResult(cantones);
+        }
+
         // Acción al presionar siguiente
         public IActionResult OnPostSiguiente()
         {

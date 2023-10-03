@@ -24,6 +24,18 @@
     margin-left: 10px;
 }
 
+/* Caja de texto utilizada para la categoría*/
+.Ubicacion-comboBox {
+    background-color: #FFFBF8;
+    border-color: #033F63;
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    margin-right: 10px;
+    border-radius: 10px;
+    height: 3%;
+}
+
 /* Caja de texto */
 .Ubicacion-caja-texto {
     background-color: #FFFBF8;

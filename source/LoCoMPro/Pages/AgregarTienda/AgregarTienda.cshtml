@@ -6,6 +6,8 @@
 
 <!-- Metadatos -->
 <head>
+    <!-- Titulo de la página -->
+    <title>Agregar Tienda</title>
     <!-- Enlace a la biblioteca JavaScript Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Incluye su archivo de estilo CSS específico -->
@@ -24,18 +26,23 @@
                 <!-- Cuadro de texto de Provincia -->
                 <div class="Ubicacion-contenedor-caja-texto">
                     <label for="Provincia">Provincia:</label>
-                    <input type="text" class="Ubicacion-caja-texto" id="Provincia" name="Provincia">
+                    <!-- <input type="text" class="Ubicacion-caja-texto" id="Provincia" name="Provincia"> -->
+                    <select id="Provincia" name="Provincia" class="Ubicacion-comboBox">
+                        <!-- Agregar todas las provincias como opciones -->
+                        @foreach (var prov in Model.ListaProvincias)
+                        {
+                            <option value="@prov.nombre">@prov.nombre</option>
+                        }
+                    </select>
                 </div>
-
                 <!-- Cuadro de texto de Cantón -->
                 <div class="Ubicacion-contenedor-caja-texto">
                     <label for="Canton">Cantón:</label>
-                    <input type="text" class="Ubicacion-caja-texto" id="Canton" name="Canton">
+                    <!-- <input type="text" class="Ubicacion-caja-texto" id="Canton" name="Canton"> -->
+                    <select id="Canton" name="Canton" class="Ubicacion-comboBox" disabled></select>
                 </div>
-
                 <!-- Espacio oculto para recolectar el Distrito -->
                 <input type="hidden" id="Distrito" name="Distrito">
-
                 <!-- Botón de búsqueda -->
                 <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
                     <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
@@ -64,6 +71,43 @@
 
     <!-- Carga el archivo JavaScript en esta ruta -->
     <script src="~/js/Pages/mapaTienda.js"></script>
+
+    <!-- Cambiar las opciones de las cajas de selección dinámicamente -->
+    <script>
+        // Obtiene las cajas de selección
+        var cajaDeSeleccionProvincia = document.getElementById("Provincia");
+        var cajaDeSeleccionCanton = document.getElementById("Canton");
+
+        // Cada vez que la provincia cambia, la función ocurre
+        cajaDeSeleccionProvincia.addEventListener("change", function () {
+            // Obtener la provincia seleccionada
+            var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+            // Eliminar las opciones de cantones
+            if (cajaDeSeleccionCanton.options.length > 0) {
+                cajaDeSeleccionCanton.options.length = 0;
+            }
+
+            // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+            // con la provincia seleccionada
+            fetch(`/AgregarTienda/AgregarTienda?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Por cada cantón
+                    data.forEach(canton => {
+                        // Crear una opción
+                        var opcion = document.createElement("option");
+                        // Establecer su valor y texto de mostrado
+                        opcion.value = canton.nombre;
+                        opcion.text = canton.nombre;
+                        // Agregarla a la caja de selección de cantón
+                        cajaDeSeleccionCanton.appendChild(opcion);
+                    });
+                });
+            // Habilitar la caja de selección de cantón
+            cajaDeSeleccionCanton.disabled = false;
+        });
+    </script>
 </body>
 
 <!-- Se encarga de verificar que el formulario esté completo -->
@@ -71,14 +115,15 @@
     function validarFormulario() {
         var respuestaProvincia = document.getElementById('Provincia').value;
         var respuestaCanton = document.getElementById('Canton').value;
+        var respuestaDistrito = document.getElementById('Distrito').value;
         var respuestaTienda = document.getElementById('Nombre').value;
 
-        if (!respuestaProvincia || !respuestaCanton || !respuestaTienda) {
+        if (!respuestaProvincia || !respuestaCanton || !respuestaDistrito || !respuestaTienda) {
             // Mensaje de error
-            alert("Favor completar los datos de provincia, cantón y nombre de la tienda.");
+            alert(
+                "Favor completar los datos de provincia y cantón y presionar el botón de búsqueda o seleccionar la ubicación con el mapa.\nTambién debe ingresar el nombre de la tienda");
             return false;
         }
-
         return true; // Enviar el formulario para procesarse
     }
 </script>
