@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using LoCoMPro.ViewModels.Tienda;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
     public class AgregarTiendaModel : PageModel
     {
+        // View model de tienda
+        [BindProperty]
+        public required AgregarTiendaVM Tienda { get; set; }
+
         public void OnGet()
         {
         }
