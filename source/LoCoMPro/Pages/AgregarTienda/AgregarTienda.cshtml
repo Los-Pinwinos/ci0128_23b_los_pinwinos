@@ -14,13 +14,6 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 
-<!-- Header -->
-<head>
-    <!-- Título -->
-    <title>Agregar Tienda</title>
-    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true" />
-</head>
-
 <!-- Cuerpo de la página -->
 <body>
     <form method="post">
@@ -33,30 +26,68 @@
                     <label for="Provincia">Provincia:</label>
                     <input type="text" class="Ubicacion-caja-texto" id="Provincia" name="Provincia">
                 </div>
+
                 <!-- Cuadro de texto de Cantón -->
                 <div class="Ubicacion-contenedor-caja-texto">
-                    <label for="Canton">Canton:</label>
+                    <label for="Canton">Cantón:</label>
                     <input type="text" class="Ubicacion-caja-texto" id="Canton" name="Canton">
                 </div>
+
+                <!-- Espacio oculto para recolectar el Distrito -->
+                <input type="hidden" id="Distrito" name="Distrito">
+
                 <!-- Botón de búsqueda -->
                 <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
                     <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
                 </button>
             </div>
 
-            <!-- TODO(Angie): agregar mapa -->
+            <input type="hidden" id="CajaTextoLongitud" name="CajaTextoLongitud">
+            <input type="hidden" id="CajaTextoLatitud" name="CajaTextoLatitud">
+
+            <!-- Mapa interactivo -->
+            <div id="map" class="AgregarTienda-mapa"></div>
 
             <!-- Nombre de la tienda -->
-            <div class="AgregarTienda-contenedor-texto">
-                <label for="NombreTexto">Tienda:</label>
-                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre" s>
+            <div class="Ubicacion-contenedor-form">
+                <label for="Tienda">Tienda:</label>
+                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
             </div>
 
             <!-- Botón para seguir y para cancelar -->
             <div class="AgregarTienda-contenedor-botones">
-                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente">Siguiente</button>
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" onclick="return validarFormulario();">Siguiente</button>
                 <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
             </div>
         </div>
     </form>
+
+    <!-- Carga el archivo JavaScript en esta ruta -->
+    <script src="~/js/Pages/mapaTienda.js"></script>
 </body>
+
+<!-- Se encarga de verificar que el formulario esté completo -->
+<script>
+    function validarFormulario() {
+        var respuestaProvincia = document.getElementById('Provincia').value;
+        var respuestaCanton = document.getElementById('Canton').value;
+        var respuestaTienda = document.getElementById('Nombre').value;
+
+        if (!respuestaProvincia || !respuestaCanton || !respuestaTienda) {
+            // Mensaje de error
+            alert("Favor completar los datos de provincia, cantón y nombre de la tienda.");
+            return false;
+        }
+
+        return true; // Enviar el formulario para procesarse
+    }
+</script>
+
+<!-- Mensaje de error -->
+<script>
+    var errorMessage = "@ViewData["ErrorMessage"]";
+    if (errorMessage) {
+        document.getElementById("errorMessage").textContent = errorMessage;
+        document.getElementById("errorMessage").style.display = "block";
+    }
+</script>
