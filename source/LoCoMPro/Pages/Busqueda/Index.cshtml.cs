@@ -10,7 +10,7 @@ using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Data.SqlClient;
 using System.Globalization;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace LoCoMPro.Pages.Busqueda
 {
@@ -27,10 +27,6 @@ namespace LoCoMPro.Pages.Busqueda
             Inicializar();
         }
 
-        // Para ordernar por precio
-        public string SortBy { get; set; }
-        public string SortOrder { get; set; }
-
         // Busquedas
         [BindProperty(SupportsGet = true)]
         public string? producto { get; set; }
@@ -42,6 +38,10 @@ namespace LoCoMPro.Pages.Busqueda
         // Paginacion
         public ListaPaginada<Producto> productosPaginados { get; set; } = default!;
 
+        // Para ordernar por precio
+
+        public string ordenarPor { get; set; }
+
         // Inicializar atributos
         public void Inicializar()
         {
@@ -51,8 +51,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // ON GET buscar
-        public async Task<IActionResult> OnGetAsync(int? indicePagina
-            , string? nombreProducto, string? filtroProducto)
+        public async Task<IActionResult> OnGetAsync(int? indicePagina, string? nombreProducto, string? filtroProducto, string ordenado)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)) && _context.Productos != null)
             {
@@ -62,47 +61,24 @@ namespace LoCoMPro.Pages.Busqueda
                 // Hacer la consulta de productos con registros
                 IQueryable<Producto> productosIQ = buscarProductos();
 
-
-                // Ordenar productos basado en la columna y orden
-                if (string.IsNullOrEmpty(SortBy))
+                // Ordenamiento
+                ordenarPor = String.IsNullOrEmpty(ordenado) ? "creacion" : ordenado;
+                switch (ordenarPor)
                 {
-                    SortBy = "precio"; // Columna que se desea ordenar
-                }
-
-                if (string.IsNullOrEmpty(SortOrder))
-                {
-                    SortOrder = "asc"; // Por defecto es ascendente
-                }
-
-                if (SortBy == "precio")
-                {
-                    if (SortOrder == "asc")
-                    {
+                    case "precio":
                         productosIQ = productosIQ.OrderBy(p => p.registros.Min(r => r.precio));
-                    }
-                    else if (SortOrder == "desc")
-                    {
-                        productosIQ = productosIQ.OrderByDescending(p => p.registros.Min(r => r.precio));
-                    }
+                        break;
+                    default:
+                        productosIQ = productosIQ.OrderByDescending(p => p.registros.Min(r => r.creacion));
+                        break;
                 }
-
 
                 // Paginar
                 await paginarProductos(productosIQ, indicePagina);
             }
+
             return Page();
         }
-
-        // Ordenar los registros
-        private string GetNewSortOrder(string column)
-        {
-            if (column == SortBy)
-            {
-                return SortOrder == "asc" ? "desc" : "asc";
-            }
-            return "asc"; // Por defecto se ordena ascendentemente
-        }
-
 
         // Verificar parámetros de ON GET Buscar
         private int? verificarParametros(int? indicePagina
