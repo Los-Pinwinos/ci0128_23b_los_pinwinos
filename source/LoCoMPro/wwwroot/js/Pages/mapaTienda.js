@@ -1,3 +1,87 @@
+// Funciones para encontrar similitud entre palabras
+function calcularDistanciaLevenshtein(str1, str2) {
+    const len1 = str1.length;
+    const len2 = str2.length;
+
+    // Crear matriz para la distancia de Levenshtein
+    const dp = Array.from({ length: len1 + 1 }, () => Array(len2 + 1).fill(0));
+
+    for (let i = 0; i <= len1; i++) {
+        for (let j = 0; j <= len2; j++) {
+            if (i === 0) {
+                dp[i][j] = j; // Inicialización para la primera fila
+            } else if (j === 0) {
+                dp[i][j] = i; // Inicialización para la primera columna
+            } else {
+                // Calcular costo de operaciones (inserción, eliminación o sustitución)
+                const costo = str1[i - 1] === str2[j - 1] ? 0 : 1;
+                dp[i][j] = Math.min(
+                    dp[i - 1][j] + 1, // Eliminación
+                    dp[i][j - 1] + 1, // Inserción
+                    dp[i - 1][j - 1] + costo // Sustitución
+                );
+            }
+        }
+    }
+
+    return dp[len1][len2]; // Distancia de Levenshtein final
+}
+function construirMapaDistanciaLevenshtein(listaPalabras) {
+    const mapaDistancia = new Map();
+
+    // Mapear cada palabra a su forma en minúsculas para búsqueda eficiente
+    for (const palabra of listaPalabras) {
+        mapaDistancia.set(palabra.toLowerCase(), palabra);
+    }
+
+    return mapaDistancia;
+}
+
+// Función para encontrar el porcentaje de coincidencia
+function encontrarPorcentajeCoincidencia(palabraDada, palabraOriginal) {
+    palabraDada = palabraDada.toLowerCase();
+    palabraOriginal = palabraOriginal.toLowerCase();
+
+    // Calcular la distancia de Levenshtein entre las palabras
+    const distancia = calcularDistanciaLevenshtein(palabraDada, palabraOriginal);
+    const longitudMayor = Math.max(palabraDada.length, palabraOriginal.length);
+
+    // Calcular el porcentaje de coincidencia
+    const porcentajeCoincidencia = ((longitudMayor - distancia) / longitudMayor) * 100;
+
+    return porcentajeCoincidencia.toFixed(2); // Redondear el porcentaje a 2 decimales
+}
+
+// Función para encontrar la palabra más similar
+function encontrarPalabraMasSimilar(palabraDada, listaPalabras) {
+    palabraDada = palabraDada.toLowerCase();
+
+    // Construir un mapa de palabras en minúsculas a sus formas originales para una búsqueda rápida
+    const mapaDistancia = construirMapaDistanciaLevenshtein(listaPalabras);
+
+    // Comprobar coincidencias exactas
+    if (mapaDistancia.has(palabraDada)) {
+        const palabraExacta = mapaDistancia.get(palabraDada);
+        const porcentajeExacto = 100.0;
+        return { palabra: palabraExacta, porcentaje: porcentajeExacto };
+    }
+
+    let palabraMasSimilar = '';
+    let porcentajeMasSimilar = 0;
+
+    // Calcular el porcentaje de coincidencia para candidatos potenciales y mantener el más alto
+    for (const palabra of listaPalabras) {
+        const porcentaje = encontrarPorcentajeCoincidencia(palabraDada, palabra.toLowerCase());
+
+        if (porcentaje > porcentajeMasSimilar) {
+            palabraMasSimilar = palabra;
+            porcentajeMasSimilar = porcentaje;
+        }
+    }
+
+    return { palabra: palabraMasSimilar, porcentaje: parseFloat(porcentajeMasSimilar) };
+}
+
 // Clase Mapa para agregar una nueva tienda
 class MapaTienda {
     // Coordenadas de San José, Costa Rica
@@ -59,18 +143,21 @@ class MapaTienda {
             const datos = await respuesta.json();
 
             // Encontrar provincia
+            const provincia = encontrarPalabraMasSimilar(datos.address.Region, obtenerProvincias());
             if (provincia.porcentaje > 50) {
                 this.cajaProvincia.value = provincia.palabra;
 
                 const listaCantones = await obtenerCantones();
 
                 // Encontrar canton
+                const canton = encontrarPalabraMasSimilar(datos.address.Subregion, listaCantones);
                 if (canton.porcentaje > 50) {
                     this.cajaCanton.value = canton.palabra;
 
                     const listaDistritos = await obtenerDistritos();
 
                     // Encontrar distrito
+                    const distrito = encontrarPalabraMasSimilar(datos.address.City, listaDistritos);
                     if (distrito.porcentaje > 50) {
                         this.cajaDistrito.value = distrito.palabra;
                     }
@@ -122,6 +209,7 @@ class MapaTienda {
 
             // Colocar valores en elementos HTML
             const listaDistritos = await obtenerDistritos();
+            const distrito = encontrarPalabraMasSimilar(datosDistrito.address.City, listaDistritos);
             if (distrito.porcentaje > 50) {
                 this.cajaDistrito.value = distrito.palabra;
             }
@@ -156,6 +244,7 @@ class MapaTienda {
 
             // Colocar valores en elementos HTML
             const listaDistritos = await obtenerDistritos();
+            const distrito = encontrarPalabraMasSimilar(datosDistrito.address.City, listaDistritos);
             if (distrito.porcentaje > 50) {
                 this.cajaDistrito.value = distrito.palabra;
             }
