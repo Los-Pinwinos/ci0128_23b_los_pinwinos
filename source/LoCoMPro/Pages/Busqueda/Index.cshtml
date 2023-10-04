@@ -124,7 +124,11 @@
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                            <a asp-page="./Index"
+                               asp-route-ordenadoPrecio="precio"
+                               asp-route-producto="@Model.producto" asp-route-filtroProducto="@Model.producto">
+                                @Html.DisplayNameFor(model => model.productosVM[0].precio)
+                            </a>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
@@ -186,18 +190,18 @@
 </div>
 
 @{
-    var prevDeshabilitado = !Model.productosPaginados.TienePaginaPrevia ? "disabled" : "";
-    var proxDeshabilitado = !Model.productosPaginados.TieneProximaPagina ? "disabled" : "";
+    var prevDeshabilitado = !Model.productosVM.TienePaginaPrevia ? "disabled" : "";
+    var proxDeshabilitado = !Model.productosVM.TieneProximaPagina ? "disabled" : "";
 }
 
 <div class="BusquedaIndice-contenedor-paginacion">
     <!-- Container box -->
     <div class="BusquedaIndice-contenedor-caja-paginacion">
         @{
-            if (Model.productosPaginados.TienePaginaPrevia)
+            if (Model.productosVM.TienePaginaPrevia)
             {
                 <a asp-page="./Index"
-                   asp-route-indicePagina="@(Model.productosPaginados.IndicePagina - 1)"
+                   asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
                    asp-route-filtroProducto="@(Model.producto)"
                    class="BusquedaIndice-boton-paginacion">
                     Anterior
@@ -208,13 +212,13 @@
                 <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Anterior </span>
             }
 
-            var currentIndex = Model.productosPaginados.IndicePagina;
+            var currentIndex = Model.productosVM.IndicePagina;
             <span class="BusquedaIndice-texto-paginacion"> @(currentIndex) </span>
 
-            if (Model.productosPaginados.TieneProximaPagina)
+            if (Model.productosVM.TieneProximaPagina)
             {
                 <a asp-page="./Index"
-                   asp-route-indicePagina="@(Model.productosPaginados.IndicePagina + 1)"
+                   asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
                    asp-route-filtroProducto="@(Model.producto)"
                    class="BusquedaIndice-boton-paginacion">
                     Siguiente
