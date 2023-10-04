@@ -44,7 +44,7 @@ namespace LoCoMPro.Data
             context.SaveChanges();
 
             // Crear Usuario
-            var usuario = new Usuario { nombreDeUsuario = "Usuario1", correo = "prueba@gmail.com", contrasena = "123456", estado = 'A', calificacion = 5, distritoVivienda = "Garita", cantonVivienda = "Alajuela", provinciaVivienda = "Alajuela" };
+            var usuario = new Usuario { nombreDeUsuario = "Usuario1", correo = "prueba@gmail.com", hashContrasena = "123456", estado = 'A', calificacion = 5, distritoVivienda = "Garita", cantonVivienda = "Alajuela", provinciaVivienda = "Alajuela" };
 
             context.Usuarios.Add(usuario);
             context.SaveChanges();

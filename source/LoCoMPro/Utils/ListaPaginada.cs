@@ -39,5 +39,13 @@ namespace LoCoMPro
                 .Take(pageSize).ToListAsync();
             return new ListaPaginada<T>(items, count, pageIndex, pageSize);
         }
+        public static ListaPaginada<T> Crear(List<T> source, int pageIndex, int pageSize)
+        {
+            var count = source.Count;
+            var items = source.Skip((pageIndex - 1) * pageSize)
+                             .Take(pageSize)
+                             .ToList();
+            return new ListaPaginada<T>(items, count, pageIndex, pageSize);
+        }
     }
 }
