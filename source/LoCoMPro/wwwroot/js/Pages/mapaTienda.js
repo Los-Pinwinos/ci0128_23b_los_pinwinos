@@ -107,6 +107,7 @@ class MapaTienda {
         this.cajaLatitud = document.getElementById("CajaTextoLatitud");
         this.cajaLongitud = document.getElementById("CajaTextoLongitud");
         this.botonBusqueda = document.getElementById("BotonBusqueda");
+        this.botonActualizar = document.getElementById("Actualizar");
 
         // Llamada inicial al manejo de clic en el mapa
         this.manejoClickMapa({ latlng: L.latLng(latitud, longitud) });
@@ -151,6 +152,7 @@ class MapaTienda {
                     this.cajaCanton.value = canton.palabra;
                 }
             }
+            this.botonActualizar.click();
         } catch (error) {
             console.error('Error:', error);
         }
