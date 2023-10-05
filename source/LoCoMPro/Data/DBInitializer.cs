@@ -19,6 +19,76 @@ namespace LoCoMPro.Data
 
             // Cargar las provincias, cantones y distritos de Costa Rica
             DBInitializer.CargarProvinciasCantonesDistritos(context);
+
+            // Crear Usuario
+            var usuario = new Usuario {
+                nombreDeUsuario = "Usuario1"
+                , correo = "prueba@gmail.com"
+                , hashContrasena = "123456"
+                , estado = 'A'
+                , calificacion = 5
+                , distritoVivienda = "Garita"
+                , cantonVivienda = "Alajuela"
+                , provinciaVivienda = "Alajuela" };
+            context.Usuarios.Add(usuario);
+            context.SaveChanges();
+
+            // Crear Unidad
+            var unidades = new Unidad[]
+            {
+                new Unidad {nombre= "Cantidad"},
+                new Unidad {nombre= "Kilogramos"},
+                new Unidad {nombre = "Litros"}
+            };
+            context.Unidades.AddRange(unidades);
+            context.SaveChanges();
+
+            // Crear Categorias
+            var categorias = new Categoria[]
+            {
+                new Categoria { nombre = "Alimentos" },
+                new Categoria { nombre = "Electrónicos" },
+                new Categoria { nombre = "Entretenimiento" },
+                new Categoria { nombre = "Salud" },
+                new Categoria { nombre = "Limpieza" },
+                new Categoria { nombre = "Ropa" },
+                new Categoria { nombre = "Otros" }
+            };
+            context.Categorias.AddRange(categorias);
+            context.SaveChanges();
+
+            // Crear productos
+            var productos = new Producto[]
+            {
+                new Producto {nombre="Iphone 14", marca="Apple", nombreCategoria="Electrónicos", nombreUnidad="Cantidad"},
+                new Producto {nombre="Camisa", marca="Nike", nombreCategoria="Ropa", nombreUnidad="Cantidad"}
+            };
+            context.Productos.AddRange(productos);
+            context.SaveChanges();
+
+            // Crear Tiendas
+            var tiendas = new Tienda[]
+            {
+                new Tienda {nombre="Walmart", nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"},
+                new Tienda {nombre="Maxi Pali", nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"}
+            };
+            context.Tiendas.AddRange(tiendas);
+            context.SaveChanges();
+
+            // Crear registros
+            var registros = new Registro[]
+            {
+                new Registro {creacion=DateTime.Parse("2019-09-01 10:30:45"), precio=13.2M
+                    , productoAsociado="Iphone 14", usuarioCreador="Usuario1", nombreTienda="Walmart"
+                    , nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"
+                    , descripcion="Muy bueno" },
+                new Registro {creacion=DateTime.Parse("2019-09-01 10:31:45"), precio=12.2M
+                    , productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali"
+                    , nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"
+                    , descripcion="Muy bueno tambien" },
+            };
+            context.Registros.AddRange(registros);
+            context.SaveChanges();
         }
 
         // Cargar provincias cantones y distritos
@@ -33,43 +103,38 @@ namespace LoCoMPro.Data
 
             // Agregar los datos
             AgregarDatos(context, costaRica);
-
-            // Guarda los cambios en la base de datos
-            context.SaveChanges();
         }
 
-        // Agrega las provincias, cantones y distritos
         private static void AgregarDatos(LoCoMProContext context, CR.CostaRica costaRica)
         {
             foreach (var entradaProvincia in costaRica.Provincias.Values)
             {
-                // Llama al método de agregar provincias para cada provincia
                 AgregarProvincias(context, entradaProvincia);
             }
         }
 
-        // Agrega las provincias
         private static void AgregarProvincias(LoCoMProContext context, CR.Provincia entradaProvincia)
         {
-            // Se verifica si ya está
+            // Si ya está
             var provincia = context.Provincias.FirstOrDefault(p => p.nombre == entradaProvincia.Nombre);
             if (provincia == null)
-            {  // Si hay que agregarla, se agrega
+            {
                 provincia = new LoCoMPro.Models.Provincia { nombre = entradaProvincia.Nombre };
                 context.Provincias.Add(provincia);
+
+                // Guarda los cambios en la base de datos
+                context.SaveChanges();
             }
 
-            // Para cada provincia, se agregan sus cantones
             foreach (var entradaCanton in entradaProvincia.Cantones.Values)
             {
                 AgregarCantones(context, entradaProvincia.Nombre, entradaCanton);
             }
         }
 
-        // Agrega los cantones
         private static void AgregarCantones(LoCoMProContext context, string nombreProv, CR.Canton entradaCanton)
         {
-            // Accesa a las propiedades de canton
+            // Accesar a las propiedades de canton
             string nombreCant = entradaCanton.Nombre;
             // Ver si es central
             if (nombreCant == "Central")
@@ -78,30 +143,34 @@ namespace LoCoMPro.Data
             // Si ya está
             var canton = context.Cantones.FirstOrDefault(p => p.nombre == nombreCant && p.nombreProvincia == nombreProv);
             if (canton == null)
-            {  // Si hay que agregarlo, se agrega
+            {
                 canton = new LoCoMPro.Models.Canton { nombre = nombreCant, nombreProvincia = nombreProv };
                 context.Cantones.Add(canton);
+
+                // Guarda los cambios en la base de datos
+                context.SaveChanges();
             }
 
-            // Para cada cantón, se agregan sus distritos
             foreach (var entradaDistrito in entradaCanton.Distritos.Values)
             {
-                AgregarDistrito(context,nombreProv, nombreCant, entradaDistrito);
+                AgregarDistrito(context, nombreProv, nombreCant, entradaDistrito);
             }
         }
 
-        // Agrega los distritos
         private static void AgregarDistrito(LoCoMProContext context, string nombreProv, string nombreCant, string nombreDistrito)
         {
             // Accesar a las propiedades de canton
             string nombreDistr = nombreDistrito;
 
-            // Se revisa si ya está
+            // Si ya está
             var distrito = context.Distritos.FirstOrDefault(p => p.nombre == nombreDistr && p.nombreCanton == nombreCant && p.nombreProvincia == nombreProv);
             if (distrito == null)
-            {  // Hay que crearlo
+            {
                 distrito = new LoCoMPro.Models.Distrito { nombre = nombreDistr, nombreCanton = nombreCant, nombreProvincia = nombreProv };
                 context.Distritos.Add(distrito);
+
+                // Guarda los cambios en la base de datos
+                context.SaveChanges();
             }
         }
     }

@@ -8,7 +8,7 @@ namespace LoCoMPro.Models
     public class Distrito
     {
         // Nombre
-        [StringLength(25, MinimumLength = 1)]
+        [StringLength(30, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Distrito")]
         public required string nombre { get; set; }

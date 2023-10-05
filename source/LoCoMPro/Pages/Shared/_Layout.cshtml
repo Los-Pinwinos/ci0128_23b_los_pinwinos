@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LoCoMPro.styles.css" asp-append-version="true" />
+    <!-- Incluir el archivo CSS custom para estilos de la barra de navegación -->
+    <link rel="stylesheet" href="~/css/Pages/Shared/_Layout.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -29,6 +31,45 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Agregar Tienda</a>
                         </li>
+                    </ul>
+
+                    <!-- Lista no ordenada para los elementos alineados a la derecha -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Si hay un usuario ingresado -->
+                        @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                            <!-- Agregar la ventana parcial de salir y su modelo como elemento de navegación -->
+                            <li class="nav-item">
+                                @await Html.PartialAsync("/Pages/Cuenta/SalirParcial.cshtml", new LoCoMPro.Pages.Cuenta.ModeloSalirParcial())
+                            </li>
+                            <!-- Texto presionable que llevará a la ventana del perfil de la cuenta -->
+                            <!-- TODO(Los pinwinos): Implementar cuando haya página de perfil -->
+                            <!--
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="">Mi perfil</a>
+                            </li>
+                            -->
+                            <!-- Icono de perfil que llevará a la ventana del perfil de la cuenta -->
+                            <!-- TODO(Los pinwinos): Imeplementar cuando haya pagina de perfil -->
+                            <!--
+                            <li class="nav-item">
+                                <a class="nav-link" >
+                                    <img src="~/img/icono_perfil.png" alt="Profile Image" class="Layout-icono-perfil">
+                                </a>
+                            </li>
+                            -->
+                        }
+                        else {
+                            <!-- Texto presionable que llevá a la ventana de ingresar con una cuenta -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Cuenta/Ingresar">Iniciar sesión</a>
+                            </li>
+                            <!-- Icono de perfil que lleva a la ventana de ingresar con una cuenta -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Cuenta/Ingresar">
+                                    <img src="~/img/icono_perfil.png" alt="Icono perfil" class="Layout-icono-perfil">
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
