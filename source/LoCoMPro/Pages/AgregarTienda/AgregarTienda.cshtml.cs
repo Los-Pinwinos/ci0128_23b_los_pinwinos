@@ -1,7 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+Ôªøusing Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.ViewModels.Tienda;
+using System.Drawing;
 using LoCoMPro.Models;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Pages.AgregarTienda
@@ -12,7 +14,7 @@ namespace LoCoMPro.Pages.AgregarTienda
         [BindProperty]
         public required string Distrito { get; set; }
 
-        // CantÛn
+        // Cant√≥n
         [BindProperty]
         public required string Canton { get; set; }
 
@@ -39,7 +41,7 @@ namespace LoCoMPro.Pages.AgregarTienda
         {
             this.contexto = contexto;
             this.Tienda = new AgregarTiendaVM
-            {  // Crea una tienda vacÌa para trabajar con ella m·s adelante
+            {  // Crea una tienda vac√≠a para trabajar con ella m√°s adelante
                 nombre = " ",
                 nombreDistrito = " ",
                 nombreCanton = " ",
@@ -50,16 +52,16 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.ListaProvincias = new List<Provincia>();
         }
 
-        // OnGet de la p·gina
+        // OnGet de la p√°gina
         public IActionResult OnGet()
         {
-            // Cargar toda la informaciÛn de provincias de la base de datos
+            // Cargar toda la informaci√≥n de provincias de la base de datos
             this.ListaProvincias = this.contexto.Provincias.ToList();
 
             return Page();
         }
 
-        // MÈtodo para obtener los cantones de una provincia especÌfica
+        // M√©todo para obtener los cantones de una provincia espec√≠fica
         public async Task<IActionResult> OnGetCantonesPorProvincia(string provincia)
         {
             // Obtiene los cantones de la provincia
@@ -67,17 +69,32 @@ namespace LoCoMPro.Pages.AgregarTienda
                 .Where(c => c.nombreProvincia == provincia)
                 .ToListAsync();
 
-            // Retorna un JSON con los cantones de la provincia especÌfica
+            // Retorna un JSON con los cantones de la provincia espec√≠fica
             return new JsonResult(cantones);
         }
 
-        // AcciÛn al presionar siguiente
+        // M√©todo para obtener los cantones de una provincia espec√≠fica
+        public void OnGetColocarDatosTemporales(string provincia, string canton)
+        {
+            // Se obtiene el distrito
+            string distrito = this.ObtenerDistritos(provincia, canton)[0].nombre;
+        }
+
+        private List<LoCoMPro.Models.Distrito> ObtenerDistritos(string provincia, string canton)
+        {
+            // Obtiene los distritos de esa provincia y cant√≥n
+            return this.contexto.Distritos
+                .Where(d => d.nombreProvincia == provincia && d.nombreCanton == canton)
+                .ToList();
+        }
+
+        // Acci√≥n al presionar siguiente
         public IActionResult OnPostSiguiente()
         {
             // Leer datos del usuario
             if (!AnalizarDatos())
             {
-                // Los datos no son v·lidos
+                // Los datos no son v√°lidos
                 return Page();
             }
 
@@ -87,11 +104,11 @@ namespace LoCoMPro.Pages.AgregarTienda
             // Redirigir a la siguiente ventana de agregar producto
             return RedirectToPage("/Index");
 
-            // TODO(Los Pinwinos): actualizar para ir a la p·gina de agregar producto
+            // TODO(Los Pinwinos): actualizar para ir a la p√°gina de agregar producto
             // return RedirectToPage("/AgregarProducto/AgregarProd");
         }
 
-        // MÈtodo para leer los datos que el usuario ingresÛ
+        // M√©todo para leer los datos que el usuario ingres√≥
         private bool AnalizarDatos()
         {
             // Guarda los nuevos datos en la tienda
@@ -100,22 +117,22 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.Tienda.nombreDistrito = Distrito;
             this.Tienda.nombre = Nombre;
 
-            // Se verifica si la tienda es v·lida
+            // Se verifica si la tienda es v√°lida
             return VerificarValida();
         }
 
-        // MÈtodo para verificar validez de la tienda
+        // M√©todo para verificar validez de la tienda
         private bool VerificarValida()
         {
-            // Revisa si existe una tienda con ese nombre en el distrito, cantÛn y provincia indicados
             var tiendaExistenteEnDistrito = contexto.Tiendas.FirstOrDefault
                 (p => p.nombre == this.Tienda.nombre
                 && p.nombreDistrito == this.Tienda.nombreDistrito
                 && p.nombreCanton == this.Tienda.nombreCanton
                 && p.nombreProvincia == this.Tienda.nombreProvincia);
 
+            // Se revisa si la tienda existe
             if (tiendaExistenteEnDistrito == null)
-            {  // La tienda no existe y el nombre est· disponible
+            {  // La tienda no existe y el nombre est√° disponible
                 CrearNuevaTienda();
             }
 
@@ -143,19 +160,19 @@ namespace LoCoMPro.Pages.AgregarTienda
         // Datos para siguiente ventana
         private void AgregarDatosTienda()
         {
-            // Guarda los datos en TempData para que puedan ser accesados despuÈs
+            // Guarda los datos en TempData para que puedan ser accesados despu√©s
             TempData["nombreTienda"] = this.Tienda.nombre;
             TempData["provinciaTienda"] = this.Tienda.nombreProvincia;
             TempData["cantonTienda"] = this.Tienda.nombreCanton;
             TempData["distritoTienda"] = this.Tienda.nombreDistrito;
         }
 
-        // AcciÛn al presionar cancelar
+        // Acci√≥n al presionar cancelar
         public IActionResult OnPostCancelar()
         {
             return RedirectToPage("/Index");
 
-            // TODO(Los Pinwinos): actualizar para que se dirija a la p·gina de inicio
+            // TODO(Los Pinwinos): actualizar para que se dirija a la p√°gina de inicio
             // return RedirectToPage("/Home/Index");
         }
     }
