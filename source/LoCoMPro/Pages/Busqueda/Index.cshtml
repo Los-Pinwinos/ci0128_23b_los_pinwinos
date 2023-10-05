@@ -125,11 +125,16 @@
                         <th>
                             <!-- Nombre de columna -->
                             <a asp-page="./Index"
-                               asp-route-ordenadoPrecio="precio"
-                               asp-route-producto="@Model.producto" asp-route-filtroProducto="@Model.producto">
+                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
+                               asp-route-ordenadoPrecio="precio" class= "BusquedaIndice-titulo-columna"
+                               asp-route-sentidoPrecio="@((Model.ordenPrecioActual == "asc") ? "desc" : "asc")"
+                               asp-route-filtroProducto="@(Model.producto)"
+                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
+                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].precio)
                             </a>
                         </th>
+
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productosVM[0].fecha)
@@ -202,7 +207,11 @@
             {
                 <a asp-page="./Index"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
+                   asp-route-ordenadoPrecio="@(Model.ordenPrecio)"
+                   asp-route-sentidoPrecio="@(Model.ordenPrecioActual)"
                    asp-route-filtroProducto="@(Model.producto)"
+                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
+                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    class="BusquedaIndice-boton-paginacion">
                     Anterior
                 </a>
@@ -219,7 +228,11 @@
             {
                 <a asp-page="./Index"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
+                   asp-route-ordenadoPrecio="@(Model.ordenPrecio)"
+                   asp-route-sentidoPrecio="@(Model.ordenPrecioActual)"
                    asp-route-filtroProducto="@(Model.producto)"
+                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
+                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    class="BusquedaIndice-boton-paginacion">
                     Siguiente
                 </a>
@@ -237,6 +250,58 @@
         // Boton de buscar
         cajaProducto = document.getElementById("CajaDeTextoProducto");
 
+        // Limpiar filtros
+        function limpiarFiltros() {
+            // Construir la cadena de consulta default
+            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto');
+
+            // Redirige a la página con la cadena de consulta en la URL
+            window.location.href = "/Busqueda" + queryString;
+        }
+
+        // Aplicar filtros
+        function aplicarFiltros() {
+            // Obtener los valores seleccionados de cada sección
+            var provinciasSeleccionadas = obtenerValoresSeleccionados("provincia");
+            var cantonesSeleccionados = obtenerValoresSeleccionados("canton");
+            var tiendasSeleccionadas = obtenerValoresSeleccionados("tienda");
+            var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
+
+            // Construir la cadena de consulta con los valores seleccionados
+            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto') + "&";
+
+            if (provinciasSeleccionadas.length !== 0) {
+                queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
+            }
+            if (cantonesSeleccionados.length !== 0) {
+                queryString += "nombresCantones=" + cantonesSeleccionados + "&";
+            }
+            if (tiendasSeleccionadas.length !== 0) {
+                queryString += "nombreTiendas=" + tiendasSeleccionadas + "&";
+            }
+            if (marcasSeleccionadas.length !== 0) {
+                queryString += "nombreMarcas=" + marcasSeleccionadas + "&";
+            }
+
+            // Remover el ultimo &
+            queryString = queryString.substring(0, queryString.length - 1);
+
+            // Redirige a la página con la cadena de consulta en la URL
+            window.location.href = "/Busqueda" + queryString;
+        }
+
+        // Obtener valores de checkboxes
+        function obtenerValoresSeleccionados(nombreCampo) {
+            var valores = [];
+            var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                valores.push(checkboxes[i].value);
+            }
+
+            return valores.join(",");
+        }
+
         // Validad formulario
         function validarFormulario() {
             if (!cajaProducto.value) {
@@ -245,6 +310,8 @@
                 return true;
             }
         }
+
+
     </script>
     <script src="~/js/Pages/Busqueda/dropdown.js"></script>
 }

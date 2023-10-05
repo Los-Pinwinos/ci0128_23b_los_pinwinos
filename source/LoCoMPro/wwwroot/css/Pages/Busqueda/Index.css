@@ -379,3 +379,18 @@ BusquedaIndice-tabla-filtros-contenedor {
         background: #C3F3E5;
         border-radius: 10px;
     }
+
+
+/* Ordenamientos */
+
+/* Titulo presionable para ordenamiento */
+.BusquedaIndice-titulo-columna {
+    color: black;
+    text-decoration: underline;
+}
+
+    /* Hover para titulo de ordenamiento */
+    .BusquedaIndice-titulo-columna:hover {
+        color: blue;
+        text-decoration: underline;
+    }

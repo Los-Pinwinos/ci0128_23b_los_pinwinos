@@ -15,8 +15,8 @@ namespace LoCoMPro.Pages.Busqueda
 {
     public class BusquedaModel : PageModel
     {
-        private readonly LoCoMProContext _context;
-        private readonly IConfiguration _configuration;
+        protected readonly LoCoMProContext _context;
+        protected readonly IConfiguration _configuration;
 
         // Constructor
         public BusquedaModel(LoCoMProContext context, IConfiguration configuration)
@@ -30,8 +30,13 @@ namespace LoCoMPro.Pages.Busqueda
         // Busquedas
         [BindProperty(SupportsGet = true)]
         public string? producto { get; set; }
+        // Filtros
         public string[] provincias { get; set; } = default!;
         public string[] cantones { get; set; } = default!;
+        // Ordenamiento
+        public string? ordenPrecio { get; set; } = default!;
+        public string? ordenPrecioActual = "desc";
+
 
         // Visual
         [BindProperty]
@@ -52,6 +57,8 @@ namespace LoCoMPro.Pages.Busqueda
             tiendasV = new List<string>();
             marcasV = new List<string?>();
             productosVM = new ListaPaginada<BusquedaVM>();
+            provincias = new string[] { };
+            cantones = new string[] { };
         }
 
         // ON GET buscar
@@ -59,7 +66,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
-            , string? ordenadoPrecio)
+            , string? ordenadoPrecio, string? sentidoPrecio)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)) && _context.Productos != null)
             {
@@ -67,7 +74,8 @@ namespace LoCoMPro.Pages.Busqueda
                 indicePagina = verificarParametros(indicePagina
                     , nombreProducto, filtroProducto
                     , nombresProvincias, filtrosProvincias
-                    , nombresCantones, filtrosCantones);
+                    , nombresCantones, filtrosCantones
+                    , ordenadoPrecio, sentidoPrecio);
 
                 // Hacer la consulta de productos con registros
                 // Consultar la base de datos
@@ -82,7 +90,7 @@ namespace LoCoMPro.Pages.Busqueda
                 // Ordenar por precio
                 if (ordenadoPrecio != null)
                 {
-                    productosIQ = ordenarProducto(ordenadoPrecio, productosIQ);
+                    productosIQ = ordenarProducto(productosIQ);
                 }
 
                 // Paginar
@@ -92,10 +100,11 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Verificar parámetros de ON GET Buscar
-        private int? verificarParametros(int? indicePagina
+        protected int? verificarParametros(int? indicePagina
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
-            , string? nombresCantones, string? filtrosCantones)
+            , string? nombresCantones, string? filtrosCantones
+            , string? ordenadoPrecio, string? sentidoPrecio)
         {
             // Revisar si hay que regresar numero de página
             if (!string.IsNullOrEmpty(nombreProducto))
@@ -128,11 +137,20 @@ namespace LoCoMPro.Pages.Busqueda
             }
             cantones = !string.IsNullOrEmpty(nombresCantones) ? nombresCantones.Split(',') : new string[0];
 
+
+            if (!string.IsNullOrEmpty(ordenadoPrecio))
+            {
+                ordenPrecio = ordenadoPrecio;
+            }
+            if (!string.IsNullOrEmpty(sentidoPrecio))
+            {
+                ordenPrecioActual = sentidoPrecio;
+            }
             return indicePagina;
         }
 
         // Buscar productos
-        private IQueryable<BusquedaVM> buscarProductos()
+        protected IQueryable<BusquedaVM> buscarProductos()
         {
             IQueryable<BusquedaVM> productosIQ = _context.Registros
                         .Include(r => r.producto)
@@ -157,7 +175,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Buscar por nombre
-        private IQueryable<BusquedaVM> buscarNombre(IQueryable<BusquedaVM> productosIQ)
+        protected IQueryable<BusquedaVM> buscarNombre(IQueryable<BusquedaVM> productosIQ)
         {
             // Ver si se usa el nombre de busqueda
             if (!string.IsNullOrEmpty(producto))
@@ -171,7 +189,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros
-        private void cargarFiltros(IQueryable<BusquedaVM> productosIQ)
+        protected void cargarFiltros(IQueryable<BusquedaVM> productosIQ)
         {
             // Cargar filtros de provincia
             cargarFiltrosProvincia(productosIQ);
@@ -184,7 +202,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de provincias
-        private void cargarFiltrosProvincia(IQueryable<BusquedaVM> productosIQ)
+        protected void cargarFiltrosProvincia(IQueryable<BusquedaVM> productosIQ)
         {
             // Si los productos no están vacíos
             if (!productosIQ.IsNullOrEmpty())
@@ -198,7 +216,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de cantones
-        private void cargarFiltrosCanton(IQueryable<BusquedaVM> productosIQ)
+        protected void cargarFiltrosCanton(IQueryable<BusquedaVM> productosIQ)
         {
             // Si los productos no están vacíos
             if (!productosIQ.IsNullOrEmpty())
@@ -212,7 +230,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de tiendas
-        private void cargarFiltrosTienda(IQueryable<BusquedaVM> productosIQ)
+        protected void cargarFiltrosTienda(IQueryable<BusquedaVM> productosIQ)
         {
             // Si los productos no están vacíos
             if (!productosIQ.IsNullOrEmpty())
@@ -226,7 +244,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de marcas
-        private void cargarFiltrosMarca(IQueryable<BusquedaVM> productosIQ)
+        protected void cargarFiltrosMarca(IQueryable<BusquedaVM> productosIQ)
         {
             // Si los productos no están vacíos
             if (!productosIQ.IsNullOrEmpty())
@@ -240,7 +258,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Filtrar productos
-        private IQueryable<BusquedaVM> filtrarProductos(IQueryable<BusquedaVM> productosIQ)
+        protected IQueryable<BusquedaVM> filtrarProductos(IQueryable<BusquedaVM> productosIQ)
         {
             // Filtrar por provincia
             productosIQ = filtrarProvincia(productosIQ);
@@ -251,7 +269,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Filtrar por provincia
-        private IQueryable<BusquedaVM> filtrarProvincia(IQueryable<BusquedaVM> productosIQ)
+        protected IQueryable<BusquedaVM> filtrarProvincia(IQueryable<BusquedaVM> productosIQ)
         {
             if (provincias.Length > 0)
             {
@@ -266,7 +284,7 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Filtrar por canton
-        private IQueryable<BusquedaVM> filtrarCanton(IQueryable<BusquedaVM> productosIQ)
+        protected IQueryable<BusquedaVM> filtrarCanton(IQueryable<BusquedaVM> productosIQ)
         {
             if (cantones.Length > 0)
             {
@@ -281,28 +299,36 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Ordenar producto
-        public IQueryable<BusquedaVM> ordenarProducto(string ordenarPrecio, IQueryable<BusquedaVM> productosIQ)
+        public IQueryable<BusquedaVM> ordenarProducto(IQueryable<BusquedaVM> productosIQ)
         {
             // Ordenar por precio
-            productosIQ = ordenarPorPrecio(ordenarPrecio, productosIQ);
+            productosIQ = ordenarPorPrecio(productosIQ);
             return productosIQ;
         }
 
-        public IQueryable<BusquedaVM> ordenarPorPrecio(string ordenarPrecio, IQueryable<BusquedaVM> productosIQ)
+        public IQueryable<BusquedaVM> ordenarPorPrecio(IQueryable<BusquedaVM> productosIQ)
         {
-            if (!string.IsNullOrEmpty(ordenarPrecio))
+            if (!string.IsNullOrEmpty(ordenPrecio))
             {
-                if (ordenarPrecio == "precio")
+                if (ordenPrecio == "precio")
                 {
-                    // Ordenar por precio ascendente
-                    productosIQ = productosIQ.OrderBy(p => p.precio);
+                    if (ordenPrecioActual == "asc")
+                    {
+                        // Ordenar por precio ascendente
+                        productosIQ = productosIQ.OrderBy(p => p.precio);
+                    } else
+                    {
+                        // Ordenar por precio descendente
+                        productosIQ = productosIQ.OrderByDescending(p => p.precio);
+
+                    }
                 }
             }
             return productosIQ;
         }
 
         // Paginar productos
-        private async Task paginarProductos(IQueryable<BusquedaVM> productosFinales, int? indicePagina)
+        protected async Task paginarProductos(IQueryable<BusquedaVM> productosFinales, int? indicePagina)
         {
             // Obtener tamaño de página
             var tamPagina = _configuration.GetValue("TamPagina", 4);
