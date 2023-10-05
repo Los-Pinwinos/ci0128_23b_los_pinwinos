@@ -20,7 +20,6 @@
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="ViewModels\Cuenta\" />
-    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

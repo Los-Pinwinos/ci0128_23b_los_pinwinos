@@ -1,0 +1,66 @@
+﻿/* Contenedor centrado*/
+.HomeIndice-contenedor-centrado {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(90vh - 50px);
+}
+
+/* Barra de navegación */
+.HomeIndice-barra-navegacion {
+    background-color: #FFFBF8;
+    width: 70%; 
+    max-width: 1000px;
+    height: 8%;
+    border-radius: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid #033F63;
+    margin-bottom: 10px;
+}
+    /* Barra de navegación entrada */
+    .HomeIndice-barra-navegacion input {
+        all: unset;
+        font: 13px system-ui;
+        color: #033F63;
+        height: 80%;
+        width: 80%;
+        padding: 6px 10px;
+    }
+
+/* Botón de búsqueda */
+.HomeIndice-boton {
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    height: 7%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition-duration: 0.4s;
+    font: 13px system-ui;
+}
+
+/* Logo */
+.HomeIndice-logo {
+    margin-bottom:-25px;
+    max-width: 20%;
+    height: auto;
+}
+
+/* Título */
+.HomeIndice-titulo {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

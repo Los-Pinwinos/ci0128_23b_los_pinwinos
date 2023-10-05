@@ -1,0 +1,66 @@
+﻿@page
+
+<!-- Página principal que sigue al modelo Index -->
+@model LoCoMPro.Pages.Home.HomeModel
+
+<!-- Código C# -->
+@{
+    ViewData["Title"] = "Página de inicio";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Home/Index.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Contenedor para los elementos centrados -->
+    <div class="HomeIndice-contenedor-centrado">
+        <form class="HomeIndice-contenedor-centrado" method="get">
+            <!-- Logotipo de Penguin -->
+            <img src="~/img/pinwino_imagen.png" alt="Logotipo de Los pinwinos" class="HomeIndice-logo" id="pinwinoLogo">
+            <!-- Texto de LoComPro -->
+            <h2 class="HomeIndice-titulo">LoCoMPro</h2>
+            <!-- Barra de búsqueda -->
+            <div class="HomeIndice-barra-navegacion">
+                <input type="text" asp-for="producto" id="CajaDeTextoProducto" autocomplete="off">
+            </div>
+            <!-- Botón de búsqueda normal -->
+            <button id="BotonBuscar" onclick="return validarFormulario();" class="HomeIndice-boton"> Buscar</button>
+            <!-- Enlace a Búsqueda avanzada -->
+            <a href="/Home/Avanzada" class="HomeIndice-boton" id="BotonBusquedaAvanzada" style="display: inline-flex; text-align: center; text-decoration: none; color: white; align-items: center;justify-content: center;"> Búsqueda avanzada</a>
+        </form>
+    </div>
+</body>
+
+@section Scripts {
+    <script>
+        // Boton de buscar
+        cajaProducto = document.getElementById("CajaDeTextoProducto");
+
+        // Validad formulario
+        function validarFormulario() {
+            if (!cajaProducto.value) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        const gif = document.getElementById('pinwinoLogo');
+
+        // Set the initial margin
+        gif.addEventListener('mouseover', () => {
+            gif.src = '@Url.Content("~/img/pinwino_gif.gif")';
+            gif.style.marginBottom = "-25px";
+        });
+
+        gif.addEventListener('mouseout', () => {
+            gif.src = '@Url.Content("~/img/pinwino_imagen.png")';
+            gif.style.marginBottom = "-25px";
+        });
+    </script>
+}
