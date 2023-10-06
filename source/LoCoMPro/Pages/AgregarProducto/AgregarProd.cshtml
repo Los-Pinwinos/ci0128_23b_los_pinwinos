@@ -4,43 +4,63 @@
     ViewData["Title"] = "Agregar Producto";
 }
 
-
 <head>
-    <!-- Titulo de la pagina -->
+    <!-- Título de la pagina -->
     <title>Agregar Producto</title>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
             crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"
             integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
-
-    <!-- TODO(Emilia): descomentar -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
-
     <link href="jquery-ui.css" rel="stylesheet">
     <!-- Alinear la ventana -->
     <script src="~/js/Pages/alinear.js"></script>
     <!-- Archivo css -->
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
+    <script>
+        // Función para actualizar categoría y unidad en base a un producto ingresado
+        function updateCategoriaUnidad(productoIngresado) {
+            $.ajax({
+                url: 'GetProductoInfo',
+                type: 'GET',
+                dataType: 'json',
+                data: { productoNombre: productoIngresado },
+                success: function (data) {
+                    if (data.exito) {
+                        // Actualizar los comboboxes con la categoría y unidad que tiene el modelo
+                        $("#Categoria").val(data.categoria);
+                        $("#Unidad").val(data.unidad);
+                        $("#Marca").val(data.marca);
+                        // Si el producto existe, no se permiten cambiar estos valores
+                        document.getElementById("Categoria").disabled = true;
+                        document.getElementById("Unidad").disabled = true;
+                        document.getElementById("Marca").disabled = true;
+                    } else {
+                        // Si el producto no existe, no se debe desabilitar
+                        document.getElementById("Categoria").disabled = false;
+                        document.getElementById("Unidad").disabled = false;
+                        document.getElementById("Marca").disabled = false;
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            // Capturar el evento blur cuando el usuario deja el input de producto
+            $("#Producto").on("blur", function () {
+                var productoIngresado = $(this).val();
+                updateCategoriaUnidad(productoIngresado);
+            });
+        });
+    </script>
 </head>
-
 
 <body>
     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
     <form method="post" asp-page-handler="Aceptar">
         <!-- Contenedor para el formulario -->
         <div class="AgregarProd-contenedor-central">
-            <!-- Agregar Categoría -->
-            <div class="AgregarProd-contenedor-texto">
-                <label for="ProductoTexto">Categoría:</label>
-                <!-- Genera de manera automática los elementos del select -->
-                <select asp-for="viewModel.nombreCategoria" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
-            </div>
             <!-- Agregar Producto -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Producto:</label>
@@ -50,6 +70,12 @@
             <div class="AgregarProd-contenedor-texto">
                 <label for="MarcaTexto">Marca:</label>
                 <input asp-for="viewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
+            </div>
+            <!-- Agregar Categoría -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="ProductoTexto">Categoría:</label>
+                <!-- Genera de manera automática los elementos del select -->
+                <select asp-for="viewModel.nombreCategoria" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
@@ -81,7 +107,7 @@
     </form>
     <script type="text/javascript">
         $("#Producto").autocomplete({
-            // Obtiene .Json con los datos encontrados
+            // Obtiene .Json de la ventana encarga de Autocompletado
             source: 'Autocompletado'
         });
     </script>
@@ -90,33 +116,37 @@
             // Revisar si el formulario está incompleto
             var productoTexto = document.getElementById('Producto').value;
             var precioTexto = document.getElementById('Precio').value;
-
             if (!productoTexto || !precioTexto) {
                 // Alertar usuario
                 alert("Favor completar los datos del categoría, producto, precio y unidad.");
-                return false; // No entregar el formulario
+                // No entregar el formulario
+                return false;
             }
             return true; // Enviar el formulario para procesarse
         }
     </script>
     <script>
         // Mostrar el mensaje de error si está presente
-        var errorMessage = "@ViewData["ErrorMessage"]";
-        if (errorMessage) {
-            document.getElementById("errorMessage").textContent = errorMessage;
+        var mensajeError = "@ViewData["ErrorMessage"]";
+        if (mensajeError) {
+            document.getElementById("errorMessage").textContent = mensajeError;
             document.getElementById("errorMessage").style.display = "block";
+        }
+    </script>
+    <script>
+        var mensajeRedirect = "@ViewData["RedirectMessage"]";
+        if (mensajeRedirect) {
+            if (mensajeRedirect === "usuario") {
+                alert("Por favor ingrese al sistema.");
+                // window.location.href = "/Home/Index";
+            } else if (mensajeRedirect === "tienda") {
+                alert("Por favor ingrese una tienda.");
+                //  window.location.href = "/AgregarTienda/AgregarTienda";
+            }
         }
     </script>
     <script>
         // Función de alineado para las cajas de texto
         alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-texto", 112);
-    </script>
-
-    <script>
-        // Captura el evento cuando el usuario sale del campo de Producto
-        $("#Producto").on("blur", function () {
-            var productoIngresado = $(this).val();
-            console.log("Producto ingresado: " + productoIngresado);
-        });
     </script>
 </body>

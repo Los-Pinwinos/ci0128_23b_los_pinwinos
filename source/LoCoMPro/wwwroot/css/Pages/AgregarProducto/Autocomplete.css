@@ -1,4 +1,4 @@
-﻿/* Custom styles for Autocomplete */
+﻿/* Estilos utilizados para el autocompletado */
 .ui-autocompletar {
     max-height: 200px;
     overflow-y: auto;
@@ -8,6 +8,7 @@
     border-color: black;
 }
 
+/* Menú de items */
 .ui-item-menu {
     padding: 8px 12px;
     cursor: pointer;
@@ -15,10 +16,12 @@
     border-color: black;
 }
 
+    /* Lo que ocurre cuando el cursor se coloca en el precio */
     .ui-item-menu:hover {
         background-color: #f0f0f0;
     }
 
+/* Donde se coloca la entrada del autocompletado */
 .ui-entrada-autocompletado {
     font-size: 16px;
     background-color: #ffffff;
@@ -26,6 +29,7 @@
     padding: 5px;
 }
 
+/* El enfoque que se le da al autocompletado en el estado seleccionado */
 .ui-enfoque-estado {
     background-color: #007bff;
     color: #fff;

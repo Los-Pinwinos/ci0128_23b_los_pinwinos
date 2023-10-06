@@ -14,7 +14,7 @@ namespace LoCoMPro.Pages.AgregarProducto
             contexto = contexto_base;
             configuracion = configuracion_pagina;
         }
-            public JsonResult OnGet(String term)
+        public JsonResult OnGet(string term)
         {
             IList<string> resultados = resultados = contexto.Productos.Where(p => p.nombre.Contains(term)).Select(p => p.nombre).ToList();
             return new JsonResult(resultados);
