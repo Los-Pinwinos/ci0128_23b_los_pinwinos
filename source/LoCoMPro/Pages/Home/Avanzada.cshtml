@@ -73,5 +73,78 @@
 </body>
 
 @section Scripts {
-    
+    <script>
+        // Obtiene las cajas de selección
+        const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
+        const cajaDeSeleccionCanton = document.getElementById("CajaDeSeleccionCanton");
+
+        // Actualizar cantones
+        async function actualizarCantones() {
+            // Obtener la provincia seleccionada
+            var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+            // Limpiar
+            cajaDeSeleccionCanton.innerHTML = "";
+
+            // Si se eligió una provincia
+            if (provinciaSeleccionada) {
+                // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+                await fetch(`/Home/Avanzada?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Por cada cantón
+                        data.forEach(canton => {
+                            // Crear una opción
+                            var opcion = document.createElement("option");
+                            // Establecer su valor y texto de mostrado
+                            opcion.value = canton.nombre;
+                            opcion.text = canton.nombre;
+                            // Agregarla a la caja de selección de cantón
+                            cajaDeSeleccionCanton.appendChild(opcion);
+                        });
+                    });
+            }
+
+        }
+
+        // Llamar a esta función cada vez que se produzca un cambio en
+        // la caja de selección de provincia
+        cajaDeSeleccionProvincia.addEventListener("change", async function () {
+            // Actualizar cantones
+            await actualizarCantones();
+        });
+
+
+        // Obtener provincias disponibles
+        function obtenerProvinciasDisponibles() {
+            // Opciones
+            const opciones = cajaDeSeleccionProvincia.options;
+            var provincias = [];
+            // Iterar
+            for (let i = 0; i < opciones.length; i++) {
+                // Agregar
+                provincias.push(opciones[i].value);
+            }
+            // Retornar
+            return provincias;
+        }
+
+        // Obtener cantones disponibles
+        function obtenerCantonesDisponibles() {
+            // Opciones
+            const opciones = cajaDeSeleccionCanton.options;
+            var cantones = [];
+            // Iterar
+            for (let i = 0; i < opciones.length; i++) {
+                // Agregar
+                cantones.push(opciones[i].value);
+            }
+            // Retornar
+            return cantones;
+        }
+    </script>
+
+
+    <!-- Carga el archivo JavaScript en esta ruta -->
+    <script src="~/js/Pages/Busqueda/mapaAvanzada.js"></script>
 }

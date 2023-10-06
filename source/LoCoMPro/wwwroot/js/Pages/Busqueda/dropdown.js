@@ -16,8 +16,6 @@ function adjustDropdownPosition(triggerElement, dropdownId, action) {
 
     // Obtener elementos
     const boton = triggerElement.getElementById('BotonFiltro' + dropdownId);
-    const siguienteDropdown = triggerElement.getElementById('ContenidoFiltro' + dropdownId);
-    // Obtener altura maxima
 
     // Determinar accion
     if (action === 'Bajar') {

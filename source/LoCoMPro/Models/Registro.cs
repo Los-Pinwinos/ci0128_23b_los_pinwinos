@@ -53,7 +53,7 @@ namespace LoCoMPro.Models
         public required string nombreTienda { get; set; }
 
         // Nombre distrito
-        [StringLength(25, MinimumLength = 1)]
+        [StringLength(30, MinimumLength = 1)]
         [RegularExpression(@"")]
         [Display(Name = "Nombre del distrito")]
         public required string nombreDistrito { get; set; }

@@ -7,6 +7,19 @@
     height: calc(95vh - 50px);
 }
 
+/* Mapa */
+.HomeAvanzada-mapa {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(75vh - 50px);
+    width: 80%;
+    position: relative;
+    margin-top: 20px;
+}
+
 /* Contenedor de fila */
 .HomeAvanzada-contenedor-fila {
     display: flex;
