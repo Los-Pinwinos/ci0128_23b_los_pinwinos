@@ -14,20 +14,20 @@ namespace LoCoMPro.Models
         public required string nombre { get; set; }
 
         // Nombre distrito
-        [StringLength(30, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(30, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre del distrito")]
         public required string nombreDistrito { get; set; }
 
         // Nombre cantón
-        [StringLength(20, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(20, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre del distrito")]
         public required string nombreCanton { get; set; }
 
         // Nombre provincia
-        [StringLength(10, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(10, MinimumLength = 5)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre de la provincia")]
         public required string nombreProvincia { get; set; }
 

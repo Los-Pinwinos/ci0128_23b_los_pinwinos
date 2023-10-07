@@ -8,14 +8,14 @@ namespace LoCoMPro.Models
     public class Canton
     {
         // Nombre
-        [StringLength(20, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(20, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre del cantón")]
         public required string nombre { get; set; }
 
         // Nombre provincia
-        [StringLength(10, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(10, MinimumLength = 5)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre de la provincia")]
         public required string nombreProvincia { get; set; }
 
