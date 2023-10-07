@@ -1,0 +1,110 @@
+﻿/* Contenedor para centrar */
+.AgregarTienda-contenedor-central {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(90vh - 50px);
+}
+
+/* Contenedor de formualario */
+.Ubicacion-contenedor-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 100%;
+    justify-content: center;
+}
+
+/* Contenedor de caja de texto */
+.Ubicacion-contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+}
+
+/* Caja de texto utilizada para la categoría*/
+.Ubicacion-comboBox {
+    background-color: #FFFBF8;
+    border-color: #033F63;
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    margin-right: 10px;
+    border-radius: 10px;
+    height: 3%;
+}
+
+/* Caja de texto */
+.Ubicacion-caja-texto {
+    background-color: #FFFBF8;
+    border-color: #033F63;
+    border-radius: 30px;
+    padding: 1px 5px;
+    width: 70%;
+}
+
+/* Boton de localizacion */
+.Ubicacion-boton-localizacion {
+    border: none;
+    flex-direction: column;
+    width: 40px;
+    height: 40px;
+    background-color: #033F63;
+    color: #033F63;
+    align-items: center;
+    border-radius: 10%;
+    margin-left: 4%;
+}
+
+/* Icono de busqueda */
+.Ubicacion-icono-busqueda {
+    margin-top: 10%;
+    width: 80%;
+    height: 80%;
+}
+
+/* Mapa */
+.AgregarTienda-mapa {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(40vh - 50px);
+    width: 80%;
+    margin-bottom: 4%;
+    margin-top: 4%;
+}
+
+/* Contenedor de botones y texto */
+.AgregarTienda-contenedor-botones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+/* Caja de texto */
+.AgregarTienda-caja-texto-tienda {
+    background-color: #FFFBF8;
+    border-color: #033F63;
+    border-radius: 30px;
+    padding: 1px 5px;
+    width: 500px;
+    margin-left: 5%;
+}
+
+/* Label para seguir y cancelar */
+.AgregarTienda-boton-estandar {
+    width: 100px;
+    height: 30px;
+    background-color: #033F63;
+    color: white;
+    border-radius: 30px;
+    margin-left: 5%;
+    margin-top: 10%;
+    justify-content: center;
+}

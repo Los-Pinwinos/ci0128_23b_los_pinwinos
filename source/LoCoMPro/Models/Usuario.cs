@@ -45,7 +45,7 @@ namespace LoCoMPro.Models
         public string? cantonVivienda { get; set; }
 
         // Nombre del distrito donde vive el usuario
-        [StringLength(25, MinimumLength = 1)]
+        [StringLength(30, MinimumLength = 1)]
         public string? distritoVivienda { get; set; }
 
         // Propiedad de navegación vivienda

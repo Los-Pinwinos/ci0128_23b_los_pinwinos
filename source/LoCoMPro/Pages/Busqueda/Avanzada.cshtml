@@ -1,5 +1,5 @@
-﻿@page
-@model BusquedaModel
+﻿@page "{handler?}"
+@model LoCoMPro.Pages.Busqueda.BusquedaAvanzadaModel
 @{
     ViewData["Title"] = "Busqueda";
 }
@@ -9,11 +9,12 @@
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Avanzada.css" asp-append-version="true" />
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="BuscarAvanzado">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -21,15 +22,44 @@
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Producto
                                 </div>
-                                <div class="BusquedaIndice-caja-texto">
+                                <div class="BusquedaAvanzada-caja-texto">
                                     <!-- Cuadro de texto para el nombre del producto -->
                                     <input type="text" name="nombreProducto" asp-for="producto" id="CajaDeTextoProducto" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="BusquedaIndice-contenedor-caja-texto">
+                                <div class="BusquedaIndice-contenedor-texto">
+                                    Marca
+                                </div>
+                                <div class="BusquedaAvanzada-caja-texto">
+                                    <!-- Cuadro de texto para el nombre de la marca -->
+                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="BusquedaIndice-contenedor-fila">
+                            <div class="BusquedaIndice-contenedor-caja-texto">
+                                <div class="BusquedaIndice-contenedor-texto">
+                                    Provincia
+                                </div>
+                                <div class="BusquedaAvanzada-caja-texto">
+                                    <!-- Cuadro de texto para el nombre del producto -->
+                                    <input type="text" name="nombreProvincia" asp-for="provincia" id="CajaDeTextoProvincia" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="BusquedaIndice-contenedor-caja-texto">
+                                <div class="BusquedaIndice-contenedor-texto">
+                                    Cantón
+                                </div>
+                                <div class="BusquedaAvanzada-caja-texto">
+                                    <!-- Cuadro de texto para el nombre del producto -->
+                                    <input type="text" name="nombreCanton" asp-for="canton" id="CajaDeTextoCanton" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Botón de búsqueda -->
-                    <button class="BusquedaIndice-boton-busqueda">
+                    <button class="BusquedaAvanzada-boton-busqueda" onclick="return validarFormulario();">
                         <!-- Icono de búsqueda -->
                         <img src="~/img/white_search_icon.png" id="imagenBusqueda" alt="Buscar" class="BusquedaIndice-icono-busqueda" />
                     </button>
@@ -110,7 +140,7 @@
             </div>
         </form>
         <!-- Tabla de resultados -->
-        <div class="BusquedaIndice-tabla">
+        <div class="BusquedaIndice-tabla" style="width:95%">
             <table>
                 <thead>
                     <tr>
@@ -124,17 +154,19 @@
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Index"
+                            <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                                asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
                                asp-route-columnaOrdenado="precio" class="BusquedaIndice-titulo-columna"
                                asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
+                               asp-route-filtroMarca="@(Model.marca)"
+                               asp-route-filtroProvincia="@(Model.provincia)"
+                               asp-route-filtroCanton="@(Model.canton)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                                asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].precio)
                             </a>
                         </th>
-
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productosVM[0].fecha)
@@ -205,11 +237,14 @@
         @{
             if (Model.productosVM.TienePaginaPrevia)
             {
-                <a asp-page="/Busqueda/Index"
+                <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
                    asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
                    asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
                    asp-route-filtroProducto="@(Model.producto)"
+                   asp-route-filtroMarca="@(Model.marca)"
+                   asp-route-filtroProvincia="@(Model.provincia)"
+                   asp-route-filtroCanton="@(Model.canton)"
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    class="BusquedaIndice-boton-paginacion">
@@ -226,11 +261,14 @@
 
             if (Model.productosVM.TieneProximaPagina)
             {
-                <a asp-page="/Busqueda/Index"
+                <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
                    asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
                    asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
                    asp-route-filtroProducto="@(Model.producto)"
+                   asp-route-filtroMarca="@(Model.marca)"
+                   asp-route-filtroProvincia="@(Model.provincia)"
+                   asp-route-filtroCanton="@(Model.canton)"
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    class="BusquedaIndice-boton-paginacion">
@@ -247,16 +285,22 @@
 
 @section Scripts {
     <script>
-        // Boton de buscar
+        // Cajas
         cajaProducto = document.getElementById("CajaDeTextoProducto");
+        cajaMarca = document.getElementById("CajaDeTextoMarca");
+        cajaProvincia = document.getElementById("CajaDeTextoProvincia");
+        cajaCanton = document.getElementById("CajaDeTextoCanton");
 
         // Limpiar filtros
         function limpiarFiltros() {
             // Construir la cadena de consulta default
-            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto');
+            var queryString = "nombreProducto=" + encodeURIComponent('@Model.producto') + "&"
+                + "&nombreMarca=" + encodeURIComponent('@Model.marca') + "&"
+                + "&nombreProvincia=" + encodeURIComponent('@Model.provincia') + "&"
+                + "&nombreCanton=" + encodeURIComponent('@Model.canton');
 
             // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
+            window.location.href = "/Busqueda/Avanzada/BuscarAvanzado?" + queryString;
         }
 
         // Aplicar filtros
@@ -268,7 +312,10 @@
             var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
 
             // Construir la cadena de consulta con los valores seleccionados
-            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto') + "&";
+            var queryString = "nombreProducto=" + encodeURIComponent('@Model.producto') + "&"
+                + "nombreMarca=" + encodeURIComponent('@Model.marca') + "&"
+                + "nombreProvincia=" + encodeURIComponent('@Model.provincia') + "&"
+                + "nombreCanton=" + encodeURIComponent('@Model.canton') + "&";
 
             if (provinciasSeleccionadas.length !== 0) {
                 queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
@@ -287,7 +334,7 @@
             queryString = queryString.substring(0, queryString.length - 1);
 
             // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
+            window.location.href = "/Busqueda/Avanzada/BuscarAvanzado?" + queryString;
         }
 
         // Obtener valores de checkboxes
@@ -304,7 +351,10 @@
 
         // Validad formulario
         function validarFormulario() {
-            if (!cajaProducto.value) {
+            if (!cajaProducto.value
+                && !cajaMarca.value
+                && !cajaProvincia.value
+                && !cajaCanton.value) {
                 return false;
             } else {
                 return true;
