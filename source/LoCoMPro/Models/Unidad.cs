@@ -9,7 +9,7 @@ namespace LoCoMPro.Models
     {
         // Nombre
         [StringLength(20, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Unidad de medida")]
         public required string nombre { get; set; }
 

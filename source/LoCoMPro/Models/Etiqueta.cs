@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+ï»¿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -10,28 +10,25 @@ namespace LoCoMPro.Models
     {
         // Etiqueta
         [StringLength(256, MinimumLength = 1)]
-        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
+        [RegularExpression(@"[a-zA-ZÃ€-Ã¿]+( ?[a-zA-ZÃ€-Ã¿])*")]
         [Display(Name = "Etiquetas")]
         public required string etiqueta { get; set; }
 
         // TODO(Los Pinwinos): Investigar DisplayFormatAttribute annotation
-        // Fecha y hora de creación
+        // Fecha y hora de creaciÃ³n
         [DataType(DataType.DateTime)]
-        // TODO(pinwinos): Considerar rango de fechas
-        [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
-        [Display(Name = "Fecha y hora de creación")]
+        [Range(typeof(DateTime), "1/1/2000", "1/1/2200")]
+        [Display(Name = "Fecha y hora de creaciÃ³n")]
         public required DateTime creacion { get; set; }
 
         // Usuario creador
-        // Usuario creador
         [StringLength(20, MinimumLength = 5)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!Â¡Â¿?()~])[-a-zA-Z\d+_=*./\\%$#@!Â¡Â¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 
-        // Propiedad de navegación registro
+        // Propiedad de navegaciÃ³n registro
         [ForeignKey("creacion, usuarioCreador")]
         public Registro registro { get; set; } = null!;
-        
     }
 }

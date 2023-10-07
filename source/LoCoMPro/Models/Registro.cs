@@ -11,7 +11,6 @@ namespace LoCoMPro.Models
     {
         // Fecha y hora de creación
         [DataType(DataType.DateTime)]
-        // TODO(pinwinos): Considerar rango de fechas
         [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
         [Display(Name = "Fecha y hora de creación")]
         public required DateTime creacion { get; set; }
@@ -27,8 +26,7 @@ namespace LoCoMPro.Models
 
         // Descripción
         [DataType(DataType.MultilineText)]
-        [StringLength(150, MinimumLength = 0)]
-        [RegularExpression(@"")]
+        [StringLength(150, MinimumLength = 1)]
         [Display(Name = "Descripción")]
         public string? descripcion { get; set; }
 
@@ -40,7 +38,6 @@ namespace LoCoMPro.Models
 
         // Producto asociado
         [StringLength(256, MinimumLength = 1)]
-        [RegularExpression(@"")]
         [Display(Name = "Nombre del producto")]
         public required string productoAsociado { get; set; }
 
@@ -50,7 +47,7 @@ namespace LoCoMPro.Models
 
         // Nombre tienda
         [StringLength(256, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ0-9#])*")]
         [Display(Name = "Nombre de la tienda")]
         public required string nombreTienda { get; set; }
 
