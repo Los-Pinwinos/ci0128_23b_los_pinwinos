@@ -11,12 +11,14 @@ namespace LoCoMPro.Models
     {
         // Fecha y hora de creación
         [DataType(DataType.DateTime)]
-        [Range(typeof(DateTime), "9/9/2023", "9/9/2040")]
+        // TODO(pinwinos): Considerar rango de fechas
+        [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
         [Display(Name = "Fecha y hora de creación")]
         public required DateTime creacion { get; set; }
 
         // Usuario creador
-        [StringLength(12, MinimumLength = 10)]
+        [StringLength(20, MinimumLength = 5)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 
@@ -53,20 +55,20 @@ namespace LoCoMPro.Models
         public required string nombreTienda { get; set; }
 
         // Nombre distrito
-        [StringLength(25, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(30, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre del distrito")]
         public required string nombreDistrito { get; set; }
 
         // Nombre cantón
-        [StringLength(20, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(20, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre del cantón")]
         public required string nombreCanton { get; set; }
 
         // Nombre provincia
-        [StringLength(10, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [StringLength(10, MinimumLength = 5)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Nombre de la provincia")]
         public required string nombreProvincia { get; set; }
 

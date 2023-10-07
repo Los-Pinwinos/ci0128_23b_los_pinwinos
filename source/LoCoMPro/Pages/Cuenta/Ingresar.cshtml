@@ -1,0 +1,87 @@
+﻿@page
+<!-- Pagina que sigue el modelo de perfil -->
+@model ModeloIngresar
+
+@{
+    ViewData["Title"] = "Ingresar";
+}
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Ingresar cuenta</title>
+    <!-- Cargar el archivo JavaScript para alinear -->
+    <script src="~/js/Pages/alinear.js"></script>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Ingresar.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Ingresar" -->
+    <form method="post">
+        <!-- Configuración para la validación del lado del cliente -->
+        <div asp-validation-summary="ModelOnly" class="Ingresar-texto-error"></div>
+        <!-- Contenedor para los elementos en la sección de arriba de la página -->
+        <div class="Ingresar-contenedor-centrado-primario">
+            <!-- Imagen con el icono del perfil -->
+            <img src="~/img/imagen_perfil.png" alt="Imagen del perfil" class="Ingresar-imagen">
+            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
+            <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Ingresar-texto-error"></span>
+            <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
+            <div class="Ingresar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación de la contraseña del modelo vista -->
+            <span asp-validation-for="usuarioActual.contrasena" class="Ingresar-texto-error"></span>
+            <!-- Caja de texto para la contraseña -->
+            <div class="Ingresar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.contrasena" for="CajaDeTextoContrasena">Contraseña:</label>
+                <input asp-for="usuarioActual.contrasena" type="password" id="CajaDeTextoContrasena">
+            </div>
+            <!-- Botón para ingresar -->
+            <button class="Ingresar-boton-basico" type="submit" asp-page-handler="Ingresar" style="margin-top: 2%;"> Iniciar sesión </button>
+            <!-- Botón para recuperar la contraseña -->
+            <!-- TODO(Los pinwinos): Implementar recuperar contraseña -->
+            <!-- Comentado pues no es para este sprint
+            <a asp-page="/Cuenta/RecuperarContrasena" class="Ingresar-boton-basico"> Olvidé mi contraseña</a>
+            -->
+        </div>
+    </form>
+
+    <!-- Contenedor para los elementos en la sección de abajo de la página -->
+    <div class="Ingresar-contenedor-centrado-secundario">
+        <!-- Texto: "¿No tiene cuenta?" -->
+        <label class="Ingresar-texto"> ¿No tiene cuenta?</label>
+        <!-- Botón para registrarse -->
+        <a asp-page="/Cuenta/Registrar" class="Ingresar-boton-registro"> Registrarse</a>
+    </div>
+
+    <!-- Script para alinear cajas de texto -->
+    <script>
+        // Llamar a la función para alinear los contenedores de las cajas de texto
+        alinearContenedoresDeBarrasDeTexto(".Ingresar-contenedor-caja-de-texto", 112);
+    </script>
+
+    <!-- Script para mostrar mensajes de error -->
+    <script>
+        // Verifica si se ha creado un error
+        @if (HttpContext.Items.ContainsKey("error"))
+        {
+            // Obtiene el error
+            var mensajeError = HttpContext.Items["error"]?.ToString();
+            // Envía un popUp con el error
+            @Html.Raw($"alert('{mensajeError}');");
+            // Limpia el error
+            @HttpContext.Items.Remove("error");
+        }
+    </script>
+
+    <!-- Sección para realizar validaciones de los datos de lado del cliente -->
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>

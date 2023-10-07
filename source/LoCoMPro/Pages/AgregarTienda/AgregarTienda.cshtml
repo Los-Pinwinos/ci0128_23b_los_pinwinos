@@ -1,0 +1,196 @@
+﻿@page
+@model LoCoMPro.Pages.AgregarTienda.AgregarTiendaModel
+@{
+    ViewData["Title"] = "Agregar Tienda";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Agregar Tienda</title>
+    <!-- JQuery -->
+    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/Autocomplete.css">
+    <!-- Enlace a la biblioteca JavaScript Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Incluye su archivo de estilo CSS específico -->
+    <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true" />
+    <!-- Carga la biblioteca JavaScript Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<!-- Cuerpo de la página -->
+<body>
+    <form method="post">
+        <!-- Contenedor para centrar el formulario -->
+        <div class="AgregarTienda-contenedor-central">
+
+            <div class="Ubicacion-contenedor-form">
+                <!-- Cuadro de texto de Provincia -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Provincia">Provincia:</label>
+                    <select id="Provincia" name="Provincia" class="Ubicacion-comboBox">
+                        <!-- Agregar todas las provincias como opciones -->
+                        @foreach (var prov in Model.ListaProvincias)
+                        {
+                            <option value="@prov.nombre">@prov.nombre</option>
+                        }
+                    </select>
+                </div>
+                <!-- Cuadro de texto de Cantón -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Canton">Cantón:</label>
+                    <select id="Canton" name="Canton" class="Ubicacion-comboBox" onChange="colocar();"></select>
+                </div>
+                <!-- Espacio oculto para para actualizar los datos -->
+                <input type="hidden" id="Actualizar" name="Actualizar" onclick="colocar();">
+                <!-- Botón de búsqueda -->
+                <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
+                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
+                </button>
+            </div>
+
+            <input type="hidden" id="CajaTextoLongitud" name="CajaTextoLongitud">
+            <input type="hidden" id="CajaTextoLatitud" name="CajaTextoLatitud">
+
+            <!-- Mapa interactivo -->
+            <div id="map" class="AgregarTienda-mapa"></div>
+
+            <!-- Nombre de la tienda -->
+            <div class="Ubicacion-contenedor-form">
+                <label for="Tienda">Tienda:</label>
+                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
+            </div>
+
+            <!-- Botón para seguir y para cancelar -->
+            <div class="AgregarTienda-contenedor-botones">
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" onclick="return validarFormulario();">Siguiente</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+<!-- Función para autocompletar -->
+<script type="text/javascript">
+    $("#Nombre").autocomplete({
+        // Obtiene .Json de la ventana
+        source: 'Autocompletado'
+    });
+</script>
+
+<!-- Función para actualizar cantones cuando se busca -->
+<script>
+    // Obtiene las cajas de selección
+    const cajaDeSeleccionProvincia = document.getElementById("Provincia");
+    const cajaDeSeleccionCanton = document.getElementById("Canton");
+
+    async function actualizarCantones() {
+        // Obtener la provincia seleccionada
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+        // Eliminar las opciones de cantones
+        if (cajaDeSeleccionCanton.options.length > 0) {
+            cajaDeSeleccionCanton.options.length = 0;
+        }
+
+        // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+        // con la provincia seleccionada
+        await fetch(`/AgregarTienda/AgregarTienda?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+            .then(response => response.json())
+            .then(data => {
+                // Por cada cantón
+                data.forEach(canton => {
+                    // Crear una opción
+                    var opcion = document.createElement("option");
+                    // Establecer su valor y texto de mostrado
+                    opcion.value = canton.nombre;
+                    opcion.text = canton.nombre;
+                    // Agregarla a la caja de selección de cantón
+                    cajaDeSeleccionCanton.appendChild(opcion);
+                });
+            });
+    }
+
+    // Función para asignar el distrito correspondiente
+    async function colocar() {
+        // Obtiene la provincia y cantón seleccionados
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+        var cantonSeleccionado = cajaDeSeleccionCanton.value;
+
+        // Usa el Fetch API para llamar al handler de ColocarDatosTemporales
+        await fetch(`/AgregarTienda/AgregarTienda?handler=ColocarDatosTemporales&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`);
+    }
+
+    // Cada vez que la provincia cambia, la función ocurre
+    cajaDeSeleccionProvincia.addEventListener("change", async function () {
+        await actualizarCantones();
+    });
+
+    // Obtiene la lista de provincias
+    function obtenerProvincias() {
+        const opciones = Provincia.options;
+        var provincias = [];
+        for (let i = 0; i < opciones.length; i++) {
+            provincias.push(opciones[i].value);
+        }
+        return provincias;
+    }
+
+    // Obtiene la lista de cantones de una provincia
+    async function obtenerCantones() {
+        await actualizarCantones();
+
+        const opciones = Canton.options;
+        var cantones = [];
+        for (let i = 0; i < opciones.length; i++) {
+            cantones.push(opciones[i].value);
+        }
+
+        return cantones;
+    }
+</script>
+
+<!-- Se encarga de verificar que el formulario esté completo -->
+<script>
+    function validarFormulario() {
+        var respuestaProvincia = document.getElementById('Provincia').value;
+        var respuestaCanton = document.getElementById('Canton').value;
+        var respuestaTienda = document.getElementById('Nombre').value;
+
+        if (!respuestaProvincia || !respuestaCanton || !respuestaTienda) {
+            // Mensaje de error
+            alert(
+                "Favor completar los datos de provincia, cantón y tienda");
+            return false;
+        }
+        return true; // Enviar el formulario para procesarse
+    }
+</script>
+
+<!-- Mensaje de error -->
+<script>
+    // Mostrar el mensaje de error si está presente
+    var mensajeError = "@ViewData["ErrorMessage"]";
+    if (mensajeError) {
+        document.getElementById("errorMessage").textContent = mensajeError;
+        document.getElementById("errorMessage").style.display = "block";
+    }
+</script>
+
+<!-- Mensaje de error para redirigir -->
+<script>
+    var mensajeRedirect = "@ViewData["RedirectMessage"]";
+    if (mensajeRedirect) {
+        if (mensajeRedirect === "usuario") {
+            alert("Por favor ingrese al sistema.");
+            window.location.href = "/Home/Index";
+        }
+    }
+</script>
+
+<!-- Carga los archivos JavaScript -->
+<script src="~/js/Pages/mapaTienda.js"></script> <!-- Corresponde al mapa -->

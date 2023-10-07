@@ -1,6 +1,6 @@
 using LoCoMPro.Models;
 using LoCoMPro.ViewModels.AgregarProducto;
-// using LoCoMPro.ViewModels.Tienda;  // TODO(pinwinos): descomentar
+using LoCoMPro.ViewModels.Tienda;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -61,12 +61,12 @@ namespace LoCoMPro.Pages.AgregarProducto
         public IActionResult OnGet()
         {
             // Revisar si el usuario está loggeado
-            // if (User.Identity == null || !User.Identity.IsAuthenticated) {
-            //    ViewData["RedirectMessage"] = "usuario";
-            // }
-            // else if (!TempData.ContainsKey("nombreTienda")) {
-            //    ViewData["RedirectMessage"] = "tienda";
-            // }
+            if (User.Identity == null || !User.Identity.IsAuthenticated) {
+                ViewData["RedirectMessage"] = "usuario";
+            }
+            else if (!TempData.ContainsKey("nombreTienda")) {
+                ViewData["RedirectMessage"] = "tienda";
+            }
             // Inserta categorías en combobox
             var listaCategoria = new List<string>();
             // Crea una lista del nombre de todas las categorias
@@ -90,7 +90,7 @@ namespace LoCoMPro.Pages.AgregarProducto
         }
         public IActionResult OnPostAceptar()
         {
-            // string usuarioCreador = User.Identity?.Name ?? "desconocido";
+            string usuarioCreador = User.Identity?.Name ?? "desconocido";
             // Verificar si el producto ya existe en la base de datos
             var existingProduct = contexto.Productos.FirstOrDefault(p => p.nombre == viewModel.nombreProducto);
             // Si el producto no existía, agréguelo
@@ -110,49 +110,37 @@ namespace LoCoMPro.Pages.AgregarProducto
                 contexto.SaveChanges();
             }
             // Revisar si tiene tienda
-            // string tiendaTemporal = TempData["nombreTienda"]?.ToString() ?? "";
-            // if (tiendaTemporal == "")
-            // {
-            //    ViewData["ErrorMessage"] = "tienda";
-            // } 
-            // else
-            // {
-            // Agregarle registros al producto encontrado
-            var nuevoRegistro = new Registro
+            string tiendaTemporal = TempData["nombreTienda"]?.ToString() ?? "";
+            if (tiendaTemporal == "")
             {
-                // Indicar el tiempo de creación
-                creacion = DateTime.Now,
-                // TODO(Pinwinos): cambiar comentario en Usuario1
-                // usuarioCreador = usuarioCreador,
-                usuarioCreador = "Usuario1",
-                descripcion = viewModel.descripcion,
-                // Convertir a decimal
-                precio = decimal.Parse(viewModel.precio),
-                productoAsociado = viewModel.nombreProducto,
-                // TODO(pinwinos): Reemplazar con el nombre de tienda
-                // nombreTienda = tiendaTemporal,
-                nombreTienda = "Maxi Pali",
-                // TODO(pinwinos): Reemplazar con el nombre del distrito
-                // nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
-                nombreDistrito = "Mercedes",
-                // TODO(pinwinos): Reemplazar con el nombre del canton
-                // nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
-                nombreCanton = "Heredia",
-                // TODO(pinwinos): Reemplazar con el nombre de la provincia
-                // nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
-                nombreProvincia = "Heredia"
-            };
-
-            // Add the new registro to the database
-            contexto.Registros.Add(nuevoRegistro);
-            contexto.SaveChanges();
-            // }
+                ViewData["ErrorMessage"] = "tienda";
+            }
+            else
+            {
+                // Agregarle registros al producto encontrado
+                var nuevoRegistro = new Registro
+                {
+                    // Indicar el tiempo de creación
+                    creacion = DateTime.Now,
+                    usuarioCreador = usuarioCreador,
+                    descripcion = viewModel.descripcion,
+                    // Convertir a decimal
+                    precio = decimal.Parse(viewModel.precio),
+                    productoAsociado = viewModel.nombreProducto,                    
+                    nombreTienda = tiendaTemporal,
+                    nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
+                    nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
+                    nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
+                };
+                // Agregar el nuevo registro a la base de datos
+                contexto.Registros.Add(nuevoRegistro);
+                contexto.SaveChanges();
+            }
             RellenarSelectList();
             // Limpia los datos del view model
             LimpiarViewModel();
             // Redirige a otra página o realiza cualquier otra acción después de agregar el producto
-            return RedirectToPage("/AgregarProducto/AgregarProd"); // TODO(pinwinos): cambiar esta linea
-            // return RedirectToPage("/Home/Index");
+            return RedirectToPage("/Home/Index");
         }
 
         public void OnPostCancelar()
@@ -160,8 +148,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             RellenarSelectList();
             // Limpia los datos del view model
             LimpiarViewModel();
-            // Lógica para manejar la acción cuando se presiona el botón "Cancelar
-            Console.WriteLine("Boton de cancelar fue presionado");
         }
 
         public void RellenarSelectList()

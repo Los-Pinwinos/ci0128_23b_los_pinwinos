@@ -10,7 +10,12 @@ namespace LoCoMPro.Models
     public class Usuario
     {
         // Nombre de usuario
-        [StringLength(12, MinimumLength = 10)]
+        [Required]
+        [StringLength(20, MinimumLength = 5,
+            ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 carácteres")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
+            ErrorMessage =
+            "El nombre de usuario debe contener al menos: una minuscula, una mayuscula, un digito y un caractér especial")]
         [Display(Name = "Nombre de usuario")]
         public required string nombreDeUsuario { get; set; }
 
@@ -22,9 +27,8 @@ namespace LoCoMPro.Models
 
         // Contraseña
         [DataType(DataType.Password)]
-        [StringLength(8)]
-        [Display(Name = "Contraseña")]
-        public required string contrasena { get; set; }
+        [Display(Name = "Hash contraseña")]
+        public required string hashContrasena { get; set; }
 
         // Estado
         [RegularExpression(@"[ABI]",
@@ -40,26 +44,28 @@ namespace LoCoMPro.Models
         public int? calificacion { get; set; }
 
         // Distrito vivienda
-        [StringLength(25, MinimumLength = 1)]
+        [StringLength(30, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Distrito de vivienda")]
         public string? distritoVivienda { get; set; }
 
         // Cantón vivienda
-        [StringLength(20, MinimumLength = 1)]
+        [StringLength(20, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Cantón de vivienda")]
         public string? cantonVivienda { get; set; }
 
         // Provincia vivienda
-        [StringLength(10, MinimumLength = 1)]
+        [StringLength(10, MinimumLength = 5)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Provincia de vivienda")]
         public string? provinciaVivienda { get; set; }
 
         // Propiedad de navegación vivienda
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
-        
+
         // Colección
         public ICollection<Registro>? registros { get; set; }
-        
     }
 }

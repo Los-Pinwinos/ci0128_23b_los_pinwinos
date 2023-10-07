@@ -1,0 +1,207 @@
+﻿@page
+<!-- Pagina que sigue el modelo de registrar -->
+@model ModeloRegistrar
+
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Registrar cuenta</title>
+    <!-- Cargar el archivo JavaScript para alinear -->
+    <script src="~/js/Pages/alinear.js"></script>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Registrar.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Crear cuenta" -->
+    <form method="post" asp-page-handler="CrearCuenta">
+        <!-- Configuración para la validación del lado del cliente -->
+        <div asp-validation-summary="ModelOnly" class="Registrar-texto-error"></div>
+        <!-- Contenedor para todos los elementos en la página -->
+        <div class="Registrar-contenedor-centrado-primario">
+            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
+            <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación del correo del modelo vista -->
+            <span asp-validation-for="usuarioActual.correo" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para el correo ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto" style="margin-bottom: 2%;">
+                <label asp-for="usuarioActual.correo" for="CajaDeTextoCorreo">Correo:</label>
+                <input asp-for="usuarioActual.correo" type="email" id="CajaDeTextoCorreo">
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de provincia del modelo vista -->
+            <span asp-validation-for="usuarioActual.provinciaVivienda" class="Registrar-texto-error"></span>
+            <!-- Caja de selección para la provincia ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.provinciaVivienda" for="CajaDeSeleccionProvincia">Provincia:</label>
+                <select asp-for="usuarioActual.provinciaVivienda" id="CajaDeSeleccionProvincia">
+                    <!-- Agrega la opción básica -->
+                    <option value="">No deseo indicarla</option>
+                    <!-- Agregar todas las provincias como opciones -->
+                    @foreach (var provincia in Model.provincias)
+                    {
+                        <option value="@provincia.nombre">@provincia.nombre</option>
+                    }
+                </select>
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de cantón del modelo vista -->
+            <span asp-validation-for="usuarioActual.cantonVivienda" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para el cantón (deshabilitada) ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.cantonVivienda" for="CajaDeSeleccionCanton">Cantón:</label>
+                <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton" disabled>>
+                    <!-- Agrega la opción básica -->
+                    <option value="">No deseo indicarlo</option>
+                </select>
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de distrito del modelo vista -->
+            <span asp-validation-for="usuarioActual.distritoVivienda" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para la distrito (deshabilitada) ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto" style="margin-bottom: 2%;">
+                <label asp-for="usuarioActual.distritoVivienda" for="CajaDeSeleccionDistrito">Distrito:</label>
+                <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito" disabled>>
+                    <!-- Agrega la opción básica -->
+                    <option value="">No deseo indicarlo</option>
+                </select>
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación de la contraseña del modelo vista -->
+            <span asp-validation-for="usuarioActual.contrasena" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para la contraseña ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.contrasena" for="CajaDeTextoContrasena">Contraseña:</label>
+                <input asp-for="usuarioActual.contrasena" type="password" id="CajaDeTextoContrasena">
+            </div>
+            <!-- Mensaje de error al no cumplir los atributos de validación de la confirmación de la contraseña del modelo vista -->
+            <span asp-validation-for="usuarioActual.confirmarContrasena" class="Registrar-texto-error"></span>
+            <!-- Caja de texto para confirmar la contraseña ligada al modelo vista -->
+            <div class="Registrar-contenedor-caja-de-texto">
+                <label asp-for="usuarioActual.confirmarContrasena" for="CajaDeTextoConfirmarContraseña">Confirmar contraseña:</label>
+                <input asp-for="usuarioActual.confirmarContrasena" type="password" id="CajaDeTextoConfirmarContraseña">
+            </div>
+            <!-- Botón para crear la cuenta -->
+            <button class="Registrar-boton-basico"> Crear cuenta </button>
+        </div>
+    </form>
+
+    <!-- Script para alinear cajas de texto -->
+    <script>
+        // Llamar a la función para alinear los contenedores de las cajas de texto
+        alinearContenedoresDeBarrasDeTexto(".Registrar-contenedor-caja-de-texto", 98);
+    </script>
+
+    <!-- Script para mostrar mensajes de error -->
+    <script>
+        // Verifica si se ha creado un error
+        @if (HttpContext.Items.ContainsKey("error"))
+        {
+            // Obtiene el mensaje de error
+            var mensajeError = HttpContext.Items["error"]?.ToString();
+            // Envía un popUp con el error
+            @Html.Raw($"alert('{mensajeError}');");
+            // Limpia el error
+            @HttpContext.Items.Remove("error");
+        }
+    </script>
+
+    <!-- Script para cambiar las opciones de las cajas de selección dinámicamente -->
+    <script>
+        // Obtiene las cajas de selección
+        var cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
+        var cajaDeSeleccionCanton = document.getElementById("CajaDeSeleccionCanton");
+        var cajaDeSeleccionDistrito = document.getElementById("CajaDeSeleccionDistrito");
+
+        // Llamar a esta función cada vez que se produzca un cambio en
+        // la caja de selección de provincia
+        cajaDeSeleccionProvincia.addEventListener("change", function () {
+            // Obtener la provincia seleccionada
+            var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+            // Limpiar las opciones de las otras cajas de selección
+            cajaDeSeleccionCanton.innerHTML = "<option value=''>No deseo indicarlo</option>";
+            cajaDeSeleccionDistrito.innerHTML = "<option value=''>No deseo indicarlo</option>";
+            cajaDeSeleccionDistrito.disabled = true;
+
+            // Si se eligió una provincia
+            if (provinciaSeleccionada) {
+                // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+                // con la provincia seleccionada
+                fetch(`/Cuenta/Registrar?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Por cada cantón
+                        data.forEach(canton => {
+                            // Crear una opción
+                            var opcion = document.createElement("option");
+                            // Establecer su valor y texto de mostrado
+                            opcion.value = canton.nombre;
+                            opcion.text = canton.nombre;
+                            // Agregarla a la caja de selección de cantón
+                            cajaDeSeleccionCanton.appendChild(opcion);
+                        });
+                    });
+                // Habilitar la caja de selección de cantón
+                cajaDeSeleccionCanton.disabled = false;
+
+            // Si no se eligió una provincia
+            } else {
+                // Deshabilitar las otras cajas de selección
+                cajaDeSeleccionCanton.disabled = true;
+            }
+        });
+
+        // Llamar a esta función cada vez que se produzca un cambio en
+        // la caja de selección de cantón
+        cajaDeSeleccionCanton.addEventListener("change", function () {
+            // Obtener el cantón seleccionado
+            var cantonSeleccionado = cajaDeSeleccionCanton.value;
+
+            // Limpiar las opciones de la caja de selección de distrito
+            cajaDeSeleccionDistrito.innerHTML = "<option value=''>No deseo indicarlo</option>";
+
+            // Si se eligió un cantón
+            if (cantonSeleccionado) {
+                // Obtener la provincia seleccionada
+                var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+                // Usar el Fetch API para llamar al handler de DistritosPorCanton
+                // con el cantón seleccionado
+                fetch(`/Cuenta/Registrar?handler=DistritosPorCanton&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Por cada distrito
+                        data.forEach(distrito => {
+                            // Crear una opción
+                            var opcion = document.createElement("option");
+                            // Establecer su valor y texto de mostrado
+                            opcion.value = distrito.nombre;
+                            opcion.text = distrito.nombre;
+                            // Agregarla a la caja de selección de distrito
+                            cajaDeSeleccionDistrito.appendChild(opcion);
+                        });
+                    });
+                // Habilitar la caja de selección de distrito
+                cajaDeSeleccionDistrito.disabled = false;
+
+            // Si no se eligió un cantón
+            } else {
+                // Deshabilitar la caja de selección de distrito
+                cajaDeSeleccionDistrito.disabled = true;
+            }
+        });
+    </script>
+
+    <!-- Sección para realizar validaciones de los datos del lado del cliente -->
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
