@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
-using LoCoMPro.Models;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,16 +10,16 @@ namespace LoCoMPro.Pages.Busqueda
 {
     public class BusquedaModel : PageModel
     {
-        protected readonly LoCoMProContext _context;
-        protected readonly IConfiguration _configuration;
+        protected readonly LoCoMProContext contexto;
+        protected readonly IConfiguration configuracion;
 
         // Constructor
-        public BusquedaModel(LoCoMProContext context, IConfiguration configuration)
+        public BusquedaModel(LoCoMProContext contexto, IConfiguration configuracion)
         {
-            _context = context;
-            _configuration = configuration;
+            this.contexto = contexto;
+            this.configuracion = configuracion;
             // Inicializar
-            Inicializar();
+            this.Inicializar();
         }
 
         // Busquedas
@@ -34,9 +29,8 @@ namespace LoCoMPro.Pages.Busqueda
         public string[] provincias { get; set; } = default!;
         public string[] cantones { get; set; } = default!;
         // Ordenamiento
-        public string? ordenPrecio { get; set; } = default!;
-        public string? ordenPrecioActual = "desc";
-
+        public string? columnaOrdenActual { get; set; }
+        public string? sentidoOrdenActual { get; set; }
 
         // Visual
         [BindProperty]
@@ -52,13 +46,18 @@ namespace LoCoMPro.Pages.Busqueda
         public void Inicializar()
         {
             // Inicializar
-            provinciasV = new List<string>();
-            cantonesV = new List<string>();
-            tiendasV = new List<string>();
-            marcasV = new List<string?>();
-            productosVM = new ListaPaginada<BusquedaVM>();
-            provincias = new string[] { };
-            cantones = new string[] { };
+            this.provincias = new string[] { };
+            this.cantones = new string[] { };
+
+            this.columnaOrdenActual = null;
+            this.sentidoOrdenActual = "asc";
+
+            this.provinciasV = new List<string>();
+            this.cantonesV = new List<string>();
+            this.tiendasV = new List<string>();
+            this.marcasV = new List<string?>();
+
+            this.productosVM = new ListaPaginada<BusquedaVM>();
         }
 
         // ON GET buscar
@@ -66,35 +65,34 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
-            , string? ordenadoPrecio, string? sentidoPrecio)
+            , string? columnaOrdenado, string? sentidoOrdenado)
         {
-            if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)) && _context.Productos != null)
+            if ((!string.IsNullOrEmpty(nombreProducto) ||
+                !string.IsNullOrEmpty(filtroProducto)) &&
+                contexto.Productos != null)
             {
                 // Verificar parámetros y asignar índice de página correcto
-                indicePagina = verificarParametros(indicePagina
+                indicePagina = this.verificarParametros(indicePagina
                     , nombreProducto, filtroProducto
                     , nombresProvincias, filtrosProvincias
                     , nombresCantones, filtrosCantones
-                    , ordenadoPrecio, sentidoPrecio);
+                    , columnaOrdenado, sentidoOrdenado);
 
                 // Hacer la consulta de productos con registros
                 // Consultar la base de datos
-                IQueryable<BusquedaVM> productosIQ = buscarProductos();
+                IQueryable<BusquedaVM> productosIQ = this.buscarProductos();
 
                 // Cargar filtros
-                cargarFiltros(productosIQ);
+                this.cargarFiltros(productosIQ);
 
                 // Filtrar
-                productosIQ = filtrarProductos(productosIQ);
+                productosIQ = this.filtrarProductos(productosIQ);
 
-                // Ordenar por precio
-                if (ordenadoPrecio != null)
-                {
-                    productosIQ = ordenarProducto(productosIQ);
-                }
+                // Ordenar
+                productosIQ = this.ordenarProductos(productosIQ);
 
                 // Paginar
-                await paginarProductos(productosIQ, indicePagina);
+                await this.paginarProductos(productosIQ, indicePagina);
             }
             return Page();
         }
@@ -104,7 +102,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
-            , string? ordenadoPrecio, string? sentidoPrecio)
+            , string? columnaOrdenado, string? sentidoOrdenado)
         {
             // Revisar si hay que regresar numero de página
             if (!string.IsNullOrEmpty(nombreProducto))
@@ -115,7 +113,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombreProducto = filtroProducto;
             }
-            producto = nombreProducto;
+            this.producto = nombreProducto;
 
             if (!string.IsNullOrEmpty(nombresProvincias))
             {
@@ -125,7 +123,8 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombresProvincias = filtrosProvincias;
             }
-            provincias = !string.IsNullOrEmpty(nombresProvincias) ? nombresProvincias.Split(',') : new string[0];
+            this.provincias = !string.IsNullOrEmpty(nombresProvincias) ?
+                nombresProvincias.Split(',') : new string[0];
 
             if (!string.IsNullOrEmpty(nombresCantones))
             {
@@ -135,24 +134,33 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombresCantones = filtrosCantones;
             }
-            cantones = !string.IsNullOrEmpty(nombresCantones) ? nombresCantones.Split(',') : new string[0];
+            this.cantones = !string.IsNullOrEmpty(nombresCantones) ?
+                nombresCantones.Split(',') : new string[0];
 
-
-            if (!string.IsNullOrEmpty(ordenadoPrecio))
+            // En caso de haber recibido una columna para ordernar
+            // y un sentido
+            if (!string.IsNullOrEmpty(columnaOrdenado) &&
+                !string.IsNullOrEmpty(sentidoOrdenado))
             {
-                ordenPrecio = ordenadoPrecio;
+                // Guarda los valores recibidos en sus propiedades
+                this.columnaOrdenActual = columnaOrdenado;
+                this.sentidoOrdenActual = sentidoOrdenado;
             }
-            if (!string.IsNullOrEmpty(sentidoPrecio))
+            // Si no se recibió ambos parametros de ordenado
+            else
             {
-                ordenPrecioActual = sentidoPrecio;
+                // Se reinician a sus valores originales
+                this.columnaOrdenActual = null;
+                this.sentidoOrdenActual = "asc";
             }
+            
             return indicePagina;
         }
 
         // Buscar productos
         protected IQueryable<BusquedaVM> buscarProductos()
         {
-            IQueryable<BusquedaVM> productosIQ = _context.Registros
+            IQueryable<BusquedaVM> productosIQ = contexto.Registros
                         .Include(r => r.producto)
                         .OrderByDescending(r => r.creacion)
                         .GroupBy(r => new { r.productoAsociado, r.nombreTienda, r.nombreProvincia, r.nombreCanton, r.nombreDistrito })
@@ -169,7 +177,7 @@ namespace LoCoMPro.Pages.Busqueda
                                     group.First().producto.marca : "Sin marca"
                         });
             // Buscar por nombre
-            productosIQ = buscarNombre(productosIQ);
+            productosIQ = this.buscarNombre(productosIQ);
             // Retornar busqueda
             return productosIQ;
         }
@@ -192,13 +200,13 @@ namespace LoCoMPro.Pages.Busqueda
         protected void cargarFiltros(IQueryable<BusquedaVM> productosIQ)
         {
             // Cargar filtros de provincia
-            cargarFiltrosProvincia(productosIQ);
+            this.cargarFiltrosProvincia(productosIQ);
             // Cargar filtros de canton
-            cargarFiltrosCanton(productosIQ);
+            this.cargarFiltrosCanton(productosIQ);
             // Cargar filtros de tienda
-            cargarFiltrosTienda(productosIQ);
+            this.cargarFiltrosTienda(productosIQ);
             // Cargar filtros de marca
-            cargarFiltrosMarca(productosIQ);
+            this.cargarFiltrosMarca(productosIQ);
         }
 
         // Cargar los filtros de provincias
@@ -208,7 +216,7 @@ namespace LoCoMPro.Pages.Busqueda
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las provincias distintas
-                provinciasV = productosIQ
+                this.provinciasV = productosIQ
                     .Select(r => r.provincia)
                     .Distinct()
                     .ToList();
@@ -222,7 +230,7 @@ namespace LoCoMPro.Pages.Busqueda
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todos los cantones distintos
-                cantonesV = productosIQ
+                this.cantonesV = productosIQ
                     .Select(r => r.canton)
                     .Distinct()
                     .ToList();
@@ -236,7 +244,7 @@ namespace LoCoMPro.Pages.Busqueda
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las tiendas distintas
-                tiendasV = productosIQ
+                this.tiendasV = productosIQ
                     .Select(r => r.tienda)
                     .Distinct()
                     .ToList();
@@ -250,7 +258,7 @@ namespace LoCoMPro.Pages.Busqueda
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las marcas distintas
-                marcasV = productosIQ
+                this.marcasV = productosIQ
                     .Select(p => p.marca)
                     .Distinct()
                     .ToList();
@@ -261,9 +269,9 @@ namespace LoCoMPro.Pages.Busqueda
         protected IQueryable<BusquedaVM> filtrarProductos(IQueryable<BusquedaVM> productosIQ)
         {
             // Filtrar por provincia
-            productosIQ = filtrarProvincia(productosIQ);
+            productosIQ = this.filtrarProvincia(productosIQ);
             // Filtrar por canton
-            productosIQ = filtrarCanton(productosIQ);
+            productosIQ = this.filtrarCanton(productosIQ);
             // Retornar productos filtrados
             return productosIQ;
         }
@@ -271,10 +279,10 @@ namespace LoCoMPro.Pages.Busqueda
         // Filtrar por provincia
         protected IQueryable<BusquedaVM> filtrarProvincia(IQueryable<BusquedaVM> productosIQ)
         {
-            if (provincias.Length > 0)
+            if (this.provincias.Length > 0)
             {
                 // Asignar filtro
-                string[] filtro = provincias;
+                string[] filtro = this.provincias;
                 // Filtrar por provincia
                 productosIQ = productosIQ.Where(r => filtro.Contains(r.provincia));
 
@@ -286,10 +294,10 @@ namespace LoCoMPro.Pages.Busqueda
         // Filtrar por canton
         protected IQueryable<BusquedaVM> filtrarCanton(IQueryable<BusquedaVM> productosIQ)
         {
-            if (cantones.Length > 0)
+            if (this.cantones.Length > 0)
             {
                 // Convertir provincias a lista
-                string[] filtro = cantones;
+                string[] filtro = this.cantones;
                 // Filtrar
                 productosIQ = productosIQ.Where(r => filtro.Contains(r.canton));
 
@@ -299,29 +307,55 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Ordenar producto
-        public IQueryable<BusquedaVM> ordenarProducto(IQueryable<BusquedaVM> productosIQ)
+        public IQueryable<BusquedaVM> ordenarProductos(IQueryable<BusquedaVM> productosIQ)
         {
-            // Ordenar por precio
-            productosIQ = ordenarPorPrecio(productosIQ);
+            // En caso de tener parametros de ordenamiento
+            if (!string.IsNullOrEmpty(this.columnaOrdenActual) &&
+                !string.IsNullOrEmpty(this.sentidoOrdenActual))
+            {
+                // Ordena los productos
+                productosIQ = this.ordenar(productosIQ);
+            }
+
+            // Retorna los productos ordenados
             return productosIQ;
         }
 
-        public IQueryable<BusquedaVM> ordenarPorPrecio(IQueryable<BusquedaVM> productosIQ)
+        protected IQueryable<BusquedaVM> ordenar(IQueryable<BusquedaVM> productosIQ)
         {
-            if (!string.IsNullOrEmpty(ordenPrecio))
+            // Ordenamientos ascendentes
+            if (this.sentidoOrdenActual == "asc")
             {
-                if (ordenPrecio == "precio")
+                // Columna de ordenado
+                switch (this.columnaOrdenActual)
                 {
-                    if (ordenPrecioActual == "asc")
-                    {
+                    case "precio":
                         // Ordenar por precio ascendente
                         productosIQ = productosIQ.OrderBy(p => p.precio);
-                    } else
-                    {
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            // Ordenamientos descendentes
+            else
+            {
+                // Columna de ordenado
+                switch (this.columnaOrdenActual)
+                {
+                    case "precio":
                         // Ordenar por precio descendente
                         productosIQ = productosIQ.OrderByDescending(p => p.precio);
+                        break;
 
-                    }
+                    case "provincia":
+                        // Ordenar por provincia descendente
+                        productosIQ = productosIQ.OrderByDescending(p => p.provincia);
+                        break;
+
+                    default:
+                        break;
                 }
             }
             return productosIQ;
@@ -331,9 +365,9 @@ namespace LoCoMPro.Pages.Busqueda
         protected async Task paginarProductos(IQueryable<BusquedaVM> productosFinales, int? indicePagina)
         {
             // Obtener tamaño de página
-            var tamPagina = _configuration.GetValue("TamPagina", 4);
+            var tamPagina = configuracion.GetValue("TamPagina", 4);
             // Crear productos paginados
-            productosVM = await ListaPaginada<BusquedaVM>.CrearAsync(
+            this.productosVM = await ListaPaginada<BusquedaVM>.CrearAsync(
                 productosFinales.AsNoTracking(), indicePagina ?? 1, tamPagina);
         }
     }

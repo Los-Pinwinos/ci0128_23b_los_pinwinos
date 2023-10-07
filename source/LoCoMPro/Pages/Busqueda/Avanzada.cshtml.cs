@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
-using LoCoMPro.Models;
 using LoCoMPro.ViewModels.Busqueda;
-using Microsoft.IdentityModel.Tokens;
 
 
 namespace LoCoMPro.Pages.Busqueda
@@ -16,11 +9,11 @@ namespace LoCoMPro.Pages.Busqueda
     public class BusquedaAvanzadaModel : BusquedaModel
     {
         // Constructor
-        public BusquedaAvanzadaModel(LoCoMProContext context, IConfiguration configuration) 
-            : base(context, configuration)
+        public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion) 
+            : base(contexto, configuracion)
         {
             // Inicializar
-            InicializarAvanzado();
+            this.InicializarAvanzado();
         }
 
         // Avanzado
@@ -35,10 +28,10 @@ namespace LoCoMPro.Pages.Busqueda
         private void InicializarAvanzado()
         {
             // Inicializar
-            producto = "";
-            marca = "";
-            provincia = "";
-            canton = "";
+            this.producto = "";
+            this.marca = "";
+            this.provincia = "";
+            this.canton = "";
         }
 
         // On GET avanzado
@@ -49,41 +42,41 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreCanton, string? filtroCanton
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
-            , string? ordenadoPrecio, string? sentidoPrecio)
+            , string? columnaOrdenado, string? sentidoOrdenado)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)
                 || !string.IsNullOrEmpty(nombreMarca)|| !string.IsNullOrEmpty(filtroMarca)
                 || !string.IsNullOrEmpty(nombreProvincia)|| !string.IsNullOrEmpty(filtroProvincia)
                 || !string.IsNullOrEmpty(nombreCanton) || !string.IsNullOrEmpty(filtroCanton))
-                && _context.Productos != null)
+                && this.contexto.Productos != null)
             {
                 // Verificar parámetros y asignar índice de página correcto
-                indicePagina = verificarParametros(indicePagina
+                indicePagina = this.verificarParametros(indicePagina
                     , nombreProducto, filtroProducto
                     , nombresProvincias, filtrosProvincias
                     , nombresCantones, filtrosCantones
-                    , ordenadoPrecio, sentidoPrecio);
+                    , columnaOrdenado, sentidoOrdenado);
 
                 // Verificar parámetros y asignar índice de página correcto
-                indicePagina = verificarParametrosAvanzados(indicePagina
+                indicePagina = this.verificarParametrosAvanzados(indicePagina
                     , nombreMarca, filtroMarca
                     , nombreProvincia, filtroProvincia
                     , nombreCanton, filtroCanton);
 
                 // Hacer la consulta de productos con registros
-                IQueryable<BusquedaVM> productosIQ = buscarProductos();
+                IQueryable<BusquedaVM> productosIQ = this.buscarProductos();
 
                 // Cargar filtros
-                cargarFiltros(productosIQ);
+                this.cargarFiltros(productosIQ);
 
                 // Filtrar
-                productosIQ = filtrarProductos(productosIQ);
+                productosIQ = this.filtrarProductos(productosIQ);
 
                 // Ordenar por precio
-                productosIQ = ordenarProducto(productosIQ);
+                productosIQ = this.ordenarProductos(productosIQ);
 
                 // Paginar
-                await paginarProductos(productosIQ, indicePagina);
+                await this.paginarProductos(productosIQ, indicePagina);
             }
             return Page();
         }
@@ -103,7 +96,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombreMarca = filtroMarca;
             }
-            marca = nombreMarca;
+            this.marca = nombreMarca;
 
             if (!string.IsNullOrEmpty(nombreProvincia))
             {
@@ -113,7 +106,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombreProvincia = filtroProvincia;
             }
-            provincia = nombreProvincia;
+            this.provincia = nombreProvincia;
 
             if (!string.IsNullOrEmpty(nombreCanton))
             {
@@ -123,7 +116,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombreCanton = filtroCanton;
             }
-            canton = nombreCanton;
+            this.canton = nombreCanton;
 
             return indicePagina;
         }
@@ -131,7 +124,7 @@ namespace LoCoMPro.Pages.Busqueda
         // Sobrecarga de buscar productos
         new protected IQueryable<BusquedaVM> buscarProductos()
         {
-            IQueryable<BusquedaVM> productosIQ = _context.Registros
+            IQueryable<BusquedaVM> productosIQ = this.contexto.Registros
                         .Include(r => r.producto)
                         .OrderByDescending(r => r.creacion)
                         .GroupBy(r => new { r.productoAsociado, r.nombreTienda, r.nombreProvincia, r.nombreCanton, r.nombreDistrito })
@@ -148,13 +141,13 @@ namespace LoCoMPro.Pages.Busqueda
                                     group.First().producto.marca : "Sin marca"
                         });
             // Buscar por nombre
-            productosIQ = buscarNombre(productosIQ);
+            productosIQ = this.buscarNombre(productosIQ);
             // Buscar por marca
-            productosIQ = buscarMarca(productosIQ);
+            productosIQ = this.buscarMarca(productosIQ);
             // Buscar por provincia
-            productosIQ = buscarProvincia(productosIQ);
+            productosIQ = this.buscarProvincia(productosIQ);
             // Buscar por canton
-            productosIQ = buscarCanton(productosIQ);
+            productosIQ = this.buscarCanton(productosIQ);
             // Retornar busqueda
             return productosIQ;
         }
