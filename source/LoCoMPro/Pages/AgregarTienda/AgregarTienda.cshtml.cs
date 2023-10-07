@@ -117,7 +117,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             AgregarDatosTienda();
 
             // Redirigir a la siguiente ventana de agregar producto
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Home/Index");
 
             // TODO(Los Pinwinos): actualizar para ir a la página de agregar producto
             // return RedirectToPage("/AgregarProducto/AgregarProd");
@@ -186,10 +186,8 @@ namespace LoCoMPro.Pages.AgregarTienda
         // Acción al presionar cancelar
         public IActionResult OnPostCancelar()
         {
-            return RedirectToPage("/Index");
-
-            // TODO(Los Pinwinos): actualizar para que se dirija a la página de inicio
-            // return RedirectToPage("/Home/Index");
+            // Dirigir a la página de inicio
+            return RedirectToPage("/Home/Index");
         }
     }
 }

@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <!-- Botón de búsqueda -->
-                    <button class="BusquedaAvanzada-boton-busqueda">
+                    <button class="BusquedaAvanzada-boton-busqueda" onclick="return validarFormulario();">
                         <!-- Icono de búsqueda -->
                         <img src="~/img/white_search_icon.png" id="imagenBusqueda" alt="Buscar" class="BusquedaIndice-icono-busqueda" />
                     </button>
@@ -156,7 +156,8 @@
                             <!-- Nombre de columna -->
                             <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                                asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-ordenadoPrecio="precio"
+                               asp-route-ordenadoPrecio="precio" class="BusquedaIndice-titulo-columna"
+                               asp-route-sentidoPrecio="@((Model.ordenPrecioActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtroMarca="@(Model.marca)"
                                asp-route-filtroProvincia="@(Model.provincia)"
@@ -239,6 +240,7 @@
                 <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
                    asp-route-ordenadoPrecio="@(Model.ordenPrecio)"
+                   asp-route-sentidoPrecio="@(Model.ordenPrecioActual)"
                    asp-route-filtroProducto="@(Model.producto)"
                    asp-route-filtroMarca="@(Model.marca)"
                    asp-route-filtroProvincia="@(Model.provincia)"
@@ -262,6 +264,7 @@
                 <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                    asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
                    asp-route-ordenadoPrecio="@(Model.ordenPrecio)"
+                   asp-route-sentidoPrecio="@(Model.ordenPrecioActual)"
                    asp-route-filtroProducto="@(Model.producto)"
                    asp-route-filtroMarca="@(Model.marca)"
                    asp-route-filtroProvincia="@(Model.provincia)"

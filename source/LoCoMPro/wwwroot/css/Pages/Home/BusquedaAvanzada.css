@@ -15,7 +15,8 @@
     justify-content: center;
     align-items: center;
     height: calc(75vh - 50px);
-    width: 80%;
+    width:100%;
+    max-width: calc(75vw - 14%);
     position: relative;
     margin-top: 20px;
 }
@@ -59,6 +60,7 @@
     align-items: center; /* Centrar horizontalmente */
     margin-left: 10px;
     margin-top: 8px;
+    flex-grow: 1; /* Ocupa el espacio restante */
 }
 
 /* Caja de texto larga */

@@ -4,7 +4,7 @@
     background-color: #FFFBF8;
     border-color: black;
     border-radius: 30px;
-    width: 100%;
+    width: 103%;
     height: 80%;
     display: flex;
     border: 1px solid black;
@@ -28,6 +28,7 @@
 /* Boton de busqueda */
 .BusquedaAvanzada-boton-busqueda {
     display: flex;
+    position:relative;
     border: none;
     width: 40px;
     height: 40px;
@@ -36,6 +37,6 @@
     color: #033F63;
     align-items: center;
     border-radius: 5px;
-    margin-left: 30px;
-    margin-top: 20px;
+    margin-left: 5%;
+    margin-top: 40px;
 }

@@ -2,10 +2,6 @@
 <!-- Pagina parcial que sigue el modelo de perfil -->
 @model ModeloSalirParcial
 
-@{
-    ViewData["Title"] = "Cerrar Sesión";
-}
-
 <!-- Metadata -->
 <head>
     <!-- Titulo de la página -->
@@ -30,7 +26,7 @@
             // Hace un request AJAX al método OnGetAsync del modelo
             $.get("/Cuenta/SalirParcial", function () {
                 // Redirecciona la página de inicio
-                window.location.href = "/Index";
+                window.location.href = "/Home/Index";
             });
         }
     }

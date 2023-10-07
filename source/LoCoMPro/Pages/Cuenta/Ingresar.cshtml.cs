@@ -97,7 +97,7 @@ namespace LoCoMPro.Pages.Cuenta
                         });
 
                     // Redirecciona a la página home
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("/Home/Index");
                 }
             }
 
