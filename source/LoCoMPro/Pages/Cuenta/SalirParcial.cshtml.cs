@@ -22,7 +22,7 @@ namespace LoCoMPro.Pages.Cuenta
             // Cierra sesión en el contexto http
             await HttpContext.SignOutAsync();
             // Redirecciona a la página de inicio
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Home/Index");
         }
     }
 }

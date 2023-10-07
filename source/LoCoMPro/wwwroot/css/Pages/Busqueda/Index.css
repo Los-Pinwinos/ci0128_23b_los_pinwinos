@@ -43,7 +43,7 @@
     background-color: #FFFBF8;
     border-color: black;
     border-radius: 30px;
-    width: 100%;
+    width: 105%;
     height: 80%;
     display: flex;
     border: 1px solid black;
@@ -82,7 +82,7 @@
     color: #033F63;
     align-items: center;
     border-radius: 5px;
-    margin-left: 30px;
+    margin-left: 8%;
     margin-top: 10px;
 }
 
@@ -96,6 +96,7 @@
 /* Tabla */
 .BusquedaIndice-tabla {
     width: 100%;
+    max-width:100%;
     margin-left: 15px;
     box-sizing: border-box;
     overflow-x: auto;
@@ -115,7 +116,7 @@
 table {
     border-collapse: separate;
     width: 100%;
-    max-width: 100%;
+    max-width:97%;
     border-spacing: 0 10px;
     font-size: 15px;
 }
@@ -321,7 +322,7 @@ BusquedaIndice-tabla-filtros-contenedor {
     /* Label de dropdown */
     .BusquedaIndice-dropdown-content label {
         display: block;
-        padding: 5px;
+        padding: 5px 25px;
         background-color: #C3F3E5;
     }
 
