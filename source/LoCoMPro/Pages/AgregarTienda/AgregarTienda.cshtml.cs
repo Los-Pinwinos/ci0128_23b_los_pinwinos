@@ -112,15 +112,10 @@ namespace LoCoMPro.Pages.AgregarTienda
                 // Los datos no son válidos
                 return Page();
             }
-
             // Preparar datos para la siguiente ventana
             AgregarDatosTienda();
-
             // Redirigir a la siguiente ventana de agregar producto
-            return RedirectToPage("/Home/Index");
-
-            // TODO(Los Pinwinos): actualizar para ir a la página de agregar producto
-            // return RedirectToPage("/AgregarProducto/AgregarProd");
+            return RedirectToPage("/AgregarProducto/AgregarProd");
         }
 
         // Método para leer los datos que el usuario ingresó

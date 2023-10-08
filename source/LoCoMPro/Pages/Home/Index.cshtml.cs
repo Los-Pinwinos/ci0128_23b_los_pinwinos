@@ -13,6 +13,8 @@ namespace LoCoMPro.Pages.Home
         // On GET
         public IActionResult OnGet()
         {
+            // Limpiar key para funcionamiento correcto
+            TempData.Remove("nombreTienda");
             if (!string.IsNullOrWhiteSpace(producto)) { 
                 // Redireccionar
                 return RedirectToPage("/Busqueda/Index", new { nombreProducto = this.producto });

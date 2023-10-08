@@ -7,13 +7,19 @@ namespace LoCoMPro.ViewModels.Cuenta
     {
         // Nombre de usuario
         [Required(ErrorMessage = "Debe incluir un nombre de usuario")]
-        [StringLength(12, MinimumLength = 10, ErrorMessage = "El nombre de usuario debe tener entre 10 y 12 carácteres")]
+        [StringLength(20, MinimumLength = 5,
+            ErrorMessage = "Nombre de usuario inválido")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
+            ErrorMessage = "Nombre de usuario inválido")]
         public required string nombreDeUsuario { get; set; }
 
         // Contraseña
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Debe incluir una contraseña")]
-        [StringLength(8, MinimumLength = 8, ErrorMessage = "La contraseña debe tener exactamente 8 carácteres")]
+        [StringLength(20, MinimumLength = 8,
+            ErrorMessage = "Contraseña inválida")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
+            ErrorMessage = "Contraseña inválida")]
         public required string contrasena { get; set; }
     }
 }

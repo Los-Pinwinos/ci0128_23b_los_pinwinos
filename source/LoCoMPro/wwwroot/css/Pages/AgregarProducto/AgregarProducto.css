@@ -1,0 +1,126 @@
+﻿/* Contenedor para que la vista esté centrada */
+.AgregarProd-contenedor-central {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: flex-start;
+    align-items: center;
+    /*height: calc(90vh - 200px);*/
+}
+
+
+/* Contenedor para los botones y el texto */
+.AgregarProd-contenedor-texto {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 3%;
+    color: black;
+}
+
+    /* Label usado en contenedor para los botones y el texto */
+    .AgregarProd-contenedor-texto label {
+        font-size: 18px;
+        white-space: nowrap;
+        margin-right: 3%;
+    }
+
+/* Label utilizado para el Título */
+.AgregarProd-titulo label {
+    font-size: 600px;
+    color: black;
+    text-align: left;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+
+/* Caja de texto utilizada para ingresar producto y tienda */
+.AgregarProd-caja-texto-estandar {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 1px 10px;
+    width: 650px
+}
+
+/* Boton estandar */
+.AgregarProd-boton-estandar {
+    width: 200px;
+    height: 3%;
+    background-color: #033F63;
+    color: white;
+    border-radius: 5px;
+    margin-left: 1%;
+}
+
+/* Caja de texto utilizada para el precio */
+.AgregarProd-caja-texto-precio {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    padding: 1px 1px;
+    width: 50%;
+    margin-right: 20%;
+}
+
+
+/* Caja de texto utilizada para la unidad*/
+.AgregarProd-caja-texto-combobox-unidad {
+    background-color: #FFFBF8;
+    border-color: black;
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    margin-right: 10px;
+    border-radius: 10px;
+    height: 3%;
+}
+
+/* Caja de texto utilizada para la categoría*/
+.AgregarProd-caja-texto-combobox {
+    background-color: #FFFBF8;
+    border-color: black;
+    position: relative;
+    display: inline-block;
+    width: 860px;
+    margin-right: 10px;
+    border-radius: 10px;
+    height: 3%;
+}
+
+/* Caja de texto utilizada para la etiqueta */
+.AgregarProd-caja-texto-larga {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    width: 860px;
+}
+
+
+
+/* Caja de texto utilizada para la descripcion */
+.AgregarProd-caja-texto-descripcion {
+    background-color: #FFFBF8;
+    border-color: black;
+    border-radius: 10px 10px;
+    border-width: 1px;
+    padding-top: 20px;
+    width: 860px;
+    height: 90px;
+}
+
+
+/* Texto estándar */
+.AgregarProd-texto {
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
