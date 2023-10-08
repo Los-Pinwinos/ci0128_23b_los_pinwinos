@@ -7,7 +7,7 @@ namespace LoCoMPro.Models
     {
         // Nombre
         [StringLength(256, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         [Display(Name = "Categoría")]
         public required string nombre { get; set; }
 
