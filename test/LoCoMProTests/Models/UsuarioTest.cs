@@ -7,6 +7,7 @@ namespace PruebasProvisionales
     [TestClass]
     public class UsuarioTests
     {
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void usuario_Validacion_DeberiaSerValido()
         {
@@ -34,6 +35,7 @@ namespace PruebasProvisionales
             Assert.IsTrue(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void nombreDeUsuario_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -56,6 +58,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void nombreDeUsuario_ValidacionRegex_DeberiaSerInvalido()
         {
@@ -78,6 +81,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void correo_ValidacionTipo_DeberiaSerInvalido()
         {
@@ -100,6 +104,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void estado_ValidacionRegex_DeberiaSerInvalido()
         {
@@ -122,6 +127,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void calificacion_ValidacionRango_DeberiaSerInvalido()
         {
@@ -144,6 +150,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void distritoVivienda_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -167,6 +174,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void distritoVivienda_ValidacionRegex_DeberiaSerInvalido()
         {
@@ -190,6 +198,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void cantonVivienda_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -213,6 +222,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void cantonVivienda_ValidacionRegex_DeberiaSerInvalido()
         {
@@ -236,6 +246,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void provinciaVivienda_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -259,6 +270,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void provinciaVivienda_ValidacionRegex_DeberiaSerInvalido()
         {

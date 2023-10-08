@@ -17,12 +17,10 @@ namespace LoCoMPro.Models
         // TODO(Los Pinwinos): Investigar DisplayFormatAttribute annotation
         // Fecha y hora de creación
         [DataType(DataType.DateTime)]
-        // TODO(pinwinos): Considerar rango de fechas
-        [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
+        [Range(typeof(DateTime), "1/1/2000", "1/1/2200")]
         [Display(Name = "Fecha y hora de creación")]
         public required DateTime creacion { get; set; }
 
-        // Usuario creador
         // Usuario creador
         [StringLength(20, MinimumLength = 5)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
@@ -32,6 +30,5 @@ namespace LoCoMPro.Models
         // Propiedad de navegación registro
         [ForeignKey("creacion, usuarioCreador")]
         public Registro registro { get; set; } = null!;
-        
     }
 }
