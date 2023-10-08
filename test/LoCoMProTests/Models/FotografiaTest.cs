@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LoCoMPro.Models;
 
-namespace PruebasProvisionales
+namespace LoCoMProTests.Models
 {
     [TestClass]
     public class FotografiaTests
     {
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void fotografia_Validacion_DeberiaSerValido()
         {
@@ -29,6 +30,7 @@ namespace PruebasProvisionales
             Assert.IsTrue(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void creacion_ValidacionRango_DeberiaSerInvalido()
         {
@@ -49,6 +51,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void usuarioCreador_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -69,6 +72,7 @@ namespace PruebasProvisionales
             Assert.IsFalse(esValido);
         }
 
+        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
         public void usuarioCreador_ValidacionRegex_DeberiaSerInvalido()
         {

@@ -9,7 +9,8 @@ namespace LoCoMPro.Models
     {
         // Nombre
         [StringLength(256, MinimumLength = 1)]
-        [RegularExpression(@"")]
+        // Revisa que comience con una letra y luego puede tener más letras, números o numeral
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ0-9#])*")]
         [Display(Name = "Nombre de la tienda")]
         public required string nombre { get; set; }
 
@@ -22,7 +23,7 @@ namespace LoCoMPro.Models
         // Nombre cantón
         [StringLength(20, MinimumLength = 3)]
         [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
-        [Display(Name = "Nombre del distrito")]
+        [Display(Name = "Nombre del cantón")]
         public required string nombreCanton { get; set; }
 
         // Nombre provincia

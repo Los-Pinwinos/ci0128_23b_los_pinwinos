@@ -13,17 +13,17 @@ namespace LoCoMPro.ViewModels.Tienda
 
         // Nombre distrito
         [Required(ErrorMessage = "Debe incluir un distrito")]
-        [StringLength(25, MinimumLength = 1)]
+        [StringLength(30, MinimumLength = 3)]
         public required string nombreDistrito { get; set; }
 
         // Nombre cantón
         [Required(ErrorMessage = "Debe incluir un cantón")]
-        [StringLength(20, MinimumLength = 1)]
+        [StringLength(20, MinimumLength = 3)]
         public required string nombreCanton { get; set; }
 
         // Nombre provincia
         [Required(ErrorMessage = "Debe incluir una provincia")]
-        [StringLength(10, MinimumLength = 1)]
+        [StringLength(10, MinimumLength = 5)]
         public required string nombreProvincia { get; set; }
     }
 }
