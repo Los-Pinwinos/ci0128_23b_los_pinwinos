@@ -157,7 +157,15 @@
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].canton)
+                            <a asp-page="/Busqueda/Index"
+                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
+                               asp-route-columnaOrdenado="canton" class="BusquedaIndice-titulo-columna"
+                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
+                               asp-route-filtroProducto="@(Model.producto)"
+                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
+                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
+                                @Html.DisplayNameFor(model => model.productosVM[0].canton)
+                            </a>
                         </th>
                         <th></th>
                     </tr>
