@@ -334,6 +334,11 @@ namespace LoCoMPro.Pages.Busqueda
                         productosIQ = productosIQ.OrderBy(p => p.precio);
                         break;
 
+                    case "canton":
+                        // Ordenar por cantón ascendente
+                        productosIQ = productosIQ.OrderBy(c => c.canton);
+                        break;
+
                     default:
                         break;
                 }
