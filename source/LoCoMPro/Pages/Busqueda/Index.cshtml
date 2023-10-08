@@ -50,14 +50,14 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                var isChecked = "";
+                                var revisado = "";
                                 if (Model.provincias.Length > 0)
-                                {
-                                    isChecked = Model.provincias.Contains(provincia) ? "checked" : ""; // Check if provincia is in the model's provincias array
+                                {  // Revisa si la provincia se encuentra en el arreglo de provincias del modelo
+                                    revisado = Model.provincias.Contains(provincia) ? "checked" : "";
                                 }
 
                                 <label>
-                                    <input type="checkbox" name="provincia" value="@provincia" @isChecked /> @provincia
+                                    <input type="checkbox" name="provincia" value="@provincia" @revisado /> @provincia
                                 </label>
                             }
                         }
