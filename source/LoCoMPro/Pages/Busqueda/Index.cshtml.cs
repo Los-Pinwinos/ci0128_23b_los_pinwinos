@@ -28,6 +28,7 @@ namespace LoCoMPro.Pages.Busqueda
         // Filtros
         public string[] provincias { get; set; } = default!;
         public string[] cantones { get; set; } = default!;
+        public string[] tiendas { get; set; } = default!;
         // Ordenamiento
         public string? columnaOrdenActual { get; set; }
         public string? sentidoOrdenActual { get; set; }
@@ -39,7 +40,7 @@ namespace LoCoMPro.Pages.Busqueda
         public IList<string> tiendasV { get; set; } = default!;
         public IList<string?> marcasV { get; set; } = default!;
 
-        // Paginacion
+        // Paginación
         public ListaPaginada<BusquedaVM> productosVM { get; set; } = default!;
 
         // Inicializar atributos
@@ -48,6 +49,7 @@ namespace LoCoMPro.Pages.Busqueda
             // Inicializar
             this.provincias = new string[] { };
             this.cantones = new string[] { };
+            this.tiendas = new string[] { };
 
             this.columnaOrdenActual = null;
             this.sentidoOrdenActual = "asc";
@@ -65,6 +67,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
+            , string? nombresTiendas, string? filtrosTiendas
             , string? columnaOrdenado, string? sentidoOrdenado)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) ||
@@ -76,6 +79,7 @@ namespace LoCoMPro.Pages.Busqueda
                     , nombreProducto, filtroProducto
                     , nombresProvincias, filtrosProvincias
                     , nombresCantones, filtrosCantones
+                    , nombresTiendas, filtrosTiendas
                     , columnaOrdenado, sentidoOrdenado);
 
                 // Hacer la consulta de productos con registros
@@ -102,6 +106,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProducto, string? filtroProducto
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
+            , string? nombresTiendas, string? filtrosTiendas
             , string? columnaOrdenado, string? sentidoOrdenado)
         {
             // Revisar si hay que regresar numero de página
@@ -136,6 +141,17 @@ namespace LoCoMPro.Pages.Busqueda
             }
             this.cantones = !string.IsNullOrEmpty(nombresCantones) ?
                 nombresCantones.Split(',') : new string[0];
+
+            if (!string.IsNullOrEmpty(nombresTiendas))
+            {
+                indicePagina = 1;
+            }
+            else
+            {
+                nombresTiendas = filtrosTiendas;
+            }
+            this.tiendas = !string.IsNullOrEmpty(nombresTiendas) ?
+                nombresTiendas.Split(',') : new string[0];
 
             // En caso de haber recibido una columna para ordernar
             // y un sentido
@@ -272,6 +288,8 @@ namespace LoCoMPro.Pages.Busqueda
             productosIQ = this.filtrarProvincia(productosIQ);
             // Filtrar por canton
             productosIQ = this.filtrarCanton(productosIQ);
+            // Filtrar por tienda
+            productosIQ = this.filtrarTienda(productosIQ);
             // Retornar productos filtrados
             return productosIQ;
         }
@@ -285,9 +303,8 @@ namespace LoCoMPro.Pages.Busqueda
                 string[] filtro = this.provincias;
                 // Filtrar por provincia
                 productosIQ = productosIQ.Where(r => filtro.Contains(r.provincia));
-
             }
-            // Rertornar resultados
+            // Retornar resultados
             return productosIQ;
         }
 
@@ -300,9 +317,21 @@ namespace LoCoMPro.Pages.Busqueda
                 string[] filtro = this.cantones;
                 // Filtrar
                 productosIQ = productosIQ.Where(r => filtro.Contains(r.canton));
-
             }
-            // Rertornar resultados
+            // Retornar resultados
+            return productosIQ;
+        }
+
+        // Filtrar por tienda
+        protected IQueryable<BusquedaVM> filtrarTienda(IQueryable<BusquedaVM> productosIQ)
+        {
+            if (this.tiendas.Length > 0)
+            {
+                // Asignar filtro
+                string[] filtro = this.tiendas;
+                // Filtrar por nombre de tienda
+                productosIQ = productosIQ.Where(r => filtro.Contains(r.tienda));
+            }
             return productosIQ;
         }
 

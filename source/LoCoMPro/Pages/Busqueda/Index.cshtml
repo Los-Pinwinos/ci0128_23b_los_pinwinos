@@ -50,34 +50,34 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                var isChecked = "";
+                                var revisado = "";
                                 if (Model.provincias.Length > 0)
                                 {
-                                    isChecked = Model.provincias.Contains(provincia) ? "checked" : ""; // Check if provincia is in the model's provincias array
+                                    // Revisar si la provincia está en el arreglo de provincias del modelo
+                                    revisado = Model.provincias.Contains(provincia) ? "checked" : "";
                                 }
-
                                 <label>
-                                    <input type="checkbox" name="provincia" value="@provincia" @isChecked /> @provincia
+                                    <input type="checkbox" name="provincia" value="@provincia" @revisado /> @provincia
                                 </label>
                             }
                         }
                     </div>
                 </div>
                 <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(2)" onmouseleave="hidedropdown(2)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Canton</button>
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                var isChecked = "";
+                                var revisado = "";
                                 if (Model.cantones.Length > 0)
                                 {
-                                    isChecked = Model.cantones.Contains(canton) ? "checked" : ""; // Check if provincia is in the model's provincias array
+                                    // Revisar si el cantón está en el arreglo de provincias del modelo
+                                    revisado = Model.cantones.Contains(canton) ? "checked" : "";
                                 }
-
                                 <label>
-                                    <input type="checkbox" name="canton" value="@canton" @isChecked /> @canton
+                                    <input type="checkbox" name="canton" value="@canton" @revisado /> @canton
                                 </label>
                             }
                         }
@@ -87,11 +87,19 @@
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
-                        @foreach (var tienda in Model.tiendasV)
-                        {
-                            <label>
-                                <input type="checkbox" name="tienda" value="@tienda" /> @tienda
-                            </label>
+                        @{
+                            foreach (var tienda in Model.tiendasV)
+                            {
+                                var revisado = "";
+                                if (Model.tiendas.Length > 0)
+                                {
+                                    // Revisar si la tienda está en el arreglo de provincias del modelo
+                                    revisado = Model.tiendas.Contains(tienda) ? "checked" : "";
+                                }
+                                <label>
+                                    <input type="checkbox" name="tienda" value="@tienda" @revisado /> @tienda
+                                </label>
+                            }
                         }
                     </div>
                 </div>
@@ -130,11 +138,11 @@
                                asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
+                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].precio)
                             </a>
                         </th>
-
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productosVM[0].fecha)
@@ -151,7 +159,8 @@
                                asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
+                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].provincia)
                             </a>
                         </th>
@@ -163,7 +172,8 @@
                                asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))">
+                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].canton)
                             </a>
                         </th>
@@ -228,6 +238,7 @@
                    asp-route-filtroProducto="@(Model.producto)"
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
+                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
                    class="BusquedaIndice-boton-paginacion">
                     Anterior
                 </a>
@@ -249,6 +260,7 @@
                    asp-route-filtroProducto="@(Model.producto)"
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
+                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
                    class="BusquedaIndice-boton-paginacion">
                     Siguiente
                 </a>
@@ -266,10 +278,17 @@
         // Boton de buscar
         cajaProducto = document.getElementById("CajaDeTextoProducto");
 
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
         // Limpiar filtros
         function limpiarFiltros() {
             // Construir la cadena de consulta default
-            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto');
+            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto');
 
             // Redirige a la página con la cadena de consulta en la URL
             window.location.href = "/Busqueda" + queryString;
@@ -284,7 +303,7 @@
             var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
 
             // Construir la cadena de consulta con los valores seleccionados
-            var queryString = "?nombreProducto=" + encodeURIComponent('@Model.producto') + "&";
+            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto') + "&";
 
             if (provinciasSeleccionadas.length !== 0) {
                 queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
@@ -293,10 +312,10 @@
                 queryString += "nombresCantones=" + cantonesSeleccionados + "&";
             }
             if (tiendasSeleccionadas.length !== 0) {
-                queryString += "nombreTiendas=" + tiendasSeleccionadas + "&";
+                queryString += "nombresTiendas=" + tiendasSeleccionadas + "&";
             }
             if (marcasSeleccionadas.length !== 0) {
-                queryString += "nombreMarcas=" + marcasSeleccionadas + "&";
+                queryString += "nombresMarcas=" + marcasSeleccionadas + "&";
             }
 
             // Remover el ultimo &
@@ -318,7 +337,7 @@
             return valores.join(",");
         }
 
-        // Validad formulario
+        // Validar formulario
         function validarFormulario() {
             if (!cajaProducto.value) {
                 return false;

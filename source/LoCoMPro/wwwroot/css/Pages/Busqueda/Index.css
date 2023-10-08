@@ -265,6 +265,9 @@ BusquedaIndice-tabla-filtros-contenedor {
     border-radius: 5px;
     padding: 5px;
     overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Caja de filtros */
@@ -324,6 +327,9 @@ BusquedaIndice-tabla-filtros-contenedor {
         display: block;
         padding: 5px 25px;
         background-color: #C3F3E5;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
 /* Before de boton dropdown */

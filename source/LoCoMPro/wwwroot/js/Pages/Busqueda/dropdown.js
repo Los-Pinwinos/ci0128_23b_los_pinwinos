@@ -27,7 +27,7 @@ function adjustDropdownPosition(triggerElement, dropdownId, action) {
             boton.style.marginTop = `${margenActual + cuentaDeLabels * tamannoDeLabel}px`;
         }
     } else {
-        // Calculatar el nuevo margen (subir)
+        // Calcular el nuevo margen (subir)
         const labels = dropDownArriba.querySelectorAll('label');
         const cuentaDeLabels = labels.length;
         if (cuentaDeLabels > 0) {

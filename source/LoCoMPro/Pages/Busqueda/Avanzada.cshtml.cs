@@ -42,6 +42,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreCanton, string? filtroCanton
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
+            , string? nombresTiendas, string? filtrosTiendas
             , string? columnaOrdenado, string? sentidoOrdenado)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)
@@ -55,6 +56,7 @@ namespace LoCoMPro.Pages.Busqueda
                     , nombreProducto, filtroProducto
                     , nombresProvincias, filtrosProvincias
                     , nombresCantones, filtrosCantones
+                    , nombresTiendas, filtrosTiendas
                     , columnaOrdenado, sentidoOrdenado);
 
                 // Verificar parámetros y asignar índice de página correcto
@@ -68,6 +70,8 @@ namespace LoCoMPro.Pages.Busqueda
 
                 // Cargar filtros
                 this.cargarFiltros(productosIQ);
+
+                // La cagada esta arriba de ssotaodjaos-djqaop0jfoi0aejfesto
 
                 // Filtrar
                 productosIQ = this.filtrarProductos(productosIQ);
