@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using LoCoMPro.Models;
 
-namespace PruebasProvisionales
+namespace LoCoMProTests.Models
 {
     [TestClass]
     public class UsuarioTests

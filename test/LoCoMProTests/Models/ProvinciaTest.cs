@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LoCoMPro.Models;
 
-namespace PruebasProvisionales
+namespace LoCoMProTests.Models
 {
     [TestClass]
     public class ProvinciaTest

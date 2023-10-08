@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using LoCoMPro.Models;
 using System.Drawing;
 
-namespace PruebasProvisionales
+namespace LoCoMProTests.Models
 {
     [TestClass]
     public class CantonTest
