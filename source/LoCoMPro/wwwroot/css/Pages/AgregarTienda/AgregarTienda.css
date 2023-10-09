@@ -14,6 +14,7 @@
     margin-bottom: 5px;
     width: 100%;
     justify-content: center;
+    margin-left: 7%;
 }
 
 /* Contenedor de caja de texto */
@@ -45,6 +46,16 @@
     width: 70%;
 }
 
+/* Margen para la caja de texto */
+.Ubicacion-margen-caja-texto {
+    margin-left: 35%;
+    margin-right: 0;
+}
+
+.Ubicacion-margen-caja-texto label{
+    margin-right: 1%;
+}
+
 /* Boton de localizacion */
 .Ubicacion-boton-localizacion {
     border: none;
@@ -54,15 +65,16 @@
     background-color: #033F63;
     color: #033F63;
     align-items: center;
-    border-radius: 10%;
+    border-radius: 30%;
+    margin-top: 1.2%;
     margin-left: 4%;
 }
 
 /* Icono de busqueda */
 .Ubicacion-icono-busqueda {
-    margin-top: 10%;
-    width: 80%;
-    height: 80%;
+    margin-top: 26%;
+    width: 25px;
+    height: 25px;
 }
 
 /* Mapa */
@@ -73,7 +85,7 @@
     justify-content: center;
     align-items: center;
     height: calc(40vh - 50px);
-    width: 80%;
+    width: 70%;
     margin-bottom: 4%;
     margin-top: 4%;
 }
@@ -94,7 +106,7 @@
     border-radius: 30px;
     padding: 1px 5px;
     width: 500px;
-    margin-left: 5%;
+    margin-right: 40%;
 }
 
 /* Label para seguir y cancelar */

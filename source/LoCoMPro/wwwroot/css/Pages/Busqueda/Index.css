@@ -317,7 +317,6 @@ BusquedaIndice-tabla-filtros-contenedor {
     display: none;
     position: absolute;
     background-color: #C3F3E5;
-    min-width: 100%;
     z-index: 1;
     max-height: 150px;
 }
@@ -327,9 +326,10 @@ BusquedaIndice-tabla-filtros-contenedor {
         display: block;
         padding: 5px 25px;
         background-color: #C3F3E5;
+        max-width: 95%;
+        white-space: nowrap;
         overflow-x: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
     }
 
 /* Before de boton dropdown */

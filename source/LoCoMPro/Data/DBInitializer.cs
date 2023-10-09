@@ -62,20 +62,13 @@ namespace LoCoMPro.Data
                 var usuario = new Usuario
                 {
                     nombreDeUsuario = "Usuario1*"
-                    ,
-                    correo = "prueba@gmail.com"
-                    ,
-                    hashContrasena = "AQAAAAIAAYagAAAAEH+LtjtVrlYttSVNFRGl4Ll/YFTgFPg04A4gh2vH/IzO7CwUMVI907upp5C5YTvAxQ=="
-                    ,
-                    estado = 'A'
-                    ,
-                    calificacion = 5
-                    ,
-                    distritoVivienda = "Garita"
-                    ,
-                    cantonVivienda = "Alajuela"
-                    ,
-                    provinciaVivienda = "Alajuela"
+                    , correo = "prueba@gmail.com"
+                    , hashContrasena = "AQAAAAIAAYagAAAAEH+LtjtVrlYttSVNFRGl4Ll/YFTgFPg04A4gh2vH/IzO7CwUMVI907upp5C5YTvAxQ=="
+                    , estado = 'A'
+                    , calificacion = 5
+                    , distritoVivienda = "Garita"
+                    , cantonVivienda = "Alajuela"
+                    , provinciaVivienda = "Alajuela"
                 };
                 contexto.Usuarios.Add(usuario);
                 contexto.SaveChanges();
