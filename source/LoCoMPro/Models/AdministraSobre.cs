@@ -8,7 +8,7 @@ namespace LoCoMPro.Models
     // [PrimaryKey(nameof(usuarioAdminstrador), nameof(usuarioOrdinario), nameof(accion))]
     public class AdministraSobre
     {
-        // TODO(Kenneth): Implementar esto
+        // TODO(Los Pinwinos): Implementar esto
         /*
         // Usuario adminstrador
         [StringLength(12, MinimumLength = 10)]

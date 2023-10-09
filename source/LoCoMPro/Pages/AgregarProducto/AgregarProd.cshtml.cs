@@ -11,7 +11,6 @@ namespace LoCoMPro.Pages.AgregarProducto
     public class AgregarProdModel : PageModel
     {
         private readonly LoCoMPro.Data.LoCoMProContext contexto;
-        private readonly IConfiguration configuracion;
 
         // ViewModel de la página
         [BindProperty]
@@ -22,12 +21,10 @@ namespace LoCoMPro.Pages.AgregarProducto
         public SelectList opcionesCategoria { get; set; }
 
         // Constructor del modelo de la página
-        public AgregarProdModel(LoCoMPro.Data.LoCoMProContext contexto, IConfiguration configuracion)
+        public AgregarProdModel(LoCoMPro.Data.LoCoMProContext contexto)
         {
             // Establece el contexto
             this.contexto = contexto;
-            // Establece la configuración
-            this.configuracion = configuracion;
             // Establece el registro
             viewModel = new AgregarProdVM
             {
@@ -143,11 +140,13 @@ namespace LoCoMPro.Pages.AgregarProducto
             return RedirectToPage("/Home/Index");
         }
 
-        public void OnPostCancelar()
+        public IActionResult OnPostCancelar()
         {
             RellenarSelectList();
             // Limpia los datos del view model
             LimpiarViewModel();
+            // Dirigir a la página de inicio
+            return RedirectToPage("/Home/Index");
         }
 
         public void RellenarSelectList()

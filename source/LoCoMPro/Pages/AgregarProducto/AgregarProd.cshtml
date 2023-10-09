@@ -78,7 +78,7 @@
             <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="PrecioTexto">Precio:</label>
-                <input asp-for="viewModel.precio" type="text" class="AgregarProd-caja-texto-larga" id="Precio">
+                <input asp-for="viewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
             </div>
             <!-- Agregar Unidad -->
             <div class="AgregarProd-contenedor-texto">
@@ -107,6 +107,13 @@
         $("#Producto").autocomplete({
             // Obtiene .Json de la ventana encarga de Autocompletado
             source: 'Autocompletado'
+        });
+    </script>
+    <script>
+        // Crea un evento al escribir en la caja de texto de precio
+        document.getElementById("Precio").addEventListener("input", function (event) {
+            // Remplaza el valor de la caja de texto siguiendo esa regex
+            event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
         });
     </script>
     <script>

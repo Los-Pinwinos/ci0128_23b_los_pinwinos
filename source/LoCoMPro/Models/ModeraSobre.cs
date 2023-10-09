@@ -7,7 +7,7 @@ namespace LoCoMPro.Models
     // [PrimaryKey(nameof(usuarioModerador), nameof(usuarioOrdinario), nameof(accion))]
     public class ModeraSobre
     {
-        // TODO(Kenneth): Implementar esto
+        // TODO(Los pinwinos): Implementar esto
         /*
         // Usuario moderador
         [StringLength(12, MinimumLength = 10)]

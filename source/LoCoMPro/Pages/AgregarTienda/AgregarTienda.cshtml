@@ -68,7 +68,7 @@
             <!-- Botón para seguir y para cancelar -->
             <div class="AgregarTienda-contenedor-botones">
                 <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
-                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" onclick="return validarFormulario();">Siguiente</button>
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" id="BotonSiguiente" onclick="return validarFormulario();">Siguiente</button>
             </div>
         </div>
     </form>
@@ -79,6 +79,19 @@
     $("#Nombre").autocomplete({
         // Obtiene .Json de la ventana
         source: 'Autocompletado'
+    });
+</script>
+
+<!-- Función para manejar el ENTER al escribir en caja para el nombre de tienda -->
+<script>
+    document.getElementById("Nombre").addEventListener("keydown", function (event) {
+        // Si la recla fue ENTER
+        if (event.keyCode === 13) {
+            // Previene el comportamiento por defecto
+            event.preventDefault();
+            // Presiona el botón siguiente
+            document.getElementById("BotonSiguiente").click();
+        }
     });
 </script>
 

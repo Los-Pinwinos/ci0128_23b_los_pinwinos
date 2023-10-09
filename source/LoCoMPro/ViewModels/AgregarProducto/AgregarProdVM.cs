@@ -11,24 +11,27 @@ namespace LoCoMPro.ViewModels.AgregarProducto
         public required string nombreProducto { get; set; }
 
         // Marca del producto
-        [StringLength(256, MinimumLength = 0)]
+        [StringLength(256, MinimumLength = 1)]
         public string? marcaProducto { get; set; }
 
         // Nombre de la unidad
         [StringLength(20, MinimumLength = 1)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         public required string nombreUnidad { get; set; }
 
         // Nombre de la categoría
         [StringLength(256, MinimumLength = 1)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         public required string nombreCategoria { get; set; }
 
         // Descripción
         [DataType(DataType.MultilineText)]
-        [StringLength(150, MinimumLength = 0)]
+        [StringLength(150, MinimumLength = 1)]
         public string? descripcion { get; set; }
 
         // Etiquetas
-        [StringLength(150, MinimumLength = 0)]
+        [StringLength(256, MinimumLength = 1)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         public string? etiqueta { get; set; }
 
         // Precio

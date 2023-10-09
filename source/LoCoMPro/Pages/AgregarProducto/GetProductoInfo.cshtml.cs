@@ -10,12 +10,10 @@ namespace LoCoMPro.Pages.AgregarProducto
     public class GetProductoInfo : PageModel
     {
         private readonly Data.LoCoMProContext contexto;
-        private readonly IConfiguration configuracion;
 
-        public GetProductoInfo(Data.LoCoMProContext contexto_base, IConfiguration configuracion_pagina)
+        public GetProductoInfo(Data.LoCoMProContext contexto_base)
         {
             contexto = contexto_base;
-            configuracion = configuracion_pagina;
         }
 
         public JsonResult OnGet(string productoNombre)

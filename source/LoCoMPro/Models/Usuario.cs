@@ -12,16 +12,16 @@ namespace LoCoMPro.Models
         // Nombre de usuario
         [Required]
         [StringLength(20, MinimumLength = 5,
-            ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 carácteres")]
+            ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 caracteres")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-            ErrorMessage =
-            "El nombre de usuario debe contener al menos: una minuscula, una mayuscula, un digito y un caractér especial")]
+           ErrorMessage =
+           "El nombre de usuario debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial")]
         [Display(Name = "Nombre de usuario")]
         public required string nombreDeUsuario { get; set; }
 
         // Correo (único)
         [DataType(DataType.EmailAddress)]
-        [EmailAddress(ErrorMessage = "Correo electronico inválido")]
+        [EmailAddress(ErrorMessage = "Formato de correo electrónico inválido")]
         [Display(Name = "Correo electrónico")]
         public required string correo { get; set; }
 

@@ -73,16 +73,16 @@ namespace LoCoMPro.Utils
         public string generarPin(int longitudPin)
         {
             // Crea un constructor de string para crear el pin
-            StringBuilder constructorPin = new StringBuilder();
+            var constructorPin = new StringBuilder();
 
             // Crea variables para el caracter a agregar y la posición
             // para agregarlo en cada iteración
-            char caracter = '-';
-            int posicion = 0;
+            char caracter;
+            int posicion;
 
             // Crea un generador de números pseudoaleatorios utilizando
             // el tiempo actual como semilla
-            Random generadorAleatorio = new Random();
+            var generadorAleatorio = new Random();
 
             // Ciclo para agregar todos los caracteres
             for (int limiteActual = 0; limiteActual < longitudPin; ++limiteActual)

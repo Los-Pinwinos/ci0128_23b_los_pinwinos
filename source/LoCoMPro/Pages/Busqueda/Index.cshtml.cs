@@ -48,10 +48,10 @@ namespace LoCoMPro.Pages.Busqueda
         public void Inicializar()
         {
             // Inicializar datos de filtrados
-            this.provincias = new string[] { };
-            this.cantones = new string[] { };
-            this.tiendas = new string[] { };
-            this.marcas = new string[] { };
+            this.provincias = Array.Empty<string>();
+            this.cantones = Array.Empty<string>();
+            this.tiendas = Array.Empty<string>();
+            this.marcas = Array.Empty<string>();
             // Inicializar datos de ordenamientos
             this.columnaOrdenActual = null;
             this.sentidoOrdenActual = "asc";
@@ -134,7 +134,7 @@ namespace LoCoMPro.Pages.Busqueda
                 nombresProvincias = filtrosProvincias;
             }
             this.provincias = !string.IsNullOrEmpty(nombresProvincias) ?
-                nombresProvincias.Split(',') : new string[0];
+                nombresProvincias.Split(',') : Array.Empty<string>();
 
             if (!string.IsNullOrEmpty(nombresCantones))
             {
@@ -145,7 +145,7 @@ namespace LoCoMPro.Pages.Busqueda
                 nombresCantones = filtrosCantones;
             }
             this.cantones = !string.IsNullOrEmpty(nombresCantones) ?
-                nombresCantones.Split(',') : new string[0];
+                nombresCantones.Split(',') : Array.Empty<string>();
 
             if (!string.IsNullOrEmpty(nombresTiendas))
             {
@@ -156,7 +156,7 @@ namespace LoCoMPro.Pages.Busqueda
                 nombresTiendas = filtrosTiendas;
             }
             this.tiendas = !string.IsNullOrEmpty(nombresTiendas) ?
-                nombresTiendas.Split(',') : new string[0];
+                nombresTiendas.Split(',') : Array.Empty<string>();
 
             if (!string.IsNullOrEmpty(nombresMarcas))
             {
@@ -167,7 +167,7 @@ namespace LoCoMPro.Pages.Busqueda
                 nombresMarcas = filtrosMarcas;
             }
             this.marcas = !string.IsNullOrEmpty(nombresMarcas) ?
-                nombresMarcas.Split(',') : new string[0];
+                nombresMarcas.Split(',') : Array.Empty<string>();
 
             // En caso de haber recibido una columna para ordernar
             // y un sentido

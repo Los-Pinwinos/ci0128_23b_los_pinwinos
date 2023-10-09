@@ -111,7 +111,7 @@ namespace LoCoMPro.Pages.Cuenta
                     if (this.controladorCorreos.enviarCorreo(this.usuarioActual.correo, asunto, cuerpo))
                     {
                         // Crea un nuevo usuario con los datos del modelo vista
-                        Usuario nuevoUsuario = new Usuario
+                        var nuevoUsuario = new Usuario
                         {
                             nombreDeUsuario = this.usuarioActual.nombreDeUsuario,
                             correo = this.usuarioActual.correo,
@@ -153,6 +153,9 @@ namespace LoCoMPro.Pages.Cuenta
                 // Establece el error para enviar un mensaje
                 HttpContext.Items["error"] = "No se ingresó datos válidos";
             }
+
+            // Recargar la información de provincias de la base de datos
+            this.provincias = this.contexto.Provincias.ToList();
 
             // Retorna a la página
             return Page();

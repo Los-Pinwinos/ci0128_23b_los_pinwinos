@@ -9,52 +9,37 @@ namespace LoCoMPro.Data
 {
     public class DBInitializer
     {
-        public static void Initialize(LoCoMProContext context)
+        public static void Initialize(LoCoMProContext contexto)
         {
-            // Buscar registros
-            if (context.Registros.Any())
+            // Si no tiene distritos, cantones ni provincias
+            if (!contexto.Distritos.Any() &&
+                !contexto.Cantones.Any() &&
+                !contexto.Provincias.Any())
             {
-                return;   // DB ya tiene registros
+                // Cargar las provincias, cantones y distritos de Costa Rica
+                DBInitializer.CargarProvinciasCantonesDistritos(contexto);
             }
 
-            // Cargar las provincias, cantones y distritos de Costa Rica
-            DBInitializer.CargarProvinciasCantonesDistritos(context);
-
-            // Crear Usuario
-            var usuario = new Usuario
+            // Si no tiene unidades
+            if (!contexto.Unidades.Any())
             {
-                nombreDeUsuario = "Usuario1"
-                ,
-                correo = "prueba@gmail.com"
-                ,
-                hashContrasena = "123456"
-                ,
-                estado = 'A'
-                ,
-                calificacion = 5
-                ,
-                distritoVivienda = "Garita"
-                ,
-                cantonVivienda = "Alajuela"
-                ,
-                provinciaVivienda = "Alajuela"
-            };
-            context.Usuarios.Add(usuario);
-            context.SaveChanges();
+                // Crear unidades base
+                var unidades = new Unidad[]
+                {
+                    new Unidad {nombre= "Cantidad"},
+                    new Unidad {nombre= "Kilogramos"},
+                    new Unidad {nombre = "Litros"}
+                };
+                contexto.Unidades.AddRange(unidades);
+                contexto.SaveChanges();
+            }
 
-            // Crear Unidad
-            var unidades = new Unidad[]
+            // Si no tiene categorias
+            if (!contexto.Categorias.Any())
             {
-                new Unidad {nombre= "Cantidad"},
-                new Unidad {nombre= "Kilogramos"},
-                new Unidad {nombre = "Litros"}
-            };
-            context.Unidades.AddRange(unidades);
-            context.SaveChanges();
-
-            // Crear Categorias
-            var categorias = new Categoria[]
-            {
+                // Crear categorias base
+                var categorias = new Categoria[]
+                {
                 new Categoria { nombre = "Alimentos" },
                 new Categoria { nombre = "Electrónicos" },
                 new Categoria { nombre = "Entretenimiento" },
@@ -62,124 +47,188 @@ namespace LoCoMPro.Data
                 new Categoria { nombre = "Limpieza" },
                 new Categoria { nombre = "Ropa" },
                 new Categoria { nombre = "Otros" }
-            };
-            context.Categorias.AddRange(categorias);
-            context.SaveChanges();
+                };
+                contexto.Categorias.AddRange(categorias);
+                contexto.SaveChanges();
+            }
 
-            // Crear productos
-            var productos = new Producto[]
+            // Si no tiene tiendas, productos ni registros
+            if (!contexto.Tiendas.Any() &&
+                !contexto.Productos.Any() &&
+                !contexto.Registros.Any())
             {
-                new Producto {nombre="Iphone 14", marca="Apple", nombreCategoria="Electrónicos", nombreUnidad="Cantidad"},
-                new Producto {nombre="Camisa", marca="Nike", nombreCategoria="Ropa", nombreUnidad="Cantidad"}
-            };
-            context.Productos.AddRange(productos);
-            context.SaveChanges();
+                // TODO(Pinwinos): Agregar usuarios para cada miembro
+                // Crear Usuario base
+                var usuario = new Usuario
+                {
+                    nombreDeUsuario = "Usuario1*"
+                    ,
+                    correo = "prueba@gmail.com"
+                    ,
+                    hashContrasena = "AQAAAAIAAYagAAAAEH+LtjtVrlYttSVNFRGl4Ll/YFTgFPg04A4gh2vH/IzO7CwUMVI907upp5C5YTvAxQ=="
+                    ,
+                    estado = 'A'
+                    ,
+                    calificacion = 5
+                    ,
+                    distritoVivienda = "Garita"
+                    ,
+                    cantonVivienda = "Alajuela"
+                    ,
+                    provinciaVivienda = "Alajuela"
+                };
+                contexto.Usuarios.Add(usuario);
+                contexto.SaveChanges();
 
-            // Crear Tiendas
-            var tiendas = new Tienda[]
-            {
-                new Tienda {nombre="Walmart", nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"},
-                new Tienda {nombre="Maxi Pali", nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"}
-            };
-            context.Tiendas.AddRange(tiendas);
-            context.SaveChanges();
+                // Cargar tiendas base
+                DBInitializer.CargarTiendas(contexto);
 
-            // Crear registros
-            var registros = new Registro[]
-            {
-                new Registro {creacion=DateTime.Parse("2019-09-01 10:30:45"), precio=13.2M
-                    , productoAsociado="Iphone 14", usuarioCreador="Usuario1", nombreTienda="Walmart"
-                    , nombreDistrito="Carmen", nombreCanton="San José", nombreProvincia="San José"
-                    , descripcion="Muy bueno" },
-                new Registro {creacion=DateTime.Parse("2019-09-01 10:31:45"), precio=12.2M
-                    , productoAsociado="Camisa", usuarioCreador="Usuario1", nombreTienda="Maxi Pali"
-                    , nombreDistrito="Heredia", nombreCanton="Heredia", nombreProvincia="Heredia"
-                    , descripcion="Muy bueno tambien" },
-            };
-            context.Registros.AddRange(registros);
-            context.SaveChanges();
+                // Cargar productos base
+                DBInitializer.CargarProductos(contexto);
+
+                // Cargar registros base
+                DBInitializer.CargarRegistros(contexto);
+            }
         }
 
         // Cargar provincias cantones y distritos
-        public static void CargarProvinciasCantonesDistritos(LoCoMProContext context)
+        private static void CargarProvinciasCantonesDistritos(LoCoMProContext contexto)
         {
             // Cargar JSON
-            string jsonFilePath = "./Data/ProvinciasCantonesDistritosCR.json";
-            string jsonData = File.ReadAllText(jsonFilePath);
+            string pathArchivoJson = "./Data/ArchivosJSON/ProvinciasCantonesDistritosCR.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
 
             // Deserializar
-            CR.CostaRica costaRica = JsonConvert.DeserializeObject<CR.CostaRica>(jsonData);
+            CR.CostaRica? costaRica = JsonConvert.DeserializeObject<CR.CostaRica>(datosJson);
 
             // Agregar los datos
-            AgregarDatos(context, costaRica);
+            if (costaRica != null)
+            {
+                AgregarDatos(contexto, costaRica);
+                contexto.SaveChanges();
+            }
         }
 
-        private static void AgregarDatos(LoCoMProContext context, CR.CostaRica costaRica)
+        private static void AgregarDatos(LoCoMProContext contexto, CR.CostaRica costaRica)
         {
+            if (costaRica.Provincias != null)
             foreach (var entradaProvincia in costaRica.Provincias.Values)
             {
-                AgregarProvincias(context, entradaProvincia);
+                AgregarProvincias(contexto, entradaProvincia);
             }
         }
 
-        private static void AgregarProvincias(LoCoMProContext context, CR.Provincia entradaProvincia)
+        private static void AgregarProvincias(LoCoMProContext contexto, CR.Provincia entradaProvincia)
         {
             // Si ya está
-            var provincia = context.Provincias.FirstOrDefault(p => p.nombre == entradaProvincia.Nombre);
-            if (provincia == null)
+            var provincia = contexto.Provincias.FirstOrDefault(p => p.nombre == entradaProvincia.Nombre);
+            if (provincia == null && entradaProvincia.Nombre != null)
             {
                 provincia = new LoCoMPro.Models.Provincia { nombre = entradaProvincia.Nombre };
-                context.Provincias.Add(provincia);
+                contexto.Provincias.Add(provincia);
 
                 // Guarda los cambios en la base de datos
-                context.SaveChanges();
+                contexto.SaveChanges();
             }
 
+            if (entradaProvincia.Cantones != null && entradaProvincia.Nombre != null)
             foreach (var entradaCanton in entradaProvincia.Cantones.Values)
             {
-                AgregarCantones(context, entradaProvincia.Nombre, entradaCanton);
+                AgregarCantones(contexto, entradaProvincia.Nombre, entradaCanton);
             }
         }
 
-        private static void AgregarCantones(LoCoMProContext context, string nombreProv, CR.Canton entradaCanton)
+        private static void AgregarCantones(LoCoMProContext contexto, string nombreProv, CR.Canton entradaCanton)
         {
             // Accesar a las propiedades de canton
-            string nombreCant = entradaCanton.Nombre;
+            string? nombreCant = entradaCanton.Nombre;
             // Ver si es central
             if (nombreCant == "Central")
                 nombreCant = nombreProv;
 
             // Si ya está
-            var canton = context.Cantones.FirstOrDefault(p => p.nombre == nombreCant && p.nombreProvincia == nombreProv);
-            if (canton == null)
+            var canton = contexto.Cantones.FirstOrDefault(p => p.nombre == nombreCant && p.nombreProvincia == nombreProv);
+            if (canton == null && nombreCant != null)
             {
                 canton = new LoCoMPro.Models.Canton { nombre = nombreCant, nombreProvincia = nombreProv };
-                context.Cantones.Add(canton);
+                contexto.Cantones.Add(canton);
 
                 // Guarda los cambios en la base de datos
-                context.SaveChanges();
+                contexto.SaveChanges();
             }
 
+            if (entradaCanton.Distritos != null && nombreCant != null)
             foreach (var entradaDistrito in entradaCanton.Distritos.Values)
             {
-                AgregarDistrito(context, nombreProv, nombreCant, entradaDistrito);
+                AgregarDistrito(contexto, nombreProv, nombreCant, entradaDistrito);
             }
         }
 
-        private static void AgregarDistrito(LoCoMProContext context, string nombreProv, string nombreCant, string nombreDistrito)
+        private static void AgregarDistrito(LoCoMProContext contexto, string nombreProv, string nombreCant, string nombreDistrito)
         {
             // Accesar a las propiedades de canton
             string nombreDistr = nombreDistrito;
 
             // Si ya está
-            var distrito = context.Distritos.FirstOrDefault(p => p.nombre == nombreDistr && p.nombreCanton == nombreCant && p.nombreProvincia == nombreProv);
+            var distrito = contexto.Distritos.FirstOrDefault(p => p.nombre == nombreDistr && p.nombreCanton == nombreCant && p.nombreProvincia == nombreProv);
             if (distrito == null)
             {
                 distrito = new LoCoMPro.Models.Distrito { nombre = nombreDistr, nombreCanton = nombreCant, nombreProvincia = nombreProv };
-                context.Distritos.Add(distrito);
+                contexto.Distritos.Add(distrito);
 
                 // Guarda los cambios en la base de datos
-                context.SaveChanges();
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void CargarProductos(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Productos.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var productos = JsonConvert.DeserializeObject<Producto[]>(datosJson);
+
+            // Agregar los datos
+            if (productos != null)
+            {
+                contexto.Productos.AddRange(productos);
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void CargarTiendas(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Tiendas.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var tiendas = JsonConvert.DeserializeObject<Tienda[]>(datosJson);
+
+            // Agregar los datos
+            if (tiendas != null)
+            {
+                contexto.Tiendas.AddRange(tiendas);
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void CargarRegistros(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Registros.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var registros = JsonConvert.DeserializeObject<Registro[]>(datosJson);
+
+            // Agregar los datos
+            if (registros != null)
+            {
+                contexto.Registros.AddRange(registros);
+                contexto.SaveChanges();
             }
         }
     }

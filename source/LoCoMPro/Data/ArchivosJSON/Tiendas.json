@@ -1,0 +1,122 @@
+[
+  {
+    "nombre": "Walmart",
+    "nombreDistrito": "Carmen",
+    "nombreCanton": "San José",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "Maxi Pali",
+    "nombreDistrito": "Heredia",
+    "nombreCanton": "Heredia",
+    "nombreProvincia": "Heredia"
+  },
+  {
+    "nombre": "Supermercado Central",
+    "nombreDistrito": "San Pedro",
+    "nombreCanton": "Montes De Oca",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "MegaMart",
+    "nombreDistrito": "Escazú",
+    "nombreCanton": "Escazú",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "Pura Vida Grocery",
+    "nombreDistrito": "Santa Ana",
+    "nombreCanton": "Santa Ana",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "Costa Rica Market",
+    "nombreDistrito": "Alajuela",
+    "nombreCanton": "Alajuela",
+    "nombreProvincia": "Alajuela"
+  },
+  {
+    "nombre": "La Tiendita",
+    "nombreDistrito": "Carmen",
+    "nombreCanton": "Cartago",
+    "nombreProvincia": "Cartago"
+  },
+  {
+    "nombre": "Compras Felices",
+    "nombreDistrito": "Liberia",
+    "nombreCanton": "Liberia",
+    "nombreProvincia": "Guanacaste"
+  },
+  {
+    "nombre": "Tienda Tico",
+    "nombreDistrito": "Puntarenas",
+    "nombreCanton": "Puntarenas",
+    "nombreProvincia": "Puntarenas"
+  },
+  {
+    "nombre": "Central Plaza",
+    "nombreDistrito": "Limón",
+    "nombreCanton": "Limón",
+    "nombreProvincia": "Limón"
+  },
+  {
+    "nombre": "ShopSmart",
+    "nombreDistrito": "San Juan",
+    "nombreCanton": "Tibás",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "EconoMax",
+    "nombreDistrito": "Desamparados",
+    "nombreCanton": "Desamparados",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "MegaCompras",
+    "nombreDistrito": "Grecia",
+    "nombreCanton": "Grecia",
+    "nombreProvincia": "Alajuela"
+  },
+  {
+    "nombre": "Mall Plaza",
+    "nombreDistrito": "Curridabat",
+    "nombreCanton": "Curridabat",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "Tienda del Pueblo",
+    "nombreDistrito": "Heredia",
+    "nombreCanton": "Heredia",
+    "nombreProvincia": "Heredia"
+  },
+  {
+    "nombre": "Pacific Market",
+    "nombreDistrito": "Jacó",
+    "nombreCanton": "Garabito",
+    "nombreProvincia": "Puntarenas"
+  },
+  {
+    "nombre": "Valle Central Superstore",
+    "nombreDistrito": "Heredia",
+    "nombreCanton": "Heredia",
+    "nombreProvincia": "Heredia"
+  },
+  {
+    "nombre": "Tienda Express",
+    "nombreDistrito": "Curridabat",
+    "nombreCanton": "Curridabat",
+    "nombreProvincia": "San José"
+  },
+  {
+    "nombre": "Compras Rápidas",
+    "nombreDistrito": "Alajuela",
+    "nombreCanton": "Alajuela",
+    "nombreProvincia": "Alajuela"
+  },
+  {
+    "nombre": "SuperMarket Veinticuatro Siete",
+    "nombreDistrito": "Liberia",
+    "nombreCanton": "Liberia",
+    "nombreProvincia": "Guanacaste"
+  }
+]

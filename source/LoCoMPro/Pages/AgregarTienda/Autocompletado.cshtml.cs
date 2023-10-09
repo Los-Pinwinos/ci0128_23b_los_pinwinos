@@ -9,12 +9,10 @@ namespace LoCoMPro.Pages.AgregarTienda
     public class Autocompletado : PageModel
     {
         private readonly Data.LoCoMProContext contexto;
-        private readonly IConfiguration configuracion;
 
-        public Autocompletado(Data.LoCoMProContext contexto_base, IConfiguration configuracion_pagina)
+        public Autocompletado(Data.LoCoMProContext contexto_base)
         {
             contexto = contexto_base;
-            configuracion = configuracion_pagina;
         }
 
         // Crea JSON
@@ -57,7 +55,7 @@ namespace LoCoMPro.Pages.AgregarTienda
                 }).ToList();
 
             // Obtiene solo nos nombres de las tiendas que cumplen
-            for (int i = 0; i < resultados.Count(); ++i)
+            for (int i = 0; i < resultados.Count; ++i)
             {
                 if (resultados[i].nombreDistrito == distrito
                     && resultados[i].nombreCanton == canton

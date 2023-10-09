@@ -7,12 +7,10 @@ namespace LoCoMPro.Pages.AgregarProducto
     public class Autocompletado : PageModel
     {
         private readonly Data.LoCoMProContext contexto;
-        private readonly IConfiguration configuracion;
 
-        public Autocompletado(Data.LoCoMProContext contexto_base, IConfiguration configuracion_pagina)
+        public Autocompletado(Data.LoCoMProContext contexto_base)
         {
             contexto = contexto_base;
-            configuracion = configuracion_pagina;
         }
         public JsonResult OnGet(string term)
         {

@@ -14,7 +14,6 @@ namespace LoCoMPro
 
         public ListaPaginada()
         {
-            List<T> items = new List<T>();
             IndicePagina = 1;
             PaginasTotales = 0;
         }
