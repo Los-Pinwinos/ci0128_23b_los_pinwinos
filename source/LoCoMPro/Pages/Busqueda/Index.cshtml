@@ -73,7 +73,7 @@
                                 var revisado = "";
                                 if (Model.cantones.Length > 0)
                                 {
-                                    // Revisar si el cantón está en el arreglo de provincias del modelo
+                                    // Revisar si el cantón está en el arreglo de cantones del modelo
                                     revisado = Model.cantones.Contains(canton) ? "checked" : "";
                                 }
                                 <label>
@@ -93,7 +93,7 @@
                                 var revisado = "";
                                 if (Model.tiendas.Length > 0)
                                 {
-                                    // Revisar si la tienda está en el arreglo de provincias del modelo
+                                    // Revisar si la tienda está en el arreglo de tiendas del modelo
                                     revisado = Model.tiendas.Contains(tienda) ? "checked" : "";
                                 }
                                 <label>
@@ -107,11 +107,19 @@
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
-                        @foreach (var marca in Model.marcasV)
-                        {
-                            <label>
-                                <input type="checkbox" name="marca" value="@marca" /> @marca
-                            </label>
+                        @{
+                            foreach (var marca in Model.marcasV)
+                            {
+                                var revisado = "";
+                                if (Model.marcas.Length > 0)
+                                {
+                                    // Revisar si la marca está en el arreglo de marcas del modelo
+                                    revisado = Model.marcas.Contains(marca) ? "checked" : "";
+                                }
+                                <label>
+                                    <input type="checkbox" name="marca" value="@marca" @revisado /> @marca
+                                </label>
+                            }
                         }
                     </div>
                 </div>
@@ -139,7 +147,8 @@
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                                asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
+                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].precio)
                             </a>
                         </th>
@@ -160,7 +169,8 @@
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                                asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
+                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].provincia)
                             </a>
                         </th>
@@ -173,7 +183,8 @@
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                                asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))">
+                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
+                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
                                 @Html.DisplayNameFor(model => model.productosVM[0].canton)
                             </a>
                         </th>
@@ -239,6 +250,7 @@
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
+                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
                    class="BusquedaIndice-boton-paginacion">
                     Anterior
                 </a>
@@ -261,6 +273,7 @@
                    asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
                    asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
                    asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
+                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
                    class="BusquedaIndice-boton-paginacion">
                     Siguiente
                 </a>

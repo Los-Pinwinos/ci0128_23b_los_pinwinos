@@ -43,6 +43,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombresProvincias, string? filtrosProvincias
             , string? nombresCantones, string? filtrosCantones
             , string? nombresTiendas, string? filtrosTiendas
+            , string? nombresMarcas, string? filtrosMarcas
             , string? columnaOrdenado, string? sentidoOrdenado)
         {
             if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)
@@ -57,6 +58,7 @@ namespace LoCoMPro.Pages.Busqueda
                     , nombresProvincias, filtrosProvincias
                     , nombresCantones, filtrosCantones
                     , nombresTiendas, filtrosTiendas
+                    , nombresMarcas, filtrosMarcas
                     , columnaOrdenado, sentidoOrdenado);
 
                 // Verificar parámetros y asignar índice de página correcto
