@@ -202,7 +202,7 @@
                             <!-- Nombre de columna -->
                             <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
                                asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="precio" class="BusquedaIndice-titulo-columna"
+                               asp-route-columnaOrdenado="provincia" class="BusquedaIndice-titulo-columna"
                                asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
                                asp-route-filtroProducto="@(Model.producto)"
                                asp-route-filtroMarca="@(Model.marca)"

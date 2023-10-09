@@ -130,22 +130,28 @@ namespace LoCoMPro.Pages.Busqueda
         // Sobrecarga de buscar productos
         new protected IQueryable<BusquedaVM> buscarProductos()
         {
-            IQueryable<BusquedaVM> productosIQ = this.contexto.Registros
-                        .Include(r => r.producto)
-                        .OrderByDescending(r => r.creacion)
-                        .GroupBy(r => new { r.productoAsociado, r.nombreTienda, r.nombreProvincia, r.nombreCanton, r.nombreDistrito })
-                        .Select(group => new BusquedaVM
-                        {
-                            nombre = group.First().productoAsociado,
-                            precio = group.First().precio,
-                            unidad = group.First().producto.nombreUnidad,
-                            fecha = group.First().creacion,
-                            tienda = group.First().nombreTienda,
-                            provincia = group.First().nombreProvincia,
-                            canton = group.First().nombreCanton,
-                            marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
-                                    group.First().producto.marca : "Sin marca"
-                        });
+            IQueryable<BusquedaVM> productosIQ = contexto.Registros
+                .Include(r => r.producto)
+                .GroupBy(r => new
+                {
+                    r.productoAsociado,
+                    r.nombreTienda,
+                    r.nombreProvincia,
+                    r.nombreCanton,
+                    r.nombreDistrito
+                })
+                .Select(group => new BusquedaVM
+                {
+                    nombre = group.Key.productoAsociado,
+                    precio = group.OrderByDescending(item => item.creacion).First().precio,
+                    unidad = group.First().producto.nombreUnidad,
+                    fecha = group.OrderByDescending(item => item.creacion).First().creacion,
+                    tienda = group.Key.nombreTienda,
+                    provincia = group.Key.nombreProvincia,
+                    canton = group.Key.nombreCanton,
+                    marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
+                        group.First().producto.marca : "Sin marca"
+                });
             // Buscar por nombre
             productosIQ = this.buscarNombre(productosIQ);
             // Buscar por marca
