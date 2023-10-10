@@ -1,0 +1,157 @@
+﻿@page
+@model LoCoMPro.Pages.AgregarProducto.AgregarProdModel
+@{
+    ViewData["Title"] = "Agregar Producto";
+}
+
+<head>
+    <!-- Título de la pagina -->
+    <title>Agregar Producto</title>
+    <!-- JQuery -->
+    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
+    <!-- Alinear la ventana -->
+    <script src="~/js/Pages/alinear.js"></script>
+    <!-- Archivo css -->
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
+    <script>
+        // Función para actualizar categoría y unidad en base a un producto ingresado
+        function updateCategoriaUnidad(productoIngresado) {
+            $.ajax({
+                url: 'GetProductoInfo',
+                type: 'GET',
+                dataType: 'json',
+                data: { productoNombre: productoIngresado },
+                success: function (data) {
+                    if (data.exito) {
+                        // Actualizar los comboboxes con la categoría y unidad que tiene el modelo
+                        $("#Categoria").val(data.categoria);
+                        $("#Unidad").val(data.unidad);
+                        $("#Marca").val(data.marca);
+                        // Si el producto existe, no se permiten cambiar estos valores
+                        document.getElementById("Categoria").disabled = true;
+                        document.getElementById("Unidad").disabled = true;
+                        document.getElementById("Marca").disabled = true;
+                    } else {
+                        // Si el producto no existe, no se debe desabilitar
+                        document.getElementById("Categoria").disabled = false;
+                        document.getElementById("Unidad").disabled = false;
+                        document.getElementById("Marca").disabled = false;
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            // Capturar el evento blur cuando el usuario deja el input de producto
+            $("#Producto").on("blur", function () {
+                var productoIngresado = $(this).val();
+                updateCategoriaUnidad(productoIngresado);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+    <form method="post" asp-page-handler="Aceptar">
+        <!-- Contenedor para el formulario -->
+        <div class="AgregarProd-contenedor-central">
+            <!-- Agregar Producto -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="ProductoTexto">Producto:</label>
+                <input asp-for="viewModel.nombreProducto" type="text" class="AgregarProd-caja-texto-larga" id="Producto">
+            </div>
+            <!-- Agregar Marca -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="MarcaTexto">Marca:</label>
+                <input asp-for="viewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
+            </div>
+            <!-- Agregar Categoría -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="ProductoTexto">Categoría:</label>
+                <!-- Genera de manera automática los elementos del select -->
+                <select asp-for="viewModel.nombreCategoria" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
+            </div>
+            <!-- Agregar Precio -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="PrecioTexto">Precio:</label>
+                <input asp-for="viewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
+            </div>
+            <!-- Agregar Unidad -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="UnidadTexto">Unidad:</label>
+                <!-- Genera de manera automática los elementos del select -->
+                <select asp-for="viewModel.nombreUnidad" id="Unidad" asp-items="Model.opcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
+            </div>
+            <!-- Agregar Etiqueta -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="EtiquetaTexto">Etiqueta:</label>
+                <input asp-for="viewModel.etiqueta" type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta">
+            </div>
+            <!-- Descripción -->
+            <div class="AgregarProd-contenedor-texto">
+                <label for="DescripcionTexto">Descripción:</label>
+                <input asp-for="viewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
+            </div>
+            <!-- Botones de aceptar y cancelar -->
+            <div class="AgregarProd-contenedor-texto">
+                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
+                <button class="AgregarProd-boton-estandar" type="submit" asp-page-handler="Aceptar" onclick="return validarFormulario();">Aceptar</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $("#Producto").autocomplete({
+            // Obtiene .Json de la ventana encarga de Autocompletado
+            source: 'Autocompletado'
+        });
+    </script>
+    <script>
+        // Crea un evento al escribir en la caja de texto de precio
+        document.getElementById("Precio").addEventListener("input", function (event) {
+            // Remplaza el valor de la caja de texto siguiendo esa regex
+            event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+        });
+    </script>
+    <script>
+        function validarFormulario() {
+            // Revisar si el formulario está incompleto
+            var productoTexto = document.getElementById('Producto').value;
+            var precioTexto = document.getElementById('Precio').value;
+            if (!productoTexto || !precioTexto) {
+                // Alertar usuario
+                alert("Favor completar los datos del categoría, producto, precio y unidad.");
+                // No entregar el formulario
+                return false;
+            }
+            return true; // Enviar el formulario para procesarse
+        }
+    </script>
+    <script>
+        // Mostrar el mensaje de error si está presente
+        var mensajeError = "@ViewData["ErrorMessage"]";
+        if (mensajeError) {
+            document.getElementById("errorMessage").textContent = mensajeError;
+            document.getElementById("errorMessage").style.display = "block";
+        }
+    </script>
+    <script>
+        var mensajeRedirect = "@ViewData["RedirectMessage"]";
+        if (mensajeRedirect) {
+            if (mensajeRedirect === "usuario") {
+                alert("Por favor ingrese al sistema.");
+                window.location.href = "/Home/Index";
+            } else if (mensajeRedirect === "tienda") {
+                alert("Por favor ingrese una tienda.");
+                window.location.href = "/AgregarTienda/AgregarTienda";
+            }
+        }
+    </script>
+    <script>
+        // Función de alineado para las cajas de texto
+        alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-texto", 112);
+    </script>
+</body>

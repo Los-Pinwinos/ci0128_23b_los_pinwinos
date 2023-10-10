@@ -1,0 +1,6 @@
+﻿/* Estilo para el icono del perfil*/
+.Layout-icono-perfil {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
