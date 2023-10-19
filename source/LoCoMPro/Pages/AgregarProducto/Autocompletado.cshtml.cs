@@ -19,17 +19,19 @@ namespace LoCoMPro.Pages.AgregarProducto
             if (attribute == "Producto")
             {
                 resultados = contexto.Productos
-                    .Where(p => p.nombre.Contains(term))
+                    .Where(p => p.nombre.StartsWith(term))
                     .Select(p => p.nombre)
-                    .Distinct() // Ensure distinct elements
+                    .Distinct()
+                    .OrderBy(p => p)
                     .ToList();
             }
             else if (attribute == "Marca")
             {
                 resultados = contexto.Productos
-                    .Where(p => p.marca.Contains(term))
+                    .Where(p => p.marca.StartsWith(term))
                     .Select(p => p.marca)
-                    .Distinct() // Ensure distinct elements
+                    .Distinct()
+                    .OrderBy(p => p)
                     .ToList();
             }
             // Add more conditions for other attributes if needed
