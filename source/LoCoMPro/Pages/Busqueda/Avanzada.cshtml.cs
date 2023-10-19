@@ -46,44 +46,6 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombresMarcas, string? filtrosMarcas
             , string? columnaOrdenado, string? sentidoOrdenado)
         {
-            if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)
-                || !string.IsNullOrEmpty(nombreMarca)|| !string.IsNullOrEmpty(filtroMarca)
-                || !string.IsNullOrEmpty(nombreProvincia)|| !string.IsNullOrEmpty(filtroProvincia)
-                || !string.IsNullOrEmpty(nombreCanton) || !string.IsNullOrEmpty(filtroCanton))
-                && this.contexto.Productos != null)
-            {
-                // Verificar parámetros y asignar índice de página correcto
-                indicePagina = this.verificarParametros(indicePagina
-                    , nombreProducto, filtroProducto
-                    , nombresProvincias, filtrosProvincias
-                    , nombresCantones, filtrosCantones
-                    , nombresTiendas, filtrosTiendas
-                    , nombresMarcas, filtrosMarcas
-                    , columnaOrdenado, sentidoOrdenado);
-
-                // Verificar parámetros y asignar índice de página correcto
-                indicePagina = this.verificarParametrosAvanzados(indicePagina
-                    , nombreMarca, filtroMarca
-                    , nombreProvincia, filtroProvincia
-                    , nombreCanton, filtroCanton);
-
-                // Hacer la consulta de productos con registros
-                IQueryable<BusquedaVM> productosIQ = this.buscarProductos();
-
-                // Cargar filtros
-                this.cargarFiltros(productosIQ);
-
-                // La cagada esta arriba de ssotaodjaos-djqaop0jfoi0aejfesto
-
-                // Filtrar
-                productosIQ = this.filtrarProductos(productosIQ);
-
-                // Ordenar por precio
-                productosIQ = this.ordenarProductos(productosIQ);
-
-                // Paginar
-                await this.paginarProductos(productosIQ, indicePagina);
-            }
             return Page();
         }
 
@@ -152,14 +114,7 @@ namespace LoCoMPro.Pages.Busqueda
                     marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
                         group.First().producto.marca : "Sin marca"
                 });
-            // Buscar por nombre
-            productosIQ = this.buscarNombre(productosIQ);
-            // Buscar por marca
-            productosIQ = this.buscarMarca(productosIQ);
-            // Buscar por provincia
-            productosIQ = this.buscarProvincia(productosIQ);
-            // Buscar por canton
-            productosIQ = this.buscarCanton(productosIQ);
+      
             // Retornar busqueda
             return productosIQ;
         }
