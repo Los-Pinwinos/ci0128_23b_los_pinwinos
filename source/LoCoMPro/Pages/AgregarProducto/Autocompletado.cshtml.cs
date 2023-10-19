@@ -12,9 +12,28 @@ namespace LoCoMPro.Pages.AgregarProducto
         {
             contexto = contexto_base;
         }
-        public JsonResult OnGet(string term)
+        public JsonResult OnGet(string term, string attribute)
         {
-            IList<string> resultados = resultados = contexto.Productos.Where(p => p.nombre.Contains(term)).Select(p => p.nombre).ToList();
+            IList<string> resultados = new List<string>();
+
+            if (attribute == "Producto")
+            {
+                resultados = contexto.Productos
+                    .Where(p => p.nombre.StartsWith(term))
+                    .Select(p => p.nombre)
+                    .Distinct()
+                    .OrderBy(p => p)
+                    .ToList();
+            }
+            else if (attribute == "Marca")
+            {
+                resultados = contexto.Productos
+                    .Where(p => p.marca.StartsWith(term))
+                    .Select(p => p.marca)
+                    .Distinct()
+                    .OrderBy(p => p)
+                    .ToList();
+            }
             return new JsonResult(resultados);
         }
     }
