@@ -13,9 +13,6 @@ namespace LoCoMPro.Models
         [Required]
         [StringLength(20, MinimumLength = 5,
             ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 caracteres")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-           ErrorMessage =
-           "El nombre de usuario debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial")]
         [Display(Name = "Nombre de usuario")]
         public required string nombreDeUsuario { get; set; }
 

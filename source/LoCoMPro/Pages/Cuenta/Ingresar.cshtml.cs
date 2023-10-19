@@ -99,6 +99,12 @@ namespace LoCoMPro.Pages.Cuenta
                     // Redirecciona a la página home
                     return RedirectToPage("/Home/Index");
                 }
+            } else
+            {
+                Console.WriteLine("\n\n\n=============Voy a mostrar el error \n\n\n\n");
+                // Muestra error por no cumplir requerimientos del View Model
+                ModelState.AddModelError(string.Empty, "Credenciales inválidas, inténtelo de nuevo");
+
             }
 
             // Establece el error para enviar un mensaje

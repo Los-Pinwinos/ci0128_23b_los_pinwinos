@@ -53,7 +53,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<LoCoMProContext>();
-    // context.Database.EnsureCreated();
+
+    // TODO(emilia): comentar:
+    context.Database.EnsureCreated();
     // Alimenta la base de datos si no hay nada
     DBInitializer.Initialize(context);
 }

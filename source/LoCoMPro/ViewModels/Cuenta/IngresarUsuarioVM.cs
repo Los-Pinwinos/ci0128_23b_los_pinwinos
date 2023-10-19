@@ -6,20 +6,17 @@ namespace LoCoMPro.ViewModels.Cuenta
     public class IngresarUsuarioVM
     {
         // Nombre de usuario
-        [Required(ErrorMessage = "Debe incluir un nombre de usuario")]
-        [StringLength(20, MinimumLength = 5,
-            ErrorMessage = "Nombre de usuario inválido")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-            ErrorMessage = "Nombre de usuario inválido")]
-        public required string nombreDeUsuario { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Debe incluir un nombre de usuario")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Formato de usuario inválido")]
+        public string nombreDeUsuario { get; set; }
 
         // Contraseña
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Debe incluir una contraseña")]
-        [StringLength(20, MinimumLength = 8,
-            ErrorMessage = "Contraseña inválida")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Debe incluir una contraseña")]
+        [StringLength(20, MinimumLength = 8)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-            ErrorMessage = "Contraseña inválida")]
-        public required string contrasena { get; set; }
+            ErrorMessage =
+            "Formato de contraseña inválido")]
+        public string contrasena { get; set; }
     }
 }
