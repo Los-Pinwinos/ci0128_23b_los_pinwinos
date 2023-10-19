@@ -54,8 +54,9 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<LoCoMProContext>();
 
-    // TODO(emilia): comentar:
+    // TODO(Pinwinos): comentar:
     context.Database.EnsureCreated();
+
     // Alimenta la base de datos si no hay nada
     DBInitializer.Initialize(context);
 }

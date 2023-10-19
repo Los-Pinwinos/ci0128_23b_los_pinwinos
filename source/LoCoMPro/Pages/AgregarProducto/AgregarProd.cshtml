@@ -105,8 +105,20 @@
     </form>
     <script type="text/javascript">
         $("#Producto").autocomplete({
-            // Obtiene .Json de la ventana encarga de Autocompletado
-            source: 'Autocompletado'
+            source: function (request, response) {
+                $.getJSON('Autocompletado?term=' + request.term + '&attribute=Producto', function (data) {
+                    response(data);
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $("#Marca").autocomplete({
+            source: function (request, response) {
+                $.getJSON('Autocompletado?term=' + request.term + '&attribute=Marca', function (data) {
+                    response(data);
+                });
+            }
         });
     </script>
     <script>
