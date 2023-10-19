@@ -34,8 +34,6 @@ namespace LoCoMPro.Pages.AgregarProducto
                     .OrderBy(p => p)
                     .ToList();
             }
-            // Add more conditions for other attributes if needed
-
             return new JsonResult(resultados);
         }
     }
