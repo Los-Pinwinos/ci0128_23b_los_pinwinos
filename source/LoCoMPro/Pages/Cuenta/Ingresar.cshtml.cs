@@ -124,6 +124,13 @@ namespace LoCoMPro.Pages.Cuenta
 
                     // Redirecciona a la página home
                     return RedirectToPage("/Home/Index");
+                } else
+                {
+                    // Establece el error para enviar un mensaje
+                    // TODO(Pinwinos): ver si borrar
+                    HttpContext.Items["error"] = "Credenciales inválidas, intentelo de nuevo";
+
+
                 }
             } else
             {
@@ -131,10 +138,6 @@ namespace LoCoMPro.Pages.Cuenta
                 ModelState.AddModelError(string.Empty, "Credenciales inválidas, inténtelo de nuevo");
 
             }
-
-            // Establece el error para enviar un mensaje
-            // TODO(Pinwinos): ver si borrar
-            // HttpContext.Items["error"] = "Credenciales inválidas, intentelo de nuevo";
 
             // Recarga la misma página
             return Page();
