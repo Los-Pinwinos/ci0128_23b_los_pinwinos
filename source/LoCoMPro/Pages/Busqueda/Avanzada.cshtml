@@ -10,7 +10,35 @@
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Avanzada.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/filtrador.js"></script>
+    <script src="~/js/Pages/Busqueda/ordenador.js"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script>
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.resultadosBusqueda')
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        var resultados = obtenerResultados();
+        var filtrador = new FiltradorDeBusqueda();
+        var ordenador = new OrdenadorDeBusqueda();;
+        var paginador = new Paginador(@Model.resultadosPorPagina);
+        var paginaDefault = @Model.paginaDefault;
+
+    </script>
+    <script src="~/js/Pages/Busqueda/cliente.js"></script>
 </head>
+
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
@@ -141,80 +169,22 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // Boton de buscar
-        cajaProducto = document.getElementById("CajaDeTextoProducto");
+<script>
+    var productosVM = paginar(paginaDefault);
 
-        // Función de traducción de codificación
-        function traducirCodificacion(cadena) {
-            var elementoTemporal = document.createElement("div");
-            elementoTemporal.innerHTML = cadena;
-            return elementoTemporal.textContent;
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+
+    // Validar formulario
+    function validarFormulario() {
+        if (!cajaProducto.value) {
+            return false;
+        } else {
+            return true;
         }
-
-        // Limpiar filtros
-        function limpiarFiltros() {
-            // Construir la cadena de consulta default
-            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto');
-
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
-        }
-
-        // Aplicar filtros
-        function aplicarFiltros() {
-            // Obtener los valores seleccionados de cada sección
-            var provinciasSeleccionadas = obtenerValoresSeleccionados("provincia");
-            var cantonesSeleccionados = obtenerValoresSeleccionados("canton");
-            var tiendasSeleccionadas = obtenerValoresSeleccionados("tienda");
-            var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
-
-            // Construir la cadena de consulta con los valores seleccionados
-            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto') + "&";
-
-            if (provinciasSeleccionadas.length !== 0) {
-                queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
-            }
-            if (cantonesSeleccionados.length !== 0) {
-                queryString += "nombresCantones=" + cantonesSeleccionados + "&";
-            }
-            if (tiendasSeleccionadas.length !== 0) {
-                queryString += "nombresTiendas=" + tiendasSeleccionadas + "&";
-            }
-            if (marcasSeleccionadas.length !== 0) {
-                queryString += "nombresMarcas=" + marcasSeleccionadas + "&";
-            }
-
-            // Remover el ultimo &
-            queryString = queryString.substring(0, queryString.length - 1);
-
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
-        }
-
-        // Obtener valores de checkboxes
-        function obtenerValoresSeleccionados(nombreCampo) {
-            var valores = [];
-            var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                valores.push(checkboxes[i].value);
-            }
-
-            return valores.join(",");
-        }
-
-        // Validar formulario
-        function validarFormulario() {
-            if (!cajaProducto.value) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+    }
 
 
-    </script>
-    <script src="~/js/Pages/Busqueda/dropdown.js"></script>
-}
+</script>
+<script src="~/js/Pages/Busqueda/dropdown.js"></script>

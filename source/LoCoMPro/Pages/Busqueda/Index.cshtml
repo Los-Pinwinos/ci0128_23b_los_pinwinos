@@ -13,17 +13,12 @@
     <script src="~/js/Pages/Busqueda/ordenador.js"></script>
     <script src="~/js/Pages/Busqueda/paginador.js"></script>
     <script>
+
         // Función de traducción de codificación
         function traducirCodificacion(cadena) {
             var elementoTemporal = document.createElement("div");
             elementoTemporal.innerHTML = cadena;
             return elementoTemporal.textContent;
-        }
-
-        // Formatear fecha
-        function formatearFecha(fecha) {
-            const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            return fecha.toLocaleDateString('es-ES', opciones);
         }
 
         // Obtener resultados de busqueda principal
