@@ -134,8 +134,8 @@ table {
         text-align: left;
         padding: 3px 10px;
         border: none;
-        max-width: 100px;
-        min-width: 60px;
+        max-width: 80px;
+        min-width: 80px;
         overflow-wrap: normal;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -160,6 +160,7 @@ table {
     /* Tbody fila */
     table tbody tr {
         color: white;
+        height: 50px;
     }
 
 /* Paginacion */
@@ -197,6 +198,9 @@ table {
     white-space: nowrap;
     margin: 0;
     position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
     /* Bordes de boton de paginacion */
@@ -225,6 +229,7 @@ table {
     white-space: nowrap;
     margin: 0;
     position: relative;
+    padding-left: 6px;
 }
 
     /* Bordes de boton de paginacion deshabilitado */
@@ -412,6 +417,7 @@ BusquedaIndice-tabla-filtros-contenedor {
 
     /* Hover para titulo de ordenamiento */
     .BusquedaIndice-titulo-columna:hover {
+        cursor: pointer;
         color: blue;
         text-decoration: underline;
     }
