@@ -1,4 +1,49 @@
-﻿// Renderizar paginado
+﻿
+
+// Paginar
+function paginar(numeroPagina = productosVM.IndicePagina) {
+    return paginador.paginar(resultados, numeroPagina);
+}
+
+// Ordenar
+function ordenar(propiedadOrdenado) {
+    // Configurar ordenador
+    if (propiedadOrdenado === ordenador.ordenado) {
+        ordenador.cambiarSentido();
+    } else {
+        ordenador.setPropiedadOrdenada(propiedadOrdenado);
+        ordenador.setSentidoOrdenado('asc');
+    }
+    // Ordenar
+    resultados = ordenador.ordenar(resultados);
+    productosVM = paginar();
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+}
+
+// Filtrar
+function filtrar() {
+    // Obtener datos
+    var provincias = obtenerValoresSeleccionados("provincia");
+    var cantones = obtenerValoresSeleccionados("canton");
+    var tiendas = obtenerValoresSeleccionados("tienda");
+    var marcas = obtenerValoresSeleccionados("marca");
+    // Configurar filtrador
+    filtrador.setFiltroProvincias(provincias);
+    filtrador.setFiltroCantones(cantones);
+    filtrador.setFiltroTiendas(tiendas);
+    filtrador.setFiltroMarcas(marcas);
+    // Filtrar
+    resultados = filtrador.filtrar(resultados);
+    productosVM = paginar(paginaDefault);
+    // Renderizar
+    renderizarFiltros();
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+}
+
+// Renderizar paginado
 function renderizarPaginacion() {
     // Obtener elementos
     var botonPaginaPrevia = document.getElementById("PaginaPrevia");
@@ -144,4 +189,56 @@ function renderizarTabla(datos) {
             cuerpoTabla.appendChild(row);
         }
     }
+}
+
+// Pasar pagina
+function pasarPagina(numeroPagina) {
+    // Paginar
+    productosVM = paginar(numeroPagina);
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+    window.scrollTo(0, 0);
+}
+
+// Limpiar check boxes
+function limpiarCheckboxes(nombreCampo) {
+    var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = false;
+    }
+}
+
+// Limpiar filtros
+function limpiarFiltros() {
+    // Limpiar checkboxes
+    limpiarCheckboxes("provincia");
+    limpiarCheckboxes("canton");
+    limpiarCheckboxes("tienda");
+    limpiarCheckboxes("marca");
+    if (filtrador.usado) {
+        // Restaurar uso
+        filtrador.resetearUso();
+        // Restaurar resultados
+        resultados = obtenerResultados();
+        // Paginar
+        productosVM = paginar(paginaDefault);
+        // Renderizar
+        renderizarFiltros();
+        renderizarPaginacion();
+        renderizarTabla(productosVM);
+    }
+}
+
+// Obtener valores de checkboxes
+function obtenerValoresSeleccionados(nombreCampo) {
+    var valores = [];
+    var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        valores.push(checkboxes[i].value);
+    }
+
+    return valores;
 }
