@@ -9,6 +9,33 @@
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/filtrador.js"></script>
+    <script src="~/js/Pages/Busqueda/ordenador.js"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script>
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.resultadosBusqueda')
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        var resultados = obtenerResultados();
+        var filtrador = new FiltradorDeBusqueda();
+        var ordenador = new OrdenadorDeBusqueda();;
+        var paginador = new Paginador(@Model.resultadosPorPagina);
+        var paginaDefault = @Model.paginaDefault;
+
+    </script>
+    <script src="~/js/Pages/Busqueda/cliente.js"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -40,7 +67,7 @@
     <div class="BusquedaIndice-contenedor-fila">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltros()"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
             <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
             <div class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
                 <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(1)" onmouseleave="hidedropdown(1)">
@@ -50,14 +77,8 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                var revisado = "";
-                                if (Model.provincias.Length > 0)
-                                {
-                                    // Revisar si la provincia está en el arreglo de provincias del modelo
-                                    revisado = Model.provincias.Contains(provincia) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="provincia" value="@provincia" @revisado /> @provincia
+                                    <input type="checkbox" name="provincia" value="@provincia" /> @provincia
                                 </label>
                             }
                         }
@@ -70,14 +91,8 @@
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                var revisado = "";
-                                if (Model.cantones.Length > 0)
-                                {
-                                    // Revisar si el cantón está en el arreglo de cantones del modelo
-                                    revisado = Model.cantones.Contains(canton) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="canton" value="@canton" @revisado /> @canton
+                                    <input type="checkbox" name="canton" value="@canton" /> @canton
                                 </label>
                             }
                         }
@@ -90,14 +105,8 @@
                         @{
                             foreach (var tienda in Model.tiendasV)
                             {
-                                var revisado = "";
-                                if (Model.tiendas.Length > 0)
-                                {
-                                    // Revisar si la tienda está en el arreglo de tiendas del modelo
-                                    revisado = Model.tiendas.Contains(tienda) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="tienda" value="@tienda" @revisado /> @tienda
+                                    <input type="checkbox" name="tienda" value="@tienda" /> @tienda
                                 </label>
                             }
                         }
@@ -110,14 +119,8 @@
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                var revisado = "";
-                                if (Model.marcas.Length > 0)
-                                {
-                                    // Revisar si la marca está en el arreglo de marcas del modelo
-                                    revisado = Model.marcas.Contains(marca) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="marca" value="@marca" @revisado /> @marca
+                                    <input type="checkbox" name="marca" value="@marca" /> @marca
                                 </label>
                             }
                         }
@@ -132,234 +135,85 @@
                     <tr>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].nombre)
+                            @Html.DisplayNameFor(model => model.productoVM.nombre)
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].marca)
+                            @Html.DisplayNameFor(model => model.productoVM.marca)
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Index"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="precio" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].precio)
-                            </a>
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('precio')">
+                                @Html.DisplayNameFor(model => model.productoVM.precio)
+                            </label>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].fecha)
+                            @Html.DisplayNameFor(model => model.productoVM.fecha)
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].tienda)
+                            @Html.DisplayNameFor(model => model.productoVM.tienda)
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Index"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="provincia" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].provincia)
-                            </a>
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('provincia')">
+                                @Html.DisplayNameFor(model => model.productoVM.provincia)
+                            </label>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Index"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="canton" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].canton)
-                            </a>
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
+                                @Html.DisplayNameFor(model => model.productoVM.canton)
+                            </label>
                         </th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
-                    @foreach (var item in Model.productosVM)
-                    {
-                        <tr>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.nombre)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.marca)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.fecha)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.tienda)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.provincia)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.canton)
-                            </td>
-                        </tr>
-                    }
+                <tbody class="BusquedaIndice-tabla-resultados" id="CuerpoResultados">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-@{
-    var prevDeshabilitado = !Model.productosVM.TienePaginaPrevia ? "disabled" : "";
-    var proxDeshabilitado = !Model.productosVM.TieneProximaPagina ? "disabled" : "";
-}
-
+<!-- Paginación -->
 <div class="BusquedaIndice-contenedor-paginacion">
-    <!-- Container box -->
     <div class="BusquedaIndice-contenedor-caja-paginacion">
-        @{
-            if (Model.productosVM.TienePaginaPrevia)
-            {
-                <a asp-page="/Busqueda/Index"
-                   asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
-                   asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
-                   asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
-                   asp-route-filtroProducto="@(Model.producto)"
-                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
-                   class="BusquedaIndice-boton-paginacion">
-                    Anterior
-                </a>
-            }
-            else
-            {
-                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Anterior </span>
-            }
+        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
 
-            var currentIndex = Model.productosVM.IndicePagina;
-            <span class="BusquedaIndice-texto-paginacion"> @(currentIndex) </span>
+        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
 
-            if (Model.productosVM.TieneProximaPagina)
-            {
-                <a asp-page="/Busqueda/Index"
-                   asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
-                   asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
-                   asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
-                   asp-route-filtroProducto="@(Model.producto)"
-                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
-                   class="BusquedaIndice-boton-paginacion">
-                    Siguiente
-                </a>
-            }
-            else
-            {
-                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Siguiente </span>
-            }
-        }
+        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Siguiente
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // Boton de buscar
-        cajaProducto = document.getElementById("CajaDeTextoProducto");
+<script>
+    var productosVM = paginar(paginaDefault);
 
-        // Función de traducción de codificación
-        function traducirCodificacion(cadena) {
-            var elementoTemporal = document.createElement("div");
-            elementoTemporal.innerHTML = cadena;
-            return elementoTemporal.textContent;
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+
+    // Validar formulario
+    function validarFormulario() {
+        if (!cajaProducto.value) {
+            return false;
+        } else {
+            return true;
         }
-
-        // Limpiar filtros
-        function limpiarFiltros() {
-            // Construir la cadena de consulta default
-            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto');
-
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
-        }
-
-        // Aplicar filtros
-        function aplicarFiltros() {
-            // Obtener los valores seleccionados de cada sección
-            var provinciasSeleccionadas = obtenerValoresSeleccionados("provincia");
-            var cantonesSeleccionados = obtenerValoresSeleccionados("canton");
-            var tiendasSeleccionadas = obtenerValoresSeleccionados("tienda");
-            var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
-
-            // Construir la cadena de consulta con los valores seleccionados
-            var queryString = "?nombreProducto=" + traducirCodificacion('@Model.producto') + "&";
-
-            if (provinciasSeleccionadas.length !== 0) {
-                queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
-            }
-            if (cantonesSeleccionados.length !== 0) {
-                queryString += "nombresCantones=" + cantonesSeleccionados + "&";
-            }
-            if (tiendasSeleccionadas.length !== 0) {
-                queryString += "nombresTiendas=" + tiendasSeleccionadas + "&";
-            }
-            if (marcasSeleccionadas.length !== 0) {
-                queryString += "nombresMarcas=" + marcasSeleccionadas + "&";
-            }
-
-            // Remover el ultimo &
-            queryString = queryString.substring(0, queryString.length - 1);
-
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda" + queryString;
-        }
-
-        // Obtener valores de checkboxes
-        function obtenerValoresSeleccionados(nombreCampo) {
-            var valores = [];
-            var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                valores.push(checkboxes[i].value);
-            }
-
-            return valores.join(",");
-        }
-
-        // Validar formulario
-        function validarFormulario() {
-            if (!cajaProducto.value) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+    }
 
 
-    </script>
-    <script src="~/js/Pages/Busqueda/dropdown.js"></script>
-}
+</script>
+<script src="~/js/Pages/Busqueda/dropdown.js"></script>
