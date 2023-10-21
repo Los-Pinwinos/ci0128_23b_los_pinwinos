@@ -18,23 +18,21 @@
 
 <!-- Contenido de la página -->
 <body>
+
+    <!-- Alertar cuando no cumpla requisitos del view model -->
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
     <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Ingresar" -->
-    <form method="post">
-        <!-- Configuración para la validación del lado del cliente -->
-        <div asp-validation-summary="ModelOnly" class="Ingresar-texto-error"></div>
+    <form method="post" novalidate>
         <!-- Contenedor para los elementos en la sección de arriba de la página -->
         <div class="Ingresar-contenedor-centrado-primario">
             <!-- Imagen con el icono del perfil -->
             <img src="~/img/imagen_perfil.png" alt="Imagen del perfil" class="Ingresar-imagen">
-            <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
-            <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Ingresar-texto-error"></span>
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
             <div class="Ingresar-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
                 <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
             </div>
-            <!-- Mensaje de error al no cumplir los atributos de validación de la contraseña del modelo vista -->
-            <span asp-validation-for="usuarioActual.contrasena" class="Ingresar-texto-error"></span>
             <!-- Caja de texto para la contraseña -->
             <div class="Ingresar-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.contrasena" for="CajaDeTextoContrasena">Contraseña:</label>

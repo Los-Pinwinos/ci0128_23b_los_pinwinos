@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -58,10 +59,35 @@ namespace LoCoMPro.Pages.Cuenta
         // Método cuando se presiona el botón de ingresar
         public async Task<IActionResult> OnPostIngresar()
         {
-            // Si los datos recopilados son válidos (cumplen con las propiedades de
-            // validación del modelo de vista del lado del servidor)
-            if (ModelState.IsValid)
+
+            // Validando atributos para evitar hacer consultas inncesarias a la base de datos.
+            if (string.IsNullOrWhiteSpace(usuarioActual.nombreDeUsuario))
             {
+                ModelState.AddModelError("usuarioActual.nombreDeUsuario", "Debe incluir un nombre de usuario");
+            }
+            else if (usuarioActual.nombreDeUsuario.Length < 5 || usuarioActual.nombreDeUsuario.Length > 20)
+            {
+                ModelState.AddModelError("usuarioActual.nombreDeUsuario", "Formato de usuario inválido");
+            }
+
+            if (string.IsNullOrWhiteSpace(usuarioActual.contrasena))
+            {
+                ModelState.AddModelError("usuarioActual.contrasena", "Debe incluir una contraseña");
+            }
+            else if (usuarioActual.contrasena.Length < 8 || usuarioActual.contrasena.Length > 20)
+            {
+                ModelState.AddModelError("usuarioActual.contrasena", "Formato de contraseña inválido");
+            }
+            else if (!Regex.IsMatch(usuarioActual.contrasena, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\\d+_=*./\\%$#@!¡¿?()~]+$"))
+            {
+                ModelState.AddModelError("usuarioActual.contrasena", "Formato de contraseña inválido");
+            }
+
+
+             if (ModelState.IsValid)
+            {
+                // Si los datos recopilados son válidos (cumplen con las propiedades de
+                // validación del modelo de vista del lado del servidor)
                 // Busca al usuario en la base de datos
                 var usuario = this.contexto.Usuarios.FirstOrDefault(
                     u => u.nombreDeUsuario == usuarioActual.nombreDeUsuario);
@@ -98,11 +124,20 @@ namespace LoCoMPro.Pages.Cuenta
 
                     // Redirecciona a la página home
                     return RedirectToPage("/Home/Index");
-                }
-            }
+                } else
+                {
+                    // Establece el error para enviar un mensaje
+                    // TODO(Pinwinos): ver si borrar
+                    HttpContext.Items["error"] = "Credenciales inválidas, intentelo de nuevo";
 
-            // Establece el error para enviar un mensaje
-            HttpContext.Items["error"] = "Credenciales inválidas, intentelo de nuevo";
+
+                }
+            } else
+            {
+                // Muestra error por no cumplir requerimientos del View Model
+                ModelState.AddModelError(string.Empty, "Credenciales inválidas, inténtelo de nuevo");
+
+            }
 
             // Recarga la misma página
             return Page();

@@ -60,29 +60,6 @@ namespace LoCoMProTests.Models
 
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         [TestMethod]
-        public void nombreDeUsuario_ValidacionRegex_DeberiaSerInvalido()
-        {
-            // Crear usuario incorrecto de prueba
-            var usuario = new Usuario
-            {
-                // El nombre de usuario debe tener al menos un digito
-                nombreDeUsuario = "Us-uario",
-                correo = "example@gmail.com",
-                hashContrasena = "hashcontrasena",
-                estado = 'A',
-                calificacion = 5
-            };
-
-            // Establecer condiciones de prueba
-            var esValido = Validator.TryValidateProperty(usuario.nombreDeUsuario,
-                new ValidationContext(usuario) { MemberName = "nombreDeUsuario" }, null);
-
-            // Revisar condiciones de prueba
-            Assert.IsFalse(esValido);
-        }
-
-        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
-        [TestMethod]
         public void correo_ValidacionTipo_DeberiaSerInvalido()
         {
             // Crear usuario correcto de prueba
