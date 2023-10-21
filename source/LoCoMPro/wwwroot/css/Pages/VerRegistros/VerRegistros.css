@@ -1,0 +1,209 @@
+﻿/* Información del producto */
+.InfoProducto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    background-color: white; 
+    border: 2px solid #1A7254; 
+    border-radius: 5px;
+    padding: 6px 10px;
+    width: 95%;
+    margin-bottom: 10px;
+}
+
+
+/* Centrar el título */
+.TituloProductoContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* Título del producto */
+.TituloProducto {
+    font-family: Arial, sans-serif;
+    font-size: 24px; 
+}
+
+/* Cada columna */
+.ProductInfoColumns {
+    display: flex;
+    justify-content: space-between; 
+    margin: 10px 0;
+}
+
+
+.InfoColumn {
+    width: 30%; 
+    text-align: left; 
+    font-size: 16px; 
+}
+
+
+.InfoColumnBold {
+    width: 30%; 
+    text-align: left; 
+    font-size: 16px; 
+    font-weight: bold;
+}
+
+/* Atributos */
+.InfoColumn p {
+    font-family: Helvetica, sans-serif; 
+}
+
+
+/* Precio hacia la izquierda */
+table tbody td.precio {
+    text-align: left; /* TODO(Emilia): lograr que esto sirva bien */
+}
+
+/* El resto de columnas */
+table tbody td.elementos {
+    text-align: left; 
+}
+
+/* Contenedor */
+.VerRegistros-contenedor {
+    margin-bottom: 5px;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+}
+
+/* Contenedor de fila */
+.VerRegistros-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Contenedor de caja de texto */
+.VerRegistros-contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    padding: 0px 6px;
+    font-size: 16px;
+    width: 100%;
+    height: 80%;
+}
+
+/* Tabla */
+.VerRegistros-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Tabla de resultados */
+.VerRegistros-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    /* Thead th */
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+        padding-left: 10px;
+    }
+
+    /* Tbody td */
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding: 3px 10px;
+        border: none;
+        max-width: 100px;
+        min-width: 60px;
+        overflow-wrap: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+        /* Tbody td ultimo */
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+            border: none;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+        /* Tbody td primero */
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+            border: none;
+            padding: 0px -2px;
+            max-width: 100px;
+            min-width: 100px;
+        }
+
+    /* Tbody fila */
+    table tbody tr {
+        color: white;
+    }
+
+
+/* Contenedor de agrupamientos y tabla de resultados */
+VerRegistros-tabla-agrupamientos-contenedor {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%
+}
+
+/* Contenedor de agrupamientos */
+.VerRegistros-contenedor-agrupamientos {
+    display: flex;
+    flex-direction: column;
+    background-color: #C3F3E5;
+    height: calc( 65vh - 100px);
+    min-width: 150px;
+    border-radius: 5px;
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Caja de agrupamientos */
+.VerRegistros-agrupamientos {
+    display: flex;
+    margin-left: 10px;
+    background-color: #C3F3E5;
+    align-items: center;
+    border-radius: 5px;
+    flex-direction: column;
+    min-width: 160px;
+}
+
+/* Boton de agrupamientos */
+.VerRegistros-boton-agrupamientos {
+    background-color: #1A7254;
+    border-radius: 10px;
+    width: 80%;
+    height: 25px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    border: none;
+    color: white;
+}

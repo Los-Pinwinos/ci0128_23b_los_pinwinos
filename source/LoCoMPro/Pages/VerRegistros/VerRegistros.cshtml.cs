@@ -33,23 +33,21 @@ namespace LoCoMPro.Pages.VerRegistros
                 .Where(r => r.productoAsociado.Equals("Aceite de Oliva"))
                 .GroupBy(r => new
                 {
-                    r.creacion,
+                    creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day), 
                     r.usuarioCreador,
                     r.precio,
-                    // r.calificacion,
+                    r.calificacion,
                     r.descripcion
 
                 })
                 .Select(group => new VerRegistrosVM
                 {
-                    creacion = group.Key.creacion,
+                    creacion = group.Key.creacionDate,
                     usuarioCreador = group.Key.usuarioCreador,
                     precio = group.Key.precio,
-                    // calificacion = group.calificacion,
+                    calificacion = group.Key.calificacion,
                     descripcion = group.Key.descripcion
                 });
-
-            // You can add additional filters, sorting, and pagination if needed
 
             Registros = await registrosIQ.ToListAsync();
         }

@@ -4,50 +4,85 @@
     ViewData["Title"] = "Ver Registros";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
+</head>
+
 <div>
-    <!-- Información del producto -->
-    <div class="ProductInfo">
-        <!-- Nombre del producto -->
-        <h2>Aceite de oliva</h2>
-        <!-- Para indicar os datos del producto-->
-        <div class="ProductInfoColumns">
-            <div class="InfoColumn">
-                <p>Tienda: Automercado</p>
-                <p>Categoría: Alimentación</p>
-            </div>
-            <div class="InfoColumn">
-                <p>Marca: Oliva</p>
-                <p>Unidad: Unidad</p>
-            </div>
-            <div class="InfoColumn">
-                <p>Provincia: Heredia</p>
-                <p>Cantón: Heredia</p>
+    <div class="InfoProducto">
+        <div class="VerRegistros-contenedor">
+            <div class="VerRegistros-contenedor-fila">
+                <div style="width:85%;">
+                    <div class="VerRegistros-contenedor-fila">
+                        <div class="VerRegistros-contenedor-caja-texto">
+                            <div class="TituloProductoContainer">
+                                <h2 class="TituloProducto">Aceite de oliva</h2>
+                            </div>
+                            <!-- Create three columns for product details -->
+                            <div class="ProductInfoColumns">
+                                <div class="InfoColumn">
+                                    <p>Tienda: Mall Plaza</p>
+                                    <p>Categoría: Alimentos</p>
+                                </div>
+                                <div class="InfoColumn">
+                                    <p>Marca: Bertolli</p>
+                                    <p>Unidad: Litros</p>
+                                </div>
+                                <div class="InfoColumn">
+                                    <p>Provincia: San José</p>
+                                    <p>Cantón: Curridabat</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Associated Records Table -->
-    <div class="RecordsTable">
-        <table>
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Precio</th>
-                    <th>Calificación</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var record in Model.Registros)
-                {
+    <div class="VerRegistros-contenedor-fila">
+        <div class="VerRegistros-agrupamientos">
+            <div class="VerRegistros-contenedor-agrupamientos" id="Contenedoragrupamientos">
+                <label class="InfoColumnBold">Agrupar por:</label>
+                    <label>
+                        <input type="checkbox" name="Día" value = "Día" /> Día
+                    </label>
+                    <label>
+                        <input type="checkbox" name="Semana" value="Semana" /> Semana
+                    </label>
+                    <label>
+                        <input type="checkbox" name="Mes" value="Mes" /> Mes
+                    </label>
+                    <label>
+                        <input type="checkbox" name="Año" value="Año" /> Año
+                    </label>
+            </div>
+        </div>
+        <!-- Tabkas de resultados -->
+        <div class="VerRegistros-tabla">
+            <table>
+                <thead>
                     <tr>
-                        <td>@record.creacion</td>
-                        <td>@record.precio</td>
-                        <td>@record.calificacion</td>
-                        <td>@record.descripcion</td>
+                        <th>Fecha</th>
+                        <th>Precio</th>
+                        <th>Calificación</th>
+                        <th>Descripción</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="VerRegistros-tabla-resultados" id="productosVM">
+                    @foreach (var record in Model.Registros)
+                    {
+                        <tr>
+                            <td>@record.creacion.ToString("dd/MM/yyyy")</td>
+                            <td class = "precio">@record.precio</td>
+                            <td>@record.calificacion</td>
+                            <td>@record.descripcion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
