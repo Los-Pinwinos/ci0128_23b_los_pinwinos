@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LoCoMProContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LoCoMProContextLocal") ?? throw new InvalidOperationException("Connection string 'LoCoMProContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LoCoMProContext") ?? throw new InvalidOperationException("Connection string 'LoCoMProContext' not found.")));
 
 // Agrega servicios a los containers
 builder.Services.AddRazorPages(options =>
@@ -53,7 +53,10 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<LoCoMProContext>();
-    // context.Database.EnsureCreated();
+
+    // TODO(Pinwinos): comentar:
+    context.Database.EnsureCreated();
+
     // Alimenta la base de datos si no hay nada
     DBInitializer.Initialize(context);
 }
