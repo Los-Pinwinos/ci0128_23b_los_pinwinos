@@ -192,6 +192,10 @@
                         </th>
                         <th>
                             <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productosVM[0].unidad)
+                        </th>
+                        <th>
+                            <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productosVM[0].fecha)
                         </th>
                         <th>
@@ -249,7 +253,11 @@
                             </td>
                             <td>
                                 <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
+                                @Html.DisplayFor(modelItem => item.precio)
+                            </td>
+                            <td>
+                                <!-- Valor de la columna -->
+                                @Html.DisplayFor(modelItem => item.unidad)
                             </td>
                             <td>
                                 <!-- Valor de la columna -->
