@@ -168,6 +168,9 @@ function renderizarTabla(datos) {
             var precioCell = document.createElement("td");
             precioCell.textContent = "₡" + datos[dato].precio;
 
+            var unidadCell = document.createElement("td");
+            unidadCell.textContent = datos[dato].unidad;
+
             var fechaCell = document.createElement("td");
             fechaCell.textContent = formatearFecha(new Date(datos[dato].fecha));
 
@@ -184,6 +187,7 @@ function renderizarTabla(datos) {
             row.appendChild(nombreCell);
             row.appendChild(marcaCell);
             row.appendChild(precioCell);
+            row.appendChild(unidadCell);
             row.appendChild(fechaCell);
             row.appendChild(tiendaCell);
             row.appendChild(provinciaCell);
