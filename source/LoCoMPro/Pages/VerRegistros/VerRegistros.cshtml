@@ -1,0 +1,53 @@
+﻿@page
+@model LoCoMPro.Pages.VerRegistros.VerRegistrosModel
+@{
+    ViewData["Title"] = "Ver Registros";
+}
+
+<div>
+    <!-- Información del producto -->
+    <div class="ProductInfo">
+        <!-- Nombre del producto -->
+        <h2>Aceite de oliva</h2>
+        <!-- Para indicar os datos del producto-->
+        <div class="ProductInfoColumns">
+            <div class="InfoColumn">
+                <p>Tienda: Automercado</p>
+                <p>Categoría: Alimentación</p>
+            </div>
+            <div class="InfoColumn">
+                <p>Marca: Oliva</p>
+                <p>Unidad: Unidad</p>
+            </div>
+            <div class="InfoColumn">
+                <p>Provincia: Heredia</p>
+                <p>Cantón: Heredia</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Associated Records Table -->
+    <div class="RecordsTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Precio</th>
+                    <th>Calificación</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model.Registros)
+                {
+                    <tr>
+                        <td>@record.creacion</td>
+                        <td>@record.precio</td>
+                        <td>@record.calificacion</td>
+                        <td>@record.descripcion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -73,6 +73,12 @@ namespace LoCoMPro.Models
         [ForeignKey("nombreTienda, nombreDistrito, nombreCanton, nombreProvincia")]
         public Tienda? tienda { get; set; }
 
+        [Column(TypeName = "decimal(3, 2)")]
+        [Required]
+        [Range(0, 5, ErrorMessage = "The 'calificación' must be a decimal number between 0 and 5.")]
+        public decimal calificacion { get; set; } = 0;
+
+
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
 
