@@ -154,15 +154,8 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.1);
     text-align: center;
-    visibility: visible;
+    visibility: hidden;
     transition: transform 0.4s, top 0.4s;
-}
-
-/*Open del popup*/
-.abrir_popup {
-    visibility: visible;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(1);
 }
 
     /*Elemento de popup para h2*/
@@ -187,3 +180,12 @@
         text-align: center;
         display: inline-block;
     }
+
+/*Open del popup*/
+.abrir_popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+    

@@ -89,16 +89,16 @@
                 <select asp-for="viewModel.nombreUnidad" id="Unidad" asp-items="Model.opcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar imágenes -->
-            <label for="subida_imagen" class="custom-file-upload">Agregar Imagen</label>
-            <input type="file" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
-            <button type="submit" class="material-symbols-outlined" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
-            <div class="popup_imagenes" id="popup_imagenes">
-                <h2>Imagenes agregadas</h2>
-                <!-- TODO(Luis): Agregar logica de imagenes -->
-                <button type="button" onclick="cerrarPopup()">Aceptar</button>
+            <div class="AgregarProd-contenedor-imagen">
+                <label for="subida_imagen" class="custom-file-upload">Agregar Imagen</label>
+                <input type="file" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
+                <button type="button" class="material-symbols-outlined" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
+                <div class="popup_imagenes" id="popup_imagenes">
+                    <h4>Imágenes agregadas</h4>
+                    <!-- TODO(Luis): Agregar logica de imagenes -->
+                    <button type="button" onclick="cerrarPopup()">Aceptar</button>
+                </div>
             </div>
-
-
             <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="EtiquetaTexto">Etiqueta:</label>
@@ -179,9 +179,8 @@
         // Se encarga de no permitir más de 5 imágenes
         function checkFileCount(input) {
             if (input.files.length > 5) {
-                // TODO(Luis): Cambiar lógica dentro de alert
                 alert("Más de 5 imágenes seleccionadas");
-                input.value = ''; // Clear the selected files
+                input.value = '';
             }
         }
     </script>
@@ -193,15 +192,14 @@
     </script>
     <script>
         // Scripts para manejo de popup
-        let popup = document.getElementById("popup_imagenes");
+        var popup = document.getElementById("popup_imagenes");
         // Función para abrir popup
         function abrirPopup() {
-            popup.classList.add("abrir_popup")
-            alert("ayuda")
+            popup.classList.add("abrir_popup");
         }
         // Función para cerrar popup
         function cerrarPopup() {
-            popup.classList.remove("abrir_popup")
+            popup.classList.remove("abrir_popup");
         }
     </script>
     <script>
