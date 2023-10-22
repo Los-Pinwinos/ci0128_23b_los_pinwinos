@@ -124,3 +124,13 @@
     border-radius: 5px;
     padding: 5px 5px;
 }
+
+/* Texto de input de imagen */
+.custom-file-upload {
+    width: 200px;
+    height: 3%;
+    background-color: #033F63;
+    color: white;
+    border-radius: 5px;
+    margin-left: 1%;
+}
