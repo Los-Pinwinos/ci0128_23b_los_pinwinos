@@ -162,6 +162,9 @@ function renderizarTabla(datos) {
             var nombreCell = document.createElement("td");
             nombreCell.textContent = datos[dato].nombre;
 
+            var categoriaCell = document.createElement("td");
+            categoriaCell.textContent = datos[dato].categoria;
+
             var marcaCell = document.createElement("td");
             marcaCell.textContent = datos[dato].marca;
 
@@ -182,6 +185,7 @@ function renderizarTabla(datos) {
 
             // Agregar celdas a fila
             row.appendChild(nombreCell);
+            row.appendChild(categoriaCell);
             row.appendChild(marcaCell);
             row.appendChild(precioCell);
             row.appendChild(fechaCell);
