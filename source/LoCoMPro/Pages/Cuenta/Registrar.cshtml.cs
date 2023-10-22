@@ -102,13 +102,21 @@ namespace LoCoMPro.Pages.Cuenta
                 {
                     // Intente enviar un correo de bienvenida al correo indicado
                     const string asunto = "Bienvenido a LoCoMPro!";
-                    string cuerpo = "Buenas " + this.usuarioActual.nombreDeUsuario +
-                        " nos complace recibirte como parte de nuestro equipo en " +
-                        "LoComPro.\nEsperamos que la plataforma te se útil y de tu " +
-                        "agrado.\nSinceramente.\nLos Pinwinos - Empresa desarrolladora.";
+                    string titulo = "Buenas " + this.usuarioActual.nombreDeUsuario + "!";
+                    const string cuerpo = "<br>Nos complace recibirte como parte de nuestro" +
+                        " equipo en LoComPro.<br>Esperamos que la plataforma te sea útil y " +
+                        "de tu agrado.<br><br>Para autenticar tu cuenta y tener acceso a " +
+                        "todas las funcionalidades de un usuario registrado, presiona el " +
+                        "siguiente botón:<br>";
+
+                    string enlace = PageContext.HttpContext.Request.Scheme + "://" +
+                        PageContext.HttpContext.Request.Host.Host + ":" +
+                        PageContext.HttpContext.Request.Host.Port +
+                        "/Cuenta/Ingresar";
 
                     // Si logra enviar el correo
-                    if (this.controladorCorreos.enviarCorreo(this.usuarioActual.correo, asunto, cuerpo))
+                    if (this.controladorCorreos.enviarCorreoHtml(this.usuarioActual.correo,
+                        asunto, titulo, cuerpo, enlace,"Autenticar cuenta"))
                     {
                         // Crea un nuevo usuario con los datos del modelo vista
                         var nuevoUsuario = new Usuario
