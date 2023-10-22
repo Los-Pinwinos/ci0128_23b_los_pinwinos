@@ -30,5 +30,8 @@ namespace LoCoMPro.ViewModels.Busqueda
         // Marca
         [Display(Name = "Marca")]
         public string? marca { get; set; }
+        // Categoría
+        [Display(Name = "Categoría")]
+        public required string categoria { get; set; }
     }
 }
