@@ -149,6 +149,11 @@ namespace LoCoMPro.Pages.AgregarProducto
             return RedirectToPage("/Home/Index");
         }
 
+        public void OnPostPopup()
+        {
+
+        }
+
         public void RellenarSelectList()
         {
             // Inserta categorías en combobox

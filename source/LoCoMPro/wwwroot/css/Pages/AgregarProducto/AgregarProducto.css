@@ -84,7 +84,7 @@
 /* Caja de texto utilizada para la categoría*/
 .AgregarProd-caja-texto-combobox {
     background-color: #FFFBF8;
-    border-color: black;
+    border-color: white;
     position: relative;
     display: inline-block;
     width: 860px;
@@ -127,10 +127,63 @@
 
 /* Texto de input de imagen */
 .custom-file-upload {
-    width: 200px;
-    height: 3%;
     background-color: #033F63;
     color: white;
+    width: 60%;
+    height: 100%;
+    border: none;
     border-radius: 5px;
-    margin-left: 1%;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition-duration: 0.4s;
+    font: 13px system-ui;
+    text-align: center;
+    display: inline-block;
 }
+
+/*Popup para ver imágenes agregadas*/
+.popup_imagenes {
+    width: 400px;
+    background: white;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #033F63;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    visibility: visible;
+    transition: transform 0.4s, top 0.4s;
+}
+
+/*Open del popup*/
+.abrir_popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+    /*Elemento de popup para h2*/
+    .popup_imagenes h2 {
+        font-size: 38px;
+        font-weight: 500;
+        margin: 30px 0 10px;
+    }
+
+    /*Elemento de popup para button*/
+    .popup_imagenes button {
+        background-color: #033F63;
+        color: white;
+        width: 60%;
+        height: 100%;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 25px;
+        transition-duration: 0.4s;
+        font: 13px system-ui;
+        text-align: center;
+        display: inline-block;
+    }

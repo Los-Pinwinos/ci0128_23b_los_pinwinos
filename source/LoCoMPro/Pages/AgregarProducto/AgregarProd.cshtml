@@ -17,6 +17,8 @@
     <script src="~/js/Pages/alinear.js"></script>
     <!-- Archivo css -->
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
+    <!-- Ícono de ojo para ver imágenes agregadas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
         // Función para actualizar categoría y unidad en base a un producto ingresado
         function updateCategoriaUnidad(productoIngresado) {
@@ -89,6 +91,13 @@
             <!-- Agregar imágenes -->
             <label for="subida_imagen" class="custom-file-upload">Agregar Imagen</label>
             <input type="file" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
+            <button type="submit" class="material-symbols-outlined" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
+            <div class="popup_imagenes" id="popup_imagenes">
+                <h2>Imagenes agregadas</h2>
+                <!-- TODO(Luis): Agregar logica de imagenes -->
+                <button type="button" onclick="cerrarPopup()">Aceptar</button>
+            </div>
+
 
             <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
@@ -181,6 +190,19 @@
         document.querySelector('.custom-file-upload').addEventListener('click', function () {
             document.querySelector('#fileInput').click();
         });
+    </script>
+    <script>
+        // Scripts para manejo de popup
+        let popup = document.getElementById("popup_imagenes");
+        // Función para abrir popup
+        function abrirPopup() {
+            popup.classList.add("abrir_popup")
+            alert("ayuda")
+        }
+        // Función para cerrar popup
+        function cerrarPopup() {
+            popup.classList.remove("abrir_popup")
+        }
     </script>
     <script>
         // Función de alineado para las cajas de texto
