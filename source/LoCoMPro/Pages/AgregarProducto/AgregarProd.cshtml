@@ -94,8 +94,9 @@
                 <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
                 <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
-                    <h4>Imágenes agregadas</h4>
                     <!-- TODO(Luis): Agregar logica de imagenes -->
+                    <!-- Utilizada para ser rellenada con los archivos insertados -->
+                    <ul id="lista_archivos"></ul>
                     <button type="button" onclick="cerrarPopup()">Aceptar</button>
                 </div>
             </div>
@@ -185,12 +186,6 @@
         }
     </script>
     <script>
-        // Función para cambiar label por botón de agregar imagen
-        document.querySelector('.agregar-imagen').addEventListener('click', function () {
-            document.querySelector('#fileInput').click();
-        });
-    </script>
-    <script>
         // Scripts para manejo de popup
         var popup = document.getElementById("popup_imagenes");
         // Función para abrir popup
@@ -201,6 +196,25 @@
         function cerrarPopup() {
             popup.classList.remove("abrir_popup");
         }
+    </script>
+    <script>
+        // Script para rellenar lista con nombres de archivo
+        const inputArchivos = document.getElementById('subida_imagen');
+        const listaOrdenada = document.getElementById('lista_archivos');
+        inputArchivos.addEventListener('change', function () {
+            // Limpiar lista previa
+            listaOrdenada.innerHTML = '';
+            // Iterar por archivos agregados
+            const archivos = inputArchivos.files;
+            for (let i = 0; i < archivos.length; ++i) {
+                // Crear un elemento de la lista para ser agregado
+                const elementoLista = document.createElement('li');
+                // Establecer nombre del archivo como elemento de la lista
+                elementoLista.textContent = archivos[i].name;
+                // Agregar a lista ordenada
+                listaOrdenada.appendChild(elementoLista);
+            }
+        });
     </script>
     <script>
         // Función de alineado para las cajas de texto
