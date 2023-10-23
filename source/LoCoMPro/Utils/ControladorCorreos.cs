@@ -1,9 +1,6 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Drawing;
-using System.Reflection;
 
 namespace LoCoMPro.Utils
 {
@@ -11,7 +8,7 @@ namespace LoCoMPro.Utils
     public class ControladorCorreos
     {
         // Instancia de configuración basada en el archivo "appsettings.json"
-        // Se utiliza para establecer el serviodr de correos y las credenciales
+        // Se utiliza para establecer el servidor de correos y las credenciales
         // de la cuenta
         private readonly IConfiguration configuracion = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

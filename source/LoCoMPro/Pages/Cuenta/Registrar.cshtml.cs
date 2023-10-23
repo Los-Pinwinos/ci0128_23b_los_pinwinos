@@ -6,6 +6,7 @@ using LoCoMPro.Utils;
 using LoCoMPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -17,6 +18,9 @@ namespace LoCoMPro.Pages.Cuenta
 
         // Propiedad para hashear contraseñas
         private readonly PasswordHasher<Usuario> hasheador;
+
+        // Propiedad para encriptar usuarios
+        private Encriptador encriptador { get; set; }
 
         // Controlador para el envio de correos de bienvenida
         private ControladorCorreos controladorCorreos { get; set; }
@@ -35,6 +39,8 @@ namespace LoCoMPro.Pages.Cuenta
             this.contexto = contexto;
             // Crea un hasheador de contraseñas
             this.hasheador = new PasswordHasher<Usuario>();
+            // Crea un encriptador
+            this.encriptador = new Encriptador();
             // Crea un controlador de correos
             this.controladorCorreos = new ControladorCorreos();
             // Crea un CrearUsuarioVM dummy para no tener nulo
@@ -112,7 +118,7 @@ namespace LoCoMPro.Pages.Cuenta
                     string enlace = PageContext.HttpContext.Request.Scheme + "://" +
                         PageContext.HttpContext.Request.Host.Host + ":" +
                         PageContext.HttpContext.Request.Host.Port +
-                        "/Cuenta/Autenticar?nombreUsuario=" + this.usuarioActual.nombreDeUsuario;
+                        "/Cuenta/Autenticar?codigoUsuario=" + HttpUtility.UrlEncode(this.encriptador.encriptar(this.usuarioActual.nombreDeUsuario));
 
                     // Si logra enviar el correo
                     if (this.controladorCorreos.enviarCorreoHtml(this.usuarioActual.correo,
