@@ -91,11 +91,10 @@
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
                 <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
-                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
+                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
                 <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
-                    <!-- TODO(Luis): Agregar logica de imagenes -->
-                    <!-- Utilizada para ser rellenada con los archivos insertados -->
+                    <!-- Utilizada para ser rellenada y borrada con los archivos insertados en JavaScript -->
                     <ul id="lista_archivos"></ul>
                     <button type="button" onclick="cerrarPopup()">Aceptar</button>
                 </div>
@@ -198,19 +197,42 @@
         }
     </script>
     <script>
-        // Script para rellenar lista con nombres de archivo
+        // Script para rellenar elementos de popup de manera dinámica y permitir
+        // borrarlos con un click
+        // Variables requeridas
         const inputArchivos = document.getElementById('subida_imagen');
         const listaOrdenada = document.getElementById('lista_archivos');
+        // Script para rellenar lista con nombres de archivo
         inputArchivos.addEventListener('change', function () {
+            const archivos = inputArchivos.files;
             // Limpiar lista previa
             listaOrdenada.innerHTML = '';
+            // Script para eliminar elementos al darle click
+            function borrarArchivo(elementoLista, archivo) {
+                // Arreglo de archivos
+                var nuevosArchivos = Array.from(inputArchivos.files);
+                // Borrar elemento de la lista nueva
+                const indice = nuevosArchivos.indexOf(archivo);
+                nuevosArchivos.splice(indice, 1);
+                // Establecer la nueva lista de archivos sin el elemento borrado
+                const datosTemporales = new DataTransfer();
+                for (const archivoTemporal of nuevosArchivos) {
+                    datosTemporales.items.add(archivoTemporal);
+                }
+                inputArchivos.files = datosTemporales.files;
+                // Remover de lista visual
+                listaOrdenada.removeChild(elementoLista);
+            }
             // Iterar por archivos agregados
-            const archivos = inputArchivos.files;
             for (let i = 0; i < archivos.length; ++i) {
                 // Crear un elemento de la lista para ser agregado
                 const elementoLista = document.createElement('li');
                 // Establecer nombre del archivo como elemento de la lista
                 elementoLista.textContent = archivos[i].name;
+                // Establecer evento con click para eliminarlo cuando se le hace click
+                elementoLista.addEventListener('click', function () {
+                    borrarArchivo(elementoLista, archivos[i]);
+                });
                 // Agregar a lista ordenada
                 listaOrdenada.appendChild(elementoLista);
             }
