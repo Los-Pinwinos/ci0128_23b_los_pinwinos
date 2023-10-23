@@ -7,6 +7,7 @@ namespace LoCoMProTests.Models
     public class FotografiaTests
     {
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
+        // Modificado por: Luis David Solano Santamaría - C17634
         [TestMethod]
         public void fotografia_Validacion_DeberiaSerValido()
         {
@@ -15,6 +16,8 @@ namespace LoCoMProTests.Models
             {   // Como no se prueba este atributo, no se inicializa como
                 // una fotografía de verdad, solo un arreglo de bytes
                 fotografia = BitConverter.GetBytes(12345),
+                // El nombre de la fotografía estar en un rango de [4,200]
+                nombreFotografia = "placeholder.png",
                 // La fecha de creación debe estar entre 1/1/2000 y 1/1/2200
                 creacion = DateTime.Now,
                 // 12 caracteres representa una longitud válida
@@ -31,6 +34,7 @@ namespace LoCoMProTests.Models
         }
 
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
+        // Modificado por: Luis David Solano Santamaría - C17634
         [TestMethod]
         public void creacion_ValidacionRango_DeberiaSerInvalido()
         {
@@ -38,6 +42,7 @@ namespace LoCoMProTests.Models
             var foto = new Fotografia
             {
                 fotografia = BitConverter.GetBytes(12345),
+                nombreFotografia = "placeholder.png",
                 // La fecha de creación debe estar entre 1/1/2000 y 1/1/2200
                 creacion = new DateTime(1999, 9, 2),
                 usuarioCreador = "Usuario1212*"
@@ -52,6 +57,7 @@ namespace LoCoMProTests.Models
         }
 
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
+        // Modificado por: Luis David Solano Santamaría - C17634
         [TestMethod]
         public void usuarioCreador_ValidacionLongitud_DeberiaSerInvalido()
         {
@@ -59,6 +65,7 @@ namespace LoCoMProTests.Models
             var foto = new Fotografia
             {
                 fotografia = BitConverter.GetBytes(12345),
+                nombreFotografia = "placeholder.png",
                 creacion = DateTime.Now,
                 // El nombre del creador debe tener entre 5 y 20 caracteres
                 usuarioCreador = "Us0*"
@@ -73,6 +80,7 @@ namespace LoCoMProTests.Models
         }
 
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
+        // Modificado por: Luis David Solano Santamaría - C17634
         [TestMethod]
         public void usuarioCreador_ValidacionRegex_DeberiaSerInvalido()
         {
@@ -80,6 +88,7 @@ namespace LoCoMProTests.Models
             var foto = new Fotografia
             {
                 fotografia = BitConverter.GetBytes(12345),
+                nombreFotografia = "placeholder.png",
                 creacion = DateTime.Now,
                 // El nombre del creador debe tener al menos un digito
                 usuarioCreador = "Us-uario"
@@ -91,6 +100,28 @@ namespace LoCoMProTests.Models
 
             // Revisar condiciones de prueba
             Assert.IsFalse(esValido);
+        }
+
+        // Hecho por: Luis David Solano Santamaría - C17634
+        [TestMethod]
+        public void nombreFotografia_ValidacionLongitud_DeberiaSerInvalido()
+        {
+            // Crear con nombre de fotografía incorrecto
+            var foto = new Fotografia
+            {
+                fotografia = BitConverter.GetBytes(12345),
+                // Debe tener al menos 5 caracteres
+                nombreFotografia = ".png",
+                creacion = DateTime.Now,
+                usuarioCreador = "UsuarioValido"
+            };
+
+            // Establecer condiciones de prueba
+            var esValido = Validator.TryValidateProperty(foto.nombreFotografia,
+                new ValidationContext(foto) { MemberName = "nombreFotografia" }, null);
+
+            // Revisar condiciones de prueba
+            Assert.IsFalse(esValido);   
         }
     }
 }
