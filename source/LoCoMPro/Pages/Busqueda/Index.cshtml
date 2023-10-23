@@ -194,35 +194,14 @@
                 <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
                     @foreach (var item in Model.productosVM)
                     {
-                        <tr>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.nombre)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.marca)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.fecha)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.tienda)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.provincia)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.canton)
-                            </td>
+                        <tr class="result-row">
+                            <td>@Html.DisplayFor(modelItem => item.nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.marca)</td>
+                            <td>@Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)</td>
+                            <td>@Html.DisplayFor(modelItem => item.fecha)</td>
+                            <td>@Html.DisplayFor(modelItem => item.tienda)</td>
+                            <td>@Html.DisplayFor(modelItem => item.provincia)</td>
+                            <td>@Html.DisplayFor(modelItem => item.canton)</td>
                         </tr>
                     }
                 </tbody>
@@ -287,6 +266,20 @@
 </div>
 
 @section Scripts {
+    <script>
+        // Indica que, a la hora de seleccionar una columna, esta redirigirá la búsqueda a la página de ver registros
+        // Para el producto indicado. 
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".result-row");
+
+            rows.forEach(row => {
+                row.addEventListener("click", function () {
+                    const productName = row.querySelector("td:first-child").textContent;
+                    window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}`;
+                });
+            });
+        });
+    </script>
     <script>
         // Boton de buscar
         cajaProducto = document.getElementById("CajaDeTextoProducto");

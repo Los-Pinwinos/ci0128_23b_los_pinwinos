@@ -39,9 +39,7 @@ namespace LoCoMPro.ViewModels.VerRegistros
         [Display(Name = "Descripción")]
         public string? descripcion { get; set; }
 
-
         // Colecciones
-        public ICollection<Etiqueta>? etiquetas { get; set; }
 
         public ICollection<Fotografia>? fotografias { get; set; }
     }

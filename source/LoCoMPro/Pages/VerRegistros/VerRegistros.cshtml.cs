@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LoCoMPro.Pages.VerRegistros
 {
@@ -25,20 +27,30 @@ namespace LoCoMPro.Pages.VerRegistros
 
         public IList<VerRegistrosVM> Registros { get; set; } = new List<VerRegistrosVM>();
 
-        public async Task OnGetAsync()
+        // [BindProperty]
+        public string NombreProducto { get; set; }
+
+       
+        public string marca { get; set; }
+
+        
+        public string nombreUnidad { get; set; }
+
+       
+        public string nombreCategoria { get; set; }
+
+        public async Task OnGetAsync(string productName)
         {
-            // Search for products related to "Pañales"
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.producto)
-                .Where(r => r.productoAsociado.Equals("Aceite de Oliva"))
+                .Where(r => r.productoAsociado.Equals(productName))
                 .GroupBy(r => new
                 {
-                    creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day), 
+                    creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),
                     r.usuarioCreador,
                     r.precio,
                     r.calificacion,
                     r.descripcion
-
                 })
                 .Select(group => new VerRegistrosVM
                 {
@@ -51,5 +63,8 @@ namespace LoCoMPro.Pages.VerRegistros
 
             Registros = await registrosIQ.ToListAsync();
         }
+
+
+
     }
 }
