@@ -1,4 +1,50 @@
 ﻿@page
 @model LoCoMPro.Pages.DetallesRegistro.DetallesRegistroModel
 @{
+    ViewData["Title"] = "Detalles Registro";
 }
+
+<!-- Metadatos -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Detalles Registro</title>
+</head>
+
+<!-- Cuerpo de la página -->
+<body>
+    <form method="post">
+        <!-- Contenedor para centrar el formulario -->
+        <div class="DetallesRegistro-contenedor-central">
+            <!-- Contenedor para una fila -->
+            <div class="DetallesRegistro-fila">
+                <div class="DetallesRegistro-contenedor">
+                    <label for="Producto">Producto:</label>
+                    <input type="text" class="DetallesRegistro-caja-texto" id="Producto" name="Producto" disabled>
+                </div>
+                <div class="DetallesRegistro-contenedor">
+                    <label for="Precio">Precio:</label>
+                    <input type="text" class="DetallesRegistro-caja-texto" id="Precio" name="Precio" disabled>
+                </div>
+                <div class="DetallesRegistro-contenedor">
+                    <label for="Unidad">Unidad:</label>
+                    <input type="text" class="DetallesRegistro-caja-texto" id="Unidad" name="Unidad" disabled>
+                </div>
+                <div class="DetallesRegistro-contenedor">
+                    <label for="Descripcion">Descripción:</label>
+                    <input type="text" class="DetallesRegistro-caja-texto-grande" id="Descripcion" name="Descripcion" disabled>
+                </div>
+            </div>
+            <div class="DetallesRegistro-fila">
+                <div class="DetallesRegistro-contenedor-imagenes">
+                    <!-- Botón de varias imágenes -->
+                    <button type="button" class="DetallesRegistro-boton-imagenes" id="BotonFlecha" name="BotonFlecha" hidden>
+                        <img src="~/img/flecha_imagenes.png" id="BotonFlechaImg" class="DetallesRegistro-icono-imagenes" />
+                    </button>
+                </div>
+            </div>
+            <div class="DetallesRegistro-boton">
+                <button class="DetallesRegistro-boton-estandar" type="submit" asp-page-handler="Regresar">Regresar</button>
+            </div>
+        </div>
+    </form>
+</body>
