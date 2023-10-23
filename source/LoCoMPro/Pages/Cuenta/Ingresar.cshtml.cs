@@ -91,8 +91,8 @@ namespace LoCoMPro.Pages.Cuenta
                 // Busca al usuario en la base de datos
                 var usuario = this.contexto.Usuarios.FirstOrDefault(
                     u => u.nombreDeUsuario == usuarioActual.nombreDeUsuario);
-                // Si lo encuentra y tiene el mismo hash de contraseña
-                if (usuario != null &&
+                // Si lo encuentra, está activo y tiene el mismo hash de contraseña
+                if (usuario != null && usuario.estado == 'A' &&
                     this.hasheador.VerifyHashedPassword(
                         usuario, usuario.hashContrasena, this.usuarioActual.contrasena) ==
                         PasswordVerificationResult.Success)

@@ -112,7 +112,7 @@ namespace LoCoMPro.Pages.Cuenta
                     string enlace = PageContext.HttpContext.Request.Scheme + "://" +
                         PageContext.HttpContext.Request.Host.Host + ":" +
                         PageContext.HttpContext.Request.Host.Port +
-                        "/Cuenta/Ingresar";
+                        "/Cuenta/Autenticar?nombreUsuario=" + this.usuarioActual.nombreDeUsuario;
 
                     // Si logra enviar el correo
                     if (this.controladorCorreos.enviarCorreoHtml(this.usuarioActual.correo,
@@ -124,7 +124,7 @@ namespace LoCoMPro.Pages.Cuenta
                             nombreDeUsuario = this.usuarioActual.nombreDeUsuario,
                             correo = this.usuarioActual.correo,
                             hashContrasena = this.usuarioActual.contrasena,
-                            estado = 'A',
+                            estado = 'I',
                             calificacion = 0,
                             distritoVivienda = this.usuarioActual.distritoVivienda,
                             cantonVivienda = this.usuarioActual.cantonVivienda,

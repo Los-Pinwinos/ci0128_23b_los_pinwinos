@@ -1,0 +1,14 @@
+/* Estilo para un contenedor de todos los elementos en la página */
+.Autenticar-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+/* Estilo para el texto en la página */
+.Autenticar-texto {
+    color: #033F63;
+    font-size: 30px;
+}
