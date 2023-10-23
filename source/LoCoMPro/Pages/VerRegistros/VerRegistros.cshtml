@@ -5,7 +5,10 @@
 }
 
 <head>
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js"></script>
 </head>
 
 <div>
@@ -85,4 +88,26 @@
         </div>
     </div>
 </div>
+
+<!-- Paginación -->
+<div class="BusquedaIndice-contenedor-paginacion">
+    <div class="BusquedaIndice-contenedor-caja-paginacion">
+        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
+
+        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
+
+        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Siguiente
+        </div>
+    </div>
+</div>
+
 

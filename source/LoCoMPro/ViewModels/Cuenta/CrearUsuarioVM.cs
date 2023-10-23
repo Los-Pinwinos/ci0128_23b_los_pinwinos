@@ -10,10 +10,7 @@ namespace LoCoMPro.ViewModels.Cuenta
         // Nombre de usuario
         [Required(ErrorMessage = "Debe incluir un nombre de usuario")]
         [StringLength(20, MinimumLength = 5,
-            ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 caracteres")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-            ErrorMessage =
-            "El nombre de usuario debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial")]
+        ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 caracteres")]
         public required string nombreDeUsuario { get; set; }
 
         // Correo eléctronico (único)
