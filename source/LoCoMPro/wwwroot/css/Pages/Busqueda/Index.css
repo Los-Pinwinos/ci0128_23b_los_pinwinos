@@ -64,7 +64,6 @@
         align-items: center;
     }
 
-
 /* Contenedor de texto */
 .BusquedaIndice-contenedor-texto {
     margin-left: 5px;
@@ -116,7 +115,7 @@
 table {
     border-collapse: separate;
     width: 100%;
-    max-width:97%;
+    max-width: 97%;
     border-spacing: 0 10px;
     font-size: 15px;
 }
@@ -134,11 +133,11 @@ table {
         text-align: left;
         padding: 3px 10px;
         border: none;
-        max-width: 80px;
-        min-width: 80px;
+        max-width: 70px;
         overflow-wrap: normal;
         overflow: hidden;
         text-overflow: ellipsis;
+        position: relative;
     }
         /* Tbody td ultimo */
         table tbody td:last-child {
@@ -162,6 +161,61 @@ table {
         color: white;
         height: 50px;
     }
+
+    /* Deshabilita el hover en la columna de Nombre */
+    table tbody td:first-child:hover,
+    table thead th:first-child:hover {
+        pointer-events: none;
+    }
+
+/* Características de hover */
+td:hover {
+    overflow: visible;
+    white-space: nowrap;
+    height: auto;
+}
+
+table td:hover::before {
+    content: attr(data-tooltip);
+    display: block;
+    position: absolute;
+    background-color: #4E7366;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    top: -30%;
+    left: 70%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+table td::before {
+    content: "";
+}
+
+/* Contenido de las celdas */
+.contenidoCelda {
+    min-width: 80px;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Nombre */
+.contenidoCeldaNombre {
+    text-align: left;
+    padding: 3px 0px;
+    border: none;
+    max-width: 120px;
+    min-width: 120px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
 
 /* Paginacion */
 
@@ -385,26 +439,26 @@ BusquedaIndice-tabla-filtros-contenedor {
 
 /* Track de barra de scroll */
 ::-webkit-scrollbar-track {
-    background: #C3F3E5;
+    background: #ebedec;
     border-radius: 10px;
 }
 
-    /* Thumb para barra de scroll de resultados y filtros */
-    .BusquedaIndice-tabla::-webkit-scrollbar-thumb, BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb {
-        background-color: #CCCCCC;
-        border-radius: 10px;
+/* Thumb para barra de scroll de resultados y filtros */
+.BusquedaIndice-tabla::-webkit-scrollbar-thumb, BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb {
+    background-color: #CCCCCC;
+    border-radius: 10px;
+}
+
+    /* Hover para barra de scroll de resultados y filtros */
+    .BusquedaIndice-tabla::-webkit-scrollbar-thumb:hover, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb:hover, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb:hover {
+        background-color: #999999;
     }
 
-        /* Hover para barra de scroll de resultados y filtros */
-        .BusquedaIndice-tabla::-webkit-scrollbar-thumb:hover, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb:hover, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb:hover {
-            background-color: #999999;
-        }
-
-    /* Track para barra de scroll de resultados y filtros */
-    .BusquedaIndice-tabla::-webkit-scrollbar-track, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-track, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-track {
-        background: #C3F3E5;
-        border-radius: 10px;
-    }
+/* Track para barra de scroll de resultados y filtros */
+.BusquedaIndice-tabla::-webkit-scrollbar-track, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-track, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-track {
+    background: #ebedec;
+    border-radius: 10px;
+}
 
 
 /* Ordenamientos */
