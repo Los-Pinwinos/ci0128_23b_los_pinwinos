@@ -1,0 +1,22 @@
+/* Estilo para un contenedor de todos los elementos en la página */
+.Error-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+/* Estilo para mensajes de error */
+.Error-texto {
+    color: red;
+    font-size: 30px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+/* gif */
+.Error-gif {
+    width: 30%;
+    height: auto;
+}
