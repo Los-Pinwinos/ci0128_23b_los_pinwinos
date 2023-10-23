@@ -55,6 +55,7 @@
     color: white;
     border-radius: 5px;
     margin-left: 1%;
+    border: none;
 }
 
 /* Caja de texto utilizada para el precio */
@@ -125,12 +126,19 @@
     padding: 5px 5px;
 }
 
-/* Texto de input de imagen */
-.custom-file-upload {
+/* Contenedor para la sección de agregar imagen */
+.AgregarProd-contenedor-imagen {
+    width: 100%;
+    height: 100%;
+    padding-left: 20%;
+}
+
+/* Input de imagen que simula un botón */
+.agregar-imagen {
     background-color: #033F63;
     color: white;
-    width: 60%;
-    height: 100%;
+    width: 77%;
+    height: 35px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -139,6 +147,15 @@
     font: 13px system-ui;
     text-align: center;
     display: inline-block;
+    padding-left: 80px;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+/* Limpia el botón del ojo */
+.boton-ojo {
+    border: none;
+    background-color: white;   
 }
 
 /*Popup para ver imágenes agregadas*/
@@ -188,4 +205,3 @@
     transform: translate(-50%, -50%) scale(1);
 }
 
-    

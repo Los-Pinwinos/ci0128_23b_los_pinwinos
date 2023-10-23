@@ -90,9 +90,9 @@
             </div>
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
-                <label for="subida_imagen" class="custom-file-upload">Agregar Imagen</label>
+                <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
                 <input type="file" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
-                <button type="button" class="material-symbols-outlined" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
+                <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
                     <h4>Imágenes agregadas</h4>
                     <!-- TODO(Luis): Agregar logica de imagenes -->
@@ -186,7 +186,7 @@
     </script>
     <script>
         // Función para cambiar label por botón de agregar imagen
-        document.querySelector('.custom-file-upload').addEventListener('click', function () {
+        document.querySelector('.agregar-imagen').addEventListener('click', function () {
             document.querySelector('#fileInput').click();
         });
     </script>
@@ -205,5 +205,6 @@
     <script>
         // Función de alineado para las cajas de texto
         alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-texto", 112);
+        alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-imagen", 80);
     </script>
 </body>
