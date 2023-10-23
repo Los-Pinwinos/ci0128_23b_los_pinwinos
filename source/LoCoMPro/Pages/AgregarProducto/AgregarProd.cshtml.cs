@@ -94,50 +94,76 @@ namespace LoCoMPro.Pages.AgregarProducto
             if (existingProduct == null)
             {
                 // El producto no existe, agrégalo a la base de datos
-                var nuevoProducto = new Producto
-                {
-                    nombre = viewModel.nombreProducto,
-                    marca = viewModel.marcaProducto,
-                    nombreUnidad = viewModel.nombreUnidad,
-                    nombreCategoria = viewModel.nombreCategoria
-                };
-
-                // Agrega el nuevo producto a la base de datos
-                contexto.Productos.Add(nuevoProducto);
-                contexto.SaveChanges();
+                agregarProducto();
             }
             // Revisar si tiene tienda
             string tiendaTemporal = TempData["nombreTienda"]?.ToString() ?? "";
             if (tiendaTemporal == "")
             {
+                // Enviar error de tipo tienda
                 ViewData["ErrorMessage"] = "tienda";
             }
             else
             {
                 // Agregarle registros al producto encontrado
-                var nuevoRegistro = new Registro
-                {
-                    // Indicar el tiempo de creación
-                    creacion = DateTime.Now,
-                    usuarioCreador = usuarioCreador,
-                    descripcion = viewModel.descripcion,
-                    // Convertir a decimal
-                    precio = decimal.Parse(viewModel.precio),
-                    productoAsociado = viewModel.nombreProducto,                    
-                    nombreTienda = tiendaTemporal,
-                    nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
-                    nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
-                    nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
-                };
-                // Agregar el nuevo registro a la base de datos
-                contexto.Registros.Add(nuevoRegistro);
-                contexto.SaveChanges();
+                agregarRegistro(usuarioCreador, tiendaTemporal);
+                // Agregar fotografías a la base de datos
+                agregarFotografias();
             }
             RellenarSelectList();
             // Limpia los datos del view model
             LimpiarViewModel();
             // Redirige a otra página o realiza cualquier otra acción después de agregar el producto
             return RedirectToPage("/Home/Index");
+        }
+
+        private void agregarProducto()
+        {
+            var nuevoProducto = new Producto
+            {
+                nombre = viewModel.nombreProducto,
+                marca = viewModel.marcaProducto,
+                nombreUnidad = viewModel.nombreUnidad,
+                nombreCategoria = viewModel.nombreCategoria
+            };
+
+            // Agrega el nuevo producto a la base de datos
+            contexto.Productos.Add(nuevoProducto);
+            contexto.SaveChanges();
+        }
+
+        private void agregarRegistro(string usuarioCreador, string tiendaTemporal)
+        {
+            var nuevoRegistro = new Registro
+            {
+                // Indicar el tiempo de creación
+                creacion = DateTime.Now,
+                usuarioCreador = usuarioCreador,
+                descripcion = viewModel.descripcion,
+                // Convertir a decimal
+                precio = decimal.Parse(viewModel.precio),
+                productoAsociado = viewModel.nombreProducto,
+                nombreTienda = tiendaTemporal,
+                nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
+                nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
+                nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
+            };
+            // Agregar el nuevo registro a la base de datos
+            contexto.Registros.Add(nuevoRegistro);
+            contexto.SaveChanges();
+        }
+
+        private void agregarFotografias()
+        {
+            // Console.WriteLine("\n\n\nEn metodo\n\n\n\n");
+            // Iterar por cada archivo en el request
+            foreach(var archivo in Request.Form.Files)
+            {
+                // Obtener el nombre del archivo
+                string nombreArchivo = archivo.FileName;
+                // Console.WriteLine(nombreArchivo);
+                // Console.WriteLine("\nAAAAAAAAAAAAAAAA");
+            }
         }
 
         public IActionResult OnPostCancelar()
