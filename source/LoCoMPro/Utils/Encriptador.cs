@@ -54,33 +54,45 @@ namespace LoCoMPro.Utils
         // Método para desencriptar hileras
         public string desencriptar(string hilera)
         {
-            // Corregir los errores de traducción en la hilera
-            hilera = hilera.Replace(' ', '+');
-            // Crear un objeto para el algoritmo de encriptado
-            using (Aes algoritmoEncriptado = Aes.Create())
+            // Intenta interpretar la hilera como string de base 64 y desencriptarla
+            try
             {
-                // Obtener la llave de encriptado para el algoritmo a partir
-                // del archivo de configuración, de no encontrarla, usar la
-                // llave por defecto
-                algoritmoEncriptado.Key = Encoding.UTF8.GetBytes(
-                    this.configuracion.GetValue<string>("llaveEncriptado") ?? this.llavePorDefecto);
-
-                // Obtener la hilera a desencriptar como bytes
-                byte[] encriptadoConIV = Convert.FromBase64String(hilera);
-
-                // Obtener el IV y hilera encriptada
-                algoritmoEncriptado.IV = encriptadoConIV.Take(16).ToArray();
-                byte[] encriptado = encriptadoConIV.Skip(16).ToArray();
-
-                // Crear un objeto desencriptor a partir del algoritmo de encriptado
-                using (ICryptoTransform desencriptor = algoritmoEncriptado.CreateDecryptor())
+                // Corregir los errores de traducción en la hilera
+                hilera = hilera.Replace(' ', '+');
+                // Crear un objeto para el algoritmo de encriptado
+                using (Aes algoritmoEncriptado = Aes.Create())
                 {
-                    // Desencripta los bytes con el desencriptor
-                    byte[] desencriptado = desencriptor.TransformFinalBlock(encriptado, 0, encriptado.Length);
+                    // Obtener la llave de encriptado para el algoritmo a partir
+                    // del archivo de configuración, de no encontrarla, usar la
+                    // llave por defecto
+                    algoritmoEncriptado.Key = Encoding.UTF8.GetBytes(
+                        this.configuracion.GetValue<string>("llaveEncriptado") ?? this.llavePorDefecto);
 
-                    // Retorna un string con la desencripción generada
-                    return Encoding.UTF8.GetString(desencriptado);
+         
+                        // Obtener la hilera a desencriptar como bytes
+                        byte[] encriptadoConIV = Convert.FromBase64String(hilera);
+
+                        // Obtener el IV y hilera encriptada
+                        algoritmoEncriptado.IV = encriptadoConIV.Take(16).ToArray();
+                        byte[] encriptado = encriptadoConIV.Skip(16).ToArray();
+
+                        // Crear un objeto desencriptor a partir del algoritmo de encriptado
+                        using (ICryptoTransform desencriptor = algoritmoEncriptado.CreateDecryptor())
+                        {
+                            // Desencripta los bytes con el desencriptor
+                            byte[] desencriptado = desencriptor.TransformFinalBlock(encriptado, 0, encriptado.Length);
+
+                            // Retorna un string con la desencripción generada
+                            return Encoding.UTF8.GetString(desencriptado);
+                        }
+                    }
                 }
+
+            // Si la hilera era inválida
+            catch (Exception)
+            {
+                // Retorna string vacío
+                return "";
             }
         }
     }

@@ -32,29 +32,33 @@ namespace LoCoMPro.Pages.Cuenta
         // Método para manejar los GET http requests de la página
         public IActionResult OnGet(string codigoUsuario)
         {
-            // Obtiene el usuario de la base de datos a partir
-            // del nombre de usuario dado desencriptado
-            var usuario = this.contexto.Usuarios.FirstOrDefault(
-              u => u.nombreDeUsuario == this.encriptador.desencriptar(HttpUtility.UrlDecode(codigoUsuario)));
-
-            // Si el usuario existe
-            if (usuario != null)
+            // Si se presentó un código de usuario
+            if (codigoUsuario != null)
             {
-                // Si el usuario estaba inactivo
-                if (usuario.estado == 'I')
-                {
-                    // Lo activa
-                    usuario.estado = 'A';
-                    // Guarda los cambios en la base de datos
-                    this.contexto.SaveChanges();
-                    // Se actualiza el booleano indicando
-                    // que se acaba de actualizar
-                    this.seAutentico = true;
-                }
-                // Muestra la página
-                return Page();
-            }
+                // Obtiene el usuario de la base de datos a partir
+                // del nombre de usuario dado desencriptado
+                var usuario = this.contexto.Usuarios.FirstOrDefault(
+                  u => u.nombreDeUsuario == this.encriptador.desencriptar(HttpUtility.UrlDecode(codigoUsuario)));
 
+                // Si el usuario existe
+                if (usuario != null)
+                {
+                    // Si el usuario estaba inactivo
+                    if (usuario.estado == 'I')
+                    {
+                        // Lo activa
+                        usuario.estado = 'A';
+                        // Guarda los cambios en la base de datos
+                        this.contexto.SaveChanges();
+                        // Se actualiza el booleano indicando
+                        // que se acaba de actualizar
+                        this.seAutentico = true;
+                    }
+                    // Muestra la página
+                    return Page();
+                }
+            }
+            
             // Se actualiza el booleano indicando
             // que no se acaba de actualizar
             this.seAutentico = false;
