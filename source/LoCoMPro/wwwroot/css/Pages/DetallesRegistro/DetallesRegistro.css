@@ -1,19 +1,12 @@
 ﻿/* Contenedor para centrar */
 .DetallesRegistro-contenedor-central {
-    /*display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;*/
     height: calc(90vh - 50px);
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .DetallesRegistro-contenedor-central__fila {
-    /*display: flex;
-    flex-direction: row;*/
-    justify-content: space-around;
     padding-top: 10px;
     flex-basis: 50%;
 }
@@ -22,59 +15,68 @@ DetallesRegistro-contenedor {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 10px;
-    padding-top: 10px;
-    padding-left: 10px;
+    justify-content: flex-end;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 3%;
 }
+    /* Label usado en contenedor para los botones y el texto */
+    .DetallesRegistro-contenedor label {
+        font-size: 18px;
+        white-space: nowrap;
+        margin-inline-end: 60px;
+        text-align: right;
+        width: 30px;
+        display: inline-block;
+        margin-right: 15%;
+    }
 
 .DetallesRegistro-caja-texto {
     border-color: #033F63;
     border-radius: 30px;
     padding: 1px 5px;
-    width: 70%;
+    margin-top: 10px;
+    width: 300px;
 }
-
-    .DetallesRegistro-caja-texto label {
-        margin-right: 1%;
-    }
 
 .DetallesRegistro-caja-texto-grande {
     border-color: #033F63;
     border-radius: 30px;
     padding: 1px 5px;
-    width: 70%;
-    height: 400%;
+    width: 300px;
+    height: 100px;
+    margin-top: 10px;
 }
-    .DetallesRegistro-caja-texto-grande label {
-        margin-right: 1%;
-    }
 
 .DetallesRegistro-contenedor-imagenes {
-}
-
-.DetallesRegistro-boton-imagenes{
-
 }
 
 .DetallesRegistro-imagen {
     border-radius: 30px;
 }
 
+.DetallesRegistro-boton-imagenes {
+    position: absolute;
+    top: 50%; /* Adjust the top position as needed */
+    left: 50%; /* Adjust the left position as needed */
+    transform: translate(-50%, -50%);
+    border: 10px;
+    cursor: pointer;
+}
+
 .DetallesRegistro-icono-imagenes {
+    margin-top: 26%;
+    width: 25px;
+    height: 50px;
+    border: 10px;
+    background-color: black;
 }
 
 .DetallesRegistro-boton {
-    border: none;
-    flex-direction: column;
-    width: 40px;
-    height: 40px;
-    align-items: center;
-    border-radius: 30%;
-    margin-top: 1.2%;
-    margin-left: 4%;
 }
 
 .DetallesRegistro-boton-estandar {
+    font-size: 18px;
     margin-top: 20px;
     margin-left: 10px;
     background-color: #033F63;
