@@ -105,10 +105,33 @@ namespace LoCoMPro.Pages.AgregarProducto
             }
             else
             {
-                // Agregarle registros al producto encontrado
-                agregarRegistro(usuarioCreador, tiendaTemporal);
+                // Insertar registro a la base de datos y obtener su tiempo
+                var tiempoActual = agregarRegistro(usuarioCreador, tiendaTemporal);
                 // Agregar fotografías a la base de datos
-                agregarFotografias();
+                // agregarFotografias();
+                foreach (var archivo in Request.Form.Files)
+                {
+                    // Obtener el nombre del archivo
+                    string nombreArchivo = archivo.FileName;
+                    // Crear memoria temporal para transformar la imágen
+                    MemoryStream memoriaTemporal = new MemoryStream();
+                    // Copiar del archivo a la memoria temporal
+                    archivo.CopyTo(memoriaTemporal);
+                    // Crear instancia de fotografía
+                    var fotografia = new Fotografia
+                    {
+                        fotografia = memoriaTemporal.ToArray(),
+                        nombreFotografia = nombreArchivo,
+                        creacion = tiempoActual,
+                        usuarioCreador = usuarioCreador
+                    };
+                    // Limpiar memoria temporal
+                    memoriaTemporal.Close();
+                    memoriaTemporal.Dispose();
+                    // Agregar fotografía a base de datos
+                    contexto.Fotografias.Add(fotografia);
+                    contexto.SaveChanges();
+                }
             }
             RellenarSelectList();
             // Limpia los datos del view model
@@ -132,12 +155,13 @@ namespace LoCoMPro.Pages.AgregarProducto
             contexto.SaveChanges();
         }
 
-        private void agregarRegistro(string usuarioCreador, string tiendaTemporal)
+        private DateTime agregarRegistro(string usuarioCreador, string tiendaTemporal)
         {
+            var tiempoActual = DateTime.Now;
             var nuevoRegistro = new Registro
             {
                 // Indicar el tiempo de creación
-                creacion = DateTime.Now,
+                creacion = tiempoActual,
                 usuarioCreador = usuarioCreador,
                 descripcion = viewModel.descripcion,
                 // Convertir a decimal
@@ -151,11 +175,13 @@ namespace LoCoMPro.Pages.AgregarProducto
             // Agregar el nuevo registro a la base de datos
             contexto.Registros.Add(nuevoRegistro);
             contexto.SaveChanges();
+            // Requerido para asociar imágenes al registro
+            return tiempoActual;
         }
 
         private void agregarFotografias()
         {
-            // Console.WriteLine("\n\n\nEn metodo\n\n\n\n");
+            Console.WriteLine("\n\n\nEn metodo\n\n\n\n");
             // Iterar por cada archivo en el request
             foreach(var archivo in Request.Form.Files)
             {

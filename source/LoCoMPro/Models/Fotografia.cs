@@ -9,6 +9,7 @@ namespace LoCoMPro.Models
     {
         // Fotografía
         [Display(Name = "Fotografía")]
+        [MaxLength]
         public required byte[] fotografia { get; set; }
 
         // Nombre de la fotografía

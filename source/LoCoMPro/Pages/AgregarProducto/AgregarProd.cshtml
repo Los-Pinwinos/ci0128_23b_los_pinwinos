@@ -58,7 +58,7 @@
 
 <body>
     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
-    <form method="post" asp-page-handler="Aceptar">
+    <form method="post" asp-page-handler="Aceptar" enctype="multipart/form-data">
         <!-- Contenedor para el formulario -->
         <div class="AgregarProd-contenedor-central">
             <!-- Agregar Producto -->
@@ -91,7 +91,7 @@
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
                 <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
-                <input type="file" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
+                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;" />
                 <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()" asp-page-handler="Popup">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
                     <h4>Imágenes agregadas</h4>
