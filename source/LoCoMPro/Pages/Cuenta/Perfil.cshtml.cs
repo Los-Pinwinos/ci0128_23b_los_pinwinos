@@ -17,7 +17,7 @@ namespace LoCoMPro.Pages.Cuenta
         private readonly LoCoMProContext contexto;
 
         // Propiedad para manejar el usuario actual
-        private Usuario usuario;
+        public Usuario usuario { get; set; }
 
         // Propieda ligada para validaciones con el modelo de vista
         [BindProperty]
@@ -25,6 +25,15 @@ namespace LoCoMPro.Pages.Cuenta
 
         // Propiedad para guardar la lista de provincias
         public List<Provincia> provincias { get; set; }
+
+        // Propiedad para guardar la lista de cantones iniciales
+        public List<Canton> cantones { get; set; }
+
+        // Propiedad para guardar la lista de distritos iniciales
+        public List<Distrito> distritos { get; set; }
+
+        // Propiedad para guardar la cantidad de aportes que ha hecho el usuario
+        public int cantidadAportes { get; set; }
 
         // Constructor del modelo de la página
         public ModeloPerfil(LoCoMProContext contexto)
@@ -36,7 +45,8 @@ namespace LoCoMPro.Pages.Cuenta
             {
                 nombreDeUsuario = "",
                 correo = "",
-                hashContrasena = ""
+                hashContrasena = "",
+                calificacion = 0.0
             };
             // Crea un ModificarUsuarioVM dummy para no tener nulo
             this.usuarioActual = new ModificarUsuarioVM
@@ -46,6 +56,10 @@ namespace LoCoMPro.Pages.Cuenta
             };
             // Crea una lista para guardar las provincias
             this.provincias = new List<Provincia>();
+            // Crea una lista para guardar las cantones iniciales
+            this.cantones = new List<Canton>();
+            // Crea una lista para guardar los distritos iniciales
+            this.distritos = new List<Distrito>();
         }
 
         // Método para manejar los GET http requests de la página
@@ -68,7 +82,20 @@ namespace LoCoMPro.Pages.Cuenta
                 this.usuarioActual.cantonVivienda = this.usuario.cantonVivienda;
                 this.usuarioActual.distritoVivienda = this.usuario.distritoVivienda;
 
-            // Si el usuarion no está loggeado
+                // Actualiza los cantones y distritos iniciales de acuerdo
+                // a la vivienda del usuario obtenido
+                this.cantones = this.contexto.Cantones.Where
+                    (c => c.nombreProvincia == this.usuario.provinciaVivienda).ToList();
+
+                this.distritos = this.contexto.Distritos.Where(
+                    c => c.nombreProvincia == this.usuario.provinciaVivienda &&
+                    c.nombreCanton == this.usuario.cantonVivienda).ToList();
+
+                // Consigue la cantidad de aportes hechos por el usuario
+                this.cantidadAportes = this.contexto.Registros.Where(
+                    c => c.usuarioCreador == this.usuario.nombreDeUsuario && c.calificacion != null).Count();
+
+                // Si el usuarion no está loggeado
             } else
             {
                 // Generar un mensaje para redireccionar a la página de inicio
@@ -84,12 +111,12 @@ namespace LoCoMPro.Pages.Cuenta
         {
             // Pide a la base de datos los cantones que presentan el nombre de la
             // provincia indicado
-            var cantones = await this.contexto.Cantones
+            var listaCantones = await this.contexto.Cantones
                 .Where(c => c.nombreProvincia == provincia)
                 .ToListAsync();
 
             // Retorna un JSON con los cantones de la provincia específica
-            return new JsonResult(cantones);
+            return new JsonResult(listaCantones);
         }
 
         // Método para obtener los distritos de un provincia y cantón especificos
@@ -97,12 +124,12 @@ namespace LoCoMPro.Pages.Cuenta
         {
             // Pide a la base de datos los distritos que presentan el nombre del
             // provincia y canton indicados
-            var distritos = await this.contexto.Distritos
+            var listaDistritos = await this.contexto.Distritos
                 .Where(d => d.nombreProvincia == provincia && d.nombreCanton == canton)
                 .ToListAsync();
 
             // Retorna un JSON con los distritos del provincia y cantón específicos
-            return new JsonResult(distritos);
+            return new JsonResult(listaDistritos);
         }
 
         // Método cuando se presiona el botón para crear una cuenta

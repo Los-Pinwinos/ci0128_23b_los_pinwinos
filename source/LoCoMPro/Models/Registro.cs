@@ -36,6 +36,12 @@ namespace LoCoMPro.Models
         [Display(Name = "Precio")]
         public required decimal precio { get; set; }
 
+        // Calificación
+        [Range(0, 5,
+            ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
+        [Display(Name = "Calificación")]
+        public double? calificacion { get; set; }
+
         // Producto asociado
         [StringLength(256, MinimumLength = 1)]
         [Display(Name = "Nombre del producto")]

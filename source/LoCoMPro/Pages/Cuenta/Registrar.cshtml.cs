@@ -131,7 +131,7 @@ namespace LoCoMPro.Pages.Cuenta
                             correo = this.usuarioActual.correo,
                             hashContrasena = this.usuarioActual.contrasena,
                             estado = 'I',
-                            calificacion = 0,
+                            calificacion = 0.0,
                             distritoVivienda = this.usuarioActual.distritoVivienda,
                             cantonVivienda = this.usuarioActual.cantonVivienda,
                             provinciaVivienda = this.usuarioActual.provinciaVivienda

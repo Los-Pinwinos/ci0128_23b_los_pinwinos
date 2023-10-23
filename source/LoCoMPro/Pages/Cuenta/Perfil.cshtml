@@ -14,6 +14,7 @@
     <script src="~/js/Pages/alinear.js"></script>
     <!-- Incluir el archivo de CSS con los estilos de la página -->
     <link rel="stylesheet" href="~/css/Pages/Cuenta/Perfil.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
 </head>
 
 <!-- Contenido de la página -->
@@ -58,9 +59,13 @@
             <!-- Caja de texto para el cantón (deshabilitada) ligada al modelo vista -->
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.cantonVivienda" for="CajaDeSeleccionCanton">Cantón:</label>
-                <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton" disabled>>
+                <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton">>
                     <!-- Agrega la opción básica -->
                     <option value="">No deseo indicarlo</option>
+                    @foreach (var canton in Model.cantones)
+                    {
+                        <option value="@canton.nombre">@canton.nombre</option>
+                    }
                 </select>
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de distrito del modelo vista -->
@@ -68,10 +73,20 @@
             <!-- Caja de texto para la distrito (deshabilitada) ligada al modelo vista -->
             <div class="Perfil-contenedor-caja-de-texto" style="margin-bottom: 2%;">
                 <label asp-for="usuarioActual.distritoVivienda" for="CajaDeSeleccionDistrito">Distrito:</label>
-                <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito" disabled>>
+                <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito">>
                     <!-- Agrega la opción básica -->
                     <option value="">No deseo indicarlo</option>
+                    @foreach (var distrito in Model.distritos)
+                    {
+                        <option value="@distrito.nombre">@distrito.nombre</option>
+                    }
                 </select>
+            </div>
+            <div class="Perfil-contenedor-calificacion" style="margin-right: @(130 - Model.cantidadAportes.ToString().Length * 10)px;">
+                <label class="Perfil-contenedor-calificacion-titulo">Calificación:</label>
+                <p class="starability-result" data-rating="@Math.Round(Model.usuario.calificacion)"></p>
+                <p class="Perfil-contenedor-calificacion-calificacion">@Model.usuario.calificacion.ToString("0.0") de 5,0</p>
+                <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
             <!-- Botón para ver los aportes realizados por el usuario -->
             <button class="Perfil-boton-basico" asp-page="/Cuenta/Aportes"> Ver aportes </button>
