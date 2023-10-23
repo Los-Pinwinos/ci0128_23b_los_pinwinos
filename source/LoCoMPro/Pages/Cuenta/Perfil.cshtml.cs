@@ -51,8 +51,6 @@ namespace LoCoMPro.Pages.Cuenta
             // Crea un ModificarUsuarioVM dummy para no tener nulo
             this.usuarioActual = new ModificarUsuarioVM
             {
-                nombreDeUsuario = "",
-                correo = ""
             };
             // Crea una lista para guardar las provincias
             this.provincias = new List<Provincia>();
@@ -133,20 +131,31 @@ namespace LoCoMPro.Pages.Cuenta
         }
 
         // Método cuando se presiona el botón para crear una cuenta
-        public async Task<IActionResult> OnPostActualizarUsuario()
+        public IActionResult OnPostActualizarUsuario()
         {
-            // Si los datos recopilados son válidos (cumplen con las propiedades de
-            // validación del modelo de vista del lado del servidor)
-            if (ModelState.IsValid)
+            // Si el usuario está loggeado
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                
+                // Obtiene la instancia del usuario
+                this.usuario = this.contexto.Usuarios.FirstOrDefault(
+                    p => p.nombreDeUsuario == User.Identity.Name) ?? this.usuario;
+
+                // Si los datos recopilados son válidos (cumplen con las propiedades de
+                // validación del modelo de vista del lado del servidor)
+                if (ModelState.IsValid)
+                {
+                    // Actualiza el usuario con los datos del modelo vista
+                    this.usuario.provinciaVivienda = this.usuarioActual.provinciaVivienda;
+                    this.usuario.cantonVivienda = this.usuarioActual.cantonVivienda;
+                    this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda;
+
+                    // Guarda los cambios en la base de datos
+                    this.contexto.SaveChanges();
+                }
             }
 
-            // Recargar la información de provincias de la base de datos
-            this.provincias = this.contexto.Provincias.ToList();
-
             // Retorna a la página
-            return Page();
+            return RedirectToPage("/Cuenta/Perfil");
         }
     }
 }
