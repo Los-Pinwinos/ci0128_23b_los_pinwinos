@@ -8,6 +8,10 @@
 <head>
     <!-- Titulo de la página -->
     <title>Detalles Registro</title>
+    <!-- Incluye su archivo de estilo CSS específico -->
+    <link rel="stylesheet" href="~/css/Pages/DetallesRegistro/DetallesRegistro.css" asp-append-version="true" />
+    <!-- Alinear la ventana -->
+    <script src="~/js/Pages/alinear.js"></script>
 </head>
 
 <!-- Cuerpo de la página -->
@@ -16,7 +20,7 @@
         <!-- Contenedor para centrar el formulario -->
         <div class="DetallesRegistro-contenedor-central">
             <!-- Contenedor para una fila -->
-            <div class="DetallesRegistro-fila">
+            <div class="DetallesRegistro-contenedor-central__fila">
                 <!-- Nombre de producto -->
                 <div class="DetallesRegistro-contenedor">
                     <label for="Producto">Producto:</label>
@@ -38,9 +42,10 @@
                     <input type="text" class="DetallesRegistro-caja-texto-grande" id="Descripcion" name="Descripcion" disabled>
                 </div>
             </div>
-            <div class="DetallesRegistro-fila">
+            <div class="DetallesRegistro-contenedor-central__fila">
                 <!-- Imágenes de registro -->
                 <div class="DetallesRegistro-contenedor-imagenes">
+                    <img src="~/img/prueba_papas.png" id="BotonFlechaImg" class="DetallesRegistro-imagen" />
                     <!-- Botón de varias imágenes -->
                     <button type="button" class="DetallesRegistro-boton-imagenes" id="BotonFlecha" name="BotonFlecha" hidden>
                         <img src="~/img/flecha_imagenes.png" id="BotonFlechaImg" class="DetallesRegistro-icono-imagenes" />
@@ -54,3 +59,8 @@
         </div>
     </form>
 </body>
+
+<script>
+    // Función de alineado para las cajas de texto
+    alinearContenedoresDeBarrasDeTexto(".DetallesRegistro-contenedor", 112);
+</script>

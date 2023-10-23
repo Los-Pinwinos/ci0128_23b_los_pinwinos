@@ -1,40 +1,94 @@
 ﻿/* Contenedor para centrar */
 .DetallesRegistro-contenedor-central {
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center;*/
     height: calc(90vh - 50px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.DetallesRegistro-fila {
-
+.DetallesRegistro-contenedor-central__fila {
+    /*display: flex;
+    flex-direction: row;*/
+    justify-content: space-around;
+    padding-top: 10px;
+    flex-basis: 50%;
 }
 
 DetallesRegistro-contenedor {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
-.DetallesRegistro-caja-texto{
-
+.DetallesRegistro-caja-texto {
+    border-color: #033F63;
+    border-radius: 30px;
+    padding: 1px 5px;
+    width: 70%;
 }
 
-.DetallesRegistro-contenedor-imagenes{
+    .DetallesRegistro-caja-texto label {
+        margin-right: 1%;
+    }
 
+.DetallesRegistro-caja-texto-grande {
+    border-color: #033F63;
+    border-radius: 30px;
+    padding: 1px 5px;
+    width: 70%;
+    height: 400%;
+}
+    .DetallesRegistro-caja-texto-grande label {
+        margin-right: 1%;
+    }
+
+.DetallesRegistro-contenedor-imagenes {
 }
 
 .DetallesRegistro-boton-imagenes{
 
 }
 
-.DetallesRegistro-icono-imagenes{
-
+.DetallesRegistro-imagen {
+    border-radius: 30px;
 }
 
-.DetallesRegistro-boton{
-
+.DetallesRegistro-icono-imagenes {
 }
 
-.DetallesRegistro-boton-estandar{
+.DetallesRegistro-boton {
+    border: none;
+    flex-direction: column;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    border-radius: 30%;
+    margin-top: 1.2%;
+    margin-left: 4%;
+}
 
+.DetallesRegistro-boton-estandar {
+    margin-top: 20px;
+    margin-left: 10px;
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    height: 100%;
+    max-height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition-duration: 0.4s;
+    font: 13px system-ui;
 }
