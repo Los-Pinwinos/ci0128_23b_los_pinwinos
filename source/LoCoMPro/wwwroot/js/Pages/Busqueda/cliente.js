@@ -161,30 +161,41 @@ function renderizarTabla(datos) {
         if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
             var nombreCell = document.createElement("td");
             nombreCell.textContent = datos[dato].nombre;
+            nombreCell.setAttribute('data-tooltip', datos[dato].nombre);
 
             var categoriaCell = document.createElement("td");
             categoriaCell.textContent = datos[dato].categoria;
+            categoriaCell.setAttribute('data-tooltip', datos[dato].categoria);
 
             var marcaCell = document.createElement("td");
             marcaCell.textContent = datos[dato].marca;
+            marcaCell.setAttribute('data-tooltip', datos[dato].marca);
 
             var precioCell = document.createElement("td");
             precioCell.textContent = "₡" + datos[dato].precio;
+            precioCell.setAttribute('data-tooltip', datos[dato].precio);
 
             var unidadCell = document.createElement("td");
             unidadCell.textContent = datos[dato].unidad;
+            unidadCell.setAttribute('data-tooltip', datos[dato].unidad);
 
             var fechaCell = document.createElement("td");
             fechaCell.textContent = formatearFecha(new Date(datos[dato].fecha));
+            fechaCell.setAttribute('data-tooltip', datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
+                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1] 
+                + datos[dato].fecha[2] + datos[dato].fecha[3]);
 
             var tiendaCell = document.createElement("td");
             tiendaCell.textContent = datos[dato].tienda;
+            tiendaCell.setAttribute('data-tooltip', datos[dato].tienda);
 
             var provinciaCell = document.createElement("td");
             provinciaCell.textContent = datos[dato].provincia;
+            provinciaCell.setAttribute('data-tooltip', datos[dato].provincia);
 
             var cantonCell = document.createElement("td");
             cantonCell.textContent = datos[dato].canton;
+            cantonCell.setAttribute('data-tooltip', datos[dato].canton);
 
             // Agregar celdas a fila
             row.appendChild(nombreCell);
