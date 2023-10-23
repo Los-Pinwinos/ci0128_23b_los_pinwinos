@@ -7,8 +7,18 @@
     margin-top: 5%;
 }
 
+
 /* Estilo para el texto en la página */
 .Autenticar-texto {
-    color: #033F63;
+    justify-content: center;
+    align-items: center;
+    color: black;
     font-size: 30px;
+}
+
+/* gif */
+.Autenticar-gif {
+    margin-top: 8%;
+    width: 40%;
+    height: auto;
 }
