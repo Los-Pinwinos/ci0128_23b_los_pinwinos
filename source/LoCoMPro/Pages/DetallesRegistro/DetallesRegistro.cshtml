@@ -17,30 +17,36 @@
         <div class="DetallesRegistro-contenedor-central">
             <!-- Contenedor para una fila -->
             <div class="DetallesRegistro-fila">
+                <!-- Nombre de producto -->
                 <div class="DetallesRegistro-contenedor">
                     <label for="Producto">Producto:</label>
                     <input type="text" class="DetallesRegistro-caja-texto" id="Producto" name="Producto" disabled>
                 </div>
+                <!-- Precio de registro -->
                 <div class="DetallesRegistro-contenedor">
                     <label for="Precio">Precio:</label>
                     <input type="text" class="DetallesRegistro-caja-texto" id="Precio" name="Precio" disabled>
                 </div>
+                <!-- Unidad de producto -->
                 <div class="DetallesRegistro-contenedor">
                     <label for="Unidad">Unidad:</label>
                     <input type="text" class="DetallesRegistro-caja-texto" id="Unidad" name="Unidad" disabled>
                 </div>
+                <!-- Descripción de registro -->
                 <div class="DetallesRegistro-contenedor">
                     <label for="Descripcion">Descripción:</label>
                     <input type="text" class="DetallesRegistro-caja-texto-grande" id="Descripcion" name="Descripcion" disabled>
                 </div>
             </div>
             <div class="DetallesRegistro-fila">
+                <!-- Imágenes de registro -->
                 <div class="DetallesRegistro-contenedor-imagenes">
                     <!-- Botón de varias imágenes -->
                     <button type="button" class="DetallesRegistro-boton-imagenes" id="BotonFlecha" name="BotonFlecha" hidden>
                         <img src="~/img/flecha_imagenes.png" id="BotonFlechaImg" class="DetallesRegistro-icono-imagenes" />
                     </button>
                 </div>
+                <!-- TODO(Angie): estrellas -->
             </div>
             <div class="DetallesRegistro-boton">
                 <button class="DetallesRegistro-boton-estandar" type="submit" asp-page-handler="Regresar">Regresar</button>

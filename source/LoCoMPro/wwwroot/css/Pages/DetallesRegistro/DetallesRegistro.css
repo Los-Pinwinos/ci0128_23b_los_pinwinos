@@ -1,2 +1,40 @@
-﻿body {
+﻿/* Contenedor para centrar */
+.DetallesRegistro-contenedor-central {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(90vh - 50px);
+}
+
+.DetallesRegistro-fila {
+
+}
+
+DetallesRegistro-contenedor {
+
+}
+
+.DetallesRegistro-caja-texto{
+
+}
+
+.DetallesRegistro-contenedor-imagenes{
+
+}
+
+.DetallesRegistro-boton-imagenes{
+
+}
+
+.DetallesRegistro-icono-imagenes{
+
+}
+
+.DetallesRegistro-boton{
+
+}
+
+.DetallesRegistro-boton-estandar{
+
 }
