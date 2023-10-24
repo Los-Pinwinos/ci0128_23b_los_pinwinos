@@ -205,3 +205,8 @@
     transform: translate(-50%, -50%) scale(1);
 }
 
+/* Label de eliminar imágenes */
+.eliminar_imagenes {
+    color: #033F63;
+    font-weight: bold;
+}

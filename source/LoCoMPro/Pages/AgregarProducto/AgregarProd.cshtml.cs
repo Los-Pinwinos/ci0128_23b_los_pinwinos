@@ -108,30 +108,7 @@ namespace LoCoMPro.Pages.AgregarProducto
                 // Insertar registro a la base de datos y obtener su tiempo
                 var tiempoActual = agregarRegistro(usuarioCreador, tiendaTemporal);
                 // Agregar fotografías a la base de datos
-                // agregarFotografias();
-                foreach (var archivo in Request.Form.Files)
-                {
-                    // Obtener el nombre del archivo
-                    string nombreArchivo = archivo.FileName;
-                    // Crear memoria temporal para transformar la imágen
-                    MemoryStream memoriaTemporal = new MemoryStream();
-                    // Copiar del archivo a la memoria temporal
-                    archivo.CopyTo(memoriaTemporal);
-                    // Crear instancia de fotografía
-                    var fotografia = new Fotografia
-                    {
-                        fotografia = memoriaTemporal.ToArray(),
-                        nombreFotografia = nombreArchivo,
-                        creacion = tiempoActual,
-                        usuarioCreador = usuarioCreador
-                    };
-                    // Limpiar memoria temporal
-                    memoriaTemporal.Close();
-                    memoriaTemporal.Dispose();
-                    // Agregar fotografía a base de datos
-                    contexto.Fotografias.Add(fotografia);
-                    contexto.SaveChanges();
-                }
+                agregarFotografias(usuarioCreador, tiempoActual);
             }
             RellenarSelectList();
             // Limpia los datos del view model
@@ -179,16 +156,32 @@ namespace LoCoMPro.Pages.AgregarProducto
             return tiempoActual;
         }
 
-        private void agregarFotografias()
+        private void agregarFotografias(string usuarioCreador, DateTime tiempoActual)
         {
-            Console.WriteLine("\n\n\nEn metodo\n\n\n\n");
-            // Iterar por cada archivo en el request
-            foreach(var archivo in Request.Form.Files)
+            foreach (var archivo in Request.Form.Files)
             {
                 // Obtener el nombre del archivo
                 string nombreArchivo = archivo.FileName;
-                // Console.WriteLine(nombreArchivo);
-                // Console.WriteLine("\nAAAAAAAAAAAAAAAA");
+                // Crear memoria temporal para transformar la imágen
+                MemoryStream memoriaTemporal = new MemoryStream();
+                // Copiar del archivo a la memoria temporal
+                archivo.CopyTo(memoriaTemporal);
+                // Crear instancia de fotografía
+                var fotografia = new Fotografia
+                {
+                    fotografia = memoriaTemporal.ToArray(),
+                    nombreFotografia = nombreArchivo,
+                    // Creación del registro asociado
+                    creacion = tiempoActual,
+                    // Usuario que agregó la imagen
+                    usuarioCreador = usuarioCreador
+                };
+                // Limpiar memoria temporal
+                memoriaTemporal.Close();
+                memoriaTemporal.Dispose();
+                // Agregar fotografía a base de datos
+                contexto.Fotografias.Add(fotografia);
+                contexto.SaveChanges();
             }
         }
 
@@ -199,11 +192,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             LimpiarViewModel();
             // Dirigir a la página de inicio
             return RedirectToPage("/Home/Index");
-        }
-
-        public void OnPostPopup()
-        {
-
         }
 
         public void RellenarSelectList()
