@@ -37,7 +37,7 @@ namespace LoCoMPro.Pages.Busqueda
         public IList<string?> marcasV { get; set; } = default!;
         public BusquedaVM productoVM { get; set; } = default!;
 
-        // Paginaci�n
+        // Paginación
         public int paginaDefault { get; set; }
         public int resultadosPorPagina { get; set; }
 
@@ -68,6 +68,8 @@ namespace LoCoMPro.Pages.Busqueda
                 tienda = ""
                                                 ,
                 unidad = ""
+                                                ,
+                categoria = ""
             };
             this.paginaDefault = 1;
             this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 4);
