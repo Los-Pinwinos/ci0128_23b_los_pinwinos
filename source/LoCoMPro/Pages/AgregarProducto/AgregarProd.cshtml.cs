@@ -26,7 +26,7 @@ namespace LoCoMPro.Pages.AgregarProducto
             // Establece el contexto
             this.contexto = contexto;
             // Establece el registro
-            viewModel = new AgregarProdVM
+            this.viewModel = new AgregarProdVM
             {
                 nombreProducto = "",
                 marcaProducto = "",
@@ -39,21 +39,21 @@ namespace LoCoMPro.Pages.AgregarProducto
             // Inserta categorías en combobox
             var listaCategoria = new List<string>();
             // Crea una lista del nombre de todas las categorias
-            foreach (var entradaUnidad in contexto.Categorias)
+            foreach (var entradaUnidad in this.contexto.Categorias)
             {
                 listaCategoria.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesCategoria = new SelectList(listaCategoria);
+            this.opcionesCategoria = new SelectList(listaCategoria);
             // Inserta unidades en combobox
             var listaUnidad = new List<string>();
             // Crea una lista del nombre de todas las unidades
-            foreach (var entradaUnidad in contexto.Unidades)
+            foreach (var entradaUnidad in this.contexto.Unidades)
             {
                 listaUnidad.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesUnidad = new SelectList(listaUnidad);
+            this.opcionesUnidad = new SelectList(listaUnidad);
         }
         public IActionResult OnGet()
         {
@@ -67,34 +67,34 @@ namespace LoCoMPro.Pages.AgregarProducto
             // Inserta categorías en combobox
             var listaCategoria = new List<string>();
             // Crea una lista del nombre de todas las categorias
-            foreach (var entradaUnidad in contexto.Categorias)
+            foreach (var entradaUnidad in this.contexto.Categorias)
             {
                 listaCategoria.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesCategoria = new SelectList(listaCategoria);
+            this.opcionesCategoria = new SelectList(listaCategoria);
 
             // Inserta unidades en combobox
             var listaUnidad = new List<string>();
             // Crea una lista del nombre de todas las unidades
-            foreach (var entradaUnidad in contexto.Unidades)
+            foreach (var entradaUnidad in this.contexto.Unidades)
             {
                 listaUnidad.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesUnidad = new SelectList(listaUnidad);
+            this.opcionesUnidad = new SelectList(listaUnidad);
             return Page();
         }
         public IActionResult OnPostAceptar()
         {
             string usuarioCreador = User.Identity?.Name ?? "desconocido";
             // Verificar si el producto ya existe en la base de datos
-            var existingProduct = contexto.Productos.FirstOrDefault(p => p.nombre == viewModel.nombreProducto);
+            var existingProduct = this.contexto.Productos.FirstOrDefault(p => p.nombre == this.viewModel.nombreProducto);
             // Si el producto no existía, agréguelo
             if (existingProduct == null)
             {
                 // El producto no existe, agrégalo a la base de datos
-                agregarProducto();
+                this.agregarProducto();
             }
             // Revisar si tiene tienda
             string tiendaTemporal = TempData["nombreTienda"]?.ToString() ?? "";
@@ -106,13 +106,13 @@ namespace LoCoMPro.Pages.AgregarProducto
             else
             {
                 // Insertar registro a la base de datos y obtener su tiempo
-                var tiempoActual = agregarRegistro(usuarioCreador, tiendaTemporal);
+                var tiempoActual = this.agregarRegistro(usuarioCreador, tiendaTemporal);
                 // Agregar fotografías a la base de datos
-                agregarFotografias(usuarioCreador, tiempoActual);
+                this.agregarFotografias(usuarioCreador, tiempoActual);
             }
-            RellenarSelectList();
+            this.RellenarSelectList();
             // Limpia los datos del view model
-            LimpiarViewModel();
+            this.LimpiarViewModel();
             // Redirige a otra página o realiza cualquier otra acción después de agregar el producto
             return RedirectToPage("/Home/Index");
         }
@@ -121,15 +121,15 @@ namespace LoCoMPro.Pages.AgregarProducto
         {
             var nuevoProducto = new Producto
             {
-                nombre = viewModel.nombreProducto,
-                marca = viewModel.marcaProducto,
-                nombreUnidad = viewModel.nombreUnidad,
-                nombreCategoria = viewModel.nombreCategoria
+                nombre = this.viewModel.nombreProducto,
+                marca = this.viewModel.marcaProducto,
+                nombreUnidad = this.viewModel.nombreUnidad,
+                nombreCategoria = this.viewModel.nombreCategoria
             };
 
             // Agrega el nuevo producto a la base de datos
-            contexto.Productos.Add(nuevoProducto);
-            contexto.SaveChanges();
+            this.contexto.Productos.Add(nuevoProducto);
+            this.contexto.SaveChanges();
         }
 
         private DateTime agregarRegistro(string usuarioCreador, string tiendaTemporal)
@@ -140,11 +140,11 @@ namespace LoCoMPro.Pages.AgregarProducto
                 // Indicar el tiempo de creación
                 creacion = tiempoActual,
                 usuarioCreador = usuarioCreador,
-                descripcion = viewModel.descripcion,
+                descripcion = this.viewModel.descripcion,
                 // Convertir a decimal
-                precio = decimal.Parse(viewModel.precio),
+                precio = decimal.Parse(this.viewModel.precio),
                 calificacion = null,
-                productoAsociado = viewModel.nombreProducto,
+                productoAsociado = this.viewModel.nombreProducto,
                 nombreTienda = tiendaTemporal,
                 nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
                 nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
@@ -188,9 +188,9 @@ namespace LoCoMPro.Pages.AgregarProducto
 
         public IActionResult OnPostCancelar()
         {
-            RellenarSelectList();
+            this.RellenarSelectList();
             // Limpia los datos del view model
-            LimpiarViewModel();
+            this.LimpiarViewModel();
             // Dirigir a la página de inicio
             return RedirectToPage("/Home/Index");
         }
@@ -205,7 +205,7 @@ namespace LoCoMPro.Pages.AgregarProducto
                 listaCategoria.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesCategoria = new SelectList(listaCategoria);
+            this.opcionesCategoria = new SelectList(listaCategoria);
 
             // Inserta unidades en combobox
             var listaUnidad = new List<string>();
@@ -215,17 +215,17 @@ namespace LoCoMPro.Pages.AgregarProducto
                 listaUnidad.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            opcionesUnidad = new SelectList(listaUnidad);
+            this.opcionesUnidad = new SelectList(listaUnidad);
         }
         private void LimpiarViewModel()
         {
-            viewModel.nombreProducto = "";
-            viewModel.marcaProducto = "";
-            viewModel.nombreUnidad = "";
-            viewModel.nombreCategoria = "";
-            viewModel.descripcion = "";
-            viewModel.etiqueta = "";
-            viewModel.precio = "";
+            this.viewModel.nombreProducto = "";
+            this.viewModel.marcaProducto = "";
+            this.viewModel.nombreUnidad = "";
+            this.viewModel.nombreCategoria = "";
+            this.viewModel.descripcion = "";
+            this.viewModel.etiqueta = "";
+            this.viewModel.precio = "";
         }
     }
 }
