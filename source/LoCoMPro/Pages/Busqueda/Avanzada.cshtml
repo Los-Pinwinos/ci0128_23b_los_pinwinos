@@ -35,7 +35,7 @@
         var paginaDefault = @Model.paginaDefault;
 
     </script>
-    <script src="~/js/Pages/Busqueda/cliente.js"></script>
+    <script src="~/js/Pages/Busqueda/cliente.js?v=123"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -165,6 +165,10 @@
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.nombre)
+                        </th>
+                        <th>
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.categoria)
                         </th>
                         <th>
                             <!-- Nombre de columna -->

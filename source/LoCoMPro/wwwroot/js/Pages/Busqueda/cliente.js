@@ -147,6 +147,89 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
 
 
 // Renderizar tabla
+/*function renderizarTabla(datos) {
+    // Obtener la tabla
+    var cuerpoTabla = document.getElementById("CuerpoResultados");
+
+    // Limpiar el contenido existente
+    cuerpoTabla.innerHTML = "";
+
+    // Iterar
+    for (var dato in datos) {
+        var row = document.createElement("tr");
+
+        if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
+            *//*var nombreCell = document.createElement("td");
+nombreCell.textContent = datos[dato].nombre;
+nombreCell.setAttribute('data-tooltip', datos[dato].nombre);*//*
+
+var divContent = document.createElement("div");
+divContent.className = "content";
+divContent.textContent = datos[dato].nombre;
+
+var nombreCell = document.createElement("td");
+nombreCell.setAttribute('data-tooltip', datos[dato].nombre);
+nombreCell.appendChild(divContent);
+
+
+*//*var seccionCategoria = document.createElement("div");
+seccionCategoria.className = "contenidoCelda";
+seccionCategoria.textContent = datos[dato].categoria;
+var categoriaCell = document.createElement("td");
+categoriaCell.setAttribute('data-tooltip', datos[dato].categoria);
+categoriaCell.appendChild(seccionCategoria);*//*
+
+var marcaCell = document.createElement("td");
+marcaCell.textContent = datos[dato].marca;
+marcaCell.setAttribute('data-tooltip', datos[dato].marca);
+
+var precioCell = document.createElement("td");
+precioCell.textContent = "₡" + datos[dato].precio;
+precioCell.setAttribute('data-tooltip', datos[dato].precio);
+
+var unidadCell = document.createElement("td");
+unidadCell.textContent = datos[dato].unidad;
+unidadCell.setAttribute('data-tooltip', datos[dato].unidad);
+
+var fechaCell = document.createElement("td");
+fechaCell.textContent = formatearFecha(new Date(datos[dato].fecha));
+fechaCell.setAttribute('data-tooltip', datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
+    + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1] 
+    + datos[dato].fecha[2] + datos[dato].fecha[3]);
+
+var tiendaCell = document.createElement("td");
+tiendaCell.textContent = datos[dato].tienda;
+tiendaCell.setAttribute('data-tooltip', datos[dato].tienda);
+
+var provinciaCell = document.createElement("td");
+provinciaCell.textContent = datos[dato].provincia;
+provinciaCell.setAttribute('data-tooltip', datos[dato].provincia);
+
+var cantonCell = document.createElement("td");
+cantonCell.textContent = datos[dato].canton;
+cantonCell.setAttribute('data-tooltip', datos[dato].canton);
+
+// Agregar celdas a fila
+row.appendChild(nombreCell);
+row.appendChild(categoriaCell);
+row.appendChild(marcaCell);
+row.appendChild(precioCell);
+row.appendChild(unidadCell);
+row.appendChild(fechaCell);
+row.appendChild(tiendaCell);
+row.appendChild(provinciaCell);
+row.appendChild(cantonCell);
+
+// Agregar celdas cuerpo
+cuerpoTabla.appendChild(row);
+}
+}
+}*/
+
+
+
+
+// Renderizar tabla
 function renderizarTabla(datos) {
     // Obtener la tabla
     var cuerpoTabla = document.getElementById("CuerpoResultados");
@@ -159,45 +242,94 @@ function renderizarTabla(datos) {
         var row = document.createElement("tr");
 
         if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
+            var divNombre = document.createElement("div");
+            divNombre.className = "contenidoCeldaNombre";
+            divNombre.textContent = datos[dato].nombre;
+            var nombreCelda = document.createElement("td");
+            nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
+            nombreCelda.appendChild(divNombre);
+
             var nombreCell = document.createElement("td");
             nombreCell.textContent = datos[dato].nombre;
 
-            var marcaCell = document.createElement("td");
-            marcaCell.textContent = datos[dato].marca;
+            var divCategoria = document.createElement("div");
+            divCategoria.className = "contenidoCelda";
+            divCategoria.textContent = datos[dato].categoria;
+            var categoriaCelda = document.createElement("td");
+            categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
+            categoriaCelda.appendChild(divCategoria);
 
-            var precioCell = document.createElement("td");
-            precioCell.textContent = "₡" + datos[dato].precio;
+            var divMarca = document.createElement("div");
+            divMarca.className = "contenidoCelda";
+            divMarca.textContent = datos[dato].marca;
+            var marcaCelda = document.createElement("td");
+            marcaCelda.setAttribute('data-tooltip', datos[dato].marca);
+            marcaCelda.appendChild(divMarca);
 
-            var unidadCell = document.createElement("td");
-            unidadCell.textContent = datos[dato].unidad;
+            var divPrecio = document.createElement("div");
+            divPrecio.className = "contenidoCelda";
+            divPrecio.textContent = "₡" + datos[dato].precio;
+            var precioCelda = document.createElement("td");
+            precioCelda.setAttribute('data-tooltip', datos[dato].precio);
+            precioCelda.appendChild(divPrecio);
 
-            var fechaCell = document.createElement("td");
-            fechaCell.textContent = formatearFecha(new Date(datos[dato].fecha));
+            var divUnidad = document.createElement("div");
+            divUnidad.className = "contenidoCelda";
+            divUnidad.textContent = datos[dato].unidad;
+            var unidadCelda = document.createElement("td");
+            unidadCelda.setAttribute('data-tooltip', datos[dato].unidad);
+            unidadCelda.appendChild(divUnidad);
 
-            var tiendaCell = document.createElement("td");
-            tiendaCell.textContent = datos[dato].tienda;
+            var divFecha = document.createElement("div");
+            divFecha.className = "contenidoCelda";
+            divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
+            var fechaCelda = document.createElement("td");
+            var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
+                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1]
+                + datos[dato].fecha[2] + datos[dato].fecha[3];
+            fechaCelda.setAttribute('data-tooltip', contenidoFecha);
+            fechaCelda.appendChild(divFecha);
 
-            var provinciaCell = document.createElement("td");
-            provinciaCell.textContent = datos[dato].provincia;
+            var divTienda = document.createElement("div");
+            divTienda.className = "contenidoCelda";
+            divTienda.textContent = datos[dato].tienda;
+            var tiendaCelda = document.createElement("td");
+            tiendaCelda.setAttribute('data-tooltip', datos[dato].tienda);
+            tiendaCelda.appendChild(divTienda);
 
-            var cantonCell = document.createElement("td");
-            cantonCell.textContent = datos[dato].canton;
+            var divProvincia = document.createElement("div");
+            divProvincia.className = "contenidoCelda";
+            divProvincia.textContent = datos[dato].provincia;
+            var provinciaCelda = document.createElement("td");
+            provinciaCelda.setAttribute('data-tooltip', datos[dato].provincia);
+            provinciaCelda.appendChild(divProvincia);
+
+            var divCanton = document.createElement("div");
+            divCanton.className = "contenidoCelda";
+            divCanton.textContent = datos[dato].canton;
+            var cantonCelda = document.createElement("td");
+            cantonCelda.setAttribute('data-tooltip', datos[dato].canton);
+            cantonCelda.appendChild(divCanton);
 
             // Agregar celdas a fila
-            row.appendChild(nombreCell);
-            row.appendChild(marcaCell);
-            row.appendChild(precioCell);
-            row.appendChild(unidadCell);
-            row.appendChild(fechaCell);
-            row.appendChild(tiendaCell);
-            row.appendChild(provinciaCell);
-            row.appendChild(cantonCell);
+            row.appendChild(nombreCelda);
+            row.appendChild(categoriaCelda);
+            row.appendChild(marcaCelda);
+            row.appendChild(precioCelda);
+            row.appendChild(unidadCelda);
+            row.appendChild(fechaCelda);
+            row.appendChild(tiendaCelda);
+            row.appendChild(provinciaCelda);
+            row.appendChild(cantonCelda);
 
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
         }
     }
 }
+
+
+
 
 // Pasar pagina
 function pasarPagina(numeroPagina) {

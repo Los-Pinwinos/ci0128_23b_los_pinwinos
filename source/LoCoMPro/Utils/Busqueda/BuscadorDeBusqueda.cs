@@ -59,10 +59,12 @@ namespace LoCoMPro.Utils.Busqueda
                     provincia = group.Key.nombreProvincia,
                     canton = group.Key.nombreCanton,
                     marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
-                        group.First().producto.marca : "Sin marca"
+                        group.First().producto.marca : "Sin marca",
+                    categoria = group.First().producto.nombreCategoria
                 });
             return resultadosIQ;
         }
+
         // Buscar por nombre
         protected IQueryable<BusquedaVM> buscarProducto(IQueryable<BusquedaVM> entradaIQ)
         {
