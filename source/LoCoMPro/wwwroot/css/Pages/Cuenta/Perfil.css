@@ -1,5 +1,5 @@
 /* Estilo para un contenedor de todos los elementos en la página */
-.Registrar-contenedor-centrado-primario {
+.Perfil-contenedor-centrado-primario {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,20 +8,20 @@
 }
 
 /* Estilo para el contenedor con parejas de label y caja de texto */
-.Registrar-contenedor-caja-de-texto {
+.Perfil-contenedor-caja-de-texto {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 0.6%;
 }
     /* Estilo para los label que acompañan las cajas de texto */
-    .Registrar-contenedor-caja-de-texto label {
+    .Perfil-contenedor-caja-de-texto label {
         font-size: 18px;
         white-space: nowrap;
         margin-right: 40px;
     }
 
     /* Estilo para las cajas de texto */
-    .Registrar-contenedor-caja-de-texto input {
+    .Perfil-contenedor-caja-de-texto input {
         background-color: #FFFBF8;
         border-color: black;
         border-radius: 10px;
@@ -31,7 +31,7 @@
     }
 
     /* Estilo para las cajas de selección */
-    .Registrar-contenedor-caja-de-texto select {
+    .Perfil-contenedor-caja-de-texto select {
         background-color: #FFFBF8;
         border-color: black;
         border-radius: 10px;
@@ -40,8 +40,37 @@
         width: 240px;
     }
 
+/* Estilo para el contenedor de la calificación */
+.Perfil-contenedor-calificacion {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.6%;
+    margin-top: 1%;
+    margin-right: 120px;
+}
+
+    /* Estilo para los label que acompaña a las estrellas */
+.Perfil-contenedor-calificacion-titulo {
+    font-size: 18px;
+    white-space: nowrap;
+    margin-right: 40px;
+}
+
+.Perfil-contenedor-calificacion-calificacion {
+    font-size: 16px;
+    margin-left: 10px;
+    margin-top: 1%;
+}
+
+.Perfil-contenedor-calificacion-conteo {
+    font-size: 14px;
+    color: dimgray;
+    margin-left: 10px;
+    margin-top: 1.3%;
+}
+
 /* Estilo para los botones básicos */
-.Registrar-boton-basico {
+.Perfil-boton-basico {
     background-color: #d9996b;
     color: black;
     width: 240px;
@@ -59,12 +88,12 @@
 }
 
     /* Cambiar el comportamiento del botón para hover */
-    .Registrar-boton-basico:hover {
+    .Perfil-boton-basico:hover {
         color: black;
     }
 
 /* Estilo para mensajes de error */
-.Registrar-texto-error {
+.Perfil-texto-error {
     color: red;
     font-size: 9.2px;
     white-space: nowrap;

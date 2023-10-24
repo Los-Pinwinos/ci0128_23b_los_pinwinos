@@ -8,7 +8,7 @@ namespace LoCoMPro.Utils
     public class ControladorCorreos
     {
         // Instancia de configuración basada en el archivo "appsettings.json"
-        // Se utiliza para establecer el serviodr de correos y las credenciales
+        // Se utiliza para establecer el servidor de correos y las credenciales
         // de la cuenta
         private readonly IConfiguration configuracion = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -16,8 +16,7 @@ namespace LoCoMPro.Utils
             .Build();
 
         // Método para enviar correos
-        // TODO(Kenneth): Volverlo más restrictivo
-        public bool enviarCorreo(string recibidor, string asunto, string cuerpo)
+        public bool enviarCorreo(string recibidor, string asunto, string cuerpo, bool html = false)
         {
             // Define un booleano para indicar si el proceso fallo o funcionó
             bool resultado = true;
@@ -43,7 +42,8 @@ namespace LoCoMPro.Utils
                 {
                     From = new MailAddress(enviador),
                     Subject = asunto,
-                    Body = cuerpo
+                    Body = cuerpo,
+                    IsBodyHtml = html
                 };
                 correo.To.Add(recibidor);
 
@@ -67,6 +67,43 @@ namespace LoCoMPro.Utils
 
             // Retorna el booleano
             return resultado;
+        }
+
+        // Método para enviar correos con formato HTML
+        public bool enviarCorreoHtml(string recibidor, string asunto, string titulo, string cuerpo, string? enlace = null,
+            string mensajeBoton = "Presionar")
+        {
+            string cuerpoHTML = "";
+
+            // Si no se indicó un enlace
+            if (string.IsNullOrEmpty(enlace))
+            {
+                // Construye un cuerpo HTML sin botón
+                cuerpoHTML = "<html><body><h1 style=\"color: #033F63;\">" + titulo + "</h1>" +
+                "<div style=\"color: black; font-size: 18px;\">" +
+                "<p>" + cuerpo + "</p>" +
+                "</div></body></html>";
+            } else
+            {
+                // Construye un cuerpo HTML con botón que redirecciones al enlace
+                cuerpoHTML = "<html><body><h1 style=\"color: #033F63;\">" + titulo + "</h1>" +
+                    "<div style=\"color: #033F63; font-size: 13px;\">" + 
+                    "<p>" + cuerpo + "</p>" +
+                    "<a href='" + enlace + "'>" +
+                        "<button " +
+                            "style=\"background-color: #033F63; " +
+                            "color: white; " +
+                            "width: 240px; " +
+                            "height: 25px; " +
+                            "border: none; " +
+                            "border-radius: 5px; " +
+                            "cursor: pointer; " +
+                            "font-size: 13px;\">" + mensajeBoton + "</button>" +
+                    "</div></a></body></html>";
+            }
+
+            // Envía el correo con el cuerpo HTML
+            return this.enviarCorreo(recibidor, asunto, cuerpoHTML, true);
         }
 
         // Método para generar pins aleatorios
