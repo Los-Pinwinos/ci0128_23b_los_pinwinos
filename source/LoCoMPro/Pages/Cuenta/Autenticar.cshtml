@@ -1,0 +1,36 @@
+﻿@page
+<!-- Pagina que sigue el modelo de autenticar -->
+@model ModeloAutenticar
+
+@{
+    ViewData["Title"] = "Autenticar";
+}
+
+<!-- Metadata -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Autenticar cuenta</title>
+    <!-- Incluir el archivo de CSS con los estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Autenticar.css" asp-append-version="true" />
+</head>
+
+<!-- Contenido de la página -->
+<body>
+    <!-- Contenedor para todos los elementos en la página -->
+    <div class="Autenticar-contenedor">
+        <!-- Si se acaba de autenticar una cuenta -->
+        @if (Model.seAutentico)
+        {
+            <p class="Autenticar-texto">El usuario se ha autenticado correctamente.</p>
+
+            <!-- Si la cuenta ya estaba autenticada -->
+        } else
+        {
+            <p class="Autenticar-texto">Este usuario ya ha sido autenticado.</p>
+        }
+
+        <!-- Gif de equipo de pinwinos -->
+        <img src="~/img/Equipo_de_pinwinos.gif" class="Autenticar-gif">
+        <!-- Si la cuenta no existe no se muestra la página -->
+    </div>
+</body>
