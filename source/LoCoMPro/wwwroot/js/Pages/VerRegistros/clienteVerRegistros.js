@@ -1,4 +1,12 @@
 ﻿
+// Formatear fecha
+function formatearFecha(datos) {
+    var contenidoFecha = datos.creacion[8] + datos.creacion[9] + "/"
+        + datos.creacion[5] + datos.creacion[6] + "/" + datos.creacion[0] + datos.creacion[1]
+        + datos.creacion[2] + datos.creacion[3];
+    return contenidoFecha
+}
+
 // Renderizar tabla
 function renderizarTabla(datos) {
     // Obtener la tabla
@@ -10,89 +18,42 @@ function renderizarTabla(datos) {
     // Iterar
     for (var dato in datos) {
         var row = document.createElement("tr");
-        // result-row se utiliza para redirigir los datos de la fila selecionada a la página de VerRegistros
-        row.classList.add("result-row")
 
-        if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
-            var divNombre = document.createElement("div");
-            divNombre.className = "contenidoCeldaNombre";
-            divNombre.textContent = datos[dato].nombre;
-            var nombreCelda = document.createElement("td");
-            nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
-            nombreCelda.appendChild(divNombre);
-
-            var nombreCell = document.createElement("td");
-            nombreCell.textContent = datos[dato].nombre;
-
-            var divCategoria = document.createElement("div");
-            divCategoria.className = "contenidoCelda";
-            divCategoria.textContent = datos[dato].categoria;
-            var categoriaCelda = document.createElement("td");
-            categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
-            categoriaCelda.appendChild(divCategoria);
-
-            var divMarca = document.createElement("div");
-            divMarca.className = "contenidoCelda";
-            divMarca.textContent = datos[dato].marca;
-            var marcaCelda = document.createElement("td");
-            marcaCelda.setAttribute('data-tooltip', datos[dato].marca);
-            marcaCelda.appendChild(divMarca);
-
-            var divPrecio = document.createElement("div");
-            divPrecio.className = "contenidoCelda";
-            divPrecio.textContent = "₡" + datos[dato].precio;
-            var precioCelda = document.createElement("td");
-            precioCelda.setAttribute('data-tooltip', datos[dato].precio);
-            precioCelda.appendChild(divPrecio);
-
-            var divUnidad = document.createElement("div");
-            divUnidad.className = "contenidoCelda";
-            divUnidad.textContent = datos[dato].unidad;
-            var unidadCelda = document.createElement("td");
-            unidadCelda.setAttribute('data-tooltip', datos[dato].unidad);
-            unidadCelda.appendChild(divUnidad);
+        if (typeof datos[dato].creacion !== 'undefined' && datos[dato].creacion !== "") {
 
             var divFecha = document.createElement("div");
             divFecha.className = "contenidoCelda";
-            divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
-            var fechaCelda = document.createElement("td");
-            var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
-                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1]
-                + datos[dato].fecha[2] + datos[dato].fecha[3];
-            fechaCelda.setAttribute('data-tooltip', contenidoFecha);
+            divFecha.textContent = formatearFecha(datos[dato]);
+            var fechaCelda = document.createElement("td");           
+            fechaCelda.setAttribute('data-tooltip', divFecha.textContent);
             fechaCelda.appendChild(divFecha);
 
-            var divTienda = document.createElement("div");
-            divTienda.className = "contenidoCelda";
-            divTienda.textContent = datos[dato].tienda;
-            var tiendaCelda = document.createElement("td");
-            tiendaCelda.setAttribute('data-tooltip', datos[dato].tienda);
-            tiendaCelda.appendChild(divTienda);
+            var divPrecio = document.createElement("div");
+            divPrecio.className = "contenidoCelda";
+            divPrecio.textContent = datos[dato].precio;
+            divPrecio.classList.add("precio");
+            var precioCelda = document.createElement("td");
+            precioCelda.classList.add("precio");
+            precioCelda.setAttribute('data-tooltip', datos[dato].precio);
+            precioCelda.appendChild(divPrecio);
 
-            var divProvincia = document.createElement("div");
-            divProvincia.className = "contenidoCelda";
-            divProvincia.textContent = datos[dato].provincia;
-            var provinciaCelda = document.createElement("td");
-            provinciaCelda.setAttribute('data-tooltip', datos[dato].provincia);
-            provinciaCelda.appendChild(divProvincia);
 
-            var divCanton = document.createElement("div");
-            divCanton.className = "contenidoCelda";
-            divCanton.textContent = datos[dato].canton;
-            var cantonCelda = document.createElement("td");
-            cantonCelda.setAttribute('data-tooltip', datos[dato].canton);
-            cantonCelda.appendChild(divCanton);
+            var divCalificacion = document.createElement("div");
+            divCalificacion.className = "contenidoCelda";
+            divCalificacion.textContent = datos[dato].calificacion;
+            var calificacionCelda = document.createElement("td");
+            calificacionCelda.setAttribute('data-tooltip', datos[dato].calificacion);
+            calificacionCelda.appendChild(divCalificacion);
 
+            var descripcionCelda = document.createElement("td");
+            descripcionCelda.textContent = datos[dato].descripcion;
+            
             // Agregar celdas a fila
-            row.appendChild(nombreCelda);
-            row.appendChild(categoriaCelda);
-            row.appendChild(marcaCelda);
-            row.appendChild(precioCelda);
-            row.appendChild(unidadCelda);
             row.appendChild(fechaCelda);
-            row.appendChild(tiendaCelda);
-            row.appendChild(provinciaCelda);
-            row.appendChild(cantonCelda);
+            row.appendChild(precioCelda);
+            row.appendChild(calificacionCelda);
+            row.appendChild(descripcionCelda);
+            
 
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
@@ -140,4 +101,9 @@ function renderizarPaginacion() {
         botonPaginaSiguiente.style.display = "none";
         botonSinPaginaSiguiente.style.display = "block";
     }
+}
+
+// Paginar
+function paginar(numeroPagina = productosVM.IndicePagina) {
+    return paginador.paginar(resultados, numeroPagina);
 }

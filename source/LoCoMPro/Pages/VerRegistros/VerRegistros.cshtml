@@ -5,9 +5,26 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script>
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.resultadoRegistros')
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        var resultados = obtenerResultados();
+        var paginador = new Paginador(5);
+        var paginaDefault = 1;
+    </script>
     <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js"></script>
 </head>
 
@@ -73,17 +90,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody class="VerRegistros-tabla-resultados" id="productosVM">
-                    @foreach (var record in Model.Registros)
-                    {
-                        <tr>
-                            <td>@record.creacion.ToString("dd/MM/yyyy")</td>
-                            <td class = "precio">@record.precio</td>
-                            <td>@record.calificacion</td>
-                            <td>@record.descripcion</td>
-                        </tr>
-                    }
-                </tbody>
+                <tbody class="VerRegistros-tabla-resultados" id="CuerpoResultados"> </tbody>
             </table>
         </div>
     </div>
@@ -110,4 +117,12 @@
     </div>
 </div>
 
+
+<script>
+    var productosVM = paginar(paginaDefault);
+
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+</script>
 

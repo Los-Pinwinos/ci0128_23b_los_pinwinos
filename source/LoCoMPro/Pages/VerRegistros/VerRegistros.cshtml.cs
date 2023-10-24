@@ -11,6 +11,7 @@ using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LoCoMPro.Pages.VerRegistros
 {
@@ -39,6 +40,8 @@ namespace LoCoMPro.Pages.VerRegistros
        
         public string nombreCategoria { get; set; }
 
+        public string? resultadoRegistros { get; set; }
+
         public async Task OnGetAsync(string productName)
         {
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
@@ -62,6 +65,7 @@ namespace LoCoMPro.Pages.VerRegistros
                 });
 
             Registros = await registrosIQ.ToListAsync();
+            this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
         }
 
 
