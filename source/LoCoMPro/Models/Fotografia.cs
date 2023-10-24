@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoCoMPro.Models
 {
-    [PrimaryKey(nameof(fotografia), nameof(creacion), nameof(usuarioCreador))]
+    [PrimaryKey(nameof(nombreFotografia), nameof(creacion), nameof(usuarioCreador))]
     public class Fotografia
     {
         // Fotografía

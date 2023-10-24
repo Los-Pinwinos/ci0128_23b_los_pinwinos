@@ -33,6 +33,27 @@ namespace LoCoMProTests.Models
             Assert.IsTrue(esValido);
         }
 
+        // Hecho por: Luis David Solano Santamaría - C17634
+        [TestMethod]
+        public void arregloBinarioFotografia_ValidacionLongitud_DeberiaSerValido()
+        {
+            // Crear fotografía con arreglo de bytes vacío
+            var foto = new Fotografia
+            {
+                fotografia = BitConverter.GetBytes(12345),
+                nombreFotografia = "a.png",
+                creacion = DateTime.Now,
+                usuarioCreador = "UsuarioValido"
+            };
+
+            // Establecer condiciones de prueba
+            var esValido = Validator.TryValidateProperty(foto.fotografia,
+                new ValidationContext(foto) { MemberName = "fotografia" }, null);
+
+            // Revisar condiciones de prueba
+            Assert.IsTrue(esValido);
+        }
+
         // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
         // Modificado por: Luis David Solano Santamaría - C17634
         [TestMethod]
