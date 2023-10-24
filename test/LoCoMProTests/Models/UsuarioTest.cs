@@ -15,7 +15,6 @@ namespace LoCoMProTests.Models
             var usuario = new Usuario
             {
                 // 12 caracteres representa una longitud válida
-                // Presenta mayuscula, minuscula, digito y caractér especial
                 nombreDeUsuario = "Usuario1212*",
                 // El correo debe ser de tipo EmailAddress
                 correo = "example@gmail.com",
@@ -24,7 +23,7 @@ namespace LoCoMProTests.Models
                 // El estado debe ser 'A', 'B' o 'C'
                 estado = 'A',
                 // La calificación debe estar entre 0 y 5 puntos
-                calificacion = 5
+                calificacion = 5.0
             };
 
             // Establecer condiciones de prueba
@@ -47,7 +46,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5
+                calificacion = 5.0
             };
 
             // Establecer condiciones de prueba
@@ -70,7 +69,7 @@ namespace LoCoMProTests.Models
                 correo = "examplegmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5
+                calificacion = 5.0
             };
 
             // Establecer condiciones de prueba
@@ -93,7 +92,7 @@ namespace LoCoMProTests.Models
                 hashContrasena = "hashcontrasena",
                 // El estado debe ser 'A', 'B' o 'C'
                 estado = 'P',
-                calificacion = 5
+                calificacion = 5.0
             };
 
             // Establecer condiciones de prueba
@@ -116,7 +115,7 @@ namespace LoCoMProTests.Models
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
                 // La calificación debe estar entre 0 y 5 puntos
-                calificacion = -1
+                calificacion = -1.0
             };
 
             // Establecer condiciones de prueba
@@ -138,7 +137,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // El distrito debe tener entre 3 y 30 caracteres
                 distritoVivienda = "d1"
             };
@@ -162,7 +161,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // El distrito debe estar formado por letras solamente
                 distritoVivienda = "distrito1"
             };
@@ -186,7 +185,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // El canton debe tener entre 3 y 20 caracteres
                 cantonVivienda = "c1"
             };
@@ -210,7 +209,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // El canton debe tener entre 3 y 20 caracteres
                 cantonVivienda = "canton1"
             };
@@ -234,7 +233,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // La provincia debe tener entre 5 y 10 caracteres
                 provinciaVivienda = "p1"
             };
@@ -258,7 +257,7 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5,
+                calificacion = 5.0,
                 // La provincia debe tener entre 5 y 10 caracteres
                 provinciaVivienda = "provin1"
             };

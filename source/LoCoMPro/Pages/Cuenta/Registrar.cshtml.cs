@@ -6,6 +6,7 @@ using LoCoMPro.Utils;
 using LoCoMPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -17,6 +18,9 @@ namespace LoCoMPro.Pages.Cuenta
 
         // Propiedad para hashear contraseñas
         private readonly PasswordHasher<Usuario> hasheador;
+
+        // Propiedad para encriptar usuarios
+        private Encriptador encriptador { get; set; }
 
         // Controlador para el envio de correos de bienvenida
         private ControladorCorreos controladorCorreos { get; set; }
@@ -35,6 +39,8 @@ namespace LoCoMPro.Pages.Cuenta
             this.contexto = contexto;
             // Crea un hasheador de contraseñas
             this.hasheador = new PasswordHasher<Usuario>();
+            // Crea un encriptador
+            this.encriptador = new Encriptador();
             // Crea un controlador de correos
             this.controladorCorreos = new ControladorCorreos();
             // Crea un CrearUsuarioVM dummy para no tener nulo
@@ -102,13 +108,21 @@ namespace LoCoMPro.Pages.Cuenta
                 {
                     // Intente enviar un correo de bienvenida al correo indicado
                     const string asunto = "Bienvenido a LoCoMPro!";
-                    string cuerpo = "Buenas " + this.usuarioActual.nombreDeUsuario +
-                        " nos complace recibirte como parte de nuestro equipo en " +
-                        "LoComPro.\nEsperamos que la plataforma te se útil y de tu " +
-                        "agrado.\nSinceramente.\nLos Pinwinos - Empresa desarrolladora.";
+                    string titulo = "Buenas " + this.usuarioActual.nombreDeUsuario + "!";
+                    const string cuerpo = "<br>Nos complace recibirte como parte de nuestro" +
+                        " equipo en LoCoMPro.<br>Esperamos que la plataforma te sea útil y " +
+                        "de tu agrado.<br><br>Para autenticar tu cuenta y tener acceso a " +
+                        "todas las funcionalidades de un usuario registrado, presiona el " +
+                        "siguiente botón:<br>";
+
+                    string enlace = PageContext.HttpContext.Request.Scheme + "://" +
+                        PageContext.HttpContext.Request.Host.Host + ":" +
+                        PageContext.HttpContext.Request.Host.Port +
+                        "/Cuenta/Autenticar?codigoUsuario=" + HttpUtility.UrlEncode(this.encriptador.encriptar(this.usuarioActual.nombreDeUsuario));
 
                     // Si logra enviar el correo
-                    if (this.controladorCorreos.enviarCorreo(this.usuarioActual.correo, asunto, cuerpo))
+                    if (this.controladorCorreos.enviarCorreoHtml(this.usuarioActual.correo,
+                        asunto, titulo, cuerpo, enlace,"Autenticar cuenta"))
                     {
                         // Crea un nuevo usuario con los datos del modelo vista
                         var nuevoUsuario = new Usuario
@@ -116,8 +130,8 @@ namespace LoCoMPro.Pages.Cuenta
                             nombreDeUsuario = this.usuarioActual.nombreDeUsuario,
                             correo = this.usuarioActual.correo,
                             hashContrasena = this.usuarioActual.contrasena,
-                            estado = 'A',
-                            calificacion = 0,
+                            estado = 'I',
+                            calificacion = 0.0,
                             distritoVivienda = this.usuarioActual.distritoVivienda,
                             cantonVivienda = this.usuarioActual.cantonVivienda,
                             provinciaVivienda = this.usuarioActual.provinciaVivienda

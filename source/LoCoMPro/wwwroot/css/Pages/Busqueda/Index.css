@@ -95,7 +95,7 @@
 /* Tabla */
 .BusquedaIndice-tabla {
     width: 100%;
-    max-width:100%;
+    max-width: 100%;
     margin-left: 15px;
     box-sizing: border-box;
     overflow-x: auto;
@@ -409,7 +409,7 @@ BusquedaIndice-tabla-filtros-contenedor {
 
 /* Titulo presionable para ordenamiento */
 .BusquedaIndice-titulo-columna {
-    color: black; 
+    color: black;
     text-decoration: none;
 }
 

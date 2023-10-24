@@ -17,12 +17,13 @@ namespace LoCoMProTests.Models
                 // La fecha de creación debe estar entre 1/1/2000 y 1/1/2200
                 creacion = DateTime.Now,
                 // 12 caracteres representa una longitud válida
-                // Presenta mayuscula, minuscula, digito y caractér especial
                 usuarioCreador = "Usuario1212*",
                 // 23 caracteres representa una longitud válida
                 descripcion = "Esta es una descripción",
                 // Un número con 4 dígitos enteros y 2 dígitos decimales es válido
                 precio = 5000.50m,
+                // Un número entre 5 y 0
+                calificacion = 5,
                 // 11 caracteres representa una longitud válida
                 productoAsociado = "Tennissitas",
                 // 17 caracteres representa una longitud válida
@@ -59,6 +60,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -86,33 +88,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Us0*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
-                productoAsociado = "Tennissitas",
-                nombreTienda = "Tienda tus tennis",
-                nombreDistrito = "San Isidro del Géneral",
-                nombreCanton = "Pérez Zeledón",
-                nombreProvincia = "San José"
-            };
-
-            // Establecer condiciones de prueba
-            var esValido = Validator.TryValidateProperty(registro.usuarioCreador,
-                new ValidationContext(registro) { MemberName = "usuarioCreador" }, null);
-
-            // Revisar condiciones de prueba
-            Assert.IsFalse(esValido);
-        }
-
-        // Hecho por: Kenneth Daniel Villalobos Solís - C18548
-        [TestMethod]
-        public void usuario_ValidacionRegex_DeberiaSerValido()
-        {
-            // Crear registro con usuario incorrecto de prueba
-            var registro = new Registro
-            {
-                creacion = DateTime.Now,
-                // El nombre de usuario debe tener al menos un digito
-                usuarioCreador = "Us-uario",
-                descripcion = "Esta es una descripción",
-                precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -143,6 +119,7 @@ namespace LoCoMProTests.Models
                 "esta propiedad funciona de forma correcta y de ahí este " +
                 "texto extremadamente largo",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -160,6 +137,34 @@ namespace LoCoMProTests.Models
 
         // Hecho por: Kenneth Daniel Villalobos Solís - C18548
         [TestMethod]
+        public void calificacion_ValidacionRango_DeberiaSerValido()
+        {
+            // Crear registro con descripción incorrecta de prueba
+            var registro = new Registro
+            {
+                creacion = DateTime.Now,
+                usuarioCreador = "Usuario1212*",
+                descripcion = "Esta es una descripción",
+                precio = 5000.50m,
+                // La calificación debe estar entre 0 y 5 puntos
+                calificacion = -1,
+                productoAsociado = "Tennissitas",
+                nombreTienda = "Tienda tus tennis",
+                nombreDistrito = "San Isidro del Géneral",
+                nombreCanton = "Pérez Zeledón",
+                nombreProvincia = "San José"
+            };
+
+            // Establecer condiciones de prueba
+            var esValido = Validator.TryValidateProperty(registro.calificacion,
+                new ValidationContext(registro) { MemberName = "calificacion" }, null);
+
+            // Revisar condiciones de prueba
+            Assert.IsFalse(esValido);
+        }
+
+        // Hecho por: Kenneth Daniel Villalobos Solís - C18548
+        [TestMethod]
         public void productoAsociado_ValidacionLongitud_DeberiaSerValido()
         {
             // Crear registro con nombre de producto incorrecto de prueba
@@ -169,6 +174,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 // El nombre del producto asociado debe tener entre 1 y
                 // 256 caracteres
                 productoAsociado = "",
@@ -197,6 +203,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 // El nombre de la tienda debe tener entre 1 y 256
                 // caracteres
@@ -225,6 +232,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 // El nombre de la tienda debe estar formado por letras
                 // solamente
@@ -253,6 +261,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 // El nombre del distrito tener entre 3 y 30 caracteres
@@ -280,6 +289,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 // El nombre del distrito debe estar formado por letras
@@ -308,6 +318,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -335,6 +346,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -363,6 +375,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -390,6 +403,7 @@ namespace LoCoMProTests.Models
                 usuarioCreador = "Usuario1212*",
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
+                calificacion = 5,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",

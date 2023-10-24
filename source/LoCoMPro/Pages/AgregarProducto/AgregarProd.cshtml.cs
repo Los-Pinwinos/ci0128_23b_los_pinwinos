@@ -123,6 +123,7 @@ namespace LoCoMPro.Pages.AgregarProducto
                     descripcion = viewModel.descripcion,
                     // Convertir a decimal
                     precio = decimal.Parse(viewModel.precio),
+                    calificacion = null,
                     productoAsociado = viewModel.nombreProducto,                    
                     nombreTienda = tiendaTemporal,
                     nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",

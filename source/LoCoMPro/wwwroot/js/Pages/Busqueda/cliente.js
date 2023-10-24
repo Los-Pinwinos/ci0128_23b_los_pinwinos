@@ -222,11 +222,9 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
 
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
+            }
         }
-    }
-}*/
-
-
+    }*/
 
 
 // Renderizar tabla
