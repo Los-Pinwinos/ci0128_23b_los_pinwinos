@@ -110,7 +110,7 @@ namespace LoCoMPro.Pages.Cuenta
                     const string asunto = "Bienvenido a LoCoMPro!";
                     string titulo = "Buenas " + this.usuarioActual.nombreDeUsuario + "!";
                     const string cuerpo = "<br>Nos complace recibirte como parte de nuestro" +
-                        " equipo en LoComPro.<br>Esperamos que la plataforma te sea útil y " +
+                        " equipo en LoCoMPro.<br>Esperamos que la plataforma te sea útil y " +
                         "de tu agrado.<br><br>Para autenticar tu cuenta y tener acceso a " +
                         "todas las funcionalidades de un usuario registrado, presiona el " +
                         "siguiente botón:<br>";
