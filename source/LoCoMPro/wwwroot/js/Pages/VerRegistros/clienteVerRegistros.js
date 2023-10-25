@@ -30,7 +30,7 @@ function renderizarTabla(datos) {
 
             var divPrecio = document.createElement("div");
             divPrecio.className = "contenidoCelda";
-            divPrecio.textContent = datos[dato].precio;
+            divPrecio.textContent = "₡" + datos[dato].precio;
             divPrecio.classList.add("precio");
             var precioCelda = document.createElement("td");
             precioCelda.classList.add("precio");

@@ -52,9 +52,10 @@
 }
 
 
-/* Precio hacia la izquierda */
+/* Precio hacia la derecha */
 .precio {
-    text-align: right; /* TODO(Emilia): lograr que esto sirva bien */
+    text-align: right;
+    margin-right: 200px;
 }
 
 /* El resto de columnas */
