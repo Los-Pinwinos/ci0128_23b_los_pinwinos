@@ -17,7 +17,6 @@ namespace LoCoMPro.Models
 
         // Usuario creador
         [StringLength(20, MinimumLength = 5)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 

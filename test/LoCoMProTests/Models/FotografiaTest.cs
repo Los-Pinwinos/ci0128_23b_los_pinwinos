@@ -18,7 +18,6 @@ namespace LoCoMProTests.Models
                 // La fecha de creación debe estar entre 1/1/2000 y 1/1/2200
                 creacion = DateTime.Now,
                 // 12 caracteres representa una longitud válida
-                // Presenta mayuscula, minuscula, digito y caractér especial
                 usuarioCreador = "Usuario1212*"
             };
 
@@ -62,27 +61,6 @@ namespace LoCoMProTests.Models
                 creacion = DateTime.Now,
                 // El nombre del creador debe tener entre 5 y 20 caracteres
                 usuarioCreador = "Us0*"
-            };
-
-            // Establecer condiciones de prueba
-            var esValido = Validator.TryValidateProperty(foto.usuarioCreador,
-                new ValidationContext(foto) { MemberName = "usuarioCreador" }, null);
-
-            // Revisar condiciones de prueba
-            Assert.IsFalse(esValido);
-        }
-
-        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
-        [TestMethod]
-        public void usuarioCreador_ValidacionRegex_DeberiaSerInvalido()
-        {
-            // Crear con usuario incorrecto de prueba
-            var foto = new Fotografia
-            {
-                fotografia = BitConverter.GetBytes(12345),
-                creacion = DateTime.Now,
-                // El nombre del creador debe tener al menos un digito
-                usuarioCreador = "Us-uario"
             };
 
             // Establecer condiciones de prueba

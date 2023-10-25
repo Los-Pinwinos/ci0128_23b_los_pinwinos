@@ -7,6 +7,15 @@
     margin-top: 5%;
 }
 
+/* Estilo para un contenedor de todos los elementos en la página */
+.Registrar-titulo {
+    color: black;
+    font-size: 30px;
+    white-space: nowrap;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+
 /* Estilo para el contenedor con parejas de label y caja de texto */
 .Registrar-contenedor-caja-de-texto {
     display: flex;
