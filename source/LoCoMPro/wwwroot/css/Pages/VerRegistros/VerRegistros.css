@@ -143,6 +143,9 @@ table {
             border: none;
             max-width: 100px;
             min-width: 100px;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Tbody td primero */
@@ -213,14 +216,14 @@ VerRegistros-tabla-agrupamientos-contenedor {
 /* Paginacion */
 
 /* Contenedor de paginacion */
-.BusquedaIndice-contenedor-paginacion {
+.VerRegistros-contenedor-paginacion {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Contenedor de caja de paginacion */
-.BusquedaIndice-contenedor-caja-paginacion {
+.VerRegistros-contenedor-caja-paginacion {
     height: 30px;
     display: flex;
     align-items: center;
@@ -231,7 +234,7 @@ VerRegistros-tabla-agrupamientos-contenedor {
 }
 
 /* Boton de paginacion */
-.BusquedaIndice-boton-paginacion {
+.VerRegistros-boton-paginacion {
     width: 60px;
     height: 20px;
     color: black;
@@ -251,7 +254,7 @@ VerRegistros-tabla-agrupamientos-contenedor {
 }
 
     /* Bordes de boton de paginacion */
-    .BusquedaIndice-boton-paginacion::before {
+    .VerRegistros-boton-paginacion::before {
         content: "";
         position: absolute;
         top: -25%;
@@ -263,7 +266,7 @@ VerRegistros-tabla-agrupamientos-contenedor {
     }
 
 /* Boton de paginacion deshabilitado */
-.BusquedaIndice-boton-paginacion-deshabilitado {
+.VerRegistros-boton-paginacion-deshabilitado {
     width: 60px;
     height: 20px;
     color: grey;
@@ -280,7 +283,7 @@ VerRegistros-tabla-agrupamientos-contenedor {
 }
 
     /* Bordes de boton de paginacion deshabilitado */
-    .BusquedaIndice-boton-paginacion-deshabilitado::before {
+    .VerRegistros-boton-paginacion-deshabilitado::before {
         content: "";
         position: absolute;
         top: -25%;
@@ -292,6 +295,6 @@ VerRegistros-tabla-agrupamientos-contenedor {
     }
 
 /* Texto en paginacion */
-.BusquedaIndice-texto-paginacion {
+.VerRegistros-texto-paginacion {
     margin: 0 10px;
 }

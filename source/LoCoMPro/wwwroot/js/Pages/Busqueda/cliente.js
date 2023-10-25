@@ -248,20 +248,27 @@ function renderizarTabla(datos) {
     }
 }
 
-
 // Redirecionar a ver registros
 document.addEventListener("DOMContentLoaded", function () {
-    // Indica que, a la hora de seleccionar una columna, esta redirigirá la búsqueda a la página de ver registros
-    // Para el producto indicado.
     const rows = document.querySelectorAll(".result-row");
 
     rows.forEach(row => {
-    row.addEventListener("click", function () {
-        const productName = row.querySelector("td:first-child").textContent;
-        window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}`;
-    });
+        row.addEventListener("click", function () {
+            const productName = row.querySelector("td:nth-child(1)").textContent;      // Columna 1
+            const categoriaNombre = row.querySelector("td:nth-child(2)").textContent;  // Columna 2
+            const marcaNombre = row.querySelector("td:nth-child(3)").textContent;      // Columna 3
+            const unidadNombre = row.querySelector("td:nth-child(5)").textContent;     // Columna 5
+            const tiendaNombre = row.querySelector("td:nth-child(7)").textContent;     // Columna 7
+            const provinciaNombre = row.querySelector("td:nth-child(8)").textContent;  // Columna 8
+            const cantonNombre = row.querySelector("td:nth-child(9)").textContent;     // Columna 9
+
+            window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;           
+        });
     });
 });
+
+
+
 
 // Pasar pagina
 function pasarPagina(numeroPagina) {

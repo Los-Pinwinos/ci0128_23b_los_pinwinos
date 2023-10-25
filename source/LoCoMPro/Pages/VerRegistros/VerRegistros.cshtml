@@ -36,21 +36,21 @@
                     <div class="VerRegistros-contenedor-fila">
                         <div class="VerRegistros-contenedor-caja-texto">
                             <div class="TituloProductoContainer">
-                                <h2 class="TituloProducto">Aceite de oliva</h2>
+                                <h2 class="TituloProducto">@Model.NombreProducto</h2>
                             </div>
                             <!-- Create three columns for product details -->
                             <div class="ProductInfoColumns">
                                 <div class="InfoColumn">
-                                    <p>Tienda: Mall Plaza</p>
-                                    <p>Categoría: Alimentos</p>
+                                    <p>Tienda: @Model.NombreTienda</p>
+                                    <p>Categoría: @Model.NombreCategoria</p>
                                 </div>
                                 <div class="InfoColumn">
-                                    <p>Marca: Bertolli</p>
-                                    <p>Unidad: Litros</p>
+                                    <p>Marca: @Model.NombreMarca</p>
+                                    <p>Unidad: @Model.NombreUnidad</p>
                                 </div>
                                 <div class="InfoColumn">
-                                    <p>Provincia: San José</p>
-                                    <p>Cantón: Curridabat</p>
+                                    <p>Provincia: @Model.NombreProvincia</p>
+                                    <p>Cantón: @Model.NombreCanton</p>
                                 </div>
                             </div>
                         </div>
@@ -97,21 +97,21 @@
 </div>
 
 <!-- Paginación -->
-<div class="BusquedaIndice-contenedor-paginacion">
-    <div class="BusquedaIndice-contenedor-caja-paginacion">
-        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+<div class="VerRegistros-contenedor-paginacion">
+    <div class="VerRegistros-contenedor-caja-paginacion">
+        <div id="PaginaPrevia" class="VerRegistros-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
             Anterior
         </div>
-        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+        <div id="SinPaginaPrevia" class="VerRegistros-boton-paginacion-deshabilitado">
             Anterior
         </div>
 
-        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
+        <span id="TextoPaginacion" class="VerRegistros-texto-paginacion">  </span>
 
-        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+        <div id="PaginaSiguiente" class="VerRegistros-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
             Siguiente
         </div>
-        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+        <div id="SinPaginaSiguiente" class="VerRegistros-boton-paginacion-deshabilitado">
             Siguiente
         </div>
     </div>

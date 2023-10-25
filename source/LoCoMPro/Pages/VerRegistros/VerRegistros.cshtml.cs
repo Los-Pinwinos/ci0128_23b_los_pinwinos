@@ -28,22 +28,34 @@ namespace LoCoMPro.Pages.VerRegistros
 
         public IList<VerRegistrosVM> Registros { get; set; } = new List<VerRegistrosVM>();
 
-        // [BindProperty]
         public string NombreProducto { get; set; }
-
        
-        public string marca { get; set; }
+        public string NombreCategoria { get; set; }
 
-        
-        public string nombreUnidad { get; set; }
+        public string NombreMarca { get; set; }
 
-       
-        public string nombreCategoria { get; set; }
+        public string NombreUnidad { get; set; }
+
+        public string NombreTienda { get; set; }
+
+        public string NombreProvincia { get; set; }
+
+        public string NombreCanton { get; set; }
 
         public string? resultadoRegistros { get; set; }
 
-        public async Task OnGetAsync(string productName)
+        public async Task OnGetAsync(string productName, string categoriaNombre
+            , string marcaNombre, string unidadNombre, string tiendaNombre
+            , string provinciaNombre, string cantonNombre)
         {
+            NombreProducto = productName;
+            NombreCategoria = categoriaNombre;
+            NombreMarca = marcaNombre;
+            NombreUnidad = unidadNombre;
+            NombreTienda = tiendaNombre;
+            NombreProvincia = provinciaNombre;
+            NombreCanton = cantonNombre;
+
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.producto)
                 .Where(r => r.productoAsociado.Equals(productName))
