@@ -1,13 +1,20 @@
-﻿
-// Obtener contenedor de filtros
-const contenedorFiltros = document.getElementById("ContenedorFiltros");
+﻿// Constante de sobreestimación. Existe un adicional de espacio que se agrega por etiqueta que debe ser despreciado para el movimiento de los filtros
+const sobreestimacionDeAltura = 29;
 
-// Obtener dropdowns
-const dropdowns = contenedorFiltros.querySelectorAll(".BusquedaIndice-dropdown-content");
-// Obtener el contador de dropdowns
-const cuentaDeDropdowns = dropdowns.length;
-// Tamanno de label en px
-const tamannoDeLabel = 35;
+// Calcular la altura del contenido del desplegable
+function calcularAlturaDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    const etiquetas = contenidoDesplegable.querySelectorAll('label');
+    let alturaTotal = 0;
+
+    etiquetas.forEach(etiqueta => {
+        // Obtener la altura de cada etiqueta
+        const alturaEtiqueta = etiqueta.clientHeight - sobreestimacionDeAltura;
+        alturaTotal += alturaEtiqueta;
+    });
+
+    return alturaTotal;
+}
 
 // Ajustar posicion de dropdown
 function adjustDropdownPosition(triggerElement, dropdownId, action) {
