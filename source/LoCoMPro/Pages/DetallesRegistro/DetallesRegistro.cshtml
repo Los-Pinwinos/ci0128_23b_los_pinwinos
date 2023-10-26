@@ -10,50 +10,60 @@
     <title>Detalles Registro</title>
     <!-- Incluye su archivo de estilo CSS específico -->
     <link rel="stylesheet" href="~/css/Pages/DetallesRegistro/DetallesRegistro.css" asp-append-version="true" />
+    <!-- Incluye archivo para las estrellas utilizadas en la calificación -->
+    <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
 </head>
 
 <!-- Cuerpo de la página -->
 <body>
-    <form method="post">
-        <!-- Contenedor para centrar el formulario -->
-        <div class="DetallesRegistro-contenedor-central">
-            <!-- Contenedor para una fila -->
-            <div class="DetallesRegistro-contenedor-central__fila" format="width=600px;">
-                <!-- Nombre de producto -->
-                <div class="DetallesRegistro-contenedor">
-                    <label for="Producto">Producto:</label>
-                    <input type="text" class="DetallesRegistro-caja-texto" id="Producto" name="Producto" disabled>
-                </div>
-                <!-- Precio de registro -->
-                <div class="DetallesRegistro-contenedor">
-                    <label for="Precio">Precio:</label>
-                    <input type="text" class="DetallesRegistro-caja-texto" id="Precio" name="Precio" disabled>
-                </div>
-                <!-- Unidad de producto -->
-                <div class="DetallesRegistro-contenedor">
-                    <label for="Unidad">Unidad:</label>
-                    <input type="text" class="DetallesRegistro-caja-texto" id="Unidad" name="Unidad" disabled>
-                </div>
-                <!-- Descripción de registro -->
-                <div class="DetallesRegistro-contenedor">
-                    <label for="Descripcion">Descripción:</label>
-                    <input type="text" class="DetallesRegistro-caja-texto-grande" id="Descripcion" name="Descripcion" disabled>
-                </div>
+    <div class="Contenedor-central">
+        <!-- Contenedor para una fila -->
+        <div class="Contenedor-fila" style="margin-left:5%;">
+            <div class="Contenedor-columna">
+                <span class="Etiqueta">Producto:</span>
+                <span class="Etiqueta">Precio:</span>
+                <span class="Etiqueta">Unidad:</span>
+                <span class="Etiqueta-final">Descripción:</span>
             </div>
-            <div class="DetallesRegistro-contenedor-central__fila" format="width=600px;">
-                <!-- Imágenes de registro -->
-                <div class="DetallesRegistro-contenedor-imagenes">
-                    <img src="~/img/prueba_papas.png" id="BotonFlechaImg" class="DetallesRegistro-imagen" />
-                    <!-- Botón de varias imágenes -->
-                    <button type="button" class="DetallesRegistro-boton-imagenes" id="BotonFlecha" name="BotonFlecha" hidden>
-                        <img src="~/img/flecha_imagenes.png" id="BotonFlechaImg" class="DetallesRegistro-icono-imagenes" />
-                    </button>
+            <div class="Contenedor-columna">
+                <div class="Contenedor Caja-texto-larga">
+                    <input type="text" class="Caja-texto" id="CajaProducto" name="CajaProducto" disabled>
                 </div>
-                <!-- TODO(Angie): estrellas -->
-            </div>
-            <div class="DetallesRegistro-boton">
-                <button class="DetallesRegistro-boton-estandar" type="submit" asp-page-handler="Regresar">Regresar</button>
+                <div class="Contenedor Caja-texto-larga">
+                    <input type="text" class="Caja-texto" id="CajaPrecio" name="CajaPrecio" disabled>
+                </div>
+                <div class="Contenedor Caja-texto-larga">
+                    <input type="text" class="Caja-texto" id="CajaUnidad" name="CajaUnidad" disabled>
+                </div>
+                <div class="Contenedor Caja-texto-larga">
+                    <input type="text" class="Caja-texto-grande" id="CajaDescripcion" name="CajaDescripcion" disabled>
+                </div>
             </div>
         </div>
-    </form>
+        <div class="Contenedor-fila" style="margin-left:5%;">
+            <div class="Contenedor-columna">
+                <span class="Etiqueta-calificacion">Calificación:</span>
+            </div>
+            <div class="Contenedor-columna">
+                <div class="Contenedor-imagenes">
+                    <img src="~/img/pinwino_no_disponible.png" id="Img" class="Imagen" />
+                </div>
+                <div class="Contenedor-calificacion">
+                    <p class="starability-result" data-rating="5"></p>
+                    <p class="Calificacion">5,0 de 5,0</p>
+                    <p class="Conteo">(1)</p>
+                </div>
+            </div>
+            
+            @* <div class="Contenedor-calificacion" style="margin-right: @(130 - Model.cantidadAportes.ToString().Length * 10)px;">
+                <label class="Calificacion-label">Calificación:</label>
+                <p class="starability-result" data-rating="@Math.Round(Model.usuario.calificacion)"></p>
+                <p class=Calificacion">@Model.usuario.calificacion.ToString("0.0") de 5,0</p>
+                <p class="Conteo">(@Model.cantidadAportes)</p>
+            </div> *@
+        </div>
+    </div>
+    <div class="Boton">
+        <button class="Boton-estandar" type="submit" asp-page-handler="Regresar">Regresar</button>
+    </div>
 </body>
