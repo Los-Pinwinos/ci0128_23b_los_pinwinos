@@ -63,9 +63,9 @@ namespace LoCoMPro.Data
                 {
                     nombreDeUsuario = "Usuario1*"
                     , correo = "prueba@gmail.com"
-                    , hashContrasena = "AQAAAAIAAYagAAAAEH+LtjtVrlYttSVNFRGl4Ll/YFTgFPg04A4gh2vH/IzO7CwUMVI907upp5C5YTvAxQ=="
+                    , hashContrasena = "AQAAAAIAAYagAAAAEMJ9Nfs7XLlkln/sky+5Hu1cn6j8fg8fUWITCWMeJkvWJEkgPwKafpxbV5211FdvFg=="
                     , estado = 'A'
-                    , calificacion = 5
+                    , calificacion = 4.6
                     , distritoVivienda = "Garita"
                     , cantonVivienda = "Alajuela"
                     , provinciaVivienda = "Alajuela"

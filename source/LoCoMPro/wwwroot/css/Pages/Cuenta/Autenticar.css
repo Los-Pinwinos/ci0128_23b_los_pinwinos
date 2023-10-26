@@ -1,0 +1,24 @@
+/* Estilo para un contenedor de todos los elementos en la página */
+.Autenticar-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+
+/* Estilo para el texto en la página */
+.Autenticar-texto {
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 30px;
+}
+
+/* gif */
+.Autenticar-gif {
+    margin-top: 8%;
+    width: 40%;
+    height: auto;
+}

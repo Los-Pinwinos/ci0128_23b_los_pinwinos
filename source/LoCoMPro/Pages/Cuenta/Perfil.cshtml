@@ -1,49 +1,48 @@
 ﻿@page
-<!-- Pagina que sigue el modelo de registrar -->
-@model ModeloRegistrar
+<!-- Pagina que sigue el modelo de perfil -->
+@model ModeloPerfil
 
 @{
-    ViewData["Title"] = "Registrar";
+    ViewData["Title"] = "Perfil";
 }
 
 <!-- Metadata -->
 <head>
     <!-- Titulo de la página -->
-    <title>Registrar cuenta</title>
+    <title>Perfil</title>
     <!-- Cargar el archivo JavaScript para alinear -->
     <script src="~/js/Pages/alinear.js"></script>
     <!-- Incluir el archivo de CSS con los estilos de la página -->
-    <link rel="stylesheet" href="~/css/Pages/Cuenta/Registrar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Perfil.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
 </head>
 
 <!-- Contenido de la página -->
 <body>
     <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Crear cuenta" -->
-    <form method="post" asp-page-handler="CrearCuenta">
+    <form method="post">
         <!-- Configuración para la validación del lado del cliente -->
-        <div asp-validation-summary="ModelOnly" class="Registrar-texto-error"></div>
+        <div asp-validation-summary="ModelOnly" class="Perfil-texto-error"></div>
         <!-- Contenedor para todos los elementos en la página -->
-        <div class="Registrar-contenedor-centrado-primario">
-            <!-- Titulo de la página -->
-            <p class="Registrar-titulo">Crear cuenta</p>
+        <div class="Perfil-contenedor-centrado-primario">
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
-            <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Registrar-texto-error"></span>
+            <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Perfil-texto-error"></span>
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto">
+            <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
-                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario" disabled>
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del correo del modelo vista -->
-            <span asp-validation-for="usuarioActual.correo" class="Registrar-texto-error"></span>
+            <span asp-validation-for="usuarioActual.correo" class="Perfil-texto-error"></span>
             <!-- Caja de texto para el correo ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto" style="margin-bottom: 2%;">
+            <div class="Perfil-contenedor-caja-de-texto" style="margin-bottom: 2%;">
                 <label asp-for="usuarioActual.correo" for="CajaDeTextoCorreo">Correo:</label>
-                <input asp-for="usuarioActual.correo" type="email" id="CajaDeTextoCorreo">
+                <input asp-for="usuarioActual.correo" type="email" id="CajaDeTextoCorreo" disabled>
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de provincia del modelo vista -->
-            <span asp-validation-for="usuarioActual.provinciaVivienda" class="Registrar-texto-error"></span>
+            <span asp-validation-for="usuarioActual.provinciaVivienda" class="Perfil-texto-error"></span>
             <!-- Caja de selección para la provincia ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto">
+            <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.provinciaVivienda" for="CajaDeSeleccionProvincia">Provincia:</label>
                 <select asp-for="usuarioActual.provinciaVivienda" id="CajaDeSeleccionProvincia">
                     <!-- Agrega la opción básica -->
@@ -56,61 +55,103 @@
                 </select>
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de cantón del modelo vista -->
-            <span asp-validation-for="usuarioActual.cantonVivienda" class="Registrar-texto-error"></span>
+            <span asp-validation-for="usuarioActual.cantonVivienda" class="Perfil-texto-error"></span>
             <!-- Caja de texto para el cantón (deshabilitada) ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto">
+            <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.cantonVivienda" for="CajaDeSeleccionCanton">Cantón:</label>
-                <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton" disabled>>
+                <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton">>
                     <!-- Agrega la opción básica -->
                     <option value="">No deseo indicarlo</option>
+                    @foreach (var canton in Model.cantones)
+                    {
+                        <option value="@canton.nombre">@canton.nombre</option>
+                    }
                 </select>
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de distrito del modelo vista -->
-            <span asp-validation-for="usuarioActual.distritoVivienda" class="Registrar-texto-error"></span>
+            <span asp-validation-for="usuarioActual.distritoVivienda" class="Perfil-texto-error"></span>
             <!-- Caja de texto para la distrito (deshabilitada) ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto" style="margin-bottom: 2%;">
+            <div class="Perfil-contenedor-caja-de-texto" style="margin-bottom: 2%;">
                 <label asp-for="usuarioActual.distritoVivienda" for="CajaDeSeleccionDistrito">Distrito:</label>
-                <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito" disabled>>
+                <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito">>
                     <!-- Agrega la opción básica -->
                     <option value="">No deseo indicarlo</option>
+                    @foreach (var distrito in Model.distritos)
+                    {
+                        <option value="@distrito.nombre">@distrito.nombre</option>
+                    }
                 </select>
             </div>
-            <!-- Mensaje de error al no cumplir los atributos de validación de la contraseña del modelo vista -->
-            <span asp-validation-for="usuarioActual.contrasena" class="Registrar-texto-error"></span>
-            <!-- Caja de texto para la contraseña ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto">
-                <label asp-for="usuarioActual.contrasena" for="CajaDeTextoContrasena">Contraseña:</label>
-                <input asp-for="usuarioActual.contrasena" type="password" id="CajaDeTextoContrasena">
+            <!-- Contenedor para mostrar la calificación del usuario -->
+            <div class="Perfil-contenedor-calificacion" style="margin-right: @(130 - Model.cantidadAportes.ToString().Length * 10)px;">
+                <label class="Perfil-contenedor-calificacion-titulo">Calificación:</label>
+                <p class="starability-result" data-rating="@Math.Round(Model.usuario.calificacion)"></p>
+                <p class="Perfil-contenedor-calificacion-calificacion">@Model.usuario.calificacion.ToString("0.0") de 5,0</p>
+                <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
-            <!-- Mensaje de error al no cumplir los atributos de validación de la confirmación de la contraseña del modelo vista -->
-            <span asp-validation-for="usuarioActual.confirmarContrasena" class="Registrar-texto-error"></span>
-            <!-- Caja de texto para confirmar la contraseña ligada al modelo vista -->
-            <div class="Registrar-contenedor-caja-de-texto">
-                <label asp-for="usuarioActual.confirmarContrasena" for="CajaDeTextoConfirmarContraseña">Confirmar contraseña:</label>
-                <input asp-for="usuarioActual.confirmarContrasena" type="password" id="CajaDeTextoConfirmarContraseña">
-            </div>
-            <!-- Botón para crear la cuenta -->
-            <button class="Registrar-boton-basico">Crear</button>
+            <!-- Botón para ver los aportes realizados por el usuario -->
+            <button class="Perfil-boton-basico" asp-page="/Cuenta/Aportes"> Ver aportes </button>
+            <!-- Botón para actualizar los datos del usuario -->
+            <button class="Perfil-boton-basico" asp-page-handler="ActualizarUsuario" id="BotonGuardarCambios" style="display: none;"> Guardar cambios </button>
         </div>
     </form>
 
     <!-- Script para alinear cajas de texto -->
     <script>
         // Llamar a la función para alinear los contenedores de las cajas de texto
-        alinearContenedoresDeBarrasDeTexto(".Registrar-contenedor-caja-de-texto", 98);
+        alinearContenedoresDeBarrasDeTexto(".Perfil-contenedor-caja-de-texto", 98);
     </script>
 
-    <!-- Script para mostrar mensajes de error -->
+    <!-- Script para mostrar o esconder el botón de guardar cambios -->
     <script>
-        // Verifica si se ha creado un error
-        @if (HttpContext.Items.ContainsKey("error"))
-        {
-            // Obtiene el mensaje de error
-            var mensajeError = HttpContext.Items["error"]?.ToString();
-            // Envía un popUp con el error
-            @Html.Raw($"alert('{mensajeError}');");
-            // Limpia el error
-            @HttpContext.Items.Remove("error");
+        // Obtener las cajas que pueden producir generar cambios y el botón
+        const cajaNombreUsuario = document.getElementById('CajaDeTextoUsuario');
+        const cajaProvincia = document.getElementById('CajaDeSeleccionProvincia');
+        const cajaCanton = document.getElementById('CajaDeSeleccionCanton');
+        const cajaDistrito = document.getElementById('CajaDeSeleccionDistrito');
+        const botonGuardar = document.getElementById('BotonGuardarCambios');
+
+        // Función para verificar si ha habido cambios y ocultar o mostrar el botón
+        function verificarCanbios() {
+
+            // Si algo cambió con respecto al usuario
+            if ((cajaNombreUsuario.value !== '@Model.usuario.nombreDeUsuario' &&
+                (cajaNombreUsuario.value.length >= 5 && cajaNombreUsuario.value.length <= 20)) ||
+                cajaProvincia.value !== '@Model.usuario.provinciaVivienda' ||
+                cajaCanton.value !== '@Model.usuario.cantonVivienda' ||
+                cajaDistrito.value !== '@Model.usuario.distritoVivienda') {
+                // Mostrar el botón
+                botonGuardar.style.display = 'block';
+            // Si no hubo cambios
+            } else {
+                // Esconder el botón
+                botonGuardar.style.display = 'none';
+            }
+        }
+
+        // Agregar event listeners en las cajas para verificar si se
+        // producen cambios con respecto a la información del usuario
+        cajaNombreUsuario.addEventListener('input', verificarCanbios);
+        cajaProvincia.addEventListener('change', verificarCanbios);
+        cajaCanton.addEventListener('change', verificarCanbios);
+        cajaDistrito.addEventListener('change', verificarCanbios);
+
+        // Chequeo inicial
+        verificarCanbios();
+    </script>
+
+
+    <!-- Script para mostrar popUp de error y redireccionar si se entra a la ventana
+    sin estar loggeado-->
+    <script>
+        // Obtener el mensaje de redirección
+        var mensaje = "@ViewData["Redireccionar"]";
+        // Si existe un mensaje de redirección
+        if (mensaje) {
+            // Mostrar el popUp
+            alert(mensaje);
+            // Volver a la página de inicio
+            window.location.href = "/Home/Index";
         }
     </script>
 
@@ -136,7 +177,7 @@
             if (provinciaSeleccionada) {
                 // Usar el Fetch API para llamar al handler de CantonesPorProvincia
                 // con la provincia seleccionada
-                fetch(`/Cuenta/Registrar?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                fetch(`/Cuenta/Perfil?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
                     .then(response => response.json())
                     .then(data => {
                         // Por cada cantón
@@ -175,7 +216,7 @@
                 var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
                 // Usar el Fetch API para llamar al handler de DistritosPorCanton
                 // con el cantón seleccionado
-                fetch(`/Cuenta/Registrar?handler=DistritosPorCanton&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`)
+                fetch(`/Cuenta/Perfil?handler=DistritosPorCanton&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`)
                     .then(response => response.json())
                     .then(data => {
                         // Por cada distrito

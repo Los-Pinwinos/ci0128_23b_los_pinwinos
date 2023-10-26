@@ -61,25 +61,4 @@
         // Llamar a la función para alinear los contenedores de las cajas de texto
         alinearContenedoresDeBarrasDeTexto(".Ingresar-contenedor-caja-de-texto", 112);
     </script>
-
-    <!-- Script para mostrar mensajes de error -->
-    <script>
-        // Verifica si se ha creado un error
-        @if (HttpContext.Items.ContainsKey("error"))
-        {
-            // Obtiene el error
-            var mensajeError = HttpContext.Items["error"]?.ToString();
-            // Envía un popUp con el error
-            @Html.Raw($"alert('{mensajeError}');");
-            // Limpia el error
-            @HttpContext.Items.Remove("error");
-        }
-    </script>
-
-    <!-- Sección para realizar validaciones de los datos de lado del cliente -->
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
 </body>

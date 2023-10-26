@@ -10,7 +10,7 @@ namespace LoCoMPro.Pages.Busqueda
     public class BusquedaAvanzadaModel : BusquedaModel
     {
         // Constructor
-        public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion) 
+        public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion)
             : base(contexto, configuracion)
         {
             // Inicializar
@@ -42,7 +42,7 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProvincia
             , string? nombreCanton)
         {
-            if ((!string.IsNullOrEmpty(nombreProducto) 
+            if ((!string.IsNullOrEmpty(nombreProducto)
                 || !string.IsNullOrEmpty(nombreMarca)
                 || !string.IsNullOrEmpty(nombreProvincia)
                 || !string.IsNullOrEmpty(nombreCanton))
