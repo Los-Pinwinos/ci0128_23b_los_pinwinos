@@ -27,10 +27,11 @@ namespace LoCoMPro.ViewModels.VerRegistros
         public required decimal precio { get; set; }
 
 
-        [Column(TypeName = "decimal(3, 2)")]
-        [Required]
-        [Range(0, 5, ErrorMessage = "The 'calificación' must be a decimal number between 0 and 5.")]
-        public decimal calificacion { get; set; } = 0;
+        // Calificación
+        [Range(0, 5,
+            ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
+        [Display(Name = "Calificación")]
+        public double? calificacion { get; set; }
 
 
         // Descripción

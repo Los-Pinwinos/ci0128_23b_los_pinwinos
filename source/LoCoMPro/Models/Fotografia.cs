@@ -4,23 +4,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoCoMPro.Models
 {
-    [PrimaryKey(nameof(fotografia), nameof(creacion), nameof(usuarioCreador))]
+    [PrimaryKey(nameof(nombreFotografia), nameof(creacion), nameof(usuarioCreador))]
     public class Fotografia
     {
-        // Fotografia
+        // Fotografía
         [Display(Name = "Fotografía")]
+        [MaxLength]
         public required byte[] fotografia { get; set; }
+
+        // Nombre de la fotografía
+        [StringLength(200), MinLength(5)]
+        public required string nombreFotografia { get; set; }
 
         // Fecha y hora de creación
         [DataType(DataType.DateTime)]
-        // TODO(pinwinos): Considerar rango de fechas
         [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
         [Display(Name = "Fecha y hora de creación")]
         public required DateTime creacion { get; set; }
 
         // Usuario creador
         [StringLength(20, MinimumLength = 5)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 

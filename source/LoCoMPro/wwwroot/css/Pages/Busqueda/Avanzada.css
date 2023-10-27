@@ -28,7 +28,7 @@
 /* Boton de busqueda */
 .BusquedaAvanzada-boton-busqueda {
     display: flex;
-    position:relative;
+    position: relative;
     border: none;
     width: 40px;
     height: 40px;

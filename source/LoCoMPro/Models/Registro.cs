@@ -17,7 +17,6 @@ namespace LoCoMPro.Models
 
         // Usuario creador
         [StringLength(20, MinimumLength = 5)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 
@@ -35,6 +34,12 @@ namespace LoCoMPro.Models
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Precio")]
         public required decimal precio { get; set; }
+
+        // Calificación
+        [Range(0, 5,
+            ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
+        [Display(Name = "Calificación")]
+        public double? calificacion { get; set; }
 
         // Producto asociado
         [StringLength(256, MinimumLength = 1)]
@@ -72,12 +77,6 @@ namespace LoCoMPro.Models
         // Propiedad de navegación tienda
         [ForeignKey("nombreTienda, nombreDistrito, nombreCanton, nombreProvincia")]
         public Tienda? tienda { get; set; }
-
-        [Column(TypeName = "decimal(3, 2)")]
-        [Required]
-        [Range(0, 5, ErrorMessage = "The 'calificación' must be a decimal number between 0 and 5.")]
-        public decimal calificacion { get; set; } = 0;
-
 
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
