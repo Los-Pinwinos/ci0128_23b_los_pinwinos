@@ -64,29 +64,29 @@
             <!-- Agregar Producto -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Producto:</label>
-                <input asp-for="viewModel.nombreProducto" type="text" class="AgregarProd-caja-texto-larga" id="Producto">
+                <input asp-for="ViewModel.nombreProducto" type="text" class="AgregarProd-caja-texto-larga" id="Producto">
             </div>
             <!-- Agregar Marca -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="MarcaTexto">Marca:</label>
-                <input asp-for="viewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
+                <input asp-for="ViewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
             </div>
             <!-- Agregar Categoría -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Categoría:</label>
                 <!-- Genera de manera automática los elementos del select -->
-                <select asp-for="viewModel.nombreCategoria" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
+                <select asp-for="ViewModel.nombreCategoria" id="Categoria" asp-items="Model.OpcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="PrecioTexto">Precio:</label>
-                <input asp-for="viewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
+                <input asp-for="ViewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
             </div>
             <!-- Agregar Unidad -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="UnidadTexto">Unidad:</label>
                 <!-- Genera de manera automática los elementos del select -->
-                <select asp-for="viewModel.nombreUnidad" id="Unidad" asp-items="Model.opcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
+                <select asp-for="ViewModel.nombreUnidad" id="Unidad" asp-items="Model.OpcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
@@ -103,12 +103,12 @@
             <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="EtiquetaTexto">Etiqueta:</label>
-                <input asp-for="viewModel.etiqueta" type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta">
+                <input asp-for="ViewModel.etiqueta" type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta">
             </div>
             <!-- Descripción -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="DescripcionTexto">Descripción:</label>
-                <input asp-for="viewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
+                <input asp-for="ViewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
             </div>
             <!-- Botones de aceptar y cancelar -->
             <div class="AgregarProd-contenedor-texto">

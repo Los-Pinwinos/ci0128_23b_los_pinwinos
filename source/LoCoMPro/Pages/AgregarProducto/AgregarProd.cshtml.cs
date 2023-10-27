@@ -14,19 +14,16 @@ namespace LoCoMPro.Pages.AgregarProducto
 
         // ViewModel de la página
         [BindProperty]
-        public AgregarProdVM viewModel { get; set; }
+        public AgregarProdVM ViewModel { get; set; }
 
         // Utilizados para cargar el combobox de unidad y categoría
-        public SelectList opcionesUnidad { get; set; }
-        public SelectList opcionesCategoria { get; set; }
-
-        // Constructor del modelo de la página
+        public SelectList OpcionesUnidad { get; set; }
+        public SelectList OpcionesCategoria { get; set; }
+        
         public AgregarProdModel(LoCoMPro.Data.LoCoMProContext contexto)
         {
-            // Establece el contexto
             this.contexto = contexto;
-            // Establece el registro
-            this.viewModel = new AgregarProdVM
+            this.ViewModel = new AgregarProdVM
             {
                 nombreProducto = "",
                 marcaProducto = "",
@@ -36,65 +33,35 @@ namespace LoCoMPro.Pages.AgregarProducto
                 etiqueta = "",
                 precio = "",
             };
-            // Inserta categorías en combobox
-            var listaCategoria = new List<string>();
-            // Crea una lista del nombre de todas las categorias
-            foreach (var entradaUnidad in this.contexto.Categorias)
-            {
-                listaCategoria.Add(entradaUnidad.nombre);
-            }
-            // Inserta la lista de nombres en un SelectList
-            this.opcionesCategoria = new SelectList(listaCategoria);
-            // Inserta unidades en combobox
-            var listaUnidad = new List<string>();
-            // Crea una lista del nombre de todas las unidades
-            foreach (var entradaUnidad in this.contexto.Unidades)
-            {
-                listaUnidad.Add(entradaUnidad.nombre);
-            }
-            // Inserta la lista de nombres en un SelectList
-            this.opcionesUnidad = new SelectList(listaUnidad);
         }
+
         public IActionResult OnGet()
         {
-            // Revisar si el usuario está loggeado
             if (User.Identity == null || !User.Identity.IsAuthenticated) {
+                // Establece mensaje para redireccionar si el usuario no está ingresado
+                // en el sistema
                 ViewData["RedirectMessage"] = "usuario";
             }
             else if (!TempData.ContainsKey("nombreTienda")) {
+                // Establece mensaje para redireccionar si el usuario no escogió una tienda
                 ViewData["RedirectMessage"] = "tienda";
-            }
-            // Inserta categorías en combobox
-            var listaCategoria = new List<string>();
-            // Crea una lista del nombre de todas las categorias
-            foreach (var entradaUnidad in this.contexto.Categorias)
+            } else
             {
-                listaCategoria.Add(entradaUnidad.nombre);
+                // Rellena las select list de unidad y categoría
+                this.RellenarSelectList();
             }
-            // Inserta la lista de nombres en un SelectList
-            this.opcionesCategoria = new SelectList(listaCategoria);
-
-            // Inserta unidades en combobox
-            var listaUnidad = new List<string>();
-            // Crea una lista del nombre de todas las unidades
-            foreach (var entradaUnidad in this.contexto.Unidades)
-            {
-                listaUnidad.Add(entradaUnidad.nombre);
-            }
-            // Inserta la lista de nombres en un SelectList
-            this.opcionesUnidad = new SelectList(listaUnidad);
             return Page();
         }
+
         public IActionResult OnPostAceptar()
         {
             string usuarioCreador = User.Identity?.Name ?? "desconocido";
             // Verificar si el producto ya existe en la base de datos
-            var existingProduct = this.contexto.Productos.FirstOrDefault(p => p.nombre == this.viewModel.nombreProducto);
-            // Si el producto no existía, agréguelo
+            var existingProduct = this.contexto.Productos.FirstOrDefault(p => p.nombre == this.ViewModel.nombreProducto);
+            // Si el producto no existía, se agrega
             if (existingProduct == null)
             {
-                // El producto no existe, agrégalo a la base de datos
-                this.agregarProducto();
+                this.AgregarProducto();
             }
             // Revisar si tiene tienda
             string tiendaTemporal = TempData["nombreTienda"]?.ToString() ?? "";
@@ -106,81 +73,68 @@ namespace LoCoMPro.Pages.AgregarProducto
             else
             {
                 // Insertar registro a la base de datos y obtener su tiempo
-                var tiempoActual = this.agregarRegistro(usuarioCreador, tiendaTemporal);
+                var tiempoActual = this.AgregarRegistro(usuarioCreador, tiendaTemporal);
                 // Agregar fotografías a la base de datos
-                this.agregarFotografias(usuarioCreador, tiempoActual);
+                this.AgregarFotografias(usuarioCreador, tiempoActual);
             }
             this.RellenarSelectList();
-            // Limpia los datos del view model
             this.LimpiarViewModel();
-            // Redirige a otra página o realiza cualquier otra acción después de agregar el producto
             return RedirectToPage("/Home/Index");
         }
 
-        private void agregarProducto()
+        private void AgregarProducto()
         {
             var nuevoProducto = new Producto
             {
-                nombre = this.viewModel.nombreProducto,
-                marca = this.viewModel.marcaProducto,
-                nombreUnidad = this.viewModel.nombreUnidad,
-                nombreCategoria = this.viewModel.nombreCategoria
+                nombre = this.ViewModel.nombreProducto,
+                marca = this.ViewModel.marcaProducto,
+                nombreUnidad = this.ViewModel.nombreUnidad,
+                nombreCategoria = this.ViewModel.nombreCategoria
             };
-
-            // Agrega el nuevo producto a la base de datos
             this.contexto.Productos.Add(nuevoProducto);
             this.contexto.SaveChanges();
         }
 
-        private DateTime agregarRegistro(string usuarioCreador, string tiendaTemporal)
+        private DateTime AgregarRegistro(string usuarioCreador, string tiendaTemporal)
         {
             var tiempoActual = DateTime.Now;
             var nuevoRegistro = new Registro
             {
-                // Indicar el tiempo de creación
                 creacion = tiempoActual,
                 usuarioCreador = usuarioCreador,
-                descripcion = this.viewModel.descripcion,
-                // Convertir a decimal
-                precio = decimal.Parse(this.viewModel.precio),
+                descripcion = this.ViewModel.descripcion,
+                precio = decimal.Parse(this.ViewModel.precio),
                 calificacion = null,
-                productoAsociado = this.viewModel.nombreProducto,
+                productoAsociado = this.ViewModel.nombreProducto,
                 nombreTienda = tiendaTemporal,
                 nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
                 nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
                 nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
             };
-            // Agregar el nuevo registro a la base de datos
             contexto.Registros.Add(nuevoRegistro);
             contexto.SaveChanges();
-            // Requerido para asociar imágenes al registro
+            // Requerido para crear fotografías, debido a que es parte de la
+            // llave primaria del registro
             return tiempoActual;
         }
 
-        private void agregarFotografias(string usuarioCreador, DateTime tiempoActual)
+        private void AgregarFotografias(string usuarioCreador, DateTime tiempoActual)
         {
             foreach (var archivo in Request.Form.Files)
             {
-                // Obtener el nombre del archivo
                 string nombreArchivo = archivo.FileName;
-                // Crear memoria temporal para transformar la imágen
                 MemoryStream memoriaTemporal = new MemoryStream();
-                // Copiar del archivo a la memoria temporal
                 archivo.CopyTo(memoriaTemporal);
-                // Crear instancia de fotografía
                 var fotografia = new Fotografia
                 {
                     fotografia = memoriaTemporal.ToArray(),
                     nombreFotografia = nombreArchivo,
-                    // Creación del registro asociado
                     creacion = tiempoActual,
-                    // Usuario que agregó la imagen
                     usuarioCreador = usuarioCreador
                 };
                 // Limpiar memoria temporal
                 memoriaTemporal.Close();
                 memoriaTemporal.Dispose();
-                // Agregar fotografía a base de datos
                 contexto.Fotografias.Add(fotografia);
                 contexto.SaveChanges();
             }
@@ -189,9 +143,7 @@ namespace LoCoMPro.Pages.AgregarProducto
         public IActionResult OnPostCancelar()
         {
             this.RellenarSelectList();
-            // Limpia los datos del view model
             this.LimpiarViewModel();
-            // Dirigir a la página de inicio
             return RedirectToPage("/Home/Index");
         }
 
@@ -204,10 +156,7 @@ namespace LoCoMPro.Pages.AgregarProducto
             {
                 listaCategoria.Add(entradaUnidad.nombre);
             }
-            // Inserta la lista de nombres en un SelectList
-            this.opcionesCategoria = new SelectList(listaCategoria);
-
-            // Inserta unidades en combobox
+            this.OpcionesCategoria = new SelectList(listaCategoria);
             var listaUnidad = new List<string>();
             // Crea una lista del nombre de todas las unidades
             foreach (var entradaUnidad in contexto.Unidades)
@@ -215,17 +164,18 @@ namespace LoCoMPro.Pages.AgregarProducto
                 listaUnidad.Add(entradaUnidad.nombre);
             }
             // Inserta la lista de nombres en un SelectList
-            this.opcionesUnidad = new SelectList(listaUnidad);
+            this.OpcionesUnidad = new SelectList(listaUnidad);
         }
+
         private void LimpiarViewModel()
         {
-            this.viewModel.nombreProducto = "";
-            this.viewModel.marcaProducto = "";
-            this.viewModel.nombreUnidad = "";
-            this.viewModel.nombreCategoria = "";
-            this.viewModel.descripcion = "";
-            this.viewModel.etiqueta = "";
-            this.viewModel.precio = "";
+            this.ViewModel.nombreProducto = "";
+            this.ViewModel.marcaProducto = "";
+            this.ViewModel.nombreUnidad = "";
+            this.ViewModel.nombreCategoria = "";
+            this.ViewModel.descripcion = "";
+            this.ViewModel.etiqueta = "";
+            this.ViewModel.precio = "";
         }
     }
 }
