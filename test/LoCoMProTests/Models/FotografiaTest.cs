@@ -21,7 +21,6 @@ namespace LoCoMProTests.Models
                 // La fecha de creación debe estar entre 1/1/2000 y 1/1/2200
                 creacion = DateTime.Now,
                 // 12 caracteres representa una longitud válida
-                // Presenta mayuscula, minuscula, digito y caractér especial
                 usuarioCreador = "Usuario1212*"
             };
 
