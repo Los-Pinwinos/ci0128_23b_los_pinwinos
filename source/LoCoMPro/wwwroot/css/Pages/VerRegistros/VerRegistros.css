@@ -15,29 +15,41 @@
 /* Centrar el título */
 .TituloProductoContainer {
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
+    margin-left: 350px
 }
 
 /* Título del producto */
 .TituloProducto {
     font-family: Arial, sans-serif;
-    font-size: 24px; 
+    margin-left: 450px;
+    font-size: 24px;
 }
 
 /* Cada columna */
-.ProductInfoColumns {
+.InfoProductoColumnas {
     display: flex;
     justify-content: space-between; 
     margin: 10px 0;
 }
 
-
-.InfoColumn {
-    width: 30%; 
-    text-align: left; 
-    font-size: 16px; 
+/* Contenedor de las columnas de información */
+.ContenedorInfoColumnas {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
 }
 
+.InfoColumn {
+    width: 300px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.ImageColumn {
+    width: 30%; 
+    text-align: center;
+}
 
 .InfoColumnBold {
     width: 30%; 
@@ -308,32 +320,29 @@ VerRegistros-tabla-agrupamientos-contenedor {
     width: auto;
     height: auto;
     border-radius: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.ImageGallery {
+.GaleriaImagenes {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.ImageContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.ImageNavigation {
+.NavegacionImagen {
     font-size: 50px;
     cursor: pointer;
     padding: 5px;
     color: #1A7254;
 }
 
-.ImageNavigation-Previous {
+.NavegacionImagen-Anterior {
     margin-right: 20px;
 }
 
-.ImageNavigation-Next {
+.NavegacionImagen-Siguiente {
     margin-left: 20px; 
 }
 

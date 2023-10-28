@@ -82,13 +82,13 @@ namespace LoCoMPro.Pages.VerRegistros
             Registros = await registrosIQ.ToListAsync();
             this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
 
-            // Retrieve all the photographs for the linked Registros in-memory
-            var linkedFotografias = contexto.Fotografias
+            // Actualizar el atributo de fotografías para poder trabajar con todas las imagenes asociadas al registro
+            var fotografiasEnlazadas = contexto.Fotografias
                 .AsEnumerable()
                 .Where(f => Registros.Any(r => r.fotografias.Contains(f)))
                 .ToList();
 
-            fotografias = linkedFotografias;
+            fotografias = fotografiasEnlazadas;
         }
 
 

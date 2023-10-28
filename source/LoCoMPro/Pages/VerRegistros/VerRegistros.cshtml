@@ -32,37 +32,32 @@
     <div class="InfoProducto">
         <div class="VerRegistros-contenedor">
             <div class="VerRegistros-contenedor-fila">
-                <div style="width:85%;">
-                    <div class="VerRegistros-contenedor-fila">
-                        <div class="VerRegistros-contenedor-caja-texto">
-                            <div class="TituloProductoContainer">
-                                <h2 class="TituloProducto">@Model.NombreProducto</h2>
+                <div class="VerRegistros-contenedor-caja-texto">
+                    <h2 class="TituloProducto">@Model.NombreProducto</h2>
+                    <div class="InfoProductoColumnas">
+                        <div class="ContenedorInfoColumnas">
+                            <div class="InfoColumn">
+                                <p><strong>Tienda:</strong> @Model.NombreTienda</p>
+                                <p><strong>Categoría:</strong> @Model.NombreCategoria</p>
                             </div>
-                            <!-- Create three columns for product details -->
-                            <div class="ProductInfoColumns">
-                                <div class="InfoColumn">
-                                    <p><strong>Tienda:</strong> @Model.NombreTienda</p>
-                                    <p><strong>Categoría:</strong> @Model.NombreCategoria</p>
-                                </div>
-                                <div class="InfoColumn">
-                                    <p><strong>Marca:</strong> @Model.NombreMarca</p>
-                                    <p><strong>Unidad:</strong> @Model.NombreUnidad</p>
-                                </div>
-                                <div class="InfoColumn">
-                                    <p><strong>Provincia:</strong> @Model.NombreProvincia</p>
-                                    <p><strong>Cantón:</strong> @Model.NombreCanton</p>
-                                </div>
-                                <div class="InfoColumn">
-                                    <div id="imageGallery" class="ImageGallery">
-                                        <div id="previousImage" class="ImageNavigation ImageNavigation-Previous" onclick="showPreviousImage()">&lt;</div>
-                                        <div id="currentImage" class="CurrentImage">
-                                            <img id="imageDisplay" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
-                                        </div>
-                                        <div id="nextImage" class="ImageNavigation ImageNavigation-Next" onclick="showNextImage()">&gt;</div>
-                                    </div>
-                                </div>
+                            <div class="InfoColumn">
+                                <p><strong>Marca:</strong> @Model.NombreMarca</p>
+                                <p><strong>Unidad:</strong> @Model.NombreUnidad</p>
+                            </div>
+                            <div class="InfoColumn">
+                                <p><strong>Provincia:</strong> @Model.NombreProvincia</p>
+                                <p><strong>Cantón:</strong> @Model.NombreCanton</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="ImageColumn">
+                    <div id="galeriaImagenes" class="GaleriaImagenes">
+                        <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
+                        <div id="currentImage" class="CurrentImage">
+                            <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
+                        </div>
+                        <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                     </div>
                 </div>
             </div>
@@ -137,59 +132,59 @@
 
 <script>
     // Initialize the image gallery
-    var images = @Html.Raw(Json.Serialize(Model.fotografias));
-    var currentImageIndex = 0;
-    var imageDisplay = document.getElementById("imageDisplay");
-    var previousImage = document.getElementById("previousImage");
-    var nextImage = document.getElementById("nextImage");
+    var imagenes = @Html.Raw(Json.Serialize(Model.fotografias));
+    var indiceImagenActual = 0;
+    var vistaImagen = document.getElementById("vistaImagen");
+    var imagenAnterior = document.getElementById("imagenAnterior");
+    var siguienteImagen = document.getElementById("siguienteImagen");
 
-    function showCurrentImage() {
-        if (images && images.length > 0 && currentImageIndex >= 0 && currentImageIndex < images.length) {
-            imageDisplay.src = `data:image/jpeg;base64,${images[currentImageIndex].fotografia}`;  
+    function verImagenActual() {
+        if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;  
         }
-        imageDisplay.className = "Imagen";
+        vistaImagen.className = "Imagen";
         // Update the arrow visibility
-        updateArrowVisibility();
+        actualizarVisibilidadFlecha();
     }
 
-    function updateArrowVisibility() {
-        if (images && images.length > 0) {
-            if (currentImageIndex <= 0) {
-                previousImage.style.visibility = "hidden";
+    function actualizarVisibilidadFlecha() {
+        if (imagenes && imagenes.length > 0) {
+            if (indiceImagenActual <= 0) {
+                imagenAnterior.style.visibility = "hidden";
             } else {
-                previousImage.style.visibility = "visible";
+                imagenAnterior.style.visibility = "visible";
             }
 
-            if (currentImageIndex >= images.length - 1) {
-                nextImage.style.visibility = "hidden";
+            if (indiceImagenActual >= imagenes.length - 1) {
+                siguienteImagen.style.visibility = "hidden";
             } else {
-                nextImage.style.visibility = "visible";
+                siguienteImagen.style.visibility = "visible";
             }
         } else {
-            // Hide the arrows when there are no images
-            previousImage.style.visibility = "hidden";
-            nextImage.style.visibility = "hidden";
+            // Hide the arrows when there are no imagenes
+            imagenAnterior.style.visibility = "hidden";
+            siguienteImagen.style.visibility = "hidden";
         }
     }
 
-    // Function to show the previous image
-    function showPreviousImage() {
-        if (currentImageIndex > 0) {
-            currentImageIndex--;
-            showCurrentImage();
+    // Function to show the Anterior image
+    function verImagenAnterior() {
+        if (indiceImagenActual > 0) {
+            indiceImagenActual--;
+            verImagenActual();
         }
     }
 
-    // Function to show the next image
-    function showNextImage() {
-        if (currentImageIndex < images.length - 1) {
-            currentImageIndex++;
-            showCurrentImage();
+    // Function to show the Siguiente image
+    function verImagenSiguiente() {
+        if (indiceImagenActual < imagenes.length - 1) {
+            indiceImagenActual++;
+            verImagenActual();
         }
     }
 
     // Initial display of the first image
-    showCurrentImage();
+    verImagenActual();
 </script>
 
 
