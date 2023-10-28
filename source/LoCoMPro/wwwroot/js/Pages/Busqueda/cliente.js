@@ -242,33 +242,24 @@ function renderizarTabla(datos) {
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
 
+            // Redirecionar a ver registros
+            row.addEventListener("click", function () {
+                const productName = nombreCelda.textContent;      // Columna 1
+                const categoriaNombre = categoriaCelda.textContent;  // Columna 2
+                const marcaNombre = marcaCelda.textContent;      // Columna 3
+                const unidadNombre = unidadCelda.textContent;     // Columna 5
+                const tiendaNombre = tiendaCelda.textContent;     // Columna 7
+                const provinciaNombre = provinciaCelda.textContent;  // Columna 8
+                const cantonNombre = cantonCelda.textContent;     // Columna 9
+
+                window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
+            });
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
+
         }
     }
 }
-
-// Redirecionar a ver registros
-document.addEventListener("DOMContentLoaded", function () {
-    const rows = document.querySelectorAll(".result-row");
-
-    rows.forEach(row => {
-        row.addEventListener("click", function () {
-            const productName = row.querySelector("td:nth-child(1)").textContent;      // Columna 1
-            const categoriaNombre = row.querySelector("td:nth-child(2)").textContent;  // Columna 2
-            const marcaNombre = row.querySelector("td:nth-child(3)").textContent;      // Columna 3
-            const unidadNombre = row.querySelector("td:nth-child(5)").textContent;     // Columna 5
-            const tiendaNombre = row.querySelector("td:nth-child(7)").textContent;     // Columna 7
-            const provinciaNombre = row.querySelector("td:nth-child(8)").textContent;  // Columna 8
-            const cantonNombre = row.querySelector("td:nth-child(9)").textContent;     // Columna 9
-
-            window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;           
-        });
-    });
-});
-
-
-
 
 // Pasar pagina
 function pasarPagina(numeroPagina) {

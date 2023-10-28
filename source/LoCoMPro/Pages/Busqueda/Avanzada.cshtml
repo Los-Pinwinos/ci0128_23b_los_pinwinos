@@ -10,6 +10,32 @@
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Avanzada.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/filtrador.js"></script>
+    <script src="~/js/Pages/Busqueda/ordenador.js"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script>
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.resultadosBusqueda')
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        var resultados = obtenerResultados();
+        var filtrador = new FiltradorDeBusqueda();
+        var ordenador = new OrdenadorDeBusqueda();;
+        var paginador = new Paginador(@Model.resultadosPorPagina);
+        var paginaDefault = @Model.paginaDefault;
+
+    </script>
+    <script src="~/js/Pages/Busqueda/cliente.js?v=123"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
