@@ -85,7 +85,7 @@
 /* Caja de texto utilizada para la categoría*/
 .AgregarProd-caja-texto-combobox {
     background-color: #FFFBF8;
-    border-color: white;
+    border-color: black;
     position: relative;
     display: inline-block;
     width: 860px;

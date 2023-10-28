@@ -146,86 +146,6 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
 }
 
 
-// Renderizar tabla
-/*function renderizarTabla(datos) {
-    // Obtener la tabla
-    var cuerpoTabla = document.getElementById("CuerpoResultados");
-
-    // Limpiar el contenido existente
-    cuerpoTabla.innerHTML = "";
-
-    // Iterar
-    for (var dato in datos) {
-        var row = document.createElement("tr");
-
-        if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
-            *//*var nombreCell = document.createElement("td");
-            nombreCell.textContent = datos[dato].nombre;
-            nombreCell.setAttribute('data-tooltip', datos[dato].nombre);*//*
-
-            var divContent = document.createElement("div");
-            divContent.className = "content";
-            divContent.textContent = datos[dato].nombre;
-
-            var nombreCell = document.createElement("td");
-            nombreCell.setAttribute('data-tooltip', datos[dato].nombre);
-            nombreCell.appendChild(divContent);
-
-
-            *//*var seccionCategoria = document.createElement("div");
-            seccionCategoria.className = "contenidoCelda";
-            seccionCategoria.textContent = datos[dato].categoria;
-            var categoriaCell = document.createElement("td");
-            categoriaCell.setAttribute('data-tooltip', datos[dato].categoria);
-            categoriaCell.appendChild(seccionCategoria);*//*
-
-            var marcaCell = document.createElement("td");
-            marcaCell.textContent = datos[dato].marca;
-            marcaCell.setAttribute('data-tooltip', datos[dato].marca);
-
-            var precioCell = document.createElement("td");
-            precioCell.textContent = "₡" + datos[dato].precio;
-            precioCell.setAttribute('data-tooltip', datos[dato].precio);
-
-            var unidadCell = document.createElement("td");
-            unidadCell.textContent = datos[dato].unidad;
-            unidadCell.setAttribute('data-tooltip', datos[dato].unidad);
-
-            var fechaCell = document.createElement("td");
-            fechaCell.textContent = formatearFecha(new Date(datos[dato].fecha));
-            fechaCell.setAttribute('data-tooltip', datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
-                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1] 
-                + datos[dato].fecha[2] + datos[dato].fecha[3]);
-
-            var tiendaCell = document.createElement("td");
-            tiendaCell.textContent = datos[dato].tienda;
-            tiendaCell.setAttribute('data-tooltip', datos[dato].tienda);
-
-            var provinciaCell = document.createElement("td");
-            provinciaCell.textContent = datos[dato].provincia;
-            provinciaCell.setAttribute('data-tooltip', datos[dato].provincia);
-
-            var cantonCell = document.createElement("td");
-            cantonCell.textContent = datos[dato].canton;
-            cantonCell.setAttribute('data-tooltip', datos[dato].canton);
-
-            // Agregar celdas a fila
-            row.appendChild(nombreCell);
-            row.appendChild(categoriaCell);
-            row.appendChild(marcaCell);
-            row.appendChild(precioCell);
-            row.appendChild(unidadCell);
-            row.appendChild(fechaCell);
-            row.appendChild(tiendaCell);
-            row.appendChild(provinciaCell);
-            row.appendChild(cantonCell);
-
-            // Agregar celdas cuerpo
-            cuerpoTabla.appendChild(row);
-            }
-        }
-    }*/
-
 
 // Renderizar tabla
 function renderizarTabla(datos) {
@@ -238,6 +158,8 @@ function renderizarTabla(datos) {
     // Iterar
     for (var dato in datos) {
         var row = document.createElement("tr");
+        // result-row se utiliza para redirigir los datos de la fila selecionada a la página de VerRegistros
+        row.classList.add("result-row")
 
         if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
             var divNombre = document.createElement("div");
@@ -320,14 +242,33 @@ function renderizarTabla(datos) {
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
 
+           
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
+
         }
     }
 }
 
+// Redirecionar a ver registros
 
+document.addEventListener("click", function () {
+    const rows = document.querySelectorAll(".result-row");
 
+    rows.forEach(row => {
+        row.addEventListener("click", function () {
+            const productName = row.querySelector("td:nth-child(1)").textContent;      // Columna 1
+            const categoriaNombre = row.querySelector("td:nth-child(2)").textContent;  // Columna 2
+            const marcaNombre = row.querySelector("td:nth-child(3)").textContent;      // Columna 3
+            const unidadNombre = row.querySelector("td:nth-child(5)").textContent;     // Columna 5
+            const tiendaNombre = row.querySelector("td:nth-child(7)").textContent;     // Columna 7
+            const provinciaNombre = row.querySelector("td:nth-child(8)").textContent;  // Columna 8
+            const cantonNombre = row.querySelector("td:nth-child(9)").textContent;     // Columna 9
+
+            window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
+        });
+    });
+});
 
 // Pasar pagina
 function pasarPagina(numeroPagina) {
