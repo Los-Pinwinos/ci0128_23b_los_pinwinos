@@ -48,7 +48,7 @@ function renderizarTabla(datos) {
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCelda";
-            divCalificacion.textContent = datos[dato].calificacion;
+            divCalificacion.textContent = datos[dato].calificacion == null? "Sin calificar":  datos[dato].calificacion;
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', datos[dato].calificacion);
             calificacionCelda.appendChild(divCalificacion);
