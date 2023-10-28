@@ -299,3 +299,11 @@ VerRegistros-tabla-agrupamientos-contenedor {
 .VerRegistros-texto-paginacion {
     margin: 0 10px;
 }
+
+.Imagen {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+}

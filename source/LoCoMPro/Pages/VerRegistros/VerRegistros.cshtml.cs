@@ -44,6 +44,8 @@ namespace LoCoMPro.Pages.VerRegistros
 
         public string? resultadoRegistros { get; set; }
 
+        public ICollection<Fotografia>? fotografias { get; set; }
+
         public async Task OnGetAsync(string productName, string categoriaNombre
             , string marcaNombre, string unidadNombre, string tiendaNombre
             , string provinciaNombre, string cantonNombre)
@@ -57,7 +59,7 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreCanton = cantonNombre;
 
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
-                .Include(r => r.producto)
+                .Include(r => r.fotografias)
                 .Where(r => r.productoAsociado.Equals(productName))
                 .GroupBy(r => new
                 {
@@ -73,11 +75,20 @@ namespace LoCoMPro.Pages.VerRegistros
                     usuarioCreador = group.Key.usuarioCreador,
                     precio = group.Key.precio,
                     calificacion = group.Key.calificacion,
-                    descripcion = group.Key.descripcion
+                    descripcion = group.Key.descripcion,
+                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
                 });
 
             Registros = await registrosIQ.ToListAsync();
             this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
+
+            // Retrieve all the photographs for the linked Registros in-memory
+            var linkedFotografias = contexto.Fotografias
+                .AsEnumerable()
+                .Where(f => Registros.Any(r => r.fotografias.Contains(f)))
+                .ToList();
+
+            fotografias = linkedFotografias;
         }
 
 

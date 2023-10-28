@@ -115,3 +115,5 @@ function renderizarPaginacion() {
 function paginar(numeroPagina = productosVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
+
+

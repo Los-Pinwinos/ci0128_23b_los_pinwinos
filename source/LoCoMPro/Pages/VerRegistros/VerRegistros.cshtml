@@ -52,6 +52,15 @@
                                     <p>Provincia: @Model.NombreProvincia</p>
                                     <p>Cantón: @Model.NombreCanton</p>
                                 </div>
+                                <div class="InfoColumn">
+                                    <div id="imageGallery" class="ImageGallery">
+                                        <div id="previousImage" class="ImageNavigation ImageNavigation-Previous" onclick="showPreviousImage()">&lt;</div>
+                                        <div id="currentImage" class="CurrentImage">
+                                            <img id="imageDisplay" src="" alt="Product Image">
+                                        </div>
+                                        <div id="nextImage" class="ImageNavigation ImageNavigation-Next" onclick="showNextImage()">&gt;</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,7 +87,7 @@
                     </label>
             </div>
         </div>
-        <!-- Tabkas de resultados -->
+        <!-- Tablas de resultados -->
         <div class="VerRegistros-tabla">
             <table>
                 <thead>
@@ -126,3 +135,37 @@
     renderizarTabla(productosVM);
 </script>
 
+<script>
+    // Initialize the image gallery
+    var images = @Html.Raw(Json.Serialize(Model.fotografias)); 
+    var currentImageIndex = 0;
+
+    function showCurrentImage() {
+        var imageDisplay = document.getElementById("imageDisplay");
+        if (images && currentImageIndex >= 0 && currentImageIndex < images.length) {
+            imageDisplay.src = `data:image/jpeg;base64,${images[currentImageIndex].fotografia}`;
+            imageDisplay.className = "Imagen";
+        } else {
+            // Handle the case where images or currentImageIndex is out of bounds.
+        }
+    }
+
+    // Function to show the previous image
+    function showPreviousImage() {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            showCurrentImage();
+        }
+    }
+
+    // Function to show the next image
+    function showNextImage() {
+        if (currentImageIndex < images.length - 1) {
+            currentImageIndex++;
+            showCurrentImage();
+        }
+    }
+
+    // Initial display of the first image
+    showCurrentImage();
+</script>
