@@ -1,4 +1,5 @@
 ﻿.Contenedor-central {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -169,7 +170,7 @@
     border-radius: 5px;
     cursor: pointer;
     position: absolute;
-    top: 80%;
+    top: 82%;
     left: 50%;
     -ms-transform: translate(-50%, 0%);
     transform: translate(-50%, 0%);
