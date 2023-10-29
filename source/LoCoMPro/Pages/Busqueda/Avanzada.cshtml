@@ -168,11 +168,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.nombre)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteNombre" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteNombre" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -180,11 +180,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.categoria)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteCategoria" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteCategoria" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -192,11 +192,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.marca)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteMarca" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteMarca" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -206,11 +206,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.precio)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendentePrecio" class="material-symbols-outlined" onclick="ordenar('precio')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendentePrecio" class="material-symbols-outlined" onclick="ordenar('precio')">
                                 expand_more
                             </span>
                         </th>
@@ -218,11 +218,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteUnidad" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteUnidad" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -230,11 +230,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.fecha)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteFecha" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteFecha" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -242,11 +242,11 @@
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.tienda)
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteTienda" class="material-symbols-outlined">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteTienda" class="material-symbols-outlined">
                                 expand_more
                             </span>
                         </th>
@@ -256,11 +256,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.provincia)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteProvincia" class="material-symbols-outlined" onclick="ordenar('provincia')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteProvincia" class="material-symbols-outlined" onclick="ordenar('provincia')">
                                 expand_more
                             </span>
                         </th>
@@ -270,11 +270,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.canton)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="DescendenteCanton" class="material-symbols-outlined" onclick="ordenar('canton')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span class="material-symbols-outlined">
+                            <span id="AscendenteCanton" class="material-symbols-outlined" onclick="ordenar('canton')">
                                 expand_more
                             </span>
                         </th>
@@ -309,6 +309,9 @@
     </div>
 </div>
 
+<script>
+    ordenador.esconderFlechas();
+</script>
 <script>
     var productosVM = paginar(paginaDefault);
 

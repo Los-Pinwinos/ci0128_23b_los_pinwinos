@@ -1,9 +1,12 @@
 ﻿// Ordenador
 class OrdenadorDeBusqueda {
     constructor(ordenado = null, sentido = null) {
-        this.usado = false; // Un booleano que indica si el ordenador se ha utilizado.
-        this.ordenado = ordenado; // La propiedad por la que se va a ordenar.
-        this.sentido = sentido ? sentido : 'asc'; // El sentido del ordenamiento (ascendente o descendente por defecto).
+        // Un booleano que indica si el ordenador se ha utilizado.
+        this.usado = false;
+        // La propiedad por la que se va a ordenar.
+        this.ordenado = ordenado;
+        // El sentido del ordenamiento (ascendente o descendente por defecto).
+        this.sentido = sentido ? sentido : 'asc';
     }
 
     // Métodos para establecer la propiedad por la que se ordenará.
