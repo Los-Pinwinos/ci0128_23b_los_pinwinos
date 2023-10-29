@@ -68,7 +68,9 @@ namespace LoCoMPro.Models
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
 
-        // Colección
+        // Colecciones
         public ICollection<Registro>? registros { get; set; }
+        public ICollection<Reporte>? reportes { get; set; }
+        public ICollection<Calificacion>? calificaciones { get; set; }
     }
 }

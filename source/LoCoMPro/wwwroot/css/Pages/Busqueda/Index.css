@@ -476,3 +476,9 @@ BusquedaIndice-tabla-filtros-contenedor {
         color: blue;
         text-decoration: underline;
     }
+
+/* Flechas de ordenamiento */
+.BusquedaFlechaOrdenamiento {
+    cursor: pointer;
+    margin-top: -18%; 
+}
