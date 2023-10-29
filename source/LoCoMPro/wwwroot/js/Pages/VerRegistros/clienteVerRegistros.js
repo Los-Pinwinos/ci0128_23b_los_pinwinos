@@ -61,10 +61,21 @@ function renderizarTabla(datos) {
             row.appendChild(precioCelda);
             row.appendChild(calificacionCelda);
             row.appendChild(descripcionCelda);
-            
 
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
+
+            // Variables para redireccionar
+            var fechaHoraEnviar = datos[dato].creacion;
+            var usuarioEnviar = datos[dato].usuarioCreador;
+
+            // Redirecciona a Detalles Registro
+            (function(fechaHora, usuario) {
+                row.addEventListener("click", function () {
+                    var producto = document.getElementById("nombreProducto").value;
+                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
+                });
+            })(fechaHoraEnviar, usuarioEnviar);
         }
     }
 }
@@ -115,5 +126,3 @@ function renderizarPaginacion() {
 function paginar(numeroPagina = productosVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
-
-

@@ -91,7 +91,7 @@ namespace LoCoMPro.Pages.Cuenta
 
                 // Consigue la cantidad de aportes hechos por el usuario
                 this.cantidadAportes = this.contexto.Registros.Where(
-                    c => c.usuarioCreador == this.usuario.nombreDeUsuario && c.calificacion != null).Count();
+                    c => c.usuarioCreador == this.usuario.nombreDeUsuario && c.calificacion != 0).Count();
 
                 // Si el usuarion no está loggeado
             } else

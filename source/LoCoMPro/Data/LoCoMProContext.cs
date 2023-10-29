@@ -24,6 +24,7 @@ namespace LoCoMPro.Data
         public DbSet<LoCoMPro.Models.Etiqueta> Etiquetas { get; set; }
         public DbSet<LoCoMPro.Models.Fotografia> Fotografias { get; set; }
         public DbSet<LoCoMPro.Models.Reporte> Reportes { get; set; }
+        public DbSet<LoCoMPro.Models.Calificacion> Calificaciones { get; set; }
         public DbSet<LoCoMPro.Models.Registro> Registros { get; set; }
         public DbSet<LoCoMPro.Models.Producto> Productos { get; set; }
         public DbSet<LoCoMPro.Models.Unidad> Unidades { get; set; }
@@ -41,6 +42,12 @@ namespace LoCoMPro.Data
                 .HasOne(c => c.creadorReporte)
                 .WithMany()
                 .HasForeignKey(c => new { c.usuarioCreadorReporte })
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Calificacion>()
+                .HasOne(c => c.calificador)
+                .WithMany()
+                .HasForeignKey(c => new { c.usuarioCalificador })
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
