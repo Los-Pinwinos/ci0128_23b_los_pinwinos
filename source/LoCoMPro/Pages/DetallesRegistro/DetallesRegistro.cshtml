@@ -45,8 +45,12 @@
                 <span class="Etiqueta-calificacion">Calificación:</span>
             </div>
             <div class="Contenedor-columna">
-                <div class="Contenedor-imagenes">
-                    <img src="~/img/pinwino_no_disponible.png" id="Img" class="Imagen" />
+                <div id="galeriaImagenes" class="GaleriaImagenes">
+                    <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
+                    <div id="currentImage" class="CurrentImage">
+                        <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
+                    </div>
+                    <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-calificacion">
                     <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
@@ -60,3 +64,58 @@
         <input type="button" class="Boton-estandar" onclick="history.back()" value="Regresar" />
     </div>
 </body>
+
+
+<script>
+    // Inicializa galería de imágenes
+    var imagenes = @Html.Raw(Json.Serialize(Model.registro.fotografias));
+    var indiceImagenActual = 0;
+    var vistaImagen = document.getElementById("vistaImagen");
+    var imagenAnterior = document.getElementById("imagenAnterior");
+    var siguienteImagen = document.getElementById("siguienteImagen");
+
+    function verImagenActual() {
+        if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
+        }
+        vistaImagen.className = "Imagen";
+        actualizarVisibilidadFlecha();
+    }
+
+    // Esconde las flechas si no hay fotos antes y/o después
+    function actualizarVisibilidadFlecha() {
+        if (imagenes && imagenes.length > 0) {
+            if (indiceImagenActual <= 0) {
+                imagenAnterior.style.visibility = "hidden";
+            } else {
+                imagenAnterior.style.visibility = "visible";
+            }
+
+            if (indiceImagenActual >= imagenes.length - 1) {
+                siguienteImagen.style.visibility = "hidden";
+            } else {
+                siguienteImagen.style.visibility = "visible";
+            }
+        } else {
+            imagenAnterior.style.visibility = "hidden";
+            siguienteImagen.style.visibility = "hidden";
+        }
+    }
+
+    function verImagenAnterior() {
+        if (indiceImagenActual > 0) {
+            indiceImagenActual--;
+            verImagenActual();
+        }
+    }
+
+    function verImagenSiguiente() {
+        if (indiceImagenActual < imagenes.length - 1) {
+            indiceImagenActual++;
+            verImagenActual();
+        }
+    }
+
+    // Muestra la primera imagen
+    verImagenActual();
+</script>

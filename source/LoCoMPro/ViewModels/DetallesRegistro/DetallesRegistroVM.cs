@@ -6,6 +6,11 @@ namespace LoCoMPro.ViewModels.DetallesRegistro
 {
     public class DetallesRegistroVM
     {
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
+        [Display(Name = "Fecha y hora de creación")]
+        public required DateTime creacion { get; set; }
+
         [StringLength(20, MinimumLength = 5)]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }

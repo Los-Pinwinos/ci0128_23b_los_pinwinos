@@ -17,6 +17,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             this.contexto = contexto;
             this.registro = new DetallesRegistroVM {
+                creacion = DateTime.Now,
                 usuarioCreador = " ",
                 precio = 0,
                 nombreUnidad = " ",
@@ -26,20 +27,16 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         public void OnGet(string fechaHora, string usuario, string producto)
         {
-
-            
-
             DateTime fecha = DateTime.Parse(fechaHora);
-
-            System.Diagnostics.Debug.WriteLine("fecha: " + fecha.ToString() + " usuario: " + usuario + " producto: " + producto);
 
             var detallesIQ = contexto.Registros
                 .Include(r => r.producto)
                 .Include(r => r.fotografias)
-                .Where(r => r.creacion.Equals(fecha) && r.usuarioCreador.Equals(usuario))
+                .Where(r => r.creacion==fecha && r.usuarioCreador.Equals(usuario))
                 .Select(r => new DetallesRegistroVM
                 {
-                    usuarioCreador = usuario,
+                    creacion = r.creacion,
+                    usuarioCreador = r.usuarioCreador,
                     precio = r.precio,
                     calificacion = r.calificacion,
                     descripcion = r.descripcion,
@@ -47,10 +44,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
                     nombreUnidad = r.producto.nombreUnidad,
                     fotografias = r.fotografias
                 }).ToList();
-
-
-            System.Diagnostics.Debug.WriteLine(detallesIQ.Count);
-
 
             this.registro = detallesIQ.FirstOrDefault();
             

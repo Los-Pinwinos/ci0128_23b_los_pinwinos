@@ -66,14 +66,16 @@ function renderizarTabla(datos) {
             cuerpoTabla.appendChild(row);
 
             // Variables para redireccionar
-            var fechaHora = datos[dato].creacion;
-            var usuario = datos[dato].usuarioCreador;
+            var fechaHoraEnviar = datos[dato].creacion;
+            var usuarioEnviar = datos[dato].usuarioCreador;
 
             // Redirecciona a Detalles Registro
-            row.addEventListener("click", function () {
-                var producto = document.getElementById("nombreProducto").value;
-                window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
-            });
+            (function(fechaHora, usuario) {
+                row.addEventListener("click", function () {
+                    var producto = document.getElementById("nombreProducto").value;
+                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
+                });
+            })(fechaHoraEnviar, usuarioEnviar);
         }
     }
 }
