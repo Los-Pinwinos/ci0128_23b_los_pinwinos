@@ -1,5 +1,5 @@
-﻿// Constante de sobreestimación. Existe un adicional de espacio que se agrega por etiqueta que debe ser despreciado para el movimiento de los filtros
-const sobreestimacionDeAltura = 29;
+﻿// Constante de sobreestimación. Existe un adicional de espacio que se agrega por etiqueta que debe ser considerado para desplazar los filtros
+const sobreestimacionDeAltura = 21;
 
 // Calcular la altura del contenido del desplegable
 function calcularAlturaDesplegable(idDesplegable) {
@@ -9,7 +9,7 @@ function calcularAlturaDesplegable(idDesplegable) {
 
     etiquetas.forEach(etiqueta => {
         // Obtener la altura de cada etiqueta
-        const alturaEtiqueta = etiqueta.clientHeight - sobreestimacionDeAltura;
+        const alturaEtiqueta = etiqueta.clientHeight + sobreestimacionDeAltura;
         alturaTotal += alturaEtiqueta;
     });
 
@@ -22,23 +22,29 @@ function ajustarPosicionDesplegable(elementoDisparador, idDesplegable, accion, p
 
     const boton = elementoDisparador.getElementById('BotonFiltro' + idDesplegable);
 
-    if (accion === 'Bajar') {
-        // Calcular el nuevo margen (bajar)
-        const etiquetas = desplegableSuperior.querySelectorAll('label');
-        const cuentaDeEtiquetas = etiquetas.length;
-        if (cuentaDeEtiquetas > 0) {
-            const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual + posicion}px`;
+    try {
+        if (accion === 'Bajar') {
+            // Calcular el nuevo margen (bajar)
+            const etiquetas = desplegableSuperior.querySelectorAll('label');
+            const cuentaDeEtiquetas = etiquetas.length;
+            if (cuentaDeEtiquetas > 0) {
+                const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
+                boton.style.marginTop = `${margenActual + posicion}px`;
+            }
+        } else {
+            // Calcular el nuevo margen (subir)
+            const etiquetas = desplegableSuperior.querySelectorAll('label');
+            const cuentaDeEtiquetas = etiquetas.length;
+            if (cuentaDeEtiquetas > 0) {
+                const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
+                boton.style.marginTop = `${margenActual - posicion}px`;
+            }
         }
-    } else {
-        // Calcular el nuevo margen (subir)
-        const etiquetas = desplegableSuperior.querySelectorAll('label');
-        const cuentaDeEtiquetas = etiquetas.length;
-        if (cuentaDeEtiquetas > 0) {
-            const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual - posicion}px`;
-        }
+    } catch (error) {
+        // No hacer nada
+        // En ocasiones un dropdown puede dar un error si se sale de su espacio disponible, pero el funcionamiento se mantiene
     }
+
 }
 
 function mostrarDesplegable(idDesplegable) {

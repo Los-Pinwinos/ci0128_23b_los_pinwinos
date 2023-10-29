@@ -120,6 +120,7 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
             // Crear label
             var etiqueta = document.createElement("label");
             etiqueta.appendChild(casilla);
+
             etiqueta.appendChild(document.createTextNode(resultados[resultado][nombreDeFiltro]));
             // Agregar a la lista para ordenar
             checkboxesOrdenados.push(etiqueta);
@@ -127,17 +128,21 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
     }
 
     // Ordenar los checkboxes alfabéticamente
-    checkboxesOrdenados.sort(function (a, b) {
+    /*checkboxesOrdenados.sort(function (a, b) {
         var valueA = a.textContent;
         var valueB = b.textContent;
         return valueA.localeCompare(valueB);
-    });
+    });*/
 
     // Limpiar contenido
     filtros.innerHTML = "";
 
     // Agregar los checkboxes ordenados de nuevo
     checkboxesOrdenados.forEach(function (checkboxLabel) {
+        checkboxLabel.style.marginTop = "30px";
+        checkboxLabel.style.marginBottom = "-8px";
+
+        // Append the modified checkboxLabel to your element (filtros)
         filtros.appendChild(checkboxLabel);
     });
 
