@@ -1,35 +1,30 @@
 ﻿using Microsoft.Data.SqlClient;
-using NuGet.Packaging;
 using System.Data;
-using System.Data.Common;
-using System.Reflection.Metadata;
 
 namespace LoCoMPro.Utils.SQL
 {
-    public class ControladorComandosSQL
+    public class ControladorComandosSql
     {
         private SqlConnection conexion { get; set; }
-
-        private readonly IConfiguration configuracion;
 
         private string? nombreComando { get; set; }
         IList<SqlParameter> parametros { get; set; }
 
-        public ControladorComandosSQL()
+        public ControladorComandosSql()
         {
-            this.configuracion = new ConfigurationBuilder()
+            IConfiguration configuracion = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
             // Abrir una conexion
-            this.conexion = new SqlConnection(this.configuracion.GetConnectionString("LoCoMProContextRemote"));
+            this.conexion = new SqlConnection(configuracion.GetConnectionString("LoCoMProContextRemote"));
             this.conexion.Open();
 
             this.parametros = new List<SqlParameter>();
         }
 
-        ~ControladorComandosSQL()
+        ~ControladorComandosSql()
         {
             this.conexion.Close();
         }
@@ -46,7 +41,6 @@ namespace LoCoMPro.Utils.SQL
 
         public IList<object[]> EjecutarFuncion()
         {
-            SqlDataAdapter adaptador = new SqlDataAdapter();
             if (this.conexion.State == ConnectionState.Closed)
             {
                 this.conexion.Open();
@@ -61,25 +55,25 @@ namespace LoCoMPro.Utils.SQL
 
             if (parametros.Count > 0)
             {
-                cadenaComando = cadenaComando.Substring(0, cadenaComando.Length - 2); // Remove the trailing comma and space
+                // Remover la última coma y espacio
+                cadenaComando = cadenaComando.Substring(0, cadenaComando.Length - 2);
             }
 
             cadenaComando += ")";
 
             SqlCommand comando = new SqlCommand(cadenaComando, this.conexion);
 
-            // Add the parameters to the SqlCommand
+            // Agregar los parametros al comando
             foreach (SqlParameter parametro in parametros)
             {
                 comando.Parameters.Add(parametro);
             }
 
-            return this.llenarResultados(comando.ExecuteReader());
+            return this.LlenarResultados(comando.ExecuteReader());
         }
 
         public IList<object[]> EjecutarProcedimiento()
         {
-            SqlDataAdapter adaptador = new SqlDataAdapter();
             if (this.conexion.State == ConnectionState.Closed)
             {
                 this.conexion.Open();
@@ -88,16 +82,16 @@ namespace LoCoMPro.Utils.SQL
             SqlCommand comando = new SqlCommand(nombreComando, this.conexion);
             comando.CommandType = CommandType.StoredProcedure;
 
-            // Add the parameters to the SqlCommand
+            // Agregar los parametros al comando
             foreach (SqlParameter parametro in parametros)
             {
                 comando.Parameters.Add(parametro);
             }
 
-            return this.llenarResultados(comando.ExecuteReader());
+            return this.LlenarResultados(comando.ExecuteReader());
         }
 
-        private IList<object[]> llenarResultados(SqlDataReader lector)
+        private IList<object[]> LlenarResultados(SqlDataReader lector)
         {
             IList<object[]> resultados = new List<object[]>();
 

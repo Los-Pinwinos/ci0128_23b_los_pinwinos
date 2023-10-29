@@ -1,4 +1,11 @@
-﻿// Formatear fecha
+﻿function agregarSeparador(numero) {
+    var textoNum = numero.toString();
+    // Expresión regular para agregar un separador cada 3 dígitos
+    textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return textoNum;
+}
+
+// Formatear fecha
 function formatearFecha(fecha) {
     const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return fecha.toLocaleDateString('es-ES', opciones);
@@ -188,9 +195,10 @@ function renderizarTabla(datos) {
 
             var divPrecio = document.createElement("div");
             divPrecio.className = "contenidoCeldaPrecio";
-            divPrecio.textContent = "₡" + datos[dato].precio;
+            var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
+            divPrecio.textContent = precioArreglado;
             var precioCelda = document.createElement("td");
-            precioCelda.setAttribute('data-tooltip', "₡" + datos[dato].precio);
+            precioCelda.setAttribute('data-tooltip', precioArreglado);
             precioCelda.appendChild(divPrecio);
 
             var divUnidad = document.createElement("div");

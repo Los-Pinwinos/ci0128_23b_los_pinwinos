@@ -136,7 +136,6 @@ table {
         background-color: white;
         text-align: left;
         border: none;
-        padding-left: 10px;
     }
 
     /* Tbody td */
@@ -144,32 +143,24 @@ table {
         background-color: #1A7254;
         cursor: pointer;
         text-align: left;
-        padding: 3px 10px;
+        max-width: 70px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-right: 10px;
         border: none;
-        max-width: 100px;
-        min-width: 60px;
-        overflow-wrap: normal;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
     }
         /* Tbody td ultimo */
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
-            border: none;
-            max-width: 100px;
-            min-width: 100px;
-            white-space: nowrap;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
         }
 
         /* Tbody td primero */
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
-            border: none;
-            padding: 0px -2px;
-            max-width: 100px;
-            min-width: 100px;
         }
 
     /* Tbody fila */
@@ -179,7 +170,7 @@ table {
 
 
 /* Contenedor de agrupamientos y tabla de resultados */
-VerRegistros-tabla-agrupamientos-contenedor {
+.VerRegistros-tabla-agrupamientos-contenedor {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
@@ -226,7 +217,26 @@ VerRegistros-tabla-agrupamientos-contenedor {
     color: white;
 }
 
+/* Contenido de la celda de Fecha */
+.contenidoCeldaFecha {
+    padding-left: 10px;
+    min-width: 88px;
+    max-width: 88px;
+}
 
+/* Contenido de la celda de Precio */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 80px;
+    max-width: 80px;
+    direction: rtl;
+}
+
+/* Contenido de la celda de Unidad */
+.contenidoCeldaCalificacion {
+    min-width: 75px;
+    max-width: 75px;
+}
 
 /* Paginacion */
 
@@ -265,7 +275,6 @@ VerRegistros-tabla-agrupamientos-contenedor {
     position: relative;
     padding-left: 6px;
     text-decoration: underline;
-    cursor: pointer;
 }
 
     /* Bordes de boton de paginacion */

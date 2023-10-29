@@ -178,15 +178,6 @@ table td::before {
     content: "";
 }
 
-/* Contenido de las celdas */
-.contenidoCelda {
-    min-width: 80px;
-    max-width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 /* Contenido de la celda de Nombre */
 .contenidoCeldaNombre {
     padding-left: 10px;

@@ -35,7 +35,7 @@ namespace LoCoMPro.ViewModels.AgregarProducto
         public string? etiqueta { get; set; }
 
         // Precio
-        [StringLength(18, MinimumLength = 1)]
+        [StringLength(16, MinimumLength = 1)]
         public required string precio { get; set; }
     }
 }
