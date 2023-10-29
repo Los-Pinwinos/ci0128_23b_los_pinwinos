@@ -30,7 +30,7 @@
                     <span class="Caja-texto">@Model.registro.productoAsociado</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <span class="Caja-texto">@Model.registro.precio</span>
+                    <span class="Caja-texto">₡@Model.SepararPrecio(".")</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
                     <span class="Caja-texto">@Model.registro.nombreUnidad</span>
@@ -54,8 +54,8 @@
                 </div>
                 <div class="Contenedor-calificacion">
                     <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
-                    <p class="Calificacion">@Model.registro.calificacion.ToString("0.0") de 5,0</p>
-                    <p class="Conteo">(1)</p>  @* TODO(Angie) <p class="Conteo">(@Model.cantidadAportes)</p>*@
+                    <p class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
+                    <p class="Conteo">(@Model.cantidadCalificaciones)</p>
                 </div>
             </div>
         </div>

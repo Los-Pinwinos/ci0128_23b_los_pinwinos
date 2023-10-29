@@ -3,6 +3,8 @@ using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -12,6 +14,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         [BindProperty]
         public DetallesRegistroVM registro { get; set; }
+        [BindProperty]
+        public int cantidadCalificaciones { get; set; }
 
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
@@ -46,9 +50,30 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 }).ToList();
 
             this.registro = detallesIQ.FirstOrDefault();
-            
 
-            // TODO(Angie): cantidad de calificaciones de registros
+            this.cantidadCalificaciones = this.contexto.Calificaciones
+                                            .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro.Equals(usuario) && r.calificacion != 0).Count();
+        }
+
+        public string SepararPrecio(string separador)
+        {
+            char[] numeroTexto = Math.Truncate(this.registro.precio).ToString().ToCharArray();
+            Array.Reverse(numeroTexto);
+            string numeroAlReves = new string(numeroTexto);
+            StringBuilder resultado = new StringBuilder();
+
+            for (int i = 0; i < numeroAlReves.Length; i++)
+            {
+                if (i > 0 && i % 3 == 0)
+                {
+                    resultado.Append(separador);
+                }
+                resultado.Append(numeroAlReves[i]);
+            }
+
+            numeroTexto = resultado.ToString().ToCharArray();
+            Array.Reverse(numeroTexto);
+            return new string(numeroTexto);
         }
     }
 }
