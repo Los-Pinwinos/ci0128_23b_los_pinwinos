@@ -23,21 +23,25 @@ namespace LoCoMPro.Data
         public DbSet<LoCoMPro.Models.Categoria> Categorias { get; set; }
         public DbSet<LoCoMPro.Models.Etiqueta> Etiquetas { get; set; }
         public DbSet<LoCoMPro.Models.Fotografia> Fotografias { get; set; }
+        public DbSet<LoCoMPro.Models.Reporte> Reportes { get; set; }
         public DbSet<LoCoMPro.Models.Registro> Registros { get; set; }
         public DbSet<LoCoMPro.Models.Producto> Productos { get; set; }
         public DbSet<LoCoMPro.Models.Unidad> Unidades { get; set; }
 
         public DbSet<LoCoMPro.Models.Usuario> Usuarios { get; set; }
-        public DbSet<LoCoMPro.Models.Moderador> Moderadores { get; set; }
-        public DbSet<LoCoMPro.Models.Administrador> Administradores { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
                 .HasOne(c => c.vivienda)
-                .WithMany() // Assuming a one-to-many relationship
+                .WithMany()
                 .HasForeignKey(c => new { c.distritoVivienda, c.cantonVivienda, c.provinciaVivienda })
-                .OnDelete(DeleteBehavior.SetNull); // Specify the "on delete set null" behavior for the composite foreign key
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Reporte>()
+                .HasOne(c => c.creadorReporte)
+                .WithMany()
+                .HasForeignKey(c => new { c.usuarioCreadorReporte })
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

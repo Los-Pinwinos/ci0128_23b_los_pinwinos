@@ -129,6 +129,7 @@ table {
     /* Tbody td */
     table tbody td {
         background-color: #1A7254;
+        cursor: pointer;
         text-align: left;
         padding-top: 3px;
         padding-bottom: 3px;
