@@ -27,8 +27,6 @@
     <Folder Include="Utils\Busqueda\" />
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
-    <Folder Include="wwwroot\img\" />
-    <Folder Include="wwwroot\js\Pages\" />
   </ItemGroup>
 
 </Project>
