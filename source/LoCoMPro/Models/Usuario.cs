@@ -58,6 +58,12 @@ namespace LoCoMPro.Models
         [Display(Name = "Provincia de vivienda")]
         public string? provinciaVivienda { get; set; }
 
+        // Boolean que indica si es administrador
+        public bool esAdministrador { get; set; } = false;
+
+        // Boolean que indica si es moderador
+        public bool esModerador { get; set; } = false;
+
         // Propiedad de navegación vivienda
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }

@@ -13,12 +13,5 @@ namespace LoCoMPro.Models
 
         // Colecciones
         public ICollection<Producto>? productos { get; set; }
-
-        // TODO(Los pinwino): Arreglar
-        /*
-        public ICollection<CategoriaPertenece>? categoriasPadre { get; set; }
-
-        public ICollection<CategoriaPertenece>? categoriasHijo { get; set; }
-        */
     }
 }
