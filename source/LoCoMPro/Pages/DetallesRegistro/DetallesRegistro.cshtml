@@ -27,21 +27,21 @@
             </div>
             <div class="Contenedor-columna">
                 <div class="Contenedor Caja-texto-larga">
-                    <input type="text" asp-for="registro.productoAsociado" class="Caja-texto" id="CajaProducto" name="CajaProducto" disabled>
+                    <span class="Caja-texto">@Model.registro.productoAsociado</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <input type="text" asp-for="registro.precio" class="Caja-texto" id="CajaPrecio" name="CajaPrecio" disabled>
+                    <span class="Caja-texto">@Model.registro.precio</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <input type="text" asp-for="registro.nombreUnidad" class="Caja-texto" id="CajaUnidad" name="CajaUnidad" disabled>
+                    <span class="Caja-texto">@Model.registro.nombreUnidad</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <input type="text" asp-for="registro.descripcion" class="Caja-texto-grande" id="CajaDescripcion" name="CajaDescripcion" disabled>
+                    <span class="Caja-texto-grande">@Model.registro.descripcion</span>
                 </div>
             </div>
         </div>
         <div class="Contenedor-fila" style="margin-left:5%;">
-            <div class="Contenedor-columna">
+            <div class="Contenedor-columna" style="margin-top:19%;">
                 <span class="Etiqueta-calificacion">Calificación:</span>
             </div>
             <div class="Contenedor-columna">
@@ -49,21 +49,14 @@
                     <img src="~/img/pinwino_no_disponible.png" id="Img" class="Imagen" />
                 </div>
                 <div class="Contenedor-calificacion">
-                    <p class="starability-result" data-rating="5"></p>
-                    <p class="Calificacion">5,0 de 5,0</p>
-                    <p class="Conteo">(1)</p>
+                    <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
+                    <p class="Calificacion">@Model.registro.calificacion.ToString("0.0") de 5,0</p>
+                    <p class="Conteo">(1)</p>  @* TODO(Angie) <p class="Conteo">(@Model.cantidadAportes)</p>*@
                 </div>
             </div>
-            
-            @* <div class="Contenedor-calificacion" style="margin-right: @(130 - Model.cantidadAportes.ToString().Length * 10)px;">
-                <label class="Calificacion-label">Calificación:</label>
-                <p class="starability-result" data-rating="@Math.Round(Model.usuario.calificacion)"></p>
-                <p class=Calificacion">@Model.usuario.calificacion.ToString("0.0") de 5,0</p>
-                <p class="Conteo">(@Model.cantidadAportes)</p>
-            </div> *@
         </div>
     </div>
     <div class="Boton">
-        <button class="Boton-estandar" type="submit" asp-page-handler="Regresar">Regresar</button>
+        <input type="button" class="Boton-estandar" onclick="history.back()" value="Regresar" />
     </div>
 </body>

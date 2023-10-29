@@ -4,16 +4,15 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    height: calc(70vh - 50px);
+    height: calc(60vh - 30px);
 }
 
 .Contenedor-fila {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
     margin-bottom: 1px;
     text-align: center;
-    margin-right: 20%;
+    gap: 0px;
 }
 
 .Contenedor-columna {
@@ -25,6 +24,7 @@
     display: flow;
     padding: 10px;
     text-align: right;
+    font-size: 18px;
 }
 
 .Etiqueta-calificacion {
@@ -32,6 +32,7 @@
     padding: 10px;
     text-align: right;
     margin-top: 235%;
+    font-size: 18px;
 }
 
 .Etiqueta-final {
@@ -39,6 +40,7 @@
     padding: 10px;
     text-align: right;
     margin-bottom: 155%;
+    font-size: 18px;
 }
 
 .Contenedor {
@@ -52,37 +54,47 @@
 .Caja-texto-larga {
     max-width: 600px;
     display: flex;
-    width: 150%;
-    margin-left: 5%;
+    width: 400px;
+    margin-right: 20px;
 }
 
 .Caja-texto {
-    border-color: #033F63;
     border-radius: 30px;
+    border: 2px solid #033F63;
     padding: 1px 5px;
     width: 100%;
     margin-top: 5px;
+    text-align: left;
+    font-size: 18px;
+    overflow: auto;
+    padding-left: 2%;
 }
 
 .Caja-texto-grande {
-    border-color: #033F63;
     border-radius: 30px;
+    border: 2px solid #033F63;
     padding: 1px 5px;
     width: 100%;
     margin-top: 5px;
+    text-align: left;
+    font-size: 18px;
     height: 200px;
+    overflow: auto;
+    padding-left: 2%;
+    padding-top: 1%;
 }
 
 .Contenedor-imagenes {
     border-radius: 30px;
-    width: 300px;
-    height: 200px;
-    border: 3px solid #033F63;
+    width: 400px;
+    height: 270px;
+    border: 2px solid #033F63;
+    margin-top: 11%;
 }
 
 .Imagen {
-    max-width: 300px;
-    max-height: 200px;
+    max-width: 400px;
+    max-height: 270px;
     width: auto;
     height: auto;
 }
@@ -91,13 +103,15 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 0.6%;
-    margin-top: 20%;
+    margin-top: 15%;
+    margin-right: 30%;
 }
 
 .Calificacion-label {
     font-size: 18px;
     white-space: nowrap;
     margin-right: 40px;
+    margin-top: 30px;
 }
 
 .Calificacion {
