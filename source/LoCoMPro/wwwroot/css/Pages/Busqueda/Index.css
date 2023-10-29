@@ -124,36 +124,25 @@ table {
         background-color: white;
         text-align: left;
         border: none;
-        padding-left: 10px;
     }
 
     /* Tbody td */
     table tbody td {
         background-color: #1A7254;
         text-align: left;
-        padding: 3px 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
         border: none;
-        max-width: 70px;
-        overflow-wrap: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
         position: relative;
     }
         /* Tbody td ultimo */
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
-            border: none;
-            max-width: 100px;
-            min-width: 100px;
         }
 
         /* Tbody td primero */
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
-            border: none;
-            padding: 0px -2px;
-            max-width: 100px;
-            min-width: 100px;
         }
 
     /* Tbody fila */
@@ -169,12 +158,6 @@ table {
     }
 
 /* Características de hover */
-td:hover {
-    overflow: visible;
-    white-space: nowrap;
-    height: auto;
-}
-
 table td:hover::before {
     content: attr(data-tooltip);
     display: block;
@@ -198,24 +181,98 @@ table td::before {
 .contenidoCelda {
     min-width: 80px;
     max-width: 80px;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Contenido de la celda de Nombre */
 .contenidoCeldaNombre {
-    text-align: left;
-    padding: 3px 0px;
-    border: none;
+    padding-left: 10px;
     max-width: 120px;
     min-width: 120px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative;
 }
 
+/* Contenido de la celda de Categoria */
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Marca */
+.contenidoCeldaMarca {
+    min-width: 120px;
+    max-width: 120px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Precio */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 80px;
+    max-width: 80px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Unidad */
+.contenidoCeldaUnidad {
+    min-width: 75px;
+    max-width: 75px;
+    margin-left: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Fecha */
+.contenidoCeldaFecha {
+    min-width: 78px;
+    max-width: 78px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaTienda {
+    min-width: 120px;
+    max-width: 120px;
+    margin-left: 20px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaProvincia {
+    min-width: 80px;
+    max-width: 80px;
+    margin-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaCanton {
+    min-width: 100px;
+    max-width: 100px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* Paginacion */
 
