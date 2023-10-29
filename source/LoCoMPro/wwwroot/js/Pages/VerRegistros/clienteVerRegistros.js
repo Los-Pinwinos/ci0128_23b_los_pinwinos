@@ -61,10 +61,19 @@ function renderizarTabla(datos) {
             row.appendChild(precioCelda);
             row.appendChild(calificacionCelda);
             row.appendChild(descripcionCelda);
-            
 
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
+
+            // Variables para redireccionar
+            var fechaHora = datos[dato].creacion;
+            var usuario = datos[dato].usuarioCreador;
+
+            // Redirecciona a Detalles Registro
+            row.addEventListener("click", function () {
+                var producto = document.getElementById("nombreProducto").value;
+                window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
+            });
         }
     }
 }
@@ -115,5 +124,3 @@ function renderizarPaginacion() {
 function paginar(numeroPagina = productosVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
-
-

@@ -41,6 +41,7 @@ namespace LoCoMPro.Pages.VerRegistros
         public string NombreProvincia { get; set; }
 
         public string NombreCanton { get; set; }
+        public string NombreUsuario {  get; set; } 
 
         public string? resultadoRegistros { get; set; }
 
@@ -63,7 +64,8 @@ namespace LoCoMPro.Pages.VerRegistros
                 .Where(r => r.productoAsociado.Equals(productName) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
                 .GroupBy(r => new
                 {
-                    creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),
+                    /*creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),*/
+                    r.creacion,
                     r.usuarioCreador,
                     r.precio,
                     r.calificacion,
@@ -71,7 +73,8 @@ namespace LoCoMPro.Pages.VerRegistros
                 })
                 .Select(group => new VerRegistrosVM
                 {
-                    creacion = group.Key.creacionDate,
+                    /*creacion = group.Key.creacionDate,*/
+                    creacion = group.Key.creacion,
                     usuarioCreador = group.Key.usuarioCreador,
                     precio = group.Key.precio,
                     calificacion = group.Key.calificacion,
@@ -90,8 +93,5 @@ namespace LoCoMPro.Pages.VerRegistros
 
             fotografias = fotografiasEnlazadas;
         }
-
-
-
     }
 }

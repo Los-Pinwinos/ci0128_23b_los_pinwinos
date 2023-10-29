@@ -39,7 +39,7 @@ namespace LoCoMPro.Models
         [Range(0, 5,
             ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
         [Display(Name = "Calificación")]
-        public double? calificacion { get; set; }
+        public decimal calificacion { get; set; }
 
         // Producto asociado
         [StringLength(256, MinimumLength = 1)]
@@ -80,7 +80,7 @@ namespace LoCoMPro.Models
 
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
-
         public ICollection<Fotografia>? fotografias { get; set; }
+        /*public ICollection<Usuario>? usuariosCalificadores { get; set; }*/
     }
 }
