@@ -163,6 +163,10 @@ table {
             border-radius: 15px 0 0 15px;
         }
 
+        table tbody td:nth-child(5) {
+            display: none;
+        }
+
     /* Tbody fila */
     table tbody tr {
         color: white;

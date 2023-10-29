@@ -14,7 +14,7 @@
     background-color: rgba(3, 63, 99, 0.15);
     border-radius: 5px;
     padding: 6px 10px;
-    width: 95%;
+    width: 96%;
     margin-bottom: 10px;
 }
 
@@ -460,6 +460,7 @@ BusquedaIndice-tabla-filtros-contenedor {
 .BusquedaIndice-titulo-columna {
     color: black;
     text-decoration: none;
+    line-height: 1;
 }
 
     /* Hover para titulo de ordenamiento */
@@ -524,3 +525,12 @@ BusquedaIndice-tabla-filtros-contenedor {
         color: blue;
         text-decoration: underline;
     }
+
+
+/* Flechas de ordenamiento */
+.BusquedaFlechaOrdenamiento {
+    cursor: pointer;
+    clip-path: polygon(10% 20%, 90% 20%, 90% 80%, 10% 80%);
+    vertical-align: middle;
+    position: absolute;
+}
