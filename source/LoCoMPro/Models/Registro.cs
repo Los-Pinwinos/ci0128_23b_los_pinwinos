@@ -81,6 +81,7 @@ namespace LoCoMPro.Models
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
         public ICollection<Fotografia>? fotografias { get; set; }
-        /*public ICollection<Usuario>? usuariosCalificadores { get; set; }*/
+        public ICollection<Reporte>? reportes { get; set; }
+        public ICollection<Calificacion>? calificaciones { get; set; }
     }
 }
