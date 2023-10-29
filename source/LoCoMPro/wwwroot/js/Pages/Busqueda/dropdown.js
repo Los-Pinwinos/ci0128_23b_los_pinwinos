@@ -16,45 +16,41 @@ function calcularAlturaDesplegable(idDesplegable) {
     return alturaTotal;
 }
 
-// Ajustar posicion de dropdown
-function adjustDropdownPosition(triggerElement, dropdownId, action) {
-    // Dropdown de arriba
-    const dropDownArriba = document.getElementById('ContenidoFiltro' + (dropdownId - 1));
+// Ajustar la posición del desplegable
+function ajustarPosicionDesplegable(elementoDisparador, idDesplegable, accion, posicion) {
+    const desplegableSuperior = document.getElementById('ContenidoFiltro' + (idDesplegable - 1));
 
-    // Obtener elementos
-    const boton = triggerElement.getElementById('BotonFiltro' + dropdownId);
+    const boton = elementoDisparador.getElementById('BotonFiltro' + idDesplegable);
 
-    // Determinar accion
-    if (action === 'Bajar') {
+    if (accion === 'Bajar') {
         // Calcular el nuevo margen (bajar)
-        const labels = dropDownArriba.querySelectorAll('label');
-        const cuentaDeLabels = labels.length;
-        if (cuentaDeLabels > 0) {
+        const etiquetas = desplegableSuperior.querySelectorAll('label');
+        const cuentaDeEtiquetas = etiquetas.length;
+        if (cuentaDeEtiquetas > 0) {
             const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual + cuentaDeLabels * tamannoDeLabel}px`;
+            boton.style.marginTop = `${margenActual + posicion}px`;
         }
     } else {
         // Calcular el nuevo margen (subir)
-        const labels = dropDownArriba.querySelectorAll('label');
-        const cuentaDeLabels = labels.length;
-        if (cuentaDeLabels > 0) {
+        const etiquetas = desplegableSuperior.querySelectorAll('label');
+        const cuentaDeEtiquetas = etiquetas.length;
+        if (cuentaDeEtiquetas > 0) {
             const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual - cuentaDeLabels * tamannoDeLabel}px`;
+            boton.style.marginTop = `${margenActual - posicion}px`;
         }
     }
 }
 
-// Mostrar dropdown
-function showdropdown(dropdownId) {
-    const dropdownContent = document.getElementById('ContenidoFiltro' + dropdownId);
-    dropdownContent.style.display = 'block';
-    adjustDropdownPosition(document, dropdownId + 1, 'Bajar');
-
+function mostrarDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    contenidoDesplegable.style.display = 'block';
+    const posicion = calcularAlturaDesplegable(idDesplegable);
+    ajustarPosicionDesplegable(document, idDesplegable + 1, 'Bajar', posicion);
 }
 
-// Esconder dropdown
-function hidedropdown(dropdownId) {
-    const dropdownContent = document.getElementById('ContenidoFiltro' + dropdownId);
-    dropdownContent.style.display = 'none';
-    adjustDropdownPosition(document, dropdownId + 1, 'Subir');
+function ocultarDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    const posicion = calcularAlturaDesplegable(idDesplegable);
+    contenidoDesplegable.style.display = 'none';
+    ajustarPosicionDesplegable(document, idDesplegable + 1, 'Subir', posicion);
 }
