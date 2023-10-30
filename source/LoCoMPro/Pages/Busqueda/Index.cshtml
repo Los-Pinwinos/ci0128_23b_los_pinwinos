@@ -36,7 +36,7 @@
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
     </script>
-    <script src="~/js/Pages/Busqueda/cliente.js?v=123"></script>
+    <script src="~/js/Pages/Busqueda/cliente.js?v=543"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -134,7 +134,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.nombre)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -170,7 +170,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:37px">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('precio')">
                                 @Html.DisplayNameFor(model => model.productoVM.precio)
@@ -184,7 +184,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:24px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -196,7 +196,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:20px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.fecha)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -208,7 +208,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:20px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.tienda)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -234,7 +234,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
                                 @Html.DisplayNameFor(model => model.productoVM.canton)
@@ -288,6 +288,8 @@
     // Renderizar
     renderizarPaginacion();
     renderizarTabla(productosVM);
+
+    cajaProducto = document.getElementById("CajaDeTextoProducto");
 
     // Validar formulario
     function validarFormulario() {

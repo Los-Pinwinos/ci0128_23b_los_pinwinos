@@ -5,7 +5,6 @@
     return textoNum;
 }
 
-
 // Formatear fecha
 function formatearFecha(datos) {
     var contenidoFecha = datos.creacion[8] + datos.creacion[9] + "/"
@@ -29,28 +28,27 @@ function renderizarTabla(datos) {
         if (typeof datos[dato].creacion !== 'undefined' && datos[dato].creacion !== "") {
 
             var divFecha = document.createElement("div");
-            divFecha.className = "contenidoCelda";
+            divFecha.className = "contenidoCeldaFecha";
             divFecha.textContent = formatearFecha(datos[dato]);
             var fechaCelda = document.createElement("td");           
             fechaCelda.setAttribute('data-tooltip', divFecha.textContent);
             fechaCelda.appendChild(divFecha);
 
             var divPrecio = document.createElement("div");
-            divPrecio.className = "contenidoCelda";
-            var precioArreglado = agregarSeparador(parseFloat(datos[dato].precio));
-            divPrecio.textContent = "₡" + precioArreglado;
+            divPrecio.className = "contenidoCeldaPrecio";
+            var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
+            divPrecio.textContent = precioArreglado;
             divPrecio.classList.add("precio");
             var precioCelda = document.createElement("td");
             precioCelda.classList.add("precio");
             precioCelda.setAttribute('data-tooltip', precioArreglado);
             precioCelda.appendChild(divPrecio);
 
-
             var divCalificacion = document.createElement("div");
-            divCalificacion.className = "contenidoCelda";
-            divCalificacion.textContent = datos[dato].calificacion == null? "Sin calificar":  datos[dato].calificacion;
+            divCalificacion.className = "contenidoCeldaCalificacion";
+            divCalificacion.textContent = datos[dato].calificacion == null? "Sin calificar": datos[dato].calificacion;
             var calificacionCelda = document.createElement("td");
-            calificacionCelda.setAttribute('data-tooltip', datos[dato].calificacion);
+            calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
 
             var descripcionCelda = document.createElement("td");
