@@ -61,7 +61,29 @@ function renderizarPaginacion() {
     var paginacionContenedor = document.getElementById("TextoPaginacion");
 
     // Renderizar los numeros de en medio mostrados en la barra de paginacion
-    renderizarNumerosPaginaIntermedios(paginacionContenedor);
+    var limites = renderizarNumerosPaginaIntermedios(paginacionContenedor);
+    renderizarPrimerNumeroPagina(paginacionContenedor, limites.paginaInicial);
+}
+
+function renderizarPrimerNumeroPagina(paginacionContenedor, paginaInicial) {
+    if (paginaInicial > 1) {
+        const inicioElipsis = document.createElement("span");
+
+        // Agregar ... a la primera pagina si fuera necesario
+        if (paginaInicial !== 2) inicioElipsis.textContent = " ... ";
+        else inicioElipsis.textContent = " ";
+
+        paginacionContenedor.insertBefore(inicioElipsis, paginacionContenedor.firstChild);
+
+        const linkPrimeraPagina = document.createElement("span");
+        linkPrimeraPagina.textContent = "1";
+        linkPrimeraPagina.classList.add("pagina-seleccionable");
+
+        linkPrimeraPagina.addEventListener("click", function () {
+            pasarPagina(1);
+        });
+        paginacionContenedor.insertBefore(linkPrimeraPagina, inicioElipsis);
+    }
 }
 
 function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
@@ -97,6 +119,8 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
             paginacionContenedor.appendChild(espacio);
         }
     }
+
+    return { paginaInicial, paginaFinal };
 }
 
 function renderizarBotonesSiguienteAnterior() {
