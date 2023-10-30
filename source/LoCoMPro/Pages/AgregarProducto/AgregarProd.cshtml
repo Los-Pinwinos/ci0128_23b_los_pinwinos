@@ -138,7 +138,7 @@
     <script>
         // Crea un evento al escribir en la caja de texto de precio
         document.getElementById("Precio").addEventListener("input", function (event) {
-            // Remplaza el valor de la caja de texto siguiendo esa regex
+            // Reemplaza el valor de la caja de texto siguiendo esa regex
             event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
         });
     </script>
