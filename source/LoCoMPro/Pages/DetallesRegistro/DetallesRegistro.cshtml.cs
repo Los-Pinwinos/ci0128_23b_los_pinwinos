@@ -1,4 +1,5 @@
 using LoCoMPro.Data;
+using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -74,6 +75,17 @@ namespace LoCoMPro.Pages.DetallesRegistro
             numeroTexto = resultado.ToString().ToCharArray();
             Array.Reverse(numeroTexto);
             return new string(numeroTexto);
+        }
+
+        public void OnPostCalificacion(int calificación)
+        {
+            // Actualizar la calificación del registro
+            ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
+            comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
+            comandoActualizarRegistro.ConfigurarParametroComando("creacionDeRegistro", this.registro.creacion);
+            comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", this.registro.usuarioCreador);
+            comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificación);
+            comandoActualizarRegistro.EjecutarProcedimiento();
         }
     }
 }
