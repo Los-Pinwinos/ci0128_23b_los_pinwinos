@@ -199,8 +199,8 @@ table td::before {
 
 /* Contenido de la celda de Marca */
 .contenidoCeldaMarca {
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 90px;
+    max-width: 90px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -221,7 +221,7 @@ table td::before {
 .contenidoCeldaUnidad {
     min-width: 75px;
     max-width: 75px;
-    margin-left: 15px;
+    margin-left: 25px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -239,8 +239,8 @@ table td::before {
 
 /* Contenido de la celda de Tienda */
 .contenidoCeldaTienda {
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 100px;
+    max-width: 100px;
     margin-left: 20px;
     overflow-wrap: normal;
     overflow: hidden;
@@ -251,7 +251,6 @@ table td::before {
 .contenidoCeldaProvincia {
     min-width: 80px;
     max-width: 80px;
-    margin-left: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -261,6 +260,7 @@ table td::before {
 .contenidoCeldaCanton {
     min-width: 100px;
     max-width: 100px;
+    margin-left: 10px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;

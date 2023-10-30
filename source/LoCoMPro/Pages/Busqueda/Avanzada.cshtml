@@ -214,7 +214,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th style="padding-left:14px;">
+                        <th style="padding-left:24px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -264,7 +264,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
                                 @Html.DisplayNameFor(model => model.productoVM.canton)
@@ -319,9 +319,17 @@
     renderizarPaginacion();
     renderizarTabla(productosVM);
 
+    cajaProducto = document.getElementById("CajaDeTextoProducto");
+    cajaMarca = document.getElementById("CajaDeTextoMarca");
+    cajaProvincia = document.getElementById("CajaDeTextoProvincia");
+    cajaCanton = document.getElementById("CajaDeTextoCanton");
+
     // Validar formulario
     function validarFormulario() {
-        if (!cajaProducto.value) {
+        if (!cajaProducto.value &&
+            !cajaMarca.value &&
+            !cajaProvincia.value &&
+            !cajaCanton.value) {
             return false;
         } else {
             return true;

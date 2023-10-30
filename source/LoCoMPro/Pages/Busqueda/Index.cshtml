@@ -184,7 +184,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th style="padding-left:14px;">
+                        <th style="padding-left:24px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
                             <!-- Flecha de ordenamiento descendiente -->
@@ -234,7 +234,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
                                 @Html.DisplayNameFor(model => model.productoVM.canton)
@@ -288,6 +288,8 @@
     // Renderizar
     renderizarPaginacion();
     renderizarTabla(productosVM);
+
+    cajaProducto = document.getElementById("CajaDeTextoProducto");
 
     // Validar formulario
     function validarFormulario() {
