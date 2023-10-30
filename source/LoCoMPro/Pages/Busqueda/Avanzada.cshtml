@@ -37,7 +37,7 @@
         var paginaDefault = @Model.paginaDefault;
 
     </script>
-    <script src="~/js/Pages/Busqueda/cliente.js?v=123"></script>
+    <script src="~/js/Pages/Busqueda/cliente.js?v=12"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -100,8 +100,8 @@
             <!-- Botones de filtros -->
             <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
             <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
-            <div class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(1)" onmouseleave="hidedropdown(1)">
+            <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(1)" onmouseleave="ocultarDesplegable(1)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1">Provincia</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro1">
                         <!-- Contenido del menú desplegable -->
@@ -115,7 +115,7 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(2)" onmouseleave="hidedropdown(2)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(2)" onmouseleave="ocultarDesplegable(2)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
@@ -129,7 +129,7 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(3)" onmouseleave="hidedropdown(3)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(3)" onmouseleave="ocultarDesplegable(3)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
@@ -143,7 +143,7 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(4)" onmouseleave="hidedropdown(4)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(4)" onmouseleave="ocultarDesplegable(4)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
@@ -317,6 +317,7 @@
 
     // Renderizar
     renderizarPaginacion();
+    renderizarFiltros();
     renderizarTabla(productosVM);
 
     cajaProducto = document.getElementById("CajaDeTextoProducto");
