@@ -3,11 +3,13 @@ using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.AgregarProducto;
 using LoCoMPro.ViewModels.Tienda;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace LoCoMPro.Pages.AgregarProducto
@@ -124,26 +126,6 @@ namespace LoCoMPro.Pages.AgregarProducto
             controlador.ConfigurarParametroComando("nombreUsuario", usuarioCreador);
             controlador.EjecutarProcedimiento();
 
-             
-            /*
-            if (user != null)
-            {
-                // Check the condition that should make the user a moderator
-                if (user.esModerador == true)
-                {
-                    // Add the "esModerador" claim to the user for the current request
-                    var moderacion = (ClaimsIdentity)User.Identity;
-                    moderacion.AddClaim(new Claim("esModerador", "true"));
-                }
-                else
-                {
-                    // Remove the "esModerador" claim for the current request
-                    var moderacion = (ClaimsIdentity)User.Identity;
-                    moderacion.RemoveClaim(moderacion.FindFirst("esModerador"));
-                }
-            }
-            */
-            
             // Requerido para crear fotografías, debido a que es parte de la
             // llave primaria del registro
             return tiempoActual;
