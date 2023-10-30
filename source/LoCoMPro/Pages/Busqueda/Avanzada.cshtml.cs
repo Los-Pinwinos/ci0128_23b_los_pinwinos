@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
-using LoCoMPro.Utils.Busqueda;
+using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
 
 namespace LoCoMPro.Pages.Busqueda
@@ -54,7 +54,7 @@ namespace LoCoMPro.Pages.Busqueda
                 provincia = string.IsNullOrEmpty(nombreProvincia) ? "" : nombreProvincia;
                 canton = string.IsNullOrEmpty(nombreProvincia) ? "" : nombreCanton;
                 // Configurar buscador
-                IBuscador<BusquedaVM> buscador = new BuscadorDeBusquedaAvanzada(this.contexto, nombreProducto, nombreMarca, nombreProvincia, nombreCanton);
+                IBuscador<BusquedaVM> buscador = new BuscadorDeProductosAvanzado(this.contexto, nombreProducto, nombreMarca, nombreProvincia, nombreCanton);
                 // Consultar la base de datos
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
