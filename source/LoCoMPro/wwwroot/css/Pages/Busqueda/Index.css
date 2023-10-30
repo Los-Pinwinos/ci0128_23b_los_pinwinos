@@ -14,7 +14,7 @@
     background-color: rgba(3, 63, 99, 0.15);
     border-radius: 5px;
     padding: 6px 10px;
-    width: 95%;
+    width: 96%;
     margin-bottom: 10px;
 }
 
@@ -124,7 +124,6 @@ table {
         background-color: white;
         text-align: left;
         border: none;
-        padding-left: 10px;
     }
 
     /* Tbody td */
@@ -132,29 +131,19 @@ table {
         background-color: #1A7254;
         cursor: pointer;
         text-align: left;
-        padding: 3px 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
         border: none;
-        max-width: 70px;
-        overflow-wrap: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
         position: relative;
     }
         /* Tbody td ultimo */
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
-            border: none;
-            max-width: 100px;
-            min-width: 100px;
         }
 
         /* Tbody td primero */
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
-            border: none;
-            padding: 0px -2px;
-            max-width: 100px;
-            min-width: 100px;
         }
 
     /* Tbody fila */
@@ -170,12 +159,6 @@ table {
     }
 
 /* Características de hover */
-td:hover {
-    overflow: visible;
-    white-space: nowrap;
-    height: auto;
-}
-
 table td:hover::before {
     content: attr(data-tooltip);
     display: block;
@@ -195,28 +178,93 @@ table td::before {
     content: "";
 }
 
-/* Contenido de las celdas */
-.contenidoCelda {
-    min-width: 80px;
-    max-width: 80px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* Contenido de la celda de Nombre */
 .contenidoCeldaNombre {
-    text-align: left;
-    padding: 3px 0px;
-    border: none;
+    padding-left: 10px;
     max-width: 120px;
     min-width: 120px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative;
 }
 
+/* Contenido de la celda de Categoria */
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Marca */
+.contenidoCeldaMarca {
+    min-width: 90px;
+    max-width: 90px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Precio */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 80px;
+    max-width: 80px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Unidad */
+.contenidoCeldaUnidad {
+    min-width: 75px;
+    max-width: 75px;
+    margin-left: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Fecha */
+.contenidoCeldaFecha {
+    min-width: 78px;
+    max-width: 78px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaTienda {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 20px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaProvincia {
+    min-width: 80px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaCanton {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 10px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* Paginacion */
 
@@ -414,6 +462,7 @@ BusquedaIndice-tabla-filtros-contenedor {
 .BusquedaIndice-titulo-columna {
     color: black;
     text-decoration: none;
+    line-height: 1;
 }
 
     /* Hover para titulo de ordenamiento */
@@ -479,8 +528,11 @@ BusquedaIndice-tabla-filtros-contenedor {
         text-decoration: underline;
     }
 
+
 /* Flechas de ordenamiento */
 .BusquedaFlechaOrdenamiento {
     cursor: pointer;
-    margin-top: -18%; 
+    clip-path: polygon(10% 20%, 90% 20%, 90% 80%, 10% 80%);
+    vertical-align: middle;
+    position: absolute;
 }

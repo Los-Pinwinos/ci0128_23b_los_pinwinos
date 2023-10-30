@@ -47,7 +47,7 @@ namespace LoCoMPro.Pages.VerRegistros
 
         public ICollection<Fotografia>? fotografias { get; set; }
 
-        public async Task OnGetAsync(string productName, string categoriaNombre
+        public async Task<IActionResult> OnGetAsync(string productName, string categoriaNombre
             , string marcaNombre, string unidadNombre, string tiendaNombre
             , string provinciaNombre, string cantonNombre)
         {
@@ -92,6 +92,8 @@ namespace LoCoMPro.Pages.VerRegistros
                 .ToList();
 
             fotografias = fotografiasEnlazadas;
+
+            return Page();
         }
     }
 }
