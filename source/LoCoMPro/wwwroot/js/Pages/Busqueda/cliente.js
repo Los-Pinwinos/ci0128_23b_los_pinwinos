@@ -54,19 +54,57 @@ function filtrar() {
     renderizarTabla(productosVM);
 }
 
-// Renderizar paginado
 function renderizarPaginacion() {
-    // Obtener elementos
+    // Renderizar los botones de Siguiente Pagina y Pagina Anterior
+    renderizarBotonesSiguienteAnterior();
+
+    var paginacionContenedor = document.getElementById("TextoPaginacion");
+
+    // Renderizar los numeros de en medio mostrados en la barra de paginacion
+    renderizarNumerosPaginaIntermedios(paginacionContenedor);
+}
+
+function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
+
+    paginacionContenedor.innerHTML = "";
+
+    const numeroDeLinksDePaginas = 5;
+
+    let paginaInicial = Math.max(1, productosVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(productosVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+
+    if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
+        paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
+    }
+
+    for (let pagina = paginaInicial; pagina <= paginaFinal; pagina++) {
+        const paginaLink = document.createElement("span");
+        paginaLink.textContent = pagina;
+
+        if (pagina === productosVM.IndicePagina) {
+            paginaLink.classList.add("pagina");
+        } else {
+            paginaLink.classList.add("pagina-seleccionable");
+            paginaLink.addEventListener("click", function () {
+                pasarPagina(pagina);
+            });
+        }
+
+        paginacionContenedor.appendChild(paginaLink);
+        if (pagina !== paginaFinal) {
+            var espacio = document.createElement("span");
+            espacio.textContent = " ";
+            paginacionContenedor.appendChild(espacio);
+        }
+    }
+}
+
+function renderizarBotonesSiguienteAnterior() {
     var botonPaginaPrevia = document.getElementById("PaginaPrevia");
     var botonSinPaginaPrevia = document.getElementById("SinPaginaPrevia");
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
-    var textoPaginaActual = document.getElementById("TextoPaginacion");
 
-    // Poner pagina actual
-    textoPaginaActual.textContent = productosVM.IndicePagina;
-
-    // Revisar si desplegar o no
     if (productosVM.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
