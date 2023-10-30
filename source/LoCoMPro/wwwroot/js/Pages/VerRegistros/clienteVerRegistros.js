@@ -16,7 +16,7 @@ function formatearFecha(datos) {
 // Renderizar tabla
 function renderizarTabla(datos) {
     // Obtener la tabla
-    var cuerpoTabla = document.getElementById("CuerpoResultados");
+    var cuerpoTabla = document.getElementById("cuerpoResultados");
 
     // Limpiar el contenido existente
     cuerpoTabla.innerHTML = "";
@@ -82,10 +82,10 @@ function renderizarTabla(datos) {
 // Pasar pagina
 function pasarPagina(numeroPagina) {
     // Paginar
-    productosVM = paginar(numeroPagina);
+    resultadosPaginados = paginar(numeroPagina);
     // Renderizar
     renderizarPaginacion();
-    renderizarTabla(productosVM);
+    renderizarTabla(resultadosPaginados);
     window.scrollTo(0, 0);
 }
 
@@ -93,17 +93,17 @@ function pasarPagina(numeroPagina) {
 // Renderizar paginado
 function renderizarPaginacion() {
     // Obtener elementos
-    var botonPaginaPrevia = document.getElementById("PaginaPrevia");
-    var botonSinPaginaPrevia = document.getElementById("SinPaginaPrevia");
-    var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
-    var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
-    var textoPaginaActual = document.getElementById("TextoPaginacion");
+    var botonPaginaPrevia = document.getElementById("paginaPrevia");
+    var botonSinPaginaPrevia = document.getElementById("sinPaginaPrevia");
+    var botonPaginaSiguiente = document.getElementById("paginaSiguiente");
+    var botonSinPaginaSiguiente = document.getElementById("sinPaginaSiguiente");
+    var textoPaginaActual = document.getElementById("textoPaginacion");
 
     // Poner pagina actual
-    textoPaginaActual.textContent = productosVM.IndicePagina;
+    textoPaginaActual.textContent = resultadosPaginados.IndicePagina;
 
     // Revisar si desplegar o no
-    if (productosVM.TienePaginaPrevia) {
+    if (resultadosPaginados.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
     } else {
@@ -111,7 +111,7 @@ function renderizarPaginacion() {
         botonSinPaginaPrevia.style.display = "block";
     }
 
-    if (productosVM.TieneProximaPagina) {
+    if (resultadosPaginados.TieneProximaPagina) {
         botonPaginaSiguiente.style.display = "block";
         botonSinPaginaSiguiente.style.display = "none";
     } else {
@@ -121,6 +121,6 @@ function renderizarPaginacion() {
 }
 
 // Paginar
-function paginar(numeroPagina = productosVM.IndicePagina) {
+function paginar(numeroPagina = resultadosPaginados.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
