@@ -347,15 +347,41 @@ table td::before {
         border-radius: 50px;
     }
 
+
 /* Texto en paginacion */
 .BusquedaIndice-texto-paginacion {
     margin: 0 10px;
 }
 
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
 
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
 
 /* Contenedor de filtros y tabla de resultados */
-BusquedaIndice-tabla-filtros-contenedor {
+.BusquedaIndice-tabla-filtros-contenedor {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
