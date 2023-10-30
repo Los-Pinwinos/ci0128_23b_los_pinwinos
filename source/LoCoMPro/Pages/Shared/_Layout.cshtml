@@ -32,6 +32,14 @@
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Agregar registro</a>
+
+                            if (User.HasClaim("esModerador", "true"))
+                            {
+                                <ul class="navbar-nav flex-grow-1">
+                                <!-- TODO(Pinwinos): poner acá la ventana de ver reportes cuando exista -->
+                                <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Ver reportes</a>
+                                </ul>
+                            }
                         }
                     </ul>
                     <!-- Lista no ordenada para los elementos alineados a la derecha -->
