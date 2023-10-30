@@ -99,6 +99,27 @@ function renderizarPaginacion() {
     // Renderizar los numeros de en medio mostrados en la barra de paginacion
     var limites = renderizarNumerosPaginaIntermedios(paginacionContenedor);
     renderizarPrimerNumeroPagina(paginacionContenedor, limites.paginaInicial);
+    renderizarUltimoNumeroPagina(paginacionContenedor, limites.paginaFinal);
+}
+
+function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
+    if (paginaFinal < productosVM.PaginasTotales) {
+        const finalElipsis = document.createElement("span");
+        // Agregar ... a la ultima pagina si fuera necesario
+
+        if (paginaFinal !== productosVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        else finalElipsis.textContent = " ";
+        paginacionContenedor.appendChild(finalElipsis);
+
+        const linkUltimaPagina = document.createElement("span");
+        linkUltimaPagina.textContent = productosVM.PaginasTotales;
+        linkUltimaPagina.classList.add("pagina-seleccionable");
+
+        linkUltimaPagina.addEventListener("click", function () {
+            pasarPagina(productosVM.PaginasTotales);
+        });
+        paginacionContenedor.appendChild(linkUltimaPagina);
+    }
 }
 
 function renderizarPrimerNumeroPagina(paginacionContenedor, paginaInicial) {
