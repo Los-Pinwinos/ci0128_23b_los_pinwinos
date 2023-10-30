@@ -13,6 +13,8 @@
     <script src="~/js/Pages/Busqueda/filtrador.js"></script>
     <script src="~/js/Pages/Busqueda/ordenador.js"></script>
     <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
         // Función de traducción de codificación
         function traducirCodificacion(cadena) {
@@ -162,47 +164,119 @@
             <table>
                 <thead>
                     <tr>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.nombre)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.categoria)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.marca)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:37px">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('precio')">
                                 @Html.DisplayNameFor(model => model.productoVM.precio)
                             </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendentePrecio" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('precio')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendentePrecio" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('precio')">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:24px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:20px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.fecha)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:20px;">
                             <!-- Nombre de columna -->
                             @Html.DisplayNameFor(model => model.productoVM.tienda)
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('provincia')">
                                 @Html.DisplayNameFor(model => model.productoVM.provincia)
                             </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteProvincia" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('provincia')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteProvincia" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('provincia')">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
                                 @Html.DisplayNameFor(model => model.productoVM.canton)
                             </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteCanton" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('canton')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteCanton" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('canton')">
+                                expand_more
+                            </span>
                         </th>
                         <th></th>
                     </tr>
@@ -236,15 +310,26 @@
 </div>
 
 <script>
+    ordenador.esconderFlechas();
+</script>
+<script>
     var productosVM = paginar(paginaDefault);
 
     // Renderizar
     renderizarPaginacion();
     renderizarTabla(productosVM);
 
+    cajaProducto = document.getElementById("CajaDeTextoProducto");
+    cajaMarca = document.getElementById("CajaDeTextoMarca");
+    cajaProvincia = document.getElementById("CajaDeTextoProvincia");
+    cajaCanton = document.getElementById("CajaDeTextoCanton");
+
     // Validar formulario
     function validarFormulario() {
-        if (!cajaProducto.value) {
+        if (!cajaProducto.value &&
+            !cajaMarca.value &&
+            !cajaProvincia.value &&
+            !cajaCanton.value) {
             return false;
         } else {
             return true;

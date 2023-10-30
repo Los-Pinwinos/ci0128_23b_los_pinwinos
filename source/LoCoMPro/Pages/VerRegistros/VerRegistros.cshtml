@@ -43,6 +43,7 @@
                 </div>
                 <div class="VerRegistros-contenedor-caja-texto">
                     <h2 class="TituloProducto">@Model.NombreProducto</h2>
+                    <input type="hidden" id="nombreProducto" value="@Model.NombreProducto">
                     <div class="InfoProductoColumnas">
                         <div class="ContenedorInfoColumnas">
                             <div class="InfoColumn">
@@ -88,10 +89,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Precio</th>
+                        <th style="padding-left: 10px;">Fecha</th>
+                        <th style="padding-left: 37px;">Precio</th>
                         <th>Calificación</th>
-                        <th>Descripción</th>
+                        <th style="padding-right: 20px;">Descripción</th>
                         <th></th>
                     </tr>
                 </thead>

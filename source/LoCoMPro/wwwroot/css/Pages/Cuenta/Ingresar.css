@@ -11,7 +11,7 @@
 /* Estilo para un contenedor de elementos al final de la página */
 .Ingresar-contenedor-centrado-secundario {
     /* Para establecer su posición basado en la resolución */
-    margin-top: 20%;
+    margin-top: 15%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

@@ -1,4 +1,11 @@
-﻿// Formatear fecha
+﻿function agregarSeparador(numero) {
+    var textoNum = numero.toString();
+    // Expresión regular para agregar un separador cada 3 dígitos
+    textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return textoNum;
+}
+
+// Formatear fecha
 function formatearFecha(fecha) {
     const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return fecha.toLocaleDateString('es-ES', opciones);
@@ -173,35 +180,36 @@ function renderizarTabla(datos) {
             nombreCell.textContent = datos[dato].nombre;
 
             var divCategoria = document.createElement("div");
-            divCategoria.className = "contenidoCelda";
+            divCategoria.className = "contenidoCeldaCategoria";
             divCategoria.textContent = datos[dato].categoria;
             var categoriaCelda = document.createElement("td");
             categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
             categoriaCelda.appendChild(divCategoria);
 
             var divMarca = document.createElement("div");
-            divMarca.className = "contenidoCelda";
+            divMarca.className = "contenidoCeldaMarca";
             divMarca.textContent = datos[dato].marca;
             var marcaCelda = document.createElement("td");
             marcaCelda.setAttribute('data-tooltip', datos[dato].marca);
             marcaCelda.appendChild(divMarca);
 
             var divPrecio = document.createElement("div");
-            divPrecio.className = "contenidoCelda";
-            divPrecio.textContent = "₡" + datos[dato].precio;
+            divPrecio.className = "contenidoCeldaPrecio";
+            var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
+            divPrecio.textContent = precioArreglado;
             var precioCelda = document.createElement("td");
-            precioCelda.setAttribute('data-tooltip', datos[dato].precio);
+            precioCelda.setAttribute('data-tooltip', precioArreglado);
             precioCelda.appendChild(divPrecio);
 
             var divUnidad = document.createElement("div");
-            divUnidad.className = "contenidoCelda";
+            divUnidad.className = "contenidoCeldaUnidad";
             divUnidad.textContent = datos[dato].unidad;
             var unidadCelda = document.createElement("td");
             unidadCelda.setAttribute('data-tooltip', datos[dato].unidad);
             unidadCelda.appendChild(divUnidad);
 
             var divFecha = document.createElement("div");
-            divFecha.className = "contenidoCelda";
+            divFecha.className = "contenidoCeldaFecha";
             divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
             var fechaCelda = document.createElement("td");
             var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
@@ -211,21 +219,21 @@ function renderizarTabla(datos) {
             fechaCelda.appendChild(divFecha);
 
             var divTienda = document.createElement("div");
-            divTienda.className = "contenidoCelda";
+            divTienda.className = "contenidoCeldaTienda";
             divTienda.textContent = datos[dato].tienda;
             var tiendaCelda = document.createElement("td");
             tiendaCelda.setAttribute('data-tooltip', datos[dato].tienda);
             tiendaCelda.appendChild(divTienda);
 
             var divProvincia = document.createElement("div");
-            divProvincia.className = "contenidoCelda";
+            divProvincia.className = "contenidoCeldaProvincia";
             divProvincia.textContent = datos[dato].provincia;
             var provinciaCelda = document.createElement("td");
             provinciaCelda.setAttribute('data-tooltip', datos[dato].provincia);
             provinciaCelda.appendChild(divProvincia);
 
             var divCanton = document.createElement("div");
-            divCanton.className = "contenidoCelda";
+            divCanton.className = "contenidoCeldaCanton";
             divCanton.textContent = datos[dato].canton;
             var cantonCelda = document.createElement("td");
             cantonCelda.setAttribute('data-tooltip', datos[dato].canton);

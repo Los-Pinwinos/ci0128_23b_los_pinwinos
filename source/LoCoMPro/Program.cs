@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<LoCoMProContext>();
 
-    context.Database.EnsureCreated();
+    // context.Database.EnsureCreated();
 
     // Alimenta la base de datos si no hay nada
     DBInitializer.Initialize(context);
