@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -15,8 +14,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         [BindProperty]
         public DetallesRegistroVM registro { get; set; }
+
         [BindProperty]
-        public int cantidadCalificaciones { get; set; }
+        public string creacionRegistroStr { get; set; }
+
+        [BindProperty]
+        public string usuario { get; set; }
 
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
@@ -30,7 +33,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             };
         }
 
-        public void OnGet(string fechaHora, string usuario, string producto)
+        public void OnGet(string fechaHora, string usuario)
         {
             DateTime fecha = DateTime.Parse(fechaHora);
 
@@ -45,14 +48,16 @@ namespace LoCoMPro.Pages.DetallesRegistro
                     precio = r.precio,
                     calificacion = r.calificacion,
                     descripcion = r.descripcion,
-                    productoAsociado = producto,
+                    productoAsociado = r.productoAsociado,
                     nombreUnidad = r.producto.nombreUnidad,
                     fotografias = r.fotografias
                 }).ToList();
 
             this.registro = detallesIQ.FirstOrDefault();
+            this.creacionRegistroStr = this.registro.creacion.ToString();
+            this.usuario = usuario;
 
-            this.cantidadCalificaciones = this.contexto.Calificaciones
+            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
                                             .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro.Equals(usuario) && r.calificacion != 0).Count();
         }
 
@@ -77,15 +82,47 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public void OnPostCalificacion(int calificación)
+        public IActionResult OnGetCalificar(int calificacion, string creacionStr, string usuarioCreador)
         {
+
+            // TODO(Angie): borrar
+            Console.WriteLine("estoy en el metodo");
+                
+            string usuario = User.Identity?.Name ?? "desconocido";
+            DateTime creacion = DateTime.Parse(creacionStr);
+                
+
+            // Actualizar la tabla de calificaciones
+            ControladorComandosSql comandoInsertarCalificacion = new ControladorComandosSql();
+            comandoInsertarCalificacion.ConfigurarNombreComando("calificarRegistro");
+            comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCalificador", usuario);
+            comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCreadorRegistro", usuarioCreador);
+            comandoInsertarCalificacion.ConfigurarParametroComando("creacionRegistro", creacion);
+            comandoInsertarCalificacion.ConfigurarParametroComando("calificacion", calificacion);
+            // comandoInsertarCalificacion.EjecutarProcedimiento();
+
+            // TODO(Angie):
+            Console.WriteLine("segundo procedimiento");
+
+            // Actualizar la calificación del usuario
+            ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
+            comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
+            comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuarioCreador);
+            comandoActualizarUsuario.ConfigurarParametroComando("calificacion", calificacion);
+            comandoActualizarUsuario.EjecutarProcedimiento();
+
+            // TODO(Angie):
+            Console.WriteLine("tercer procedimiento");
+
             // Actualizar la calificación del registro
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
-            comandoActualizarRegistro.ConfigurarParametroComando("creacionDeRegistro", this.registro.creacion);
-            comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", this.registro.usuarioCreador);
-            comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificación);
+            comandoActualizarRegistro.ConfigurarParametroComando("creacionDeRegistro", creacion);
+            comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuarioCreador);
+            comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
             comandoActualizarRegistro.EjecutarProcedimiento();
+
+            return Page();
         }
     }
 }
