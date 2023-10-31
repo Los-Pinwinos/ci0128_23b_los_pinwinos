@@ -221,6 +221,12 @@ table td::before {
     cursor: pointer;
 }
 
+    /* Botón de paginacion al hacer hover */
+    .Aportes-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
     /* Bordes de boton de paginacion */
     .Aportes-boton-paginacion::before {
         content: "";

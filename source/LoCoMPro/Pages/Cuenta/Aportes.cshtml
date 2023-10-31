@@ -40,39 +40,41 @@
                 <thead>
                     <tr>
                         <th style="padding-left:10px;">
-                            <!-- Nombre de columna -->
+                            <!-- Columna con el nombre del producto -->
                             @Html.DisplayNameFor(model => model.productoVM.nombre)
                         </th>
                         <th>
-                            <!-- Nombre de columna -->
+                            <!-- Columna con la categoría del producto -->
                             @Html.DisplayNameFor(model => model.productoVM.categoria)
                         </th>
                         <th>
-                            <!-- Nombre de columna -->
+                            <!-- Columna con la marca del producto -->
                             @Html.DisplayNameFor(model => model.productoVM.marca)
                         </th>
                         <th style="padding-left:37px">
+                            <!-- Columna con el precio del registro -->
                             @Html.DisplayNameFor(model => model.productoVM.precio)
                         </th>
                         <th style="padding-left:24px;">
-                            <!-- Nombre de columna -->
+                            <!-- Columna con la unidad del producto -->
                             @Html.DisplayNameFor(model => model.productoVM.unidad)
                         </th>
                         <th style="padding-left:20px;">
-                            <!-- Nombre de columna -->
+                            <!-- Columna con la fecha del registro -->
                             @Html.DisplayNameFor(model => model.productoVM.fecha)
                         </th>
                         <th style="padding-left:20px;">
-                            <!-- Nombre de columna -->
+                            <!-- Columna con el nombre de la tienda -->
                             @Html.DisplayNameFor(model => model.productoVM.tienda)
                         </th>
                         <th>
+                            <!-- Columna con la provincia de la tienda -->
                             @Html.DisplayNameFor(model => model.productoVM.provincia)
                         </th>
                         <th style="padding-left:10px;">
+                            <!-- Columna con el cantón de la tienda -->
                             @Html.DisplayNameFor(model => model.productoVM.canton)
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="Aportes-tabla-resultados" id="CuerpoResultados">
@@ -85,6 +87,7 @@
 <!-- Paginación -->
 <div class="Aportes-contenedor-paginacion">
     <div class="Aportes-contenedor-caja-paginacion">
+        <!-- Botón anterio -->
         <div id="PaginaPrevia" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
             Anterior
         </div>
@@ -92,8 +95,10 @@
             Anterior
         </div>
 
+        <!-- Botones de número de página -->
         <span id="TextoPaginacion" class="Aportes-texto-paginacion">  </span>
 
+        <!-- botón siguiente -->
         <div id="PaginaSiguiente" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
             Siguiente
         </div>
@@ -103,8 +108,10 @@
     </div>
 </div>
 
+<!-- Caja de texto escondida para pasar el nombre de usuario al cliente -->
 <input type="hidden" id="NombreUsuario" value="@User.Identity.Name">
 
+<!-- Script para mostrar un popUp y redireccionar -->
 <script>
     var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
     if (mensajeRedirect) {
@@ -113,10 +120,11 @@
     }
 </script>
 
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
 <script>
     var productosVM = paginar(paginaDefault);
 
     // Renderizar
     renderizarPaginacion();
-    renderizarTabla(productosVM, "@User.Identity.Name");
+    renderizarTabla(productosVM);
 </script>

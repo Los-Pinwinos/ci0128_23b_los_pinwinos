@@ -69,13 +69,13 @@ namespace LoCoMPro.Pages.Cuenta
             this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 4);
         }
 
-        // ON GET buscar
+        // Método On get para cargar los resultados o redireccionar
         public IActionResult OnGet()
         {
+            // Si el usuario no está loggeado
             if (User.Identity == null || !User.Identity.IsAuthenticated)
             {
-                // Establece mensaje para redireccionar si el usuario no está ingresado
-                // en el sistema
+                // Establece mensaje para redireccionar
                 ViewData["MensajeRedireccion"] = "Por favor ingrese al sistema.";
             } else
             {
