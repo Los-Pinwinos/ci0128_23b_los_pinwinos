@@ -33,6 +33,20 @@ function ordenar(propiedadOrdenado) {
     renderizarTabla(productosVM);
 }
 
+// Configurar formato de precio para el filtro
+function formatoPrecioFiltro() {
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMin").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMax").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
+}
+
 // Filtrar
 function filtrar() {
     // Obtener datos
@@ -379,19 +393,28 @@ function pasarPagina(numeroPagina) {
 // Limpiar check boxes
 function limpiarCheckboxes(nombreCampo) {
     var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
-
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false;
     }
 }
 
-// Limpiar filtros
+// Limpiar input de precio
+function limpiarInputPrecio() {
+    var inputMinimo = document.getElementById("precioMin");
+    var inputMaximo = document.getElementById("precioMax");
+    inputMinimo.value = "";
+    inputMaximo.value = "";
+}
+
+// Limpiar filtross
 function limpiarFiltros() {
     // Limpiar checkboxes
     limpiarCheckboxes("provincia");
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
+    limpiarInputPrecio();
+
     if (filtrador.usado) {
         // Restaurar uso
         filtrador.resetearUso();
