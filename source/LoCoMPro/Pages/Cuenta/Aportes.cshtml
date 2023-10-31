@@ -26,87 +26,102 @@
         }
 
         // Cliente
-        var resultados = obtenerResultados();
-        var paginador = new Paginador(@Model.resultadosPorPagina);
-        var paginaDefault = @Model.paginaDefault;
+        if ('@Model.aportes' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var paginaDefault = @Model.paginaDefault;
+        }
     </script>
     <script src="~/js/Pages/Cuenta/cliente.js?v=123"></script>
 </head>
 <div>
     <div class="Aportes-contenedor-fila">
-        <!-- Tabla de resultados -->
-        <div class="Aportes-tabla">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="padding-left:10px;">
-                            <!-- Columna con el nombre del producto -->
-                            @Html.DisplayNameFor(model => model.productoVM.nombre)
-                        </th>
-                        <th>
-                            <!-- Columna con la categoría del producto -->
-                            @Html.DisplayNameFor(model => model.productoVM.categoria)
-                        </th>
-                        <th>
-                            <!-- Columna con la marca del producto -->
-                            @Html.DisplayNameFor(model => model.productoVM.marca)
-                        </th>
-                        <th style="padding-left:37px">
-                            <!-- Columna con el precio del registro -->
-                            @Html.DisplayNameFor(model => model.productoVM.precio)
-                        </th>
-                        <th style="padding-left:24px;">
-                            <!-- Columna con la unidad del producto -->
-                            @Html.DisplayNameFor(model => model.productoVM.unidad)
-                        </th>
-                        <th style="padding-left:20px;">
-                            <!-- Columna con la fecha del registro -->
-                            @Html.DisplayNameFor(model => model.productoVM.fecha)
-                        </th>
-                        <th style="padding-left:20px;">
-                            <!-- Columna con el nombre de la tienda -->
-                            @Html.DisplayNameFor(model => model.productoVM.tienda)
-                        </th>
-                        <th>
-                            <!-- Columna con la provincia de la tienda -->
-                            @Html.DisplayNameFor(model => model.productoVM.provincia)
-                        </th>
-                        <th style="padding-left:10px;">
-                            <!-- Columna con el cantón de la tienda -->
-                            @Html.DisplayNameFor(model => model.productoVM.canton)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="Aportes-tabla-resultados" id="CuerpoResultados">
-                </tbody>
-            </table>
-        </div>
+        @if (Model.aportes != "Sin resultados")
+        {
+            <!-- Tabla de resultados -->
+            <div class="Aportes-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-left:10px;">
+                                <!-- Columna con el nombre del producto -->
+                                @Html.DisplayNameFor(model => model.productoVM.nombre)
+                            </th>
+                            <th>
+                                <!-- Columna con la categoría del producto -->
+                                @Html.DisplayNameFor(model => model.productoVM.categoria)
+                            </th>
+                            <th>
+                                <!-- Columna con la marca del producto -->
+                                @Html.DisplayNameFor(model => model.productoVM.marca)
+                            </th>
+                            <th style="padding-left:37px">
+                                <!-- Columna con el precio del registro -->
+                                @Html.DisplayNameFor(model => model.productoVM.precio)
+                            </th>
+                            <th style="padding-left:24px;">
+                                <!-- Columna con la unidad del producto -->
+                                @Html.DisplayNameFor(model => model.productoVM.unidad)
+                            </th>
+                            <th style="padding-left:20px;">
+                                <!-- Columna con la fecha del registro -->
+                                @Html.DisplayNameFor(model => model.productoVM.fecha)
+                            </th>
+                            <th style="padding-left:20px;">
+                                <!-- Columna con el nombre de la tienda -->
+                                @Html.DisplayNameFor(model => model.productoVM.tienda)
+                            </th>
+                            <th>
+                                <!-- Columna con la provincia de la tienda -->
+                                @Html.DisplayNameFor(model => model.productoVM.provincia)
+                            </th>
+                            <th style="padding-left:10px;">
+                                <!-- Columna con el cantón de la tienda -->
+                                @Html.DisplayNameFor(model => model.productoVM.canton)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Aportes-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="Aportes-contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Aportes-gif" id="PinwinoTriste">
+                <p class="Aportes-texto">No se han realizado aportes</p>
+            </div>
+        }
     </div>
 </div>
 
-<!-- Paginación -->
-<div class="Aportes-contenedor-paginacion">
-    <div class="Aportes-contenedor-caja-paginacion">
-        <!-- Botón anterio -->
-        <div id="PaginaPrevia" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
-            Anterior
-        </div>
-        <div id="SinPaginaPrevia" class="Aportes-boton-paginacion-deshabilitado">
-            Anterior
-        </div>
+@if (Model.aportes != "Sin resultados")
+{
+    <!-- Paginación -->
+    <div class="Aportes-contenedor-paginacion">
+        <div class="Aportes-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="Aportes-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
 
-        <!-- Botones de número de página -->
-        <span id="TextoPaginacion" class="Aportes-texto-paginacion">  </span>
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="Aportes-texto-paginacion">  </span>
 
-        <!-- botón siguiente -->
-        <div id="PaginaSiguiente" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
-            Siguiente
-        </div>
-        <div id="SinPaginaSiguiente" class="Aportes-boton-paginacion-deshabilitado">
-            Siguiente
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="Aportes-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
         </div>
     </div>
-</div>
+}
 
 <!-- Caja de texto escondida para pasar el nombre de usuario al cliente -->
 <input type="hidden" id="NombreUsuario" value="@User.Identity.Name">
@@ -122,9 +137,11 @@
 
 <!-- Script para renderizar los resultados de la tabla inicialmente -->
 <script>
-    var productosVM = paginar(paginaDefault);
+    if ('@Model.aportes' != "Sin resultados") {
+        var productosVM = paginar(paginaDefault);
 
-    // Renderizar
-    renderizarPaginacion();
-    renderizarTabla(productosVM);
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(productosVM);
+    }
 </script>

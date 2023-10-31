@@ -300,3 +300,24 @@ table td::before {
         color: black;
         text-decoration: none;
     }
+
+/* Contenedor para el gif y un mensaje */
+.Aportes-contenedor-gif {
+    display: flex; /* Add this to create a flex container */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gif */
+.Aportes-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.Aportes-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}

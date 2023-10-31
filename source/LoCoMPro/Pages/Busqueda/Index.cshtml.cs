@@ -89,8 +89,19 @@ namespace LoCoMPro.Pages.Busqueda
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
-                // Asignar data de JSON
-                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
+
+                // Si la busqueda tuvo resultados
+                List<BusquedaVM> resultados = busqueda.ToList();
+                if (resultados.Count != 0)
+                {
+                    // Asignar data de JSON
+                    this.resultadosBusqueda = JsonConvert.SerializeObject(resultados);
+                } else
+                {
+                    this.resultadosBusqueda = "Sin resultados";
+                }
+
+                
             }
             return Page();
         }

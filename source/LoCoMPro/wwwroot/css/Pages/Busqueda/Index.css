@@ -568,3 +568,24 @@ table td::before {
     vertical-align: middle;
     position: absolute;
 }
+
+/* Contenedor para el gif y un mensaje */
+.BusquedaIndice-contenedor-gif {
+    display: flex; /* Add this to create a flex container */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gif */
+.BusquedaIndice-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.BusquedaIndice-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}

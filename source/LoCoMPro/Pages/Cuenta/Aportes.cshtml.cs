@@ -83,8 +83,18 @@ namespace LoCoMPro.Pages.Cuenta
                 IBuscador<BusquedaVM> buscador = new BuscadorDeAportes(this.contexto, User.Identity.Name);
                 // Consultar la base de datos
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
-                // Asignar data de JSON
-                this.aportes = JsonConvert.SerializeObject(busqueda.ToList());
+
+                // Si la busqueda tuvo resultados
+                List<BusquedaVM> resultados = busqueda.ToList();
+                if (resultados.Count != 0)
+                {
+                    // Asignar data de JSON
+                    this.aportes = JsonConvert.SerializeObject(resultados);
+                }
+                else
+                {
+                    this.aportes = "Sin resultados";
+                }
             }
             return Page();
         }
