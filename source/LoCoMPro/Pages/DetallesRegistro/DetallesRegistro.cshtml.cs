@@ -15,12 +15,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
         [BindProperty]
         public DetallesRegistroVM registro { get; set; }
 
-        [BindProperty]
-        public string creacionRegistroStr { get; set; }
-
-        [BindProperty]
-        public string usuario { get; set; }
-
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
             this.contexto = contexto;
@@ -33,32 +27,42 @@ namespace LoCoMPro.Pages.DetallesRegistro
             };
         }
 
-        public void OnGet(string fechaHora, string usuario)
+        public IActionResult OnGet(string fechaHora, string usuario)
         {
-            DateTime fecha = DateTime.Parse(fechaHora);
+            if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
+            {
+                DateTime fecha = DateTime.Parse(fechaHora);
 
-            var detallesIQ = contexto.Registros
-                .Include(r => r.producto)
-                .Include(r => r.fotografias)
-                .Where(r => r.creacion==fecha && r.usuarioCreador.Equals(usuario))
-                .Select(r => new DetallesRegistroVM
-                {
-                    creacion = r.creacion,
-                    usuarioCreador = r.usuarioCreador,
-                    precio = r.precio,
-                    calificacion = r.calificacion,
-                    descripcion = r.descripcion,
-                    productoAsociado = r.productoAsociado,
-                    nombreUnidad = r.producto.nombreUnidad,
-                    fotografias = r.fotografias
-                }).ToList();
+                var detallesIQ = contexto.Registros
+                    .Include(r => r.producto)
+                    .Include(r => r.fotografias)
+                    .Where(r => r.creacion == fecha && r.usuarioCreador.Equals(usuario))
+                    .Select(r => new DetallesRegistroVM
+                    {
+                        creacion = r.creacion,
+                        usuarioCreador = r.usuarioCreador,
+                        precio = r.precio,
+                        calificacion = r.calificacion,
+                        descripcion = r.descripcion,
+                        productoAsociado = r.productoAsociado,
+                        nombreUnidad = r.producto.nombreUnidad,
+                        fotografias = r.fotografias
+                    }).ToList();
 
-            this.registro = detallesIQ.FirstOrDefault();
-            this.creacionRegistroStr = this.registro.creacion.ToString();
-            this.usuario = usuario;
+                this.registro = detallesIQ.FirstOrDefault();
 
-            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
-                                            .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro.Equals(usuario) && r.calificacion != 0).Count();
+                TempData["calificarRegistroCreacion"] = this.registro.creacion.ToString();
+                TempData["calificarRegistroUsuario"] = this.registro.usuarioCreador;
+
+                this.registro.cantidadCalificaciones = this.contexto.Calificaciones
+                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                                                .Equals(usuario) && r.calificacion != 0).Count();
+
+                return Page();
+            } else
+            {
+                return RedirectToPage("/Home/Index");
+            }
         }
 
         public string SepararPrecio(string separador)
@@ -82,14 +86,18 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public IActionResult OnGetCalificar(int calificacion, string creacionStr, string usuarioCreador)
+        public IActionResult OnGetCalificar(int calificacion)
         {
 
             // TODO(Angie): borrar
             Console.WriteLine("estoy en el metodo");
                 
             string usuario = User.Identity?.Name ?? "desconocido";
+            string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
+            string creacionStr = TempData["calificarRegistroCreacion"]?.ToString() ?? "";
             DateTime creacion = DateTime.Parse(creacionStr);
+
+            Console.WriteLine("usuario: " + usuario + " usuarioCreador: " + usuarioCreador + " creacion: " + creacion + " calificacion " + calificacion);
                 
 
             // Actualizar la tabla de calificaciones

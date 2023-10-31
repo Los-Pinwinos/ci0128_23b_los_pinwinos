@@ -55,8 +55,6 @@
                     <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-calificacion">
-                    <input type="hidden" id="usuario" name="usuario">
-                    <input type="hidden" id="creacionRegistroStr" name="creacionRegistroStr">
                     @if (User.Identity == null || !User.Identity.IsAuthenticated)
                     {
                         <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
