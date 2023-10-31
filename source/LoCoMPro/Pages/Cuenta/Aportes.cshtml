@@ -103,6 +103,8 @@
     </div>
 </div>
 
+<input type="hidden" id="NombreUsuario" value="@User.Identity.Name">
+
 <script>
     var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
     if (mensajeRedirect) {
@@ -116,5 +118,5 @@
 
     // Renderizar
     renderizarPaginacion();
-    renderizarTabla(productosVM);
+    renderizarTabla(productosVM, "@User.Identity.Name");
 </script>
