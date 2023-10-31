@@ -28,7 +28,7 @@
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="ViewModels\Cuenta\" />
-    <Folder Include="wwwroot\js\Pages\" />
+    <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
   </ItemGroup>
 
 </Project>

@@ -71,7 +71,7 @@ function renderizarTabla(datos) {
             (function(fechaHora, usuario) {
                 row.addEventListener("click", function () {
                     var producto = document.getElementById("nombreProducto").value;
-                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
+                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}`;
                 });
             })(fechaHoraEnviar, usuarioEnviar);
         }
