@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SQLScripts\" />
     <Folder Include="Utils\Busqueda\" />
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
