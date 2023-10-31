@@ -156,12 +156,12 @@
                             }
                         }
                     </div>
-                    <div class="BusquedaIndice-dropdown">
-                        <button type="button" id="BotonFiltro5">Precio</button>
+                    <div>
+                        <label class="BusquedaIndice-dropdown-precio-label" id="BotonFiltro5">Precio</label>
                         <!-- Contenido del menú desplegable -->
                         <div id="ContenidoFiltroPrecio">
-                            <input type="number" name="precioMin" id="precioMin" />
-                            <input type="number" name="precioMax" id="precioMax" />
+                            <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMin" id="precioMin" placeholder="Mínimo" />
+                            <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMax" id="precioMax" placeholder="Máximo" />
                         </div>
                     </div>
                 </div>
@@ -319,6 +319,18 @@
 
 <script>
     ordenador.esconderFlechas();
+</script>
+<script>
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMin").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMax").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
 </script>
 <script>
     var productosVM = paginar(paginaDefault);
