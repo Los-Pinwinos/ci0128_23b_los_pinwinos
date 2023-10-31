@@ -1,0 +1,120 @@
+﻿@page
+@model ModeloAportes
+@{
+    ViewData["Title"] = "Aportes";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Aportes.css" asp-append-version="true" />
+    <script src="~/js/Pages/Cuenta/paginador.js"></script>
+    <script>
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.aportes');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        var resultados = obtenerResultados();
+        var paginador = new Paginador(@Model.resultadosPorPagina);
+        var paginaDefault = @Model.paginaDefault;
+    </script>
+    <script src="~/js/Pages/Cuenta/cliente.js?v=123"></script>
+</head>
+<div>
+    <div class="Aportes-contenedor-fila">
+        <!-- Tabla de resultados -->
+        <div class="Aportes-tabla">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="padding-left:10px;">
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.nombre)
+                        </th>
+                        <th>
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.categoria)
+                        </th>
+                        <th>
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.marca)
+                        </th>
+                        <th style="padding-left:37px">
+                            @Html.DisplayNameFor(model => model.productoVM.precio)
+                        </th>
+                        <th style="padding-left:24px;">
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.unidad)
+                        </th>
+                        <th style="padding-left:20px;">
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.fecha)
+                        </th>
+                        <th style="padding-left:20px;">
+                            <!-- Nombre de columna -->
+                            @Html.DisplayNameFor(model => model.productoVM.tienda)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.productoVM.provincia)
+                        </th>
+                        <th style="padding-left:10px;">
+                            @Html.DisplayNameFor(model => model.productoVM.canton)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="Aportes-tabla-resultados" id="CuerpoResultados">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Paginación -->
+<div class="Aportes-contenedor-paginacion">
+    <div class="Aportes-contenedor-caja-paginacion">
+        <div id="PaginaPrevia" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="Aportes-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
+
+        <span id="TextoPaginacion" class="Aportes-texto-paginacion">  </span>
+
+        <div id="PaginaSiguiente" class="Aportes-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="Aportes-boton-paginacion-deshabilitado">
+            Siguiente
+        </div>
+    </div>
+</div>
+
+<script>
+    var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
+    if (mensajeRedirect) {
+        alert(mensajeRedirect);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<script>
+    var productosVM = paginar(paginaDefault);
+
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(productosVM);
+</script>
