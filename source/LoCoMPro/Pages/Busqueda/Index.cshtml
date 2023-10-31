@@ -36,7 +36,7 @@
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
     </script>
-    <script src="~/js/Pages/Busqueda/cliente.js?v=12"></script>
+    <script src="~/js/Pages/Busqueda/cliente.js?v=165"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -136,7 +136,9 @@
                     <tr>
                         <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productoVM.nombre)
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('nombre')">
+                                @Html.DisplayNameFor(model => model.productoVM.nombre)
+                            </label>
                             <!-- Flecha de ordenamiento descendiente -->
                             <span id="DescendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                 expand_less
