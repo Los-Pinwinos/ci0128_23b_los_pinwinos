@@ -30,7 +30,7 @@
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
-                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario" disabled>
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del correo del modelo vista -->
             <span asp-validation-for="usuarioActual.correo" class="Perfil-texto-error"></span>
