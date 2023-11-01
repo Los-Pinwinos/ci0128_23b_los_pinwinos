@@ -90,13 +90,19 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
 
             // TODO(Angie): borrar
-            Console.WriteLine("estoy en el metodo");
+            Console.WriteLine("estoy en el metodo, calificacion = " + calificacion);
                 
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
             string creacionStr = TempData["calificarRegistroCreacion"]?.ToString() ?? "";
+
+            // Volver a guardar los datos temporales
+            TempData["calificarRegistroUsuario"] = usuarioCreador;
+            TempData["calificarRegistroCreacion"] = creacionStr;
+
             DateTime creacion = DateTime.Parse(creacionStr);
 
+            // TODO(Angie):
             Console.WriteLine("usuario: " + usuario + " usuarioCreador: " + usuarioCreador + " creacion: " + creacion + " calificacion " + calificacion);
                 
 
@@ -107,7 +113,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCreadorRegistro", usuarioCreador);
             comandoInsertarCalificacion.ConfigurarParametroComando("creacionRegistro", creacion);
             comandoInsertarCalificacion.ConfigurarParametroComando("calificacion", calificacion);
-            // comandoInsertarCalificacion.EjecutarProcedimiento();
+            comandoInsertarCalificacion.EjecutarProcedimiento();
 
             // TODO(Angie):
             Console.WriteLine("segundo procedimiento");

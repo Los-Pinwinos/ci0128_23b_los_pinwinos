@@ -3,9 +3,10 @@ function actualizarNoCalificaciones(estado) {
     estrella0.checked = estado;
 }
 
-function calificarRegistro(calificacion, creacion, usuario) {
+function calificarRegistro(calificacion) {
     actualizarNoCalificaciones(false);
-    alert("voy al fetch");
 
-    fetch(`/DetallesRegistro/DetallesRegistro?handler=Calificar&calificacionStr=${calificacion}&creacionStr=${creacion}&usuarioCreador=${usuario}`);
+    alert(calificacion);
+
+    fetch(`/DetallesRegistro/DetallesRegistro?handler=Calificar&calificacion=${calificacion}`);
 }
