@@ -40,11 +40,14 @@ function filtrar() {
     var cantones = obtenerValoresSeleccionados("canton");
     var tiendas = obtenerValoresSeleccionados("tienda");
     var marcas = obtenerValoresSeleccionados("marca");
+    var categorias = obtenerValoresSeleccionados("categoria");
+
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
     filtrador.setFiltroCantones(cantones);
     filtrador.setFiltroTiendas(tiendas);
     filtrador.setFiltroMarcas(marcas);
+    filtrador.setFiltroCategorias(categorias);
     // Filtrar
     resultados = filtrador.filtrar(resultados);
     productosVM = paginar(paginaDefault);
@@ -174,6 +177,7 @@ function renderizarFiltros() {
     renderizarFiltroConcreto(2, "canton");
     renderizarFiltroConcreto(3, "tienda");
     renderizarFiltroConcreto(4, "marca");
+    renderizarFiltroConcreto(5, "categoria");
 }
 
 // Renderizar filtros de provincias
@@ -335,7 +339,7 @@ function renderizarTabla(datos) {
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
 
-           
+
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
 
@@ -389,6 +393,7 @@ function limpiarFiltros() {
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
+    limpiarCheckboxes("categoria");
     if (filtrador.usado) {
         // Restaurar uso
         filtrador.resetearUso();
