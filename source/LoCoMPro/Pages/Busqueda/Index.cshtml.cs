@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.IdentityModel.Tokens;
-using LoCoMPro.Utils.Busqueda;
+using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.Utils;
 using Newtonsoft.Json;
@@ -84,13 +84,24 @@ namespace LoCoMPro.Pages.Busqueda
                 // Asignar valores
                 producto = nombreProducto;
                 // Configurar buscador
-                IBuscador<BusquedaVM> buscador = new BuscadorDeBusqueda(this.contexto, nombreProducto);
+                IBuscador<BusquedaVM> buscador = new BuscadorDeProductos(this.contexto, nombreProducto);
                 // Consultar la base de datos
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
-                // Asignar data de JSON
-                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
+
+                // Si la busqueda tuvo resultados
+                List<BusquedaVM> resultados = busqueda.ToList();
+                if (resultados.Count != 0)
+                {
+                    // Asignar data de JSON
+                    this.resultadosBusqueda = JsonConvert.SerializeObject(resultados);
+                } else
+                {
+                    this.resultadosBusqueda = "Sin resultados";
+                }
+
+                
             }
             return Page();
         }

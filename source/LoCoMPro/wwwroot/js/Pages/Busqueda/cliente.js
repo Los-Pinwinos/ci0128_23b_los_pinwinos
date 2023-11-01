@@ -264,9 +264,6 @@ function renderizarTabla(datos) {
             nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
             nombreCelda.appendChild(divNombre);
 
-            var nombreCell = document.createElement("td");
-            nombreCell.textContent = datos[dato].nombre;
-
             var divCategoria = document.createElement("div");
             divCategoria.className = "contenidoCeldaCategoria";
             divCategoria.textContent = datos[dato].categoria;

@@ -238,8 +238,10 @@ table {
 
 /* Contenido de la celda de Unidad */
 .contenidoCeldaCalificacion {
+    text-align: right;
     min-width: 75px;
     max-width: 75px;
+    margin-left: 5px;
 }
 
 /* Paginacion */

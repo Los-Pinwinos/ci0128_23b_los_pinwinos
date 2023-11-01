@@ -7,6 +7,9 @@ using LoCoMPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
+using LoCoMPro.Utils.SQL;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -114,7 +117,7 @@ namespace LoCoMPro.Pages.Cuenta
             return new JsonResult(listaDistritos);
         }
 
-        public IActionResult OnPostActualizarUsuario()
+        public async Task<IActionResult> OnPostActualizarUsuario()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -131,6 +134,25 @@ namespace LoCoMPro.Pages.Cuenta
                     this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda;
                     
                     this.contexto.SaveChanges();
+
+                    // Si el nombre de usuario cambió
+                    if (this.usuario.nombreDeUsuario != this.usuarioActual.nombreDeUsuario &&
+                        this.usuarioActual.nombreDeUsuario != null)
+                    {
+                        // Llamar al procedimiento para cambiar el nombre de usuario
+                        ControladorComandosSql controlador = new ControladorComandosSql();
+                        controlador.ConfigurarNombreComando("cambiarNombreUsuario");
+                        controlador.ConfigurarParametroComando("anteriorNombre", this.usuario.nombreDeUsuario);
+                        controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
+                        controlador.EjecutarProcedimiento();
+
+                        // Limpia la sesión
+                        HttpContext.Session.Clear();
+                        // Cierra sesión
+                        await HttpContext.SignOutAsync();
+                        // Redirecciona a la página de inicio
+                        return RedirectToPage("/Home/Index");
+                    }
                 }
             }
             

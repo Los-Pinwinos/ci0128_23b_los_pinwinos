@@ -3,10 +3,10 @@ using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoCoMPro.Utils.Busqueda
+namespace LoCoMPro.Utils.Buscadores
 {
     // Buscador especializado para la pagina de busqueda avanzada
-    public class BuscadorDeBusquedaAvanzada : BuscadorDeBusqueda
+    public class BuscadorDeProductosAvanzado : BuscadorDeProductos
     {
         // Busquedas
         private string? marca { get; set; }
@@ -14,7 +14,7 @@ namespace LoCoMPro.Utils.Busqueda
         private string? canton { get; set; }
 
         // Constructor
-        public BuscadorDeBusquedaAvanzada(LoCoMProContext contexto
+        public BuscadorDeProductosAvanzado(LoCoMProContext contexto
                                         , string? producto = null, string? marca = null, string? provincia = null, string? canton = null)
             : base(contexto, producto)
         {
