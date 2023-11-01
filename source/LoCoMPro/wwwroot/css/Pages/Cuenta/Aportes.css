@@ -46,8 +46,8 @@ table {
         background-color: #1A7254;
         cursor: pointer;
         text-align: left;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding-top: 1px;
+        padding-bottom: 1px;
         border: none;
         position: relative;
     }
@@ -64,13 +64,7 @@ table {
     /* Tbody fila */
     table tbody tr {
         color: white;
-        height: 50px;
-    }
-
-    /* Deshabilita el hover en la columna de Nombre */
-    table tbody td:first-child:hover,
-    table thead th:first-child:hover {
-        pointer-events: none;
+        height: 30px;
     }
 
 /* Características de hover */
@@ -93,39 +87,31 @@ table td::before {
     content: "";
 }
 
-/* Contenido de la celda de Nombre */
-.contenidoCeldaNombre {
-    padding-left: 10px;
-    max-width: 120px;
-    min-width: 120px;
-    overflow-wrap: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Contenido de la celda de Categoria */
-.contenidoCeldaCategoria {
-    min-width: 108px;
-    max-width: 108px;
+/* Contenido de la celda de Fecha */
+.contenidoCeldaFecha {
+    min-width: 78px;
+    max-width: 78px;
+    margin-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Marca */
-.contenidoCeldaMarca {
-    min-width: 90px;
-    max-width: 90px;
-    overflow-wrap: normal;
+/* Contenido de la celda de Producto */
+.contenidoCeldaProducto {
+    max-width: 150px;
+    min-width: 150px;
+    margin-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Contenido de la celda de Precio */
 .contenidoCeldaPrecio {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 70px;
+    max-width: 70px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -142,11 +128,10 @@ table td::before {
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Fecha */
-.contenidoCeldaFecha {
-    min-width: 78px;
-    max-width: 78px;
-    margin-left: 20px;
+/* Contenido de la celda de Categoria */
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -154,12 +139,11 @@ table td::before {
 
 /* Contenido de la celda de Tienda */
 .contenidoCeldaTienda {
-    min-width: 100px;
-    max-width: 100px;
-    margin-left: 20px;
-    overflow-wrap: normal;
+    min-width: 150px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Contenido de la celda de Tienda */
@@ -173,12 +157,23 @@ table td::before {
 
 /* Contenido de la celda de Tienda */
 .contenidoCeldaCanton {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 90px;
+    max-width: 90px;
     margin-left: 10px;
-    overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Calificacion */
+.contenidoCeldaCalificacion {
+    text-align: right;
+    min-width: 10px;
+    max-width: 10px;
+    margin-left: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Paginacion */

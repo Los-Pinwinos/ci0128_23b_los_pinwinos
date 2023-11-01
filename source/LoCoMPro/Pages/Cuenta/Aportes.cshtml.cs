@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.Data;
-using LoCoMPro.ViewModels.Busqueda;
+using LoCoMPro.ViewModels.Cuenta;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
 using Newtonsoft.Json;
@@ -23,13 +23,7 @@ namespace LoCoMPro.Pages.Cuenta
         }
 
         public string? aportes { get; set; }
-        // Visual
-        [BindProperty]
-        public IList<string> provinciasV { get; set; } = default!;
-        public IList<string> cantonesV { get; set; } = default!;
-        public IList<string> tiendasV { get; set; } = default!;
-        public IList<string?> marcasV { get; set; } = default!;
-        public BusquedaVM productoVM { get; set; } = default!;
+        public AporteVM aporteVM { get; set; } = default!;
 
         // Paginación
         public int paginaDefault { get; set; }
@@ -39,34 +33,20 @@ namespace LoCoMPro.Pages.Cuenta
         public void Inicializar()
         {
 
-            // Inicializar datos de vista
-            this.provinciasV = new List<string>();
-            this.cantonesV = new List<string>();
-            this.tiendasV = new List<string>();
-            this.marcasV = new List<string?>();
-
-            this.productoVM = new BusquedaVM
-            {
-                nombre = ""
-                                                ,
-                canton = ""
-                                                ,
-                fecha = new DateTime()
-                                                ,
-                precio = 0
-                                                ,
-                marca = ""
-                                                ,
-                provincia = ""
-                                                ,
-                tienda = ""
-                                                ,
-                unidad = ""
-                                                ,
-                categoria = ""
+            this.aporteVM = new AporteVM
+            { 
+                fecha = DateTime.Now,
+                producto = "",
+                precio = 0,
+                unidad = "",
+                categoria = "",
+                tienda = "",
+                canton = "",
+                provincia = "",
+                calificacion = 0
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 4);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 10);
         }
 
         // Método On get para cargar los resultados o redireccionar
@@ -80,12 +60,12 @@ namespace LoCoMPro.Pages.Cuenta
             } else
             {
                 // Configurar buscador
-                IBuscador<BusquedaVM> buscador = new BuscadorDeAportes(this.contexto, User.Identity.Name);
+                IBuscador<AporteVM> buscador = new BuscadorDeAportes(this.contexto, User.Identity.Name);
                 // Consultar la base de datos
-                IQueryable<BusquedaVM> busqueda = buscador.buscar();
+                IQueryable<AporteVM> busqueda = buscador.buscar();
 
                 // Si la busqueda tuvo resultados
-                List<BusquedaVM> resultados = busqueda.ToList();
+                List<AporteVM> resultados = busqueda.ToList();
                 if (resultados.Count != 0)
                 {
                     // Asignar data de JSON

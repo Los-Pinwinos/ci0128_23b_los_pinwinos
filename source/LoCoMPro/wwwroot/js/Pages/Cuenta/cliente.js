@@ -12,7 +12,7 @@ function formatearFecha(fecha) {
 }
 
 // Paginar
-function paginar(numeroPagina = productosVM.IndicePagina) {
+function paginar(numeroPagina = aportesVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
 
@@ -29,20 +29,20 @@ function renderizarPaginacion() {
 }
 
 function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
-    if (paginaFinal < productosVM.PaginasTotales) {
+    if (paginaFinal < aportesVM.PaginasTotales) {
         const finalElipsis = document.createElement("span");
         // Agregar ... a la ultima pagina si fuera necesario
 
-        if (paginaFinal !== productosVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        if (paginaFinal !== aportesVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
         else finalElipsis.textContent = " ";
         paginacionContenedor.appendChild(finalElipsis);
 
         const linkUltimaPagina = document.createElement("span");
-        linkUltimaPagina.textContent = productosVM.PaginasTotales;
+        linkUltimaPagina.textContent = aportesVM.PaginasTotales;
         linkUltimaPagina.classList.add("pagina-seleccionable");
 
         linkUltimaPagina.addEventListener("click", function () {
-            pasarPagina(productosVM.PaginasTotales);
+            pasarPagina(aportesVM.PaginasTotales);
         });
         paginacionContenedor.appendChild(linkUltimaPagina);
     }
@@ -75,8 +75,8 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
 
     const numeroDeLinksDePaginas = 5;
 
-    let paginaInicial = Math.max(1, productosVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
-    let paginaFinal = Math.min(productosVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+    let paginaInicial = Math.max(1, aportesVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(aportesVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
 
     if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
         paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
@@ -86,7 +86,7 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
         const paginaLink = document.createElement("span");
         paginaLink.textContent = pagina;
 
-        if (pagina === productosVM.IndicePagina) {
+        if (pagina === aportesVM.IndicePagina) {
             paginaLink.classList.add("pagina");
         } else {
             paginaLink.classList.add("pagina-seleccionable");
@@ -112,7 +112,7 @@ function renderizarBotonesSiguienteAnterior() {
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
 
-    if (productosVM.TienePaginaPrevia) {
+    if (aportesVM.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
     } else {
@@ -120,7 +120,7 @@ function renderizarBotonesSiguienteAnterior() {
         botonSinPaginaPrevia.style.display = "block";
     }
 
-    if (productosVM.TieneProximaPagina) {
+    if (aportesVM.TieneProximaPagina) {
         botonPaginaSiguiente.style.display = "block";
         botonSinPaginaSiguiente.style.display = "none";
     } else {
@@ -143,30 +143,23 @@ function renderizarTabla(datos) {
         // result-row se utiliza para redirigir los datos de la fila selecionada a la página de VerRegistros
         row.classList.add("result-row")
 
-        if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
-            var divNombre = document.createElement("div");
-            divNombre.className = "contenidoCeldaNombre";
-            divNombre.textContent = datos[dato].nombre;
-            var nombreCelda = document.createElement("td");
-            nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
-            nombreCelda.appendChild(divNombre);
+        if (typeof datos[dato].producto !== 'undefined' && datos[dato].producto !== "") {
+            var divFecha = document.createElement("div");
+            divFecha.className = "contenidoCeldaFecha";
+            divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
+            var fechaCelda = document.createElement("td");
+            var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
+                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1]
+                + datos[dato].fecha[2] + datos[dato].fecha[3];
+            fechaCelda.setAttribute('data-tooltip', contenidoFecha);
+            fechaCelda.appendChild(divFecha);
 
-            var nombreCell = document.createElement("td");
-            nombreCell.textContent = datos[dato].nombre;
-
-            var divCategoria = document.createElement("div");
-            divCategoria.className = "contenidoCeldaCategoria";
-            divCategoria.textContent = datos[dato].categoria;
-            var categoriaCelda = document.createElement("td");
-            categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
-            categoriaCelda.appendChild(divCategoria);
-
-            var divMarca = document.createElement("div");
-            divMarca.className = "contenidoCeldaMarca";
-            divMarca.textContent = datos[dato].marca;
-            var marcaCelda = document.createElement("td");
-            marcaCelda.setAttribute('data-tooltip', datos[dato].marca);
-            marcaCelda.appendChild(divMarca);
+            var divProducto = document.createElement("div");
+            divProducto.className = "contenidoCeldaProducto";
+            divProducto.textContent = datos[dato].producto;
+            var productoCelda = document.createElement("td");
+            productoCelda.setAttribute('data-tooltip', datos[dato].producto);
+            productoCelda.appendChild(divProducto);
 
             var divPrecio = document.createElement("div");
             divPrecio.className = "contenidoCeldaPrecio";
@@ -183,15 +176,12 @@ function renderizarTabla(datos) {
             unidadCelda.setAttribute('data-tooltip', datos[dato].unidad);
             unidadCelda.appendChild(divUnidad);
 
-            var divFecha = document.createElement("div");
-            divFecha.className = "contenidoCeldaFecha";
-            divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
-            var fechaCelda = document.createElement("td");
-            var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
-                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1]
-                + datos[dato].fecha[2] + datos[dato].fecha[3];
-            fechaCelda.setAttribute('data-tooltip', contenidoFecha);
-            fechaCelda.appendChild(divFecha);
+            var divCategoria = document.createElement("div");
+            divCategoria.className = "contenidoCeldaCategoria";
+            divCategoria.textContent = datos[dato].categoria;
+            var categoriaCelda = document.createElement("td");
+            categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
+            categoriaCelda.appendChild(divCategoria);
 
             var divTienda = document.createElement("div");
             divTienda.className = "contenidoCeldaTienda";
@@ -214,24 +204,30 @@ function renderizarTabla(datos) {
             cantonCelda.setAttribute('data-tooltip', datos[dato].canton);
             cantonCelda.appendChild(divCanton);
 
+            var divCalificacion = document.createElement("div");
+            divCalificacion.className = "contenidoCeldaCalificacion";
+            divCalificacion.textContent = datos[dato].calificacion;
+            var calificacionCelda = document.createElement("td");
+            calificacionCelda.setAttribute('data-tooltip', datos[dato].calificacion);
+            calificacionCelda.appendChild(divCalificacion);
+
             // Agregar celdas a fila
-            row.appendChild(nombreCelda);
-            row.appendChild(categoriaCelda);
-            row.appendChild(marcaCelda);
+            row.appendChild(fechaCelda);
+            row.appendChild(productoCelda);
             row.appendChild(precioCelda);
             row.appendChild(unidadCelda);
-            row.appendChild(fechaCelda);
+            row.appendChild(categoriaCelda);
             row.appendChild(tiendaCelda);
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
-
+            row.appendChild(calificacionCelda);
            
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
 
             // Variables para redireccionar
             var fechaHoraEnviar = datos[dato].fecha;
-            var producto = datos[dato].nombre;
+            var producto = datos[dato].producto;
 
             // Redirecciona a Detalles Registro
             (function (fechaHora, producto) {
@@ -248,9 +244,9 @@ function renderizarTabla(datos) {
 // Pasar pagina
 function pasarPagina(numeroPagina) {
     // Paginar
-    productosVM = paginar(numeroPagina);
+    aportesVM = paginar(numeroPagina);
     // Renderizar
     renderizarPaginacion();
-    renderizarTabla(productosVM);
+    renderizarTabla(aportesVM);
     window.scrollTo(0, 0);
 }

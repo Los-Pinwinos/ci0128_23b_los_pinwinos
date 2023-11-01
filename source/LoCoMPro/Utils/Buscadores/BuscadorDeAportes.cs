@@ -1,12 +1,12 @@
 ﻿using LoCoMPro.Data;
 using LoCoMPro.Utils.Interfaces;
-using LoCoMPro.ViewModels.Busqueda;
+using LoCoMPro.ViewModels.Cuenta;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Utils.Buscadores
 {
     // Buscador especializado para la pagina de busqueda
-    public class BuscadorDeAportes : IBuscador<BusquedaVM>
+    public class BuscadorDeAportes : IBuscador<AporteVM>
     {
         // Contexto
         protected readonly LoCoMProContext contexto;
@@ -28,22 +28,22 @@ namespace LoCoMPro.Utils.Buscadores
         }
   
         // Buscar aportes del usuario
-        public IQueryable<BusquedaVM> buscar()
+        public IQueryable<AporteVM> buscar()
         {
-            IQueryable<BusquedaVM> resultadosIQ = this.contexto.Registros
+            IQueryable<AporteVM> resultadosIQ = this.contexto.Registros
                 .Where(r => r.usuarioCreador == this.usuario)
                 .OrderByDescending(r => r.creacion)
-                .Select(r => new BusquedaVM
+                .Select(r => new AporteVM
                 {
-                    nombre = r.productoAsociado,
+                    fecha = r.creacion,
+                    producto = r.productoAsociado,
                     precio = r.precio,
                     unidad = r.producto.nombreUnidad,
-                    fecha = r.creacion,
+                    categoria = r.producto.nombreCategoria,
                     tienda = r.nombreTienda,
                     provincia = r.nombreProvincia,
                     canton = r.nombreCanton,
-                    marca = !string.IsNullOrEmpty(r.producto.marca) ? r.producto.marca : "Sin marca",
-                    categoria = r.producto.nombreCategoria
+                    calificacion = r.calificacion
                 });
 
             return resultadosIQ;
