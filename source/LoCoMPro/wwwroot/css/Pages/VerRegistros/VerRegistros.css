@@ -6,7 +6,7 @@
     border: 2px solid #1A7254;
     border-radius: 5px;
     padding: 5px 10px;
-    width: 95%;
+    width: 96.9%;
     margin-bottom: 10px;
 }
 
@@ -55,13 +55,13 @@
 
 .precio {
     text-align: right;
-    margin-right: 200px;
+    margin-right: 10px;
 }
 
 
 .precioAgrupado {
     text-align: right;
-    margin-right: 20px;
+    margin-left: 25px;
 }
 
 
@@ -138,7 +138,6 @@ table {
         position: relative;
     }
 
-
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
         }
@@ -147,11 +146,6 @@ table {
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
         }
-
-        table tbody td:nth-child(6) {
-            display: none;
-        }
-
 
     table tbody tr {
         color: white;
@@ -207,6 +201,18 @@ table {
     white-space: nowrap;
 }
 
+.ContenidoTituloCorto {
+    min-width: 50px;
+    max-width: 50px;
+    white-space: nowrap;
+}
+
+.ContenidoTituloDescripcion {
+    min-width: 50px;
+    max-width: 50px;
+    white-space: nowrap;
+}
+
 .contenidoCeldaFecha {
     padding-left: 10px;
     min-width: 88px;
@@ -223,6 +229,15 @@ table {
 .contenidoCeldaCalificacion {
     min-width: 75px;
     max-width: 75px;
+    text-align: right;
+    margin-right: 25px;
+    direction: rtl;
+}
+
+.contenidoCeldaDescripcion {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 50px;
 }
 
 /* Paginacion */

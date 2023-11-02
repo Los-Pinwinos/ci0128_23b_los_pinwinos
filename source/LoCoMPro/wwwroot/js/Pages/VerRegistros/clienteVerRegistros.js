@@ -13,36 +13,43 @@ function formatearFecha(datos) {
     return contenidoFecha
 }
 
-
 function tituloNormal(titulosTabla) {
-    var titulosNuevos = document.createElement("tr");
 
+    var divFechaTitulo = document.createElement("div");
+    divFechaTitulo.style.marginLeft = "10px";
+    divFechaTitulo.textContent = "Fecha";
+    divFechaTitulo.className = "ContenidoTitulo";
     var fechaTitulo = document.createElement("th");
-    fechaTitulo.textContent = "Fecha";
-    fechaTitulo.className = "ContenidoTitulo";
-    fechaTitulo.style.paddingLeft = "10px";
+    fechaTitulo.appendChild(divFechaTitulo);
 
+
+    var divPrecioTitulo = document.createElement("div");
+    divPrecioTitulo.style.marginLeft = "40px";
+    divPrecioTitulo.textContent = "Precio";
+    divPrecioTitulo.className = "ContenidoTituloCorto";
     var precioTitulo = document.createElement("th");
-    precioTitulo.textContent = "Precio";
-    precioTitulo.className = "ContenidoTitulo";
-    precioTitulo.style.paddingLeft = "80px";
+    precioTitulo.appendChild(divPrecioTitulo);
 
+
+    var divCalifTitulo = document.createElement("div");
+    divCalifTitulo.style.marginLeft = "0px";
+    divCalifTitulo.textContent = "Calificación";
+    divCalifTitulo.className = "ContenidoTituloCorto";
     var califTitulo = document.createElement("th");
-    califTitulo.textContent = "Calificación";
-    califTitulo.className = "ContenidoTitulo";
-    califTitulo.style.paddingLeft = "90px";
+    califTitulo.appendChild(divCalifTitulo);
 
+
+    var divDescripcionTitulo = document.createElement("div");
+    divDescripcionTitulo.style.marginLeft = "50px";
+    divDescripcionTitulo.textContent = "Descripción";
+    divDescripcionTitulo.className = "ContenidoTituloDescripcion";
     var descripcionTitulo = document.createElement("th");
-    descripcionTitulo.textContent = "Descripción";
-    descripcionTitulo.className = "ContenidoTitulo";
-    descripcionTitulo.style.paddingLeft = "90px";
+    descripcionTitulo.appendChild(divDescripcionTitulo);
 
-    titulosNuevos.appendChild(fechaTitulo);
-    titulosNuevos.appendChild(precioTitulo);
-    titulosNuevos.appendChild(califTitulo);
-    titulosNuevos.appendChild(descripcionTitulo);
-
-    titulosTabla.appendChild(titulosNuevos);
+    titulosTabla.appendChild(fechaTitulo);
+    titulosTabla.appendChild(precioTitulo);
+    titulosTabla.appendChild(califTitulo);
+    titulosTabla.appendChild(descripcionTitulo);
 }
 
 
@@ -88,8 +95,12 @@ function renderizarTabla(datos) {
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
 
+            var divDescripcion = document.createElement("div");
+            divDescripcion.className = "contenidoCeldaDescripcion";
+            divDescripcion.textContent = datos[dato].descripcion;
             var descripcionCelda = document.createElement("td");
-            descripcionCelda.textContent = datos[dato].descripcion;
+            descripcionCelda.appendChild(divDescripcion);
+
 
             fila.appendChild(fechaCelda);
             fila.appendChild(precioCelda);
@@ -113,40 +124,49 @@ function renderizarTabla(datos) {
 }
 
 
+function titulosAgrupados(titulosTabla, textoFecha) {
+    var divFechaTitulo = document.createElement("div");
+    divFechaTitulo.style.marginLeft = "10px";
+    divFechaTitulo.textContent = textoFecha;
+    divFechaTitulo.className = "ContenidoTitulo";
+    var fechaTitulo = document.createElement("th");
+    fechaTitulo.appendChild(divFechaTitulo);
 
-function titulosAgrupados(titulosTabla, titulosNuevos, fechaTitulo) {
-
+    var divPMinTitulo = document.createElement("div");
+    divPMinTitulo.style.marginLeft = "1px";
+    divPMinTitulo.textContent = "Precio Mínimo";
+    divPMinTitulo.className = "ContenidoTitulo";
     var pminTitulo = document.createElement("th");
-    pminTitulo.textContent = "Precio Mínimo";
-    pminTitulo.className = "ContenidoTitulo";
-    pminTitulo.style.paddingLeft = "50px";
+    pminTitulo.appendChild(divPMinTitulo);
 
+
+    var divPpromTitulo = document.createElement("div");
+    divPpromTitulo.style.marginLeft = "1px";
+    divPpromTitulo.textContent = "Precio Promedio";
+    divPpromTitulo.className = "ContenidoTitulo";
     var ppromTitulo = document.createElement("th");
-    ppromTitulo.textContent = "Precio Promedio";
-    ppromTitulo.className = "ContenidoTitulo";
-    ppromTitulo.style.paddingLeft = "50px";
+    ppromTitulo.appendChild(divPpromTitulo);
 
+    var divPmaxTitulo = document.createElement("div");
+    divPmaxTitulo.style.marginLeft = "1px";
+    divPmaxTitulo.textContent = "Precio Máximo";
+    divPmaxTitulo.className = "ContenidoTitulo";
     var pmaxTitulo = document.createElement("th");
-    pmaxTitulo.textContent = "Precio Máximo";
-    pmaxTitulo.className = "ContenidoTitulo";
-    pmaxTitulo.style.paddingLeft = "50px";
+    pmaxTitulo.appendChild(divPmaxTitulo);
 
+    var divCalifPromTitulo = document.createElement("div");
+    divCalifPromTitulo.style.marginLeft = "0px";
+    divCalifPromTitulo.textContent = "Calificación Promedio";
+    divCalifPromTitulo.className = "ContenidoTitulo";
     var califPromTitulo = document.createElement("th");
-    califPromTitulo.textContent = "Calificación Promedio";
-    califPromTitulo.className = "ContenidoTitulo";
-    califPromTitulo.style.paddingLeft = "50px";
+    califPromTitulo.appendChild(divCalifPromTitulo);
 
-    titulosNuevos.appendChild(fechaTitulo);
-    titulosNuevos.appendChild(pminTitulo);
-    titulosNuevos.appendChild(ppromTitulo);
-    titulosNuevos.appendChild(pmaxTitulo);
-    titulosNuevos.appendChild(califPromTitulo);
-
-    titulosTabla.appendChild(titulosNuevos);
-
+    titulosTabla.appendChild(fechaTitulo);
+    titulosTabla.appendChild(pminTitulo);
+    titulosTabla.appendChild(ppromTitulo);
+    titulosTabla.appendChild(pmaxTitulo);
+    titulosTabla.appendChild(califPromTitulo);
 }
-
-
 
 
 function renderizarTablaAgrupadaDia(datosAgregados) {
@@ -198,6 +218,7 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
         divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
         var calificacionCelda = document.createElement("td");
+        calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
         calificacionCelda.appendChild(divCalificacion);
 
@@ -217,15 +238,7 @@ function generarDatosDia(datos) {
 
     titulosTabla.innerHTML = "";
 
-
-    var titulosNuevos = document.createElement("tr");
-
-    var fechaTitulo = document.createElement("th");
-    fechaTitulo.textContent = "Fecha";
-    fechaTitulo.className = "ContenidoTitulo";
-    fechaTitulo.style.paddingLeft = "10px";
-
-    titulosAgrupados(titulosTabla, titulosNuevos, fechaTitulo);
+    titulosAgrupados(titulosTabla, "Fecha");
 
     var datosAgrupados = {};
     for (var dato in datos) {
@@ -283,7 +296,8 @@ function generarDatosDia(datos) {
 }
 
 
-function renderizarTablaAgrupadaSemana(datosAgregados) {
+
+function renderizarTablaAgrupadaDia(datosAgregados) {
     var cuerpoTabla = document.getElementById("cuerpoResultados");
 
     cuerpoTabla.innerHTML = "";
@@ -332,6 +346,7 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
         divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
         var calificacionCelda = document.createElement("td");
+        calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
         calificacionCelda.appendChild(divCalificacion);
 
@@ -346,20 +361,12 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
 }
 
 
-function generarDatosSemana(datos) {
+function generarDatosDia(datos) {
     var titulosTabla = document.getElementById("TitulosTabla");
 
     titulosTabla.innerHTML = "";
 
-
-    var titulosNuevos = document.createElement("tr");
-
-    var fechaTitulo = document.createElement("th");
-    fechaTitulo.textContent = "Fecha";
-    fechaTitulo.className = "ContenidoTitulo";
-    fechaTitulo.style.paddingLeft = "10px";
-
-    titulosAgrupados(titulosTabla, titulosNuevos, fechaTitulo);
+    titulosAgrupados(titulosTabla, "Fecha");
 
     var datosAgrupados = {};
     for (var dato in datos) {
@@ -424,9 +431,12 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
     for (var entradaAgregada of datosAgregados) {
         var fila = document.createElement("tr");
 
+        var ano = entradaAgregada.ano;
+        var month = entradaAgregada.month;
+
         var divFecha = document.createElement("div");
         divFecha.className = "contenidoCeldaFecha";
-        divFecha.textContent = entradaAgregada.fecha;
+        divFecha.textContent = month + "-" + ano;
         var fechaCelda = document.createElement("td");
         fechaCelda.setAttribute('data-tooltip', divFecha.textContent);
         fechaCelda.appendChild(divFecha);
@@ -465,7 +475,9 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
         divCalificacion.className = "contenidoCeldaCalificacion";
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
         divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+
         var calificacionCelda = document.createElement("td");
+        calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
         calificacionCelda.appendChild(divCalificacion);
 
@@ -479,51 +491,51 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
     }
 }
 
-
 function generarDatosMes(datos) {
+
     var titulosTabla = document.getElementById("TitulosTabla");
 
     titulosTabla.innerHTML = "";
 
-
-    var titulosNuevos = document.createElement("tr");
-
-    var fechaTitulo = document.createElement("th");
-    fechaTitulo.textContent = "Fecha";
-    fechaTitulo.className = "ContenidoTitulo";
-    fechaTitulo.style.paddingLeft = "10px";
-
-    titulosAgrupados(titulosTabla, titulosNuevos, fechaTitulo);
+    titulosAgrupados(titulosTabla, "Mes");
 
     var datosAgrupados = {};
+    var datosAgregados = [];
+
     for (var dato in datos) {
         if (datos[dato].creacion !== undefined && datos[dato].creacion !== "") {
             var fecha = formatearFecha(datos[dato]);
 
-            if (!datosAgrupados[fecha]) {
-                datosAgrupados[fecha] = {
-                    precios: [],
-                    calificaciones: [],
-                };
-            }
+            if (fecha) {
+                var dateParts = fecha.split("/");
+                var ano = dateParts[2];
+                var month = dateParts[1];
 
-            var precio = parseFloat(datos[dato].precio);
+                var groupKey = ano + "-" + month;
 
-            datosAgrupados[fecha].precios.push(precio);
+                if (!datosAgrupados[groupKey]) {
+                    datosAgrupados[groupKey] = {
+                        precios: [],
+                        calificaciones: [],
+                    };
+                }
 
-            if (datos[dato].calificacion != null) {
-                datosAgrupados[fecha].calificaciones.push(parseFloat(datos[dato].calificacion));
-            } else {
-                datosAgrupados[fecha].calificaciones.push(0);
+                var precio = parseFloat(datos[dato].precio);
+
+                datosAgrupados[groupKey].precios.push(precio);
+
+                if (datos[dato].calificacion != null) {
+                    datosAgrupados[groupKey].calificaciones.push(parseFloat(datos[dato].calificacion));
+                } else {
+                    datosAgrupados[groupKey].calificaciones.push(0);
+                }
             }
         }
     }
 
-    var datosAgregados = [];
-
-    for (var fecha in datosAgrupados) {
-        var precios = datosAgrupados[fecha].precios;
-        var calificaciones = datosAgrupados[fecha].calificaciones;
+    for (var groupKey in datosAgrupados) {
+        var precios = datosAgrupados[groupKey].precios;
+        var calificaciones = datosAgrupados[groupKey].calificaciones;
 
         var minPrecio = Math.min(...precios);
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
@@ -538,7 +550,8 @@ function generarDatosMes(datos) {
             : 0;
 
         var entradaAgregada = {
-            fecha: fecha,
+            ano: groupKey.split("-")[0],
+            month: groupKey.split("-")[1],
             minPrecio: minPrecio,
             promedioPrecio: promedioPrecio,
             maxPrecio: maxPrecio,
@@ -550,18 +563,18 @@ function generarDatosMes(datos) {
     return datosAgregados;
 }
 
-
-
 function renderizarTablaAgrupadaAno(datosAgregados) {
+
     var cuerpoTabla = document.getElementById("cuerpoResultados");
 
     cuerpoTabla.innerHTML = "";
+
     for (var entradaAgregada of datosAgregados) {
         var fila = document.createElement("tr");
 
         var divFecha = document.createElement("div");
         divFecha.className = "contenidoCeldaFecha";
-        divFecha.textContent = entradaAgregada.fecha;
+        divFecha.textContent = entradaAgregada.ano;
         var fechaCelda = document.createElement("td");
         fechaCelda.setAttribute('data-tooltip', divFecha.textContent);
         fechaCelda.appendChild(divFecha);
@@ -600,7 +613,9 @@ function renderizarTablaAgrupadaAno(datosAgregados) {
         divCalificacion.className = "contenidoCeldaCalificacion";
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
         divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+
         var calificacionCelda = document.createElement("td");
+        calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
         calificacionCelda.appendChild(divCalificacion);
 
@@ -612,68 +627,62 @@ function renderizarTablaAgrupadaAno(datosAgregados) {
 
         cuerpoTabla.appendChild(fila);
     }
+
 }
 
 
 function generarDatosAno(datos) {
+
     var titulosTabla = document.getElementById("TitulosTabla");
 
     titulosTabla.innerHTML = "";
 
-
-    var titulosNuevos = document.createElement("tr");
-
-    var fechaTitulo = document.createElement("th");
-    fechaTitulo.textContent = "Fecha";
-    fechaTitulo.className = "ContenidoTitulo";
-    fechaTitulo.style.paddingLeft = "10px";
-
-    titulosAgrupados(titulosTabla, titulosNuevos, fechaTitulo);
+    titulosAgrupados(titulosTabla, "Año");
 
     var datosAgrupados = {};
+    var datosAgregados = [];
+
     for (var dato in datos) {
         if (datos[dato].creacion !== undefined && datos[dato].creacion !== "") {
             var fecha = formatearFecha(datos[dato]);
+            if (fecha) {
+                var dateParts = fecha.split("/");
+                var ano = dateParts[2];
 
-            if (!datosAgrupados[fecha]) {
-                datosAgrupados[fecha] = {
-                    precios: [],
-                    calificaciones: [],
-                };
-            }
+                if (!datosAgrupados[ano]) {
+                    datosAgrupados[ano] = {
+                        precios: [],
+                        calificaciones: [],
+                    };
+                }
 
-            var precio = parseFloat(datos[dato].precio);
+                var precio = parseFloat(datos[dato].precio);
+                datosAgrupados[ano].precios.push(precio);
 
-            datosAgrupados[fecha].precios.push(precio);
-
-            if (datos[dato].calificacion != null) {
-                datosAgrupados[fecha].calificaciones.push(parseFloat(datos[dato].calificacion));
-            } else {
-                datosAgrupados[fecha].calificaciones.push(0);
+                if (datos[dato].calificacion != null) {
+                    datosAgrupados[ano].calificaciones.push(parseFloat(datos[dato].calificacion));
+                } else {
+                    datosAgrupados[ano].calificaciones.push(0);
+                }
             }
         }
     }
-
-    var datosAgregados = [];
-
-    for (var fecha in datosAgrupados) {
-        var precios = datosAgrupados[fecha].precios;
-        var calificaciones = datosAgrupados[fecha].calificaciones;
+    for (var ano in datosAgrupados) {
+        var precios = datosAgrupados[ano].precios;
+        var calificaciones = datosAgrupados[ano].calificaciones;
 
         var minPrecio = Math.min(...precios);
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
         var maxPrecio = Math.max(...precios);
 
         var totalCalificaciones = calificaciones.length;
-
         var sumCalificaciones = calificaciones.reduce((acc, val) => acc + val, 0);
-
         var promedioCalificacion = totalCalificaciones > 0
             ? sumCalificaciones / totalCalificaciones
             : 0;
 
         var entradaAgregada = {
-            fecha: fecha,
+            ano: ano,
             minPrecio: minPrecio,
             promedioPrecio: promedioPrecio,
             maxPrecio: maxPrecio,
