@@ -3,10 +3,10 @@ using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoCoMPro.Utils.Busqueda
+namespace LoCoMPro.Utils.Buscadores
 {
     // Buscador especializado para la pagina de busqueda
-    public class BuscadorDeBusqueda : IBuscador<BusquedaVM>
+    public class BuscadorDeProductos : IBuscador<BusquedaVM>
     {
         // Contexto
         protected readonly LoCoMProContext contexto;
@@ -15,7 +15,7 @@ namespace LoCoMPro.Utils.Busqueda
         protected string? producto { get; set; }
 
         // Constructor
-        public BuscadorDeBusqueda(LoCoMProContext contexto, string? producto = null)
+        public BuscadorDeProductos(LoCoMProContext contexto, string? producto = null)
         {
             this.contexto = contexto;
             this.producto = producto;

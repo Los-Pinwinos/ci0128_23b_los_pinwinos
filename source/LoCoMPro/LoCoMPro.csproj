@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\Busqueda\**" />
     <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="Utils\Busqueda\**" />
     <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="Utils\Busqueda\**" />
     <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="Utils\Busqueda\**" />
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
@@ -24,9 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\Busqueda\" />
+    <Folder Include="SQLScripts\" />
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
+    <Folder Include="wwwroot\js\Pages\" />
     <Folder Include="ViewModels\Cuenta\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
   </ItemGroup>

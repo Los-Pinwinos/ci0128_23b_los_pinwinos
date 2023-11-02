@@ -238,8 +238,10 @@ table {
 
 /* Contenido de la celda de Unidad */
 .contenidoCeldaCalificacion {
+    text-align: right;
     min-width: 75px;
     max-width: 75px;
+    margin-left: 5px;
 }
 
 /* Paginacion */
@@ -327,6 +329,32 @@ table {
     margin: 0 10px;
 }
 
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
 
 /*Manejo de imágenes: */
 .Imagen {

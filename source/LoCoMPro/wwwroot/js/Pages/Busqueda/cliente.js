@@ -40,11 +40,14 @@ function filtrar() {
     var cantones = obtenerValoresSeleccionados("canton");
     var tiendas = obtenerValoresSeleccionados("tienda");
     var marcas = obtenerValoresSeleccionados("marca");
+    var categorias = obtenerValoresSeleccionados("categoria");
+
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
     filtrador.setFiltroCantones(cantones);
     filtrador.setFiltroTiendas(tiendas);
     filtrador.setFiltroMarcas(marcas);
+    filtrador.setFiltroCategorias(categorias);
     // Filtrar
     resultados = filtrador.filtrar(resultados);
     productosVM = paginar(paginaDefault);
@@ -54,19 +57,102 @@ function filtrar() {
     renderizarTabla(productosVM);
 }
 
-// Renderizar paginado
 function renderizarPaginacion() {
-    // Obtener elementos
+    // Renderizar los botones de Siguiente Pagina y Pagina Anterior
+    renderizarBotonesSiguienteAnterior();
+
+    var paginacionContenedor = document.getElementById("TextoPaginacion");
+
+    // Renderizar los numeros de en medio mostrados en la barra de paginacion
+    var limites = renderizarNumerosPaginaIntermedios(paginacionContenedor);
+    renderizarPrimerNumeroPagina(paginacionContenedor, limites.paginaInicial);
+    renderizarUltimoNumeroPagina(paginacionContenedor, limites.paginaFinal);
+}
+
+function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
+    if (paginaFinal < productosVM.PaginasTotales) {
+        const finalElipsis = document.createElement("span");
+        // Agregar ... a la ultima pagina si fuera necesario
+
+        if (paginaFinal !== productosVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        else finalElipsis.textContent = " ";
+        paginacionContenedor.appendChild(finalElipsis);
+
+        const linkUltimaPagina = document.createElement("span");
+        linkUltimaPagina.textContent = productosVM.PaginasTotales;
+        linkUltimaPagina.classList.add("pagina-seleccionable");
+
+        linkUltimaPagina.addEventListener("click", function () {
+            pasarPagina(productosVM.PaginasTotales);
+        });
+        paginacionContenedor.appendChild(linkUltimaPagina);
+    }
+}
+
+function renderizarPrimerNumeroPagina(paginacionContenedor, paginaInicial) {
+    if (paginaInicial > 1) {
+        const inicioElipsis = document.createElement("span");
+
+        // Agregar ... a la primera pagina si fuera necesario
+        if (paginaInicial !== 2) inicioElipsis.textContent = " ... ";
+        else inicioElipsis.textContent = " ";
+
+        paginacionContenedor.insertBefore(inicioElipsis, paginacionContenedor.firstChild);
+
+        const linkPrimeraPagina = document.createElement("span");
+        linkPrimeraPagina.textContent = "1";
+        linkPrimeraPagina.classList.add("pagina-seleccionable");
+
+        linkPrimeraPagina.addEventListener("click", function () {
+            pasarPagina(1);
+        });
+        paginacionContenedor.insertBefore(linkPrimeraPagina, inicioElipsis);
+    }
+}
+
+function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
+
+    paginacionContenedor.innerHTML = "";
+
+    const numeroDeLinksDePaginas = 5;
+
+    let paginaInicial = Math.max(1, productosVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(productosVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+
+    if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
+        paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
+    }
+
+    for (let pagina = paginaInicial; pagina <= paginaFinal; pagina++) {
+        const paginaLink = document.createElement("span");
+        paginaLink.textContent = pagina;
+
+        if (pagina === productosVM.IndicePagina) {
+            paginaLink.classList.add("pagina");
+        } else {
+            paginaLink.classList.add("pagina-seleccionable");
+            paginaLink.addEventListener("click", function () {
+                pasarPagina(pagina);
+            });
+        }
+
+        paginacionContenedor.appendChild(paginaLink);
+        if (pagina !== paginaFinal) {
+            var espacio = document.createElement("span");
+            espacio.textContent = " ";
+            paginacionContenedor.appendChild(espacio);
+        }
+    }
+
+    return { paginaInicial, paginaFinal };
+}
+
+function renderizarBotonesSiguienteAnterior() {
     var botonPaginaPrevia = document.getElementById("PaginaPrevia");
     var botonSinPaginaPrevia = document.getElementById("SinPaginaPrevia");
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
-    var textoPaginaActual = document.getElementById("TextoPaginacion");
 
-    // Poner pagina actual
-    textoPaginaActual.textContent = productosVM.IndicePagina;
-
-    // Revisar si desplegar o no
     if (productosVM.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
@@ -91,6 +177,7 @@ function renderizarFiltros() {
     renderizarFiltroConcreto(2, "canton");
     renderizarFiltroConcreto(3, "tienda");
     renderizarFiltroConcreto(4, "marca");
+    renderizarFiltroConcreto(5, "categoria");
 }
 
 // Renderizar filtros de provincias
@@ -127,6 +214,7 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
             // Crear label
             var etiqueta = document.createElement("label");
             etiqueta.appendChild(casilla);
+
             etiqueta.appendChild(document.createTextNode(resultados[resultado][nombreDeFiltro]));
             // Agregar a la lista para ordenar
             checkboxesOrdenados.push(etiqueta);
@@ -145,6 +233,10 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
 
     // Agregar los checkboxes ordenados de nuevo
     checkboxesOrdenados.forEach(function (checkboxLabel) {
+        checkboxLabel.style.marginTop = "30px";
+        checkboxLabel.style.marginBottom = "-8px";
+
+        // Append the modified checkboxLabel to your element (filtros)
         filtros.appendChild(checkboxLabel);
     });
 
@@ -175,9 +267,6 @@ function renderizarTabla(datos) {
             var nombreCelda = document.createElement("td");
             nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
             nombreCelda.appendChild(divNombre);
-
-            var nombreCell = document.createElement("td");
-            nombreCell.textContent = datos[dato].nombre;
 
             var divCategoria = document.createElement("div");
             divCategoria.className = "contenidoCeldaCategoria";
@@ -250,7 +339,7 @@ function renderizarTabla(datos) {
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
 
-           
+
             // Agregar celdas cuerpo
             cuerpoTabla.appendChild(row);
 
@@ -304,6 +393,7 @@ function limpiarFiltros() {
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
+    limpiarCheckboxes("categoria");
     if (filtrador.usado) {
         // Restaurar uso
         filtrador.resetearUso();
