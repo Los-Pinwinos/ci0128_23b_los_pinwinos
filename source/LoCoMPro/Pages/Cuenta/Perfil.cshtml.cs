@@ -52,6 +52,13 @@ namespace LoCoMPro.Pages.Cuenta
 
         public IActionResult OnGet()
         {
+            // Verifica si la página OnPost generó un error
+            if (TempData.ContainsKey("ErrorCambiarUsuario"))
+            {
+                // Muestra el error
+                ModelState.AddModelError(string.Empty, TempData["ErrorCambiarUsuario"].ToString());
+            }
+
             this.provincias = this.contexto.Provincias.ToList();
 
             // Si el usuario está loggeado
@@ -139,19 +146,29 @@ namespace LoCoMPro.Pages.Cuenta
                     if (this.usuario.nombreDeUsuario != this.usuarioActual.nombreDeUsuario &&
                         this.usuarioActual.nombreDeUsuario != null)
                     {
-                        // Llamar al procedimiento para cambiar el nombre de usuario
-                        ControladorComandosSql controlador = new ControladorComandosSql();
-                        controlador.ConfigurarNombreComando("cambiarNombreUsuario");
-                        controlador.ConfigurarParametroComando("anteriorNombre", this.usuario.nombreDeUsuario);
-                        controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
-                        controlador.EjecutarProcedimiento();
+                        Usuario? nuevoUsuario = this.contexto.Usuarios.FirstOrDefault(
+                            p => p.nombreDeUsuario == this.usuarioActual.nombreDeUsuario);
+                        if (nuevoUsuario == null)
+                        {
+                            // Llamar al procedimiento para cambiar el nombre de usuario
+                            ControladorComandosSql controlador = new ControladorComandosSql();
+                            controlador.ConfigurarNombreComando("cambiarNombreUsuario");
+                            controlador.ConfigurarParametroComando("anteriorNombre", this.usuario.nombreDeUsuario);
+                            controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
+                            controlador.EjecutarProcedimiento();
 
-                        // Limpia la sesión
-                        HttpContext.Session.Clear();
-                        // Cierra sesión
-                        await HttpContext.SignOutAsync();
-                        // Redirecciona a la página de inicio
-                        return RedirectToPage("/Home/Index");
+                            // Limpia la sesión
+                            HttpContext.Session.Clear();
+                            // Cierra sesión
+                            await HttpContext.SignOutAsync();
+                            // Redirecciona a la página de inicio
+                            return RedirectToPage("/Home/Index");
+
+                        } else
+                        {
+                            // Guarda el error para mostrarlo en la página principal
+                            TempData["ErrorCambiarUsuario"] = "Usuario ya existente en el sistema";
+                        }
                     }
                 }
             }

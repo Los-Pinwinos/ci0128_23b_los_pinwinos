@@ -50,6 +50,10 @@ class OrdenadorDeBusqueda {
     ordenarAscendente(resultadosIQ) {
         this.esconderFlechas();
         switch (this.ordenado) {
+            case 'nombre':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                document.getElementById("DescendenteNombre").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.precio - b.precio);
                 document.getElementById("DescendentePrecio").hidden = false;
@@ -72,6 +76,10 @@ class OrdenadorDeBusqueda {
     ordenarDescendente(resultadosIQ) {
         this.esconderFlechas();
         switch (this.ordenado) {
+            case 'nombre':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.nombre.localeCompare(a.nombre));
+                document.getElementById("AscendenteNombre").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.precio - a.precio);
                 document.getElementById("AscendentePrecio").hidden = false;

@@ -152,12 +152,6 @@ table {
         height: 50px;
     }
 
-    /* Deshabilita el hover en la columna de Nombre */
-    table tbody td:first-child:hover,
-    table thead th:first-child:hover {
-        pointer-events: none;
-    }
-
 /* Características de hover */
 table td:hover::before {
     content: attr(data-tooltip);
