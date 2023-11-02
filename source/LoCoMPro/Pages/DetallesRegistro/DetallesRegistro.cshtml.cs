@@ -36,39 +36,13 @@ namespace LoCoMPro.Pages.DetallesRegistro
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
                 DateTime fecha = DateTime.Parse(fechaHora);
+                this.registro = ActualizarRegistro(fecha, usuario);
 
-                var detallesIQ = contexto.Registros
-                    .Include(r => r.producto)
-                    .Include(r => r.fotografias)
-                    .Where(r => r.creacion == fecha && r.usuarioCreador.Equals(usuario))
-                    .Select(r => new DetallesRegistroVM
-                    {
-                        creacion = r.creacion,
-                        usuarioCreador = r.usuarioCreador,
-                        precio = r.precio,
-                        calificacion = r.calificacion,
-                        descripcion = r.descripcion,
-                        productoAsociado = r.productoAsociado,
-                        nombreUnidad = r.producto.nombreUnidad,
-                        fotografias = r.fotografias
-                    }).ToList();
+                AlmacenarTempData(this.registro.usuarioCreador, this.registro.creacion.ToString());
 
-                this.registro = detallesIQ.FirstOrDefault();
-
-                TempData["calificarRegistroCreacion"] = this.registro.creacion.ToString();
-                TempData["calificarRegistroUsuario"] = this.registro.usuarioCreador;
-
-                this.registro.cantidadCalificaciones = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).Count();
-
-                var ultimaCalificacion = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).FirstOrDefault();
-                this.ultimaCalificacion = 0;
-                if (ultimaCalificacion != null) {
-                    this.ultimaCalificacion = ultimaCalificacion.calificacion;
-                }
+                ActualizarCantidadCalificaciones(fecha, usuario);
+                
+                ActualizarUltimaCalificacion(fecha, usuario);
 
                 return Page();
             } else
@@ -104,13 +78,65 @@ namespace LoCoMPro.Pages.DetallesRegistro
             string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
             string creacionStr = TempData["calificarRegistroCreacion"]?.ToString() ?? "";
 
-            // Volver a guardar los datos temporales
-            TempData["calificarRegistroUsuario"] = usuarioCreador;
-            TempData["calificarRegistroCreacion"] = creacionStr;
+            AlmacenarTempData(usuarioCreador, creacionStr);
 
             DateTime creacion = DateTime.Parse(creacionStr);
 
-            // Actualizar la tabla de calificaciones
+            ActualizarTablaCalificaciones(usuario, usuarioCreador, creacionStr, calificacion);
+            ActualizarCalificacionUsuario(usuarioCreador, calificacion);
+            ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
+
+            return Page();
+        }
+
+        private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
+        {
+            var detallesIQ = contexto.Registros
+                    .Include(r => r.producto)
+                    .Include(r => r.fotografias)
+                    .Where(r => r.creacion == fecha && r.usuarioCreador.Equals(usuario))
+                    .Select(r => new DetallesRegistroVM
+                    {
+                        creacion = r.creacion,
+                        usuarioCreador = r.usuarioCreador,
+                        precio = r.precio,
+                        calificacion = r.calificacion,
+                        descripcion = r.descripcion,
+                        productoAsociado = r.productoAsociado,
+                        nombreUnidad = r.producto.nombreUnidad,
+                        fotografias = r.fotografias
+                    }).ToList();
+            return detallesIQ.FirstOrDefault();
+        }
+
+        private void ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
+        {
+            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
+                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                                                .Equals(usuario) && r.calificacion != 0).Count();
+        }
+
+        private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
+        {
+            var ultimaCalificacion = this.contexto.Calificaciones
+                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                                                .Equals(usuario) && r.calificacion != 0).FirstOrDefault();
+            this.ultimaCalificacion = 0;
+            if (ultimaCalificacion != null)
+            {
+                this.ultimaCalificacion = ultimaCalificacion.calificacion;
+            }
+        }
+
+        private void AlmacenarTempData(string usuario, string creacion)
+        {
+            TempData["calificarRegistroUsuario"] = usuario;
+            TempData["calificarRegistroCreacion"] = creacion;
+        }
+
+        private static void ActualizarTablaCalificaciones(string usuario, string usuarioCreador
+            , string creacion, int calificacion)
+        {
             ControladorComandosSql comandoInsertarCalificacion = new ControladorComandosSql();
             comandoInsertarCalificacion.ConfigurarNombreComando("calificarRegistro");
             comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCalificador", usuario);
@@ -118,23 +144,25 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoInsertarCalificacion.ConfigurarParametroComando("creacionRegistro", creacion);
             comandoInsertarCalificacion.ConfigurarParametroComando("calificacion", calificacion);
             comandoInsertarCalificacion.EjecutarProcedimiento();
+        }
 
-            // Actualizar la calificación del usuario
+        private static void ActualizarCalificacionUsuario(string usuario, int calificacion)
+        {
             ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
             comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
-            comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuarioCreador);
+            comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuario);
             comandoActualizarUsuario.ConfigurarParametroComando("calificacion", calificacion);
             comandoActualizarUsuario.EjecutarProcedimiento();
+        }
 
-            // Actualizar la calificación del registro
+        private static void ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
+        {
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
             comandoActualizarRegistro.ConfigurarParametroComando("creacionDeRegistro", creacion);
-            comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuarioCreador);
+            comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
             comandoActualizarRegistro.EjecutarProcedimiento();
-
-            return Page();
         }
     }
 }

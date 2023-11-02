@@ -12,7 +12,7 @@ async function calificarRegistro(calificacion) {
         if (response.ok) {
             var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
             labelUltimaCalificacion.hidden = false;
-            labelUltimaCalificacion.innerHTML = "Su última calificación fue: " + calificacion;
+            labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
         } else {
             console.error("Error: ", response.status);
         }
