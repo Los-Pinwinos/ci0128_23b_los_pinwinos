@@ -1,4 +1,5 @@
 using LoCoMPro.Data;
+using LoCoMPro.Models;
 using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,9 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         [BindProperty]
         public DetallesRegistroVM registro { get; set; }
+
+        [BindProperty]
+        public decimal ultimaCalificacion { get; set; }
 
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
@@ -58,6 +62,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
                                                 .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
                                                 .Equals(usuario) && r.calificacion != 0).Count();
 
+                var ultimaCalificacion = this.contexto.Calificaciones
+                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                                                .Equals(usuario) && r.calificacion != 0).FirstOrDefault();
+                this.ultimaCalificacion = 0;
+                if (ultimaCalificacion != null) {
+                    this.ultimaCalificacion = ultimaCalificacion.calificacion;
+                }
+
                 return Page();
             } else
             {
@@ -86,12 +98,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public IActionResult OnGetCalificar(int calificacion)
-        {
-
-            // TODO(Angie): borrar
-            Console.WriteLine("estoy en el metodo, calificacion = " + calificacion);
-                
+        public async Task<IActionResult> OnGetCalificar(int calificacion)
+        {       
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
             string creacionStr = TempData["calificarRegistroCreacion"]?.ToString() ?? "";
@@ -102,10 +110,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
             DateTime creacion = DateTime.Parse(creacionStr);
 
-            // TODO(Angie):
-            Console.WriteLine("usuario: " + usuario + " usuarioCreador: " + usuarioCreador + " creacion: " + creacion + " calificacion " + calificacion);
-                
-
             // Actualizar la tabla de calificaciones
             ControladorComandosSql comandoInsertarCalificacion = new ControladorComandosSql();
             comandoInsertarCalificacion.ConfigurarNombreComando("calificarRegistro");
@@ -115,18 +119,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoInsertarCalificacion.ConfigurarParametroComando("calificacion", calificacion);
             comandoInsertarCalificacion.EjecutarProcedimiento();
 
-            // TODO(Angie):
-            Console.WriteLine("segundo procedimiento");
-
             // Actualizar la calificación del usuario
             ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
             comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
             comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuarioCreador);
             comandoActualizarUsuario.ConfigurarParametroComando("calificacion", calificacion);
             comandoActualizarUsuario.EjecutarProcedimiento();
-
-            // TODO(Angie):
-            Console.WriteLine("tercer procedimiento");
 
             // Actualizar la calificación del registro
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
