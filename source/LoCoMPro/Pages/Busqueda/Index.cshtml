@@ -9,9 +9,9 @@
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
-    <script src="~/js/Pages/Busqueda/filtrador.js"></script>
-    <script src="~/js/Pages/Busqueda/ordenador.js"></script>
-    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true" ></script>
+    <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true" ></script>
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true" ></script>
     <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
@@ -38,7 +38,7 @@
             var paginaDefault = @Model.paginaDefault;
         }
     </script>
-    <script src="~/js/Pages/Busqueda/cliente.js?v=12"></script>
+    <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
@@ -125,6 +125,20 @@
                                         <label>
                                             <input type="checkbox" name="marca" value="@marca" /> @marca
                                         </label>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(5)" onmouseleave="ocultarDesplegable(5)">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5">Categoría</button>
+                    <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro5">
+                        <!-- Contenido del menú desplegable -->
+                        @{
+                            foreach (var categoria in Model.categoriasV)
+                            {
+                                <label>
+                                    <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                </label>
                             }
                         }
                     </div>
@@ -318,4 +332,4 @@
         }
     }
 </script>
-<script src="~/js/Pages/Busqueda/dropdown.js?v=123"></script>
+<script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

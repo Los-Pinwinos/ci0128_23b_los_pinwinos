@@ -35,6 +35,7 @@ namespace LoCoMPro.Pages.Busqueda
         public IList<string> cantonesV { get; set; } = default!;
         public IList<string> tiendasV { get; set; } = default!;
         public IList<string?> marcasV { get; set; } = default!;
+        public IList<string> categoriasV { get; set; } = default!;
         public BusquedaVM productoVM { get; set; } = default!;
 
         // Paginación
@@ -50,27 +51,21 @@ namespace LoCoMPro.Pages.Busqueda
             this.cantonesV = new List<string>();
             this.tiendasV = new List<string>();
             this.marcasV = new List<string?>();
+            this.categoriasV = new List<string>();
 
             this.productoVM = new BusquedaVM
             {
-                nombre = ""
-                                                ,
-                canton = ""
-                                                ,
-                fecha = new DateTime()
-                                                ,
-                precio = 0
-                                                ,
-                marca = ""
-                                                ,
-                provincia = ""
-                                                ,
-                tienda = ""
-                                                ,
-                unidad = ""
-                                                ,
+                nombre = "",
+                canton = "",
+                fecha = new DateTime(),
+                precio = 0,
+                marca = "",
+                provincia = "",
+                tienda = "",
+                unidad = "",
                 categoria = ""
             };
+
             this.paginaDefault = 1;
             this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 4);
         }
@@ -89,19 +84,17 @@ namespace LoCoMPro.Pages.Busqueda
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
-
                 // Si la busqueda tuvo resultados
                 List<BusquedaVM> resultados = busqueda.ToList();
                 if (resultados.Count != 0)
                 {
                     // Asignar data de JSON
                     this.resultadosBusqueda = JsonConvert.SerializeObject(resultados);
-                } else
+                }
+                else
                 {
                     this.resultadosBusqueda = "Sin resultados";
                 }
-
-                
             }
             return Page();
         }
@@ -117,12 +110,15 @@ namespace LoCoMPro.Pages.Busqueda
             this.cargarFiltrosTienda(productosIQ);
             // Cargar filtros de marca
             this.cargarFiltrosMarca(productosIQ);
+            // Cargar filtros de categoria
+            this.cargarFiltrosCategoria(productosIQ);
+
         }
 
         // Cargar los filtros de provincias
         public void cargarFiltrosProvincia(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no est�n vac�os
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las provincias distintas
@@ -136,7 +132,7 @@ namespace LoCoMPro.Pages.Busqueda
         // Cargar los filtros de cantones
         public void cargarFiltrosCanton(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no est�n vac�os
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todos los cantones distintos
@@ -150,7 +146,7 @@ namespace LoCoMPro.Pages.Busqueda
         // Cargar los filtros de tiendas
         public void cargarFiltrosTienda(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no est�n vac�os
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las tiendas distintas
@@ -164,12 +160,25 @@ namespace LoCoMPro.Pages.Busqueda
         // Cargar los filtros de marcas
         public void cargarFiltrosMarca(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no est�n vac�os
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las marcas distintas
                 this.marcasV = productosIQ
                     .Select(p => p.marca)
+                    .Distinct()
+                    .ToList();
+            }
+        }
+
+        public void cargarFiltrosCategoria(IQueryable<BusquedaVM> productosIQ)
+        {
+            // Si los productos no estan vacios
+            if (!productosIQ.IsNullOrEmpty())
+            {
+                // Obtener todas las categorías distintas
+                this.categoriasV = productosIQ
+                    .Select(p => p.categoria)
                     .Distinct()
                     .ToList();
             }
