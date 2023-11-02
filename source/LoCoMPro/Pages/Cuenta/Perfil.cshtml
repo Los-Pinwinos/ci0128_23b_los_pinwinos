@@ -22,7 +22,7 @@
     <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Crear cuenta" -->
     <form method="post">
         <!-- Configuración para la validación del lado del cliente -->
-        <div asp-validation-summary="ModelOnly" class="Perfil-texto-error"></div>
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
         <!-- Contenedor para todos los elementos en la página -->
         <div class="Perfil-contenedor-centrado-primario">
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
@@ -30,7 +30,7 @@
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
-                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario" disabled>
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del correo del modelo vista -->
             <span asp-validation-for="usuarioActual.correo" class="Perfil-texto-error"></span>
@@ -90,7 +90,7 @@
                 <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
             <!-- Botón para ver los aportes realizados por el usuario -->
-            <button class="Perfil-boton-basico" asp-page="/Cuenta/Aportes"> Ver aportes </button>
+            <a class="Perfil-boton-basico" href="/Cuenta/Aportes"> Ver aportes </a>
             <!-- Botón para actualizar los datos del usuario -->
             <button class="Perfil-boton-basico" asp-page-handler="ActualizarUsuario" id="BotonGuardarCambios" style="display: none;"> Guardar cambios </button>
         </div>

@@ -152,12 +152,6 @@ table {
         height: 50px;
     }
 
-    /* Deshabilita el hover en la columna de Nombre */
-    table tbody td:first-child:hover,
-    table thead th:first-child:hover {
-        pointer-events: none;
-    }
-
 /* Características de hover */
 table td:hover::before {
     content: attr(data-tooltip);
@@ -286,7 +280,7 @@ table td::before {
     position: relative;
 }
 
-/* Boton de paginacion */
+/* Botón de paginacion */
 .BusquedaIndice-boton-paginacion {
     width: 60px;
     height: 20px;
@@ -302,9 +296,15 @@ table td::before {
     margin: 0;
     position: relative;
     padding-left: 6px;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
 }
+
+    /* Botón de paginacion al hacer hover */
+    .BusquedaIndice-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
 
     /* Bordes de boton de paginacion */
     .BusquedaIndice-boton-paginacion::before {
@@ -561,4 +561,25 @@ table td::before {
     clip-path: polygon(10% 20%, 90% 20%, 90% 80%, 10% 80%);
     vertical-align: middle;
     position: absolute;
+}
+
+/* Contenedor para el gif y un mensaje */
+.BusquedaIndice-contenedor-gif {
+    display: flex; /* Add this to create a flex container */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gif */
+.BusquedaIndice-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.BusquedaIndice-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
 }
