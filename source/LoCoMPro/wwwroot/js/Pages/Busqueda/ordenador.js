@@ -54,9 +54,29 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 document.getElementById("DescendenteNombre").hidden = false;
                 break;
+            case 'categoria':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.categoria.localeCompare(b.categoria));
+                document.getElementById("DescendenteCategoria").hidden = false;
+                break;
+            case 'marca':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.marca.localeCompare(b.marca));
+                document.getElementById("DescendenteMarca").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.precio - b.precio);
                 document.getElementById("DescendentePrecio").hidden = false;
+                break;
+            case 'unidad':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.unidad.localeCompare(b.unidad));
+                document.getElementById("DescendenteUnidad").hidden = false;
+                break;
+            case 'fecha':
+                resultadosIQ = resultadosIQ.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+                document.getElementById("DescendenteFecha").hidden = false;
+                break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.tienda.localeCompare(b.tienda));
+                document.getElementById("DescendenteTienda").hidden = false;
                 break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.provincia.localeCompare(b.provincia));
@@ -80,9 +100,29 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => b.nombre.localeCompare(a.nombre));
                 document.getElementById("AscendenteNombre").hidden = false;
                 break;
+            case 'categoria':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.categoria.localeCompare(a.categoria));
+                document.getElementById("AscendenteCategoria").hidden = false;
+                break;
+            case 'marca':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.marca.localeCompare(a.marca));
+                document.getElementById("AscendenteMarca").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.precio - a.precio);
                 document.getElementById("AscendentePrecio").hidden = false;
+                break;
+            case 'unidad':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.unidad.localeCompare(a.unidad));
+                document.getElementById("AscendenteUnidad").hidden = false;
+                break;
+            case 'fecha':
+                resultadosIQ = resultadosIQ.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                document.getElementById("AscendenteFecha").hidden = false;
+                break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.tienda.localeCompare(a.tienda));
+                document.getElementById("AscendenteTienda").hidden = false;
                 break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.provincia.localeCompare(a.provincia));

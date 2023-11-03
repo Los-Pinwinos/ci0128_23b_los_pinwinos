@@ -1,4 +1,10 @@
-﻿function agregarSeparador(numero) {
+﻿// Refrescar página si viene desde el historial
+var perfEntries = performance.getEntriesByType("navigation");
+if (perfEntries[0].type === "back_forward") {
+    location.reload();
+}
+
+function agregarSeparador(numero) {
     var textoNum = numero.toString();
     // Expresión regular para agregar un separador cada 3 dígitos
     textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -89,7 +95,7 @@ function renderizarTabla(datos) {
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaCalificacion";
-            divCalificacion.textContent = datos[dato].calificacion == null ? "Sin calificar" : datos[dato].calificacion;
+            divCalificacion.textContent = datos[dato].calificacion == 0 ? "Sin calificar" : datos[dato].calificacion;
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
@@ -110,12 +116,11 @@ function renderizarTabla(datos) {
 
             var fechaHoraEnviar = datos[dato].creacion;
             var usuarioEnviar = datos[dato].usuarioCreador;
-
             // Redirecciona a Detalles Registro
             (function (fechaHora, usuario) {
                 fila.addEventListener("click", function () {
                     var producto = document.getElementById("nombreProducto").value;
-                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${encodeURIComponent(fechaHora)}&usuario=${encodeURIComponent(usuario)}&producto=${encodeURIComponent(producto)}`;
+                    window.location.href = `/detallesRegistro/detallesRegistro?fechaHora=${fechaHora}&usuario=${encodeURIComponent(usuario)}`;
                 });
             })(fechaHoraEnviar, usuarioEnviar);
         }
@@ -215,7 +220,7 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
@@ -330,7 +335,7 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
         var fechaInicialSemana = new Date(entradaAgregada.fechaInicialSemana);
         var ano = fechaInicialSemana.getFullYear();
         var numeroSemana = obtenerNumeroSemana(fechaInicialSemana);
-        var formattedWeek = ano + '-' + numeroSemana;
+        var formattedWeek = numeroSemana + '-' + ano;
 
         var divFecha = document.createElement("div");
         divFecha.className = "contenidoCeldaFecha";
@@ -373,7 +378,7 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
         divCalificacion.className = "contenidoCeldaCalificacion";
 
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
@@ -509,7 +514,7 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
@@ -647,7 +652,7 @@ function renderizarTablaAgrupadaAno(datosAgregados) {
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificacion";
+        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
