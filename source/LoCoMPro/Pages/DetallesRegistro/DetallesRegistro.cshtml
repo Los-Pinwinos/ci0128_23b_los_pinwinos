@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/css/Pages/DetallesRegistro/DetallesRegistro.css" asp-append-version="true" />
     <!-- Incluye archivo para las estrellas utilizadas en la calificación -->
     <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
+    <!-- Incluye el archivo de javaScript -->
+    <script src="~/js/Pages/DetallesRegistro/clienteDetallesRegistro.js"></script>
 </head>
 
 <!-- Cuerpo de la página -->
@@ -53,10 +55,28 @@
                     <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-calificacion">
-                    <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
-                    <p class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
-                    <p class="Conteo">(@Model.cantidadCalificaciones)</p>
+                    @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                    {
+                        <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
+                    }
+                    else
+                    {
+                        <form>
+                            <fieldset class="starability-growRotate">
+                                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" />
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" id="calificacion@(i)" name="calificacion" value="@i" @(i <= Model.registro.calificacion ? "checked" : "") onclick="calificarRegistro(@i)" />
+                                    <label for="calificacion@(i)">@i estrellas</label>
+                                }
+                                <span class="starability-focus-ring"></span>
+                            </fieldset>
+                        </form>
+                    }
+                    <p id="CalificacionTotal" class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
+                    <p id="CantidadCalificacionesTotal" class="Conteo">(@Model.registro.cantidadCalificaciones)</p>
                 </div>
+                <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
         </div>
     </div>
@@ -65,6 +85,17 @@
     </div>
 </body>
 
+<script>
+    if (@Model.registro.calificacion == 0) {
+        actualizarNoCalificaciones(true);
+    }
+
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = true;
+    if (@Model.ultimaCalificacion > 0) {
+        labelUltimaCalificacion.hidden = false;
+    }
+</script>
 
 <script>
     // Inicializa galería de imágenes
