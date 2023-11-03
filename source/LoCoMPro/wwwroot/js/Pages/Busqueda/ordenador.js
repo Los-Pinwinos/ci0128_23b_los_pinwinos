@@ -62,6 +62,10 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => a.precio - b.precio);
                 document.getElementById("DescendentePrecio").hidden = false;
                 break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.tienda.localeCompare(b.tienda));
+                document.getElementById("DescendenteTienda").hidden = false;
+                break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.provincia.localeCompare(b.provincia));
                 document.getElementById("DescendenteProvincia").hidden = false;
@@ -91,6 +95,10 @@ class OrdenadorDeBusqueda {
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.precio - a.precio);
                 document.getElementById("AscendentePrecio").hidden = false;
+                break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.tienda.localeCompare(a.tienda));
+                document.getElementById("AscendenteTienda").hidden = false;
                 break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.provincia.localeCompare(a.provincia));

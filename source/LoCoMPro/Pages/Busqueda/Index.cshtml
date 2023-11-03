@@ -232,7 +232,9 @@
                             </th>
                             <th style="padding-left:20px;">
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.tienda)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('tienda')">
+                                    @Html.DisplayNameFor(model => model.productoVM.tienda)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
