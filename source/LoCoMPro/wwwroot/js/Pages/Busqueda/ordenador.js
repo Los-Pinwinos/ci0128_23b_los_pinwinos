@@ -54,9 +54,17 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 document.getElementById("DescendenteNombre").hidden = false;
                 break;
+            case 'marca':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.marca.localeCompare(b.marca));
+                document.getElementById("DescendenteMarca").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.precio - b.precio);
                 document.getElementById("DescendentePrecio").hidden = false;
+                break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.tienda.localeCompare(b.tienda));
+                document.getElementById("DescendenteTienda").hidden = false;
                 break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.provincia.localeCompare(b.provincia));
@@ -80,9 +88,17 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => b.nombre.localeCompare(a.nombre));
                 document.getElementById("AscendenteNombre").hidden = false;
                 break;
+            case 'marca':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.marca.localeCompare(a.marca));
+                document.getElementById("AscendenteMarca").hidden = false;
+                break;
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.precio - a.precio);
                 document.getElementById("AscendentePrecio").hidden = false;
+                break;
+            case 'tienda':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.tienda.localeCompare(a.tienda));
+                document.getElementById("AscendenteTienda").hidden = false;
                 break;
             case 'provincia':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.provincia.localeCompare(a.provincia));
