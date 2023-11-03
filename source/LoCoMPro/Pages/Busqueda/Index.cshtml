@@ -168,7 +168,9 @@
                             </th>
                             <th>
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.categoria)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('categoria')">
+                                    @Html.DisplayNameFor(model => model.productoVM.categoria)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
