@@ -54,6 +54,10 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 document.getElementById("DescendenteNombre").hidden = false;
                 break;
+            case 'categoria':
+                resultadosIQ = resultadosIQ.sort((a, b) => a.categoria.localeCompare(b.categoria));
+                document.getElementById("DescendenteCategoria").hidden = false;
+                break;
             case 'marca':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.marca.localeCompare(b.marca));
                 document.getElementById("DescendenteMarca").hidden = false;
@@ -91,6 +95,10 @@ class OrdenadorDeBusqueda {
             case 'nombre':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.nombre.localeCompare(a.nombre));
                 document.getElementById("AscendenteNombre").hidden = false;
+                break;
+            case 'categoria':
+                resultadosIQ = resultadosIQ.sort((a, b) => b.categoria.localeCompare(a.categoria));
+                document.getElementById("AscendenteCategoria").hidden = false;
                 break;
             case 'marca':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.marca.localeCompare(a.marca));
