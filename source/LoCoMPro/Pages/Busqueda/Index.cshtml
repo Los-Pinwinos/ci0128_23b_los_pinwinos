@@ -180,7 +180,9 @@
                             </th>
                             <th>
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.marca)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('marca')">
+                                    @Html.DisplayNameFor(model => model.productoVM.marca)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
