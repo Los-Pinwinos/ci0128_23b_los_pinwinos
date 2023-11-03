@@ -11,7 +11,6 @@ function agregarSeparador(numero) {
     return textoNum;
 }
 
-// Formatear fecha
 function formatearFecha(datos) {
     var contenidoFecha = datos.creacion[8] + datos.creacion[9] + "/"
         + datos.creacion[5] + datos.creacion[6] + "/" + datos.creacion[0] + datos.creacion[1]
@@ -302,16 +301,45 @@ function generarDatosDia(datos) {
 
 
 
-function renderizarTablaAgrupadaDia(datosAgregados) {
+function obtenerNumeroSemana(date) {
+    const hoy = new Date(date);
+    const primerDiaDelAno = new Date(hoy.getFullYear(), 0, 1);
+    const dias = Math.floor((hoy - primerDiaDelAno) / 86400000);
+    const numeroSemana = Math.ceil((dias + primerDiaDelAno.getDay() + 1) / 7);
+    return numeroSemana;
+}
+
+function obtenerPrimerDiaSemana(ano, numeroSemana) {
+    const enero1 = new Date(ano, 0, 1);
+    const diasParaAgregar = (numeroSemana - 1) * 7;
+    enero1.setDate(enero1.getDate() + (1 - enero1.getDay()) + diasParaAgregar);
+    return enero1;
+}
+
+function obtenerFechaFinalSemana(ano, numeroSemana) {
+    const fechaInicial = obtenerPrimerDiaSemana(ano, numeroSemana);
+    const fechaFinal = new Date(fechaInicial);
+    fechaFinal.setDate(fechaFinal.getDate() + 6);
+    return fechaFinal;
+}
+
+
+function renderizarTablaAgrupadaSemana(datosAgregados) {
     var cuerpoTabla = document.getElementById("cuerpoResultados");
 
     cuerpoTabla.innerHTML = "";
+
     for (var entradaAgregada of datosAgregados) {
         var fila = document.createElement("tr");
 
+        var fechaInicialSemana = new Date(entradaAgregada.fechaInicialSemana);
+        var ano = fechaInicialSemana.getFullYear();
+        var numeroSemana = obtenerNumeroSemana(fechaInicialSemana);
+        var formattedWeek = numeroSemana + '-' + ano;
+
         var divFecha = document.createElement("div");
         divFecha.className = "contenidoCeldaFecha";
-        divFecha.textContent = entradaAgregada.fecha;
+        divFecha.textContent = formattedWeek;
         var fechaCelda = document.createElement("td");
         fechaCelda.setAttribute('data-tooltip', divFecha.textContent);
         fechaCelda.appendChild(divFecha);
@@ -348,8 +376,10 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
 
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
+
         var promedioCalificacionText = entradaAgregada.promedioCalificacion;
         divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
+
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
@@ -365,43 +395,49 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
     }
 }
 
+function generarDatosSemana(datos) {
 
-function generarDatosDia(datos) {
     var titulosTabla = document.getElementById("TitulosTabla");
-
     titulosTabla.innerHTML = "";
-
-    titulosAgrupados(titulosTabla, "Fecha");
+    titulosAgrupados(titulosTabla, "Semana");
 
     var datosAgrupados = {};
+    var datosAgregados = [];
+
     for (var dato in datos) {
         if (datos[dato].creacion !== undefined && datos[dato].creacion !== "") {
             var fecha = formatearFecha(datos[dato]);
 
-            if (!datosAgrupados[fecha]) {
-                datosAgrupados[fecha] = {
-                    precios: [],
-                    calificaciones: [],
-                };
-            }
+            if (fecha) {
+                var dateParts = fecha.split("/");
+                var ano = dateParts[2];
+                var week = obtenerNumeroSemana(new Date(ano, dateParts[1] - 1, dateParts[0]));
 
-            var precio = parseFloat(datos[dato].precio);
+                var fechaInicialSemana = obtenerPrimerDiaSemana(ano, week);
 
-            datosAgrupados[fecha].precios.push(precio);
+                if (!datosAgrupados[fechaInicialSemana]) {
+                    datosAgrupados[fechaInicialSemana] = {
+                        weekfechaFinal: obtenerFechaFinalSemana(ano, week),
+                        precios: [],
+                        calificaciones: [],
+                    };
+                }
 
-            if (datos[dato].calificacion != null) {
-                datosAgrupados[fecha].calificaciones.push(parseFloat(datos[dato].calificacion));
-            } else {
-                datosAgrupados[fecha].calificaciones.push(0);
+                var precio = parseFloat(datos[dato].precio);
+                datosAgrupados[fechaInicialSemana].precios.push(precio);
+
+                if (datos[dato].calificacion != null) {
+                    datosAgrupados[fechaInicialSemana].calificaciones.push(parseFloat(datos[dato].calificacion));
+                } else {
+                    datosAgrupados[fechaInicialSemana].calificaciones.push(0);
+                }
             }
         }
     }
 
-    var datosAgregados = [];
-
-    for (var fecha in datosAgrupados) {
-        var precios = datosAgrupados[fecha].precios;
-        var calificaciones = datosAgrupados[fecha].calificaciones;
+    for (var fechaInicialSemana in datosAgrupados) {
+        var precios = datosAgrupados[fechaInicialSemana].precios;
+        var calificaciones = datosAgrupados[fechaInicialSemana].calificaciones;
 
         var minPrecio = Math.min(...precios);
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
@@ -416,7 +452,7 @@ function generarDatosDia(datos) {
             : 0;
 
         var entradaAgregada = {
-            fecha: fecha,
+            fechaInicialSemana: fechaInicialSemana,
             minPrecio: minPrecio,
             promedioPrecio: promedioPrecio,
             maxPrecio: maxPrecio,
@@ -427,7 +463,6 @@ function generarDatosDia(datos) {
     }
     return datosAgregados;
 }
-
 
 function renderizarTablaAgrupadaMes(datosAgregados) {
     var cuerpoTabla = document.getElementById("cuerpoResultados");
