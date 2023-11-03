@@ -1,5 +1,4 @@
 using LoCoMPro.Data;
-using LoCoMPro.Models;
 using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
@@ -35,10 +34,24 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
-                DateTime fecha = DateTime.Parse(fechaHora);
+                if (!fechaHora.Contains("."))
+                {
+                    fechaHora += ".0000000";
+                } else
+                {
+                    for (int i = fechaHora.IndexOf('.'); i <= fechaHora.IndexOf('.') + 7; i++)
+                    {
+                        if (i == fechaHora.Length)
+                        {
+                            fechaHora += "0";
+                        }
+                    }
+                }
+                DateTime fecha = DateTime.ParseExact(fechaHora, "yyyy-MM-ddTHH:mm:ss.fffffff", System.Globalization.CultureInfo.InvariantCulture);
+
                 this.registro = ActualizarRegistro(fecha, usuario);
 
-                AlmacenarTempData(this.registro.usuarioCreador, this.registro.creacion.ToString());
+                AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
                 ActualizarCantidadCalificaciones(fecha, usuario);
                 
@@ -76,16 +89,19 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {       
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
-            string creacionStr = TempData["calificarRegistroCreacion"]?.ToString() ?? "";
+            if (TempData.ContainsKey("calificarRegistroCreacion") 
+                && TempData["calificarRegistroCreacion"] is DateTime creacion)
+            {
+                AlmacenarTempData(usuarioCreador, creacion);
+                ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
+                ActualizarCalificacionUsuario(usuarioCreador, calificacion);
 
-            AlmacenarTempData(usuarioCreador, creacionStr);
+                Console.WriteLine("calif: " + calificacion);
 
-            DateTime creacion = DateTime.Parse(creacionStr);
+                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
 
-            ActualizarTablaCalificaciones(usuario, usuarioCreador, creacionStr, calificacion);
-            ActualizarCalificacionUsuario(usuarioCreador, calificacion);
-            ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
-
+                Console.WriteLine("di todo listo");
+            }
             return Page();
         }
 
@@ -118,30 +134,37 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
         {
+            string usuarioCalificador = User.Identity?.Name ?? "desconocido";
             var ultimaCalificacion = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).FirstOrDefault();
+                                                .Where(r => r.creacionRegistro == fecha
+                                                    && r.usuarioCreadorRegistro.Equals(usuario)
+                                                    && r.usuarioCalificador.Equals(usuarioCalificador))
+                                                .FirstOrDefault();
             this.ultimaCalificacion = 0;
             if (ultimaCalificacion != null)
             {
                 this.ultimaCalificacion = ultimaCalificacion.calificacion;
             }
+
+
+            Console.WriteLine("ult: " + this.ultimaCalificacion);
+
         }
 
-        private void AlmacenarTempData(string usuario, string creacion)
+        private void AlmacenarTempData(string usuario, DateTime creacion)
         {
             TempData["calificarRegistroUsuario"] = usuario;
             TempData["calificarRegistroCreacion"] = creacion;
         }
 
         private static void ActualizarTablaCalificaciones(string usuario, string usuarioCreador
-            , string creacion, int calificacion)
+            , DateTime creacion, int calificacion)
         {
             ControladorComandosSql comandoInsertarCalificacion = new ControladorComandosSql();
             comandoInsertarCalificacion.ConfigurarNombreComando("calificarRegistro");
             comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCalificador", usuario);
             comandoInsertarCalificacion.ConfigurarParametroComando("usuarioCreadorRegistro", usuarioCreador);
-            comandoInsertarCalificacion.ConfigurarParametroComando("creacionRegistro", creacion);
+            comandoInsertarCalificacion.ConfigurarParametroDateTimeComando("creacionRegistro", creacion);
             comandoInsertarCalificacion.ConfigurarParametroComando("calificacion", calificacion);
             comandoInsertarCalificacion.EjecutarProcedimiento();
         }
@@ -159,7 +182,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
-            comandoActualizarRegistro.ConfigurarParametroComando("creacionDeRegistro", creacion);
+            comandoActualizarRegistro.ConfigurarParametroDateTimeComando("creacionDeRegistro", creacion);
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
             comandoActualizarRegistro.EjecutarProcedimiento();

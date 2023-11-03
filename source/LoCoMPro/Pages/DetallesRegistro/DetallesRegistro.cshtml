@@ -85,29 +85,15 @@
     </div>
 </body>
 
-<!-- Mensaje de error para redirigir -->
-<script>
-    var mensajeRedirect = "@ViewData["RedirectMessage"]";
-    if (mensajeRedirect) {
-        alert("antes de if");
-        if (mensajeRedirect === "usuario") {
-            alert("Por favor ingrese al sistema.");
-            window.location.href = "/Cuenta/Ingresar";
-        }
-    }
-</script>
-
 <script>
     if (@Model.registro.calificacion == 0) {
         actualizarNoCalificaciones(true);
     }
 
     var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
-
+    labelUltimaCalificacion.hidden = true;
     if (@Model.ultimaCalificacion > 0) {
         labelUltimaCalificacion.hidden = false;
-    } else {
-        labelUltimaCalificacion.hidden = true;
     }
 </script>
 
