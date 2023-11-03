@@ -62,6 +62,10 @@ class OrdenadorDeBusqueda {
                 resultadosIQ = resultadosIQ.sort((a, b) => a.precio - b.precio);
                 document.getElementById("DescendentePrecio").hidden = false;
                 break;
+            case 'fecha':
+                resultadosIQ = resultadosIQ.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+                document.getElementById("DescendenteFecha").hidden = false;
+                break;
             case 'tienda':
                 resultadosIQ = resultadosIQ.sort((a, b) => a.tienda.localeCompare(b.tienda));
                 document.getElementById("DescendenteTienda").hidden = false;
@@ -95,6 +99,10 @@ class OrdenadorDeBusqueda {
             case 'precio':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.precio - a.precio);
                 document.getElementById("AscendentePrecio").hidden = false;
+                break;
+            case 'fecha':
+                resultadosIQ = resultadosIQ.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                document.getElementById("AscendenteFecha").hidden = false;
                 break;
             case 'tienda':
                 resultadosIQ = resultadosIQ.sort((a, b) => b.tienda.localeCompare(a.tienda));
