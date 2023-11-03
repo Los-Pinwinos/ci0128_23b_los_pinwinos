@@ -168,7 +168,9 @@
                             </th>
                             <th>
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.categoria)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('categoria')">
+                                    @Html.DisplayNameFor(model => model.productoVM.categoria)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
@@ -180,7 +182,9 @@
                             </th>
                             <th>
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.marca)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('marca')">
+                                    @Html.DisplayNameFor(model => model.productoVM.marca)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
@@ -206,7 +210,9 @@
                             </th>
                             <th style="padding-left:24px;">
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.unidad)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('unidad')">
+                                    @Html.DisplayNameFor(model => model.productoVM.unidad)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
@@ -218,7 +224,9 @@
                             </th>
                             <th style="padding-left:20px;">
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.fecha)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('fecha')">
+                                    @Html.DisplayNameFor(model => model.productoVM.fecha)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
@@ -230,7 +238,9 @@
                             </th>
                             <th style="padding-left:20px;">
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.tienda)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('tienda')">
+                                    @Html.DisplayNameFor(model => model.productoVM.tienda)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less

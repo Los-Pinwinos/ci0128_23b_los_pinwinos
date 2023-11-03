@@ -2,7 +2,7 @@
   {
     "creacion": "2019-09-01 10:30:45",
     "precio": 13000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -14,7 +14,7 @@
   {
     "creacion": "2020-05-15 14:20:30",
     "precio": 14000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -26,7 +26,7 @@
   {
     "creacion": "2018-11-25 09:45:15",
     "precio": 13500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -38,7 +38,7 @@
   {
     "creacion": "2019-12-10 17:55:40",
     "precio": 14200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -50,7 +50,7 @@
   {
     "creacion": "2021-03-28 08:10:55",
     "precio": 12800.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -62,7 +62,7 @@
   {
     "creacion": "2019-07-12 11:30:20",
     "precio": 13650.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -74,7 +74,7 @@
   {
     "creacion": "2020-10-05 14:15:50",
     "precio": 13300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -86,7 +86,7 @@
   {
     "creacion": "2018-09-17 16:40:10",
     "precio": 14500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -98,7 +98,7 @@
   {
     "creacion": "2021-06-30 10:25:05",
     "precio": 13150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -110,7 +110,7 @@
   {
     "creacion": "2019-04-02 13:05:35",
     "precio": 13800.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -122,7 +122,7 @@
   {
     "creacion": "2020-08-14 12:50:55",
     "precio": 13950.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Iphone 14",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -134,7 +134,7 @@
   {
     "creacion": "2019-09-01 10:31:45",
     "precio": 12000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -146,7 +146,7 @@
   {
     "creacion": "2021-04-12 11:25:35",
     "precio": 12850.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -158,7 +158,7 @@
   {
     "creacion": "2020-08-19 09:55:20",
     "precio": 12300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -170,7 +170,7 @@
   {
     "creacion": "2019-11-30 16:30:45",
     "precio": 12600.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -182,7 +182,7 @@
   {
     "creacion": "2021-02-05 14:45:10",
     "precio": 12500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -194,7 +194,7 @@
   {
     "creacion": "2020-05-29 10:20:55",
     "precio": 12450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -206,7 +206,7 @@
   {
     "creacion": "2021-01-15 13:05:30",
     "precio": 12250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -218,7 +218,7 @@
   {
     "creacion": "2020-09-18 12:15:25",
     "precio": 12750.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -230,7 +230,7 @@
   {
     "creacion": "2019-10-05 15:35:50",
     "precio": 12900.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -242,7 +242,7 @@
   {
     "creacion": "2020-03-08 08:40:15",
     "precio": 12350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -254,7 +254,7 @@
   {
     "creacion": "2021-05-20 14:50:45",
     "precio": 12700.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Maxi Pali",
@@ -266,7 +266,7 @@
   {
     "creacion": "2019-09-02 11:45:30",
     "precio": 14000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -278,7 +278,7 @@
   {
     "creacion": "2021-07-15 09:20:35",
     "precio": 14500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -290,7 +290,7 @@
   {
     "creacion": "2020-11-08 14:35:20",
     "precio": 14800.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -302,7 +302,7 @@
   {
     "creacion": "2019-08-25 10:15:45",
     "precio": 14750.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -314,7 +314,7 @@
   {
     "creacion": "2021-03-30 12:40:55",
     "precio": 14200.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -326,7 +326,7 @@
   {
     "creacion": "2020-09-14 11:55:10",
     "precio": 14350.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -338,7 +338,7 @@
   {
     "creacion": "2021-02-18 16:25:30",
     "precio": 14475.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -350,7 +350,7 @@
   {
     "creacion": "2020-07-05 14:10:15",
     "precio": 14625.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -362,7 +362,7 @@
   {
     "creacion": "2019-12-10 09:50:45",
     "precio": 14575.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -374,7 +374,7 @@
   {
     "creacion": "2020-04-02 13:30:55",
     "precio": 14700.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -386,7 +386,7 @@
   {
     "creacion": "2021-06-28 10:45:20",
     "precio": 14650.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Televisor LED",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Supermercado Central",
@@ -398,7 +398,7 @@
   {
     "creacion": "2019-09-02 13:55:18",
     "precio": 16000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -410,7 +410,7 @@
   {
     "creacion": "2021-06-20 11:30:25",
     "precio": 15850.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -422,7 +422,7 @@
   {
     "creacion": "2020-10-15 14:25:40",
     "precio": 15975.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -434,7 +434,7 @@
   {
     "creacion": "2019-07-28 13:15:55",
     "precio": 16125.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -446,7 +446,7 @@
   {
     "creacion": "2021-02-05 10:40:30",
     "precio": 15900.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -458,7 +458,7 @@
   {
     "creacion": "2020-08-10 09:50:15",
     "precio": 16075.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -470,7 +470,7 @@
   {
     "creacion": "2021-01-12 12:55:50",
     "precio": 16025.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -482,7 +482,7 @@
   {
     "creacion": "2020-06-15 14:20:35",
     "precio": 16050.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -494,7 +494,7 @@
   {
     "creacion": "2019-12-18 16:05:20",
     "precio": 15950.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -506,7 +506,7 @@
   {
     "creacion": "2020-04-25 10:10:45",
     "precio": 16100.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -518,7 +518,7 @@
   {
     "creacion": "2021-05-30 15:30:10",
     "precio": 15925.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Tableta",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaMart",
@@ -530,7 +530,7 @@
   {
     "creacion": "2019-09-03 14:30:22",
     "precio": 15000.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -542,7 +542,7 @@
   {
     "creacion": "2021-03-15 10:40:55",
     "precio": 15250.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -554,7 +554,7 @@
   {
     "creacion": "2020-09-28 12:15:30",
     "precio": 15500.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -566,7 +566,7 @@
   {
     "creacion": "2019-07-02 09:25:10",
     "precio": 15375.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -578,7 +578,7 @@
   {
     "creacion": "2021-01-10 14:35:45",
     "precio": 15075.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -590,7 +590,7 @@
   {
     "creacion": "2020-06-25 13:50:20",
     "precio": 15125.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -602,7 +602,7 @@
   {
     "creacion": "2021-04-12 10:10:30",
     "precio": 15425.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -614,7 +614,7 @@
   {
     "creacion": "2020-11-05 11:55:15",
     "precio": 15200.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -626,7 +626,7 @@
   {
     "creacion": "2020-01-30 14:20:55",
     "precio": 15350.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -638,7 +638,7 @@
   {
     "creacion": "2019-08-15 09:45:40",
     "precio": 15475.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -650,7 +650,7 @@
   {
     "creacion": "2021-07-20 12:30:25",
     "precio": 15600.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Película en Blu-ray",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pura Vida Grocery",
@@ -662,7 +662,7 @@
   {
     "creacion": "2019-09-03 15:40:45",
     "precio": 13000.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -674,7 +674,7 @@
   {
     "creacion": "2021-03-12 11:25:50",
     "precio": 13200.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -686,7 +686,7 @@
   {
     "creacion": "2020-09-28 15:10:30",
     "precio": 13500.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -698,7 +698,7 @@
   {
     "creacion": "2019-07-05 09:55:15",
     "precio": 13375.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -710,7 +710,7 @@
   {
     "creacion": "2021-01-18 14:45:25",
     "precio": 13175.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -722,7 +722,7 @@
   {
     "creacion": "2020-06-22 10:20:40",
     "precio": 13125.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -734,7 +734,7 @@
   {
     "creacion": "2021-04-08 11:30:35",
     "precio": 13425.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -746,7 +746,7 @@
   {
     "creacion": "2020-11-02 12:15:20",
     "precio": 13200.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -758,7 +758,7 @@
   {
     "creacion": "2020-01-25 15:05:55",
     "precio": 13350.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -770,7 +770,7 @@
   {
     "creacion": "2019-08-10 10:50:45",
     "precio": 13475.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -782,7 +782,7 @@
   {
     "creacion": "2021-07-15 13:40:25",
     "precio": 13600.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Videojuego",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Costa Rica Market",
@@ -794,7 +794,7 @@
   {
     "creacion": "2019-09-04 09:55:18",
     "precio": 11000.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -806,7 +806,7 @@
   {
     "creacion": "2020-12-20 08:40:55",
     "precio": 11500.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -818,7 +818,7 @@
   {
     "creacion": "2021-02-15 11:20:30",
     "precio": 11250.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -830,7 +830,7 @@
   {
     "creacion": "2020-10-05 09:15:40",
     "precio": 11375.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -842,7 +842,7 @@
   {
     "creacion": "2021-01-30 08:55:25",
     "precio": 11125.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -854,7 +854,7 @@
   {
     "creacion": "2020-11-18 10:30:40",
     "precio": 11350.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -866,7 +866,7 @@
   {
     "creacion": "2021-04-05 12:45:35",
     "precio": 11475.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -878,7 +878,7 @@
   {
     "creacion": "2020-09-12 09:10:20",
     "precio": 11300.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -890,7 +890,7 @@
   {
     "creacion": "2021-03-25 14:20:15",
     "precio": 11200.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -902,7 +902,7 @@
   {
     "creacion": "2020-08-28 08:05:55",
     "precio": 11425.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "La Tiendita",
@@ -914,7 +914,7 @@
   {
     "creacion": "2021-05-10 13:35:50",
     "precio": 11175.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Digital",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -926,7 +926,7 @@
   {
     "creacion": "2019-09-04 11:10:30",
     "precio": 12000.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -938,7 +938,7 @@
   {
     "creacion": "2021-01-15 14:25:55",
     "precio": 11500.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -950,7 +950,7 @@
   {
     "creacion": "2020-12-20 09:35:40",
     "precio": 11250.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -962,7 +962,7 @@
   {
     "creacion": "2021-02-05 10:15:30",
     "precio": 11375.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -974,7 +974,7 @@
   {
     "creacion": "2020-11-28 08:45:20",
     "precio": 11125.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -986,7 +986,7 @@
   {
     "creacion": "2021-03-10 12:50:15",
     "precio": 11350.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -998,7 +998,7 @@
   {
     "creacion": "2020-10-15 09:05:10",
     "precio": 11475.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -1010,7 +1010,7 @@
   {
     "creacion": "2021-04-25 14:30:05",
     "precio": 11300.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -1022,7 +1022,7 @@
   {
     "creacion": "2020-09-05 08:20:50",
     "precio": 11200.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -1034,7 +1034,7 @@
   {
     "creacion": "2021-05-05 13:55:35",
     "precio": 11425.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -1046,7 +1046,7 @@
   {
     "creacion": "2020-08-15 11:15:25",
     "precio": 11175.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Vitaminas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Felices",
@@ -1058,7 +1058,7 @@
   {
     "creacion": "2019-09-05 13:20:55",
     "precio": 14000.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1070,7 +1070,7 @@
   {
     "creacion": "2020-11-10 14:45:30",
     "precio": 13600.0,
-    "calificacion": 3,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1082,7 +1082,7 @@
   {
     "creacion": "2020-10-15 12:30:40",
     "precio": 14200.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1094,7 +1094,7 @@
   {
     "creacion": "2020-12-05 15:10:20",
     "precio": 13850.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1106,7 +1106,7 @@
   {
     "creacion": "2021-01-20 11:25:55",
     "precio": 13475.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1118,7 +1118,7 @@
   {
     "creacion": "2020-09-10 09:15:45",
     "precio": 13125.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1130,7 +1130,7 @@
   {
     "creacion": "2021-02-15 10:30:35",
     "precio": 13700.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1142,7 +1142,7 @@
   {
     "creacion": "2020-08-20 13:40:25",
     "precio": 13550.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1154,7 +1154,7 @@
   {
     "creacion": "2021-03-05 14:50:15",
     "precio": 13275.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1166,7 +1166,7 @@
   {
     "creacion": "2020-07-25 09:55:50",
     "precio": 13750.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1178,7 +1178,7 @@
   {
     "creacion": "2021-04-10 11:15:10",
     "precio": 13325.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Detergente",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Tico",
@@ -1190,7 +1190,7 @@
   {
     "creacion": "2019-09-05 14:35:10",
     "precio": 16000.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1202,7 +1202,7 @@
   {
     "creacion": "2020-11-20 10:45:30",
     "precio": 15500.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1214,7 +1214,7 @@
   {
     "creacion": "2020-10-25 12:30:40",
     "precio": 16200.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1226,7 +1226,7 @@
   {
     "creacion": "2020-12-15 15:10:20",
     "precio": 15850.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1238,7 +1238,7 @@
   {
     "creacion": "2021-01-30 11:25:55",
     "precio": 15475.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1250,7 +1250,7 @@
   {
     "creacion": "2020-09-15 09:15:45",
     "precio": 15125.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1262,7 +1262,7 @@
   {
     "creacion": "2021-02-20 10:30:35",
     "precio": 15700.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1274,7 +1274,7 @@
   {
     "creacion": "2020-08-25 13:40:25",
     "precio": 15550.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1286,7 +1286,7 @@
   {
     "creacion": "2021-03-10 14:50:15",
     "precio": 15275.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1298,7 +1298,7 @@
   {
     "creacion": "2020-07-30 09:55:50",
     "precio": 15750.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Central Plaza",
@@ -1310,7 +1310,7 @@
   {
     "creacion": "2021-04-15 11:15:10",
     "precio": 15325.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Bolsas de Basura",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1322,7 +1322,7 @@
   {
     "creacion": "2019-09-06 10:45:18",
     "precio": 17000.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Camisa",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "ShopSmart",
@@ -1334,7 +1334,7 @@
   {
     "creacion": "2019-09-06 11:55:30",
     "precio": 19000.0,
-    "calificacion": 2,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1346,7 +1346,7 @@
   {
     "creacion": "2019-09-09 09:10:45",
     "precio": 19000.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1358,7 +1358,7 @@
   {
     "creacion": "2019-09-09 10:20:30",
     "precio": 19050.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1370,7 +1370,7 @@
   {
     "creacion": "2019-09-09 11:30:15",
     "precio": 19100.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1382,7 +1382,7 @@
   {
     "creacion": "2019-09-09 12:40:55",
     "precio": 19150.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1394,7 +1394,7 @@
   {
     "creacion": "2019-09-09 13:50:40",
     "precio": 19200.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1406,7 +1406,7 @@
   {
     "creacion": "2019-09-09 15:00:25",
     "precio": 19250.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1418,7 +1418,7 @@
   {
     "creacion": "2019-09-09 16:10:10",
     "precio": 19300.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1430,7 +1430,7 @@
   {
     "creacion": "2019-09-09 17:20:55",
     "precio": 19350.0,
-    "calificacion": 1,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1442,7 +1442,7 @@
   {
     "creacion": "2019-09-09 18:30:40",
     "precio": 19400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1454,7 +1454,7 @@
   {
     "creacion": "2019-09-09 19:40:25",
     "precio": 19450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Zapatillas Deportivas",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "EconoMax",
@@ -1466,7 +1466,7 @@
   {
     "creacion": "2019-09-07 14:15:45",
     "precio": 11000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1478,7 +1478,7 @@
   {
     "creacion": "2019-09-10 09:10:45",
     "precio": 11000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1490,7 +1490,7 @@
   {
     "creacion": "2019-09-10 10:20:30",
     "precio": 11050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1502,7 +1502,7 @@
   {
     "creacion": "2019-09-10 11:30:15",
     "precio": 11100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1514,7 +1514,7 @@
   {
     "creacion": "2019-09-10 12:40:55",
     "precio": 11150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1526,7 +1526,7 @@
   {
     "creacion": "2019-09-10 13:50:40",
     "precio": 11200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1538,7 +1538,7 @@
   {
     "creacion": "2019-09-10 15:00:25",
     "precio": 11250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1550,7 +1550,7 @@
   {
     "creacion": "2019-09-10 16:10:10",
     "precio": 11300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1562,7 +1562,7 @@
   {
     "creacion": "2019-09-10 17:20:55",
     "precio": 11350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1574,7 +1574,7 @@
   {
     "creacion": "2019-09-10 18:30:40",
     "precio": 11400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1586,7 +1586,7 @@
   {
     "creacion": "2019-09-10 19:40:25",
     "precio": 11450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Laptop",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "MegaCompras",
@@ -1598,7 +1598,7 @@
   {
     "creacion": "2019-09-07 15:30:58",
     "precio": 12000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1610,7 +1610,7 @@
   {
     "creacion": "2019-09-11 09:10:45",
     "precio": 12000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1622,7 +1622,7 @@
   {
     "creacion": "2019-09-11 10:20:30",
     "precio": 12050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1634,7 +1634,7 @@
   {
     "creacion": "2019-09-11 11:30:15",
     "precio": 12100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1646,7 +1646,7 @@
   {
     "creacion": "2019-09-11 12:40:55",
     "precio": 12150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1658,7 +1658,7 @@
   {
     "creacion": "2019-09-11 13:50:40",
     "precio": 12200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1670,7 +1670,7 @@
   {
     "creacion": "2019-09-11 15:00:25",
     "precio": 12250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Walmart",
@@ -1682,7 +1682,7 @@
   {
     "creacion": "2019-09-11 16:10:10",
     "precio": 12300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1694,7 +1694,7 @@
   {
     "creacion": "2019-09-11 17:20:55",
     "precio": 12350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1706,7 +1706,7 @@
   {
     "creacion": "2019-09-11 18:30:40",
     "precio": 12400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1718,7 +1718,7 @@
   {
     "creacion": "2019-09-11 19:40:25",
     "precio": 12450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Smartphone",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -1730,7 +1730,7 @@
   {
     "creacion": "2019-09-08 09:50:15",
     "precio": 13000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Libro",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda del Pueblo",
@@ -1742,7 +1742,7 @@
   {
     "creacion": "2019-09-08 10:45:30",
     "precio": 14000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1754,7 +1754,7 @@
   {
     "creacion": "2019-09-13 11:30:45",
     "precio": 14000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1766,7 +1766,7 @@
   {
     "creacion": "2019-09-13 12:40:58",
     "precio": 14050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1778,7 +1778,7 @@
   {
     "creacion": "2019-09-13 13:55:18",
     "precio": 14100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1790,7 +1790,7 @@
   {
     "creacion": "2019-09-13 15:10:30",
     "precio": 14150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1802,7 +1802,7 @@
   {
     "creacion": "2019-09-13 16:25:45",
     "precio": 14200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1814,7 +1814,7 @@
   {
     "creacion": "2019-09-13 17:40:58",
     "precio": 14250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1826,7 +1826,7 @@
   {
     "creacion": "2019-09-13 18:55:18",
     "precio": 14300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1838,7 +1838,7 @@
   {
     "creacion": "2019-09-13 20:10:30",
     "precio": 14350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1850,7 +1850,7 @@
   {
     "creacion": "2019-09-13 21:25:45",
     "precio": 14400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1862,7 +1862,7 @@
   {
     "creacion": "2019-09-13 22:40:58",
     "precio": 14450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Puzzle",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Pacific Market",
@@ -1874,7 +1874,7 @@
   {
     "creacion": "2019-09-09 11:55:45",
     "precio": 15000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1886,7 +1886,7 @@
   {
     "creacion": "2019-09-12 20:50:35",
     "precio": 15000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1898,7 +1898,7 @@
   {
     "creacion": "2019-09-12 21:55:20",
     "precio": 15050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1910,7 +1910,7 @@
   {
     "creacion": "2019-09-12 22:45:10",
     "precio": 15100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1922,7 +1922,7 @@
   {
     "creacion": "2019-09-12 23:35:55",
     "precio": 15150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1934,7 +1934,7 @@
   {
     "creacion": "2019-09-13 00:25:40",
     "precio": 15200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1946,7 +1946,7 @@
   {
     "creacion": "2019-09-13 01:15:25",
     "precio": 15250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1958,7 +1958,7 @@
   {
     "creacion": "2019-09-13 02:05:10",
     "precio": 15300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1970,7 +1970,7 @@
   {
     "creacion": "2019-09-13 02:55:55",
     "precio": 15350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1982,7 +1982,7 @@
   {
     "creacion": "2019-09-13 03:45:40",
     "precio": 15400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -1994,7 +1994,7 @@
   {
     "creacion": "2019-09-13 04:35:25",
     "precio": 15450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Termómetro Infrarrojo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Valle Central Superstore",
@@ -2006,7 +2006,7 @@
   {
     "creacion": "2019-09-09 13:10:58",
     "precio": 16000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2018,7 +2018,7 @@
   {
     "creacion": "2019-09-13 23:55:45",
     "precio": 16000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2030,7 +2030,7 @@
   {
     "creacion": "2019-09-14 00:10:58",
     "precio": 16050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2042,7 +2042,7 @@
   {
     "creacion": "2019-09-14 01:25:18",
     "precio": 16100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2054,7 +2054,7 @@
   {
     "creacion": "2019-09-14 02:40:30",
     "precio": 16150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2066,7 +2066,7 @@
   {
     "creacion": "2019-09-14 03:55:45",
     "precio": 16200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2078,7 +2078,7 @@
   {
     "creacion": "2019-09-14 05:10:58",
     "precio": 16250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2090,7 +2090,7 @@
   {
     "creacion": "2019-09-14 06:25:18",
     "precio": 16300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2102,7 +2102,7 @@
   {
     "creacion": "2019-09-14 07:40:30",
     "precio": 16350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2114,7 +2114,7 @@
   {
     "creacion": "2019-09-14 08:55:45",
     "precio": 16400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2126,7 +2126,7 @@
   {
     "creacion": "2019-09-14 10:10:58",
     "precio": 16450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Suplemento Alimenticio",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Tienda Express",
@@ -2138,7 +2138,7 @@
   {
     "creacion": "2019-09-10 15:20:15",
     "precio": 17000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2150,7 +2150,7 @@
   {
     "creacion": "2019-09-15 10:55:45",
     "precio": 17050.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2162,7 +2162,7 @@
   {
     "creacion": "2019-09-15 12:10:58",
     "precio": 17100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2174,7 +2174,7 @@
   {
     "creacion": "2019-09-15 14:25:18",
     "precio": 17150.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2186,7 +2186,7 @@
   {
     "creacion": "2019-09-15 16:40:30",
     "precio": 17200.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2198,7 +2198,7 @@
   {
     "creacion": "2019-09-15 18:55:45",
     "precio": 17250.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2210,7 +2210,7 @@
   {
     "creacion": "2019-09-16 09:10:58",
     "precio": 17300.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2222,7 +2222,7 @@
   {
     "creacion": "2019-09-16 11:25:18",
     "precio": 17350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2234,7 +2234,7 @@
   {
     "creacion": "2019-09-16 13:40:30",
     "precio": 17400.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2246,7 +2246,7 @@
   {
     "creacion": "2019-09-16 15:55:45",
     "precio": 17450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2258,7 +2258,7 @@
   {
     "creacion": "2019-09-16 17:10:58",
     "precio": 17500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Limpiador Multiusos",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Compras Rápidas",
@@ -2270,7 +2270,7 @@
   {
     "creacion": "2019-09-10 16:30:22",
     "precio": 18000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2282,7 +2282,7 @@
   {
     "creacion": "2023-09-10 08:00:00",
     "precio": 16000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2294,7 +2294,7 @@
   {
     "creacion": "2023-09-11 10:30:00",
     "precio": 22000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2306,7 +2306,7 @@
   {
     "creacion": "2023-09-12 14:15:00",
     "precio": 2500.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2318,7 +2318,7 @@
   {
     "creacion": "2023-09-13 16:45:00",
     "precio": 800.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2330,7 +2330,7 @@
   {
     "creacion": "2023-09-14 12:10:00",
     "precio": 1350.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2342,7 +2342,7 @@
   {
     "creacion": "2023-09-15 09:30:00",
     "precio": 28000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2354,7 +2354,7 @@
   {
     "creacion": "2023-09-16 11:20:00",
     "precio": 450.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2366,7 +2366,7 @@
   {
     "creacion": "2023-09-17 13:50:00",
     "precio": 4800.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2378,7 +2378,7 @@
   {
     "creacion": "2023-09-18 15:40:00",
     "precio": 920.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2390,7 +2390,7 @@
   {
     "creacion": "2023-09-19 17:20:00",
     "precio": 2100.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Jabón de Lavandería",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "SuperMarket Veinticuatro Siete",
@@ -2402,7 +2402,7 @@
   {
     "creacion": "2018-09-11 17:20:55",
     "precio": 5000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Pantalones",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2414,7 +2414,7 @@
   {
     "creacion": "2018-10-11 17:20:55",
     "precio": 15000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Vestido",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2426,7 +2426,7 @@
   {
     "creacion": "2018-11-11 17:20:55",
     "precio": 150000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Afeitadora Eléctrica",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2438,7 +2438,7 @@
   {
     "creacion": "2018-12-11 17:20:55",
     "precio": 1000.0,
-    "calificacion": 5,
+    "calificacion": 0,
     "productoAsociado": "Gafas de Sol",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2450,7 +2450,7 @@
   {
     "creacion": "2018-12-12 17:20:55",
     "precio": 3500.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Cereal",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2462,7 +2462,7 @@
   {
     "creacion": "2018-12-14 17:20:55",
     "precio": 4000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Pan",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2474,7 +2474,7 @@
   {
     "creacion": "2018-12-15 17:20:55",
     "precio": 17000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Reproductor de MP3",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2486,7 +2486,7 @@
   {
     "creacion": "2018-12-16 17:20:55",
     "precio": 50000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Altavoz Bluetooth",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2498,7 +2498,7 @@
   {
     "creacion": "2018-12-17 17:20:55",
     "precio": 8000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Pelota de Fútbol",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2510,7 +2510,7 @@
   {
     "creacion": "2018-12-18 17:20:55",
     "precio": 28000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Cámara de Video",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2522,7 +2522,7 @@
   {
     "creacion": "2018-12-19 17:20:55",
     "precio": 18000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Aceite de Oliva",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2534,7 +2534,7 @@
   {
     "creacion": "2018-12-20 17:20:55",
     "precio": 3000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Leche",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2546,7 +2546,7 @@
   {
     "creacion": "2018-12-21 17:20:55",
     "precio": 20000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Vino Tinto",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2558,7 +2558,7 @@
   {
     "creacion": "2018-12-22 17:20:55",
     "precio": 13250.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Aceite de Cocina",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2570,7 +2570,7 @@
   {
     "creacion": "2018-12-23 17:20:55",
     "precio": 1325.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Jabón Líquido",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2582,7 +2582,7 @@
   {
     "creacion": "2018-12-24 17:20:55",
     "precio": 7350.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Detergente Líquido",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2594,7 +2594,7 @@
   {
     "creacion": "2018-12-25 17:20:55",
     "precio": 5000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Azúcar",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2606,7 +2606,7 @@
   {
     "creacion": "2018-12-26 17:20:55",
     "precio": 1500.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Harina de Trigo",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2618,7 +2618,7 @@
   {
     "creacion": "2018-12-27 17:20:55",
     "precio": 6500.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Café en Grano",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2630,7 +2630,7 @@
   {
     "creacion": "2018-12-28 17:20:55",
     "precio": 4500.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Arroz Integral",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2642,7 +2642,7 @@
   {
     "creacion": "2018-12-29 17:20:55",
     "precio": 2500.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Harina de Maíz",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
@@ -2654,7 +2654,7 @@
   {
     "creacion": "2018-12-01 17:20:55",
     "precio": 6000.0,
-    "calificacion": 4,
+    "calificacion": 0,
     "productoAsociado": "Azúcar Morena",
     "usuarioCreador": "Usuario1*",
     "nombreTienda": "Mall Plaza",
