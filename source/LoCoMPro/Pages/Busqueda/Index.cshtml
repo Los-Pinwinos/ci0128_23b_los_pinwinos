@@ -210,7 +210,9 @@
                             </th>
                             <th style="padding-left:24px;">
                                 <!-- Nombre de columna -->
-                                @Html.DisplayNameFor(model => model.productoVM.unidad)
+                                <label class="BusquedaIndice-titulo-columna" onclick="ordenar('unidad')">
+                                    @Html.DisplayNameFor(model => model.productoVM.unidad)
+                                </label>
                                 <!-- Flecha de ordenamiento descendiente -->
                                 <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
                                     expand_less
