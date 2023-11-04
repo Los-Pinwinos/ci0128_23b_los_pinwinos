@@ -1,4 +1,6 @@
-﻿function agregarSeparador(numero) {
+﻿var filtroModificadorActual = "";
+
+function agregarSeparador(numero) {
     var textoNum = numero.toString();
     // Expresión regular para agregar un separador cada 3 dígitos
     textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -166,6 +168,50 @@ function renderizarBotonesSiguienteAnterior() {
     }
 }
 
+function sincronizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador) {
+    var checkboxesSeleccionadasDeModificador = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltroModificador);
+    var checkboxesSeleccionadasDeFiltro = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltro);
+
+    // Si ya no hay filtros modificadores, restaurar el estado de los otros filtros
+    if (checkboxesSeleccionadasDeModificador == 0) {
+
+        filtroModificadorActual = "";
+        renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro);
+        sincronizarFiltros(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+        // Si hay filtros modificacores y no hay filtros normales seleccionado, significa que hay que cambiar los filtros en base a los modificadores
+    } else if (checkboxesSeleccionadasDeFiltro == 0) {
+
+        filtroModificadorActual = nombreDeFiltroModificador;
+        renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+    // Si el modificador sigue con filtros y el modificador actual es el modificador que llama a esta funcion, hay que renderizar de nuevo condicionalmente el filtro
+    } else if (checkboxesSeleccionadasDeModificador > 0 && filtroModificadorActual === nombreDeFiltroModificador) {
+
+        renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+    }
+}
+
+function sincronizarFiltros(numeroDeFiltro1, nombreDeFiltro1, numeroDeFiltro2, nombreDeFiltro2) {
+    var checkboxesDeFiltro1 = document.querySelectorAll('input[name="' + nombreDeFiltro1 + '"]');
+    var checkboxesDeFiltro2 = document.querySelectorAll('input[name="' + nombreDeFiltro2 + '"]');
+
+    checkboxesDeFiltro1.forEach(function (casilla) {
+        // Agregar un manejador de eventos "click" que invoca sincronizarFiltroConcreto
+        casilla.addEventListener("click", function () {
+            sincronizarFiltroConcreto(numeroDeFiltro2, nombreDeFiltro2, numeroDeFiltro1, nombreDeFiltro1);
+        });
+    });
+
+    checkboxesDeFiltro2.forEach(function (casilla) {
+        // Agregar un manejador de eventos "click" que invoca sincronizarFiltroConcreto
+        casilla.addEventListener("click", function () {
+            sincronizarFiltroConcreto(numeroDeFiltro1, nombreDeFiltro1, numeroDeFiltro2, nombreDeFiltro2);
+        });
+    });
+}
+
 function renderizarFiltros() {
     const filtroProvincia = { numeroDeFiltro: 1, nombreDeFiltro: "provincia" };
     const filtroCanton = { numeroDeFiltro: 2, nombreDeFiltro: "canton" };
@@ -178,6 +224,10 @@ function renderizarFiltros() {
     renderizarFiltroConcreto(filtroTienda["numeroDeFiltro"], filtroTienda["nombreDeFiltro"]);
     renderizarFiltroConcreto(filtroMarca["numeroDeFiltro"], filtroMarca["nombreDeFiltro"]);
     renderizarFiltroConcreto(filtroCategoria["numeroDeFiltro"], filtroCategoria["nombreDeFiltro"]);
+
+    sincronizarFiltros(
+        filtroProvincia["numeroDeFiltro"], filtroProvincia["nombreDeFiltro"],
+        filtroCanton["numeroDeFiltro"], filtroCanton["nombreDeFiltro"]);
 }
 
 function obtenerCheckboxesSeleccionadasFiltros(casillasExistente) {
