@@ -81,8 +81,10 @@ namespace LoCoMPro.Pages.Cuenta
                     // (No se agregaron más porque se pueden obtener de la base, pero es posible)
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, usuario.nombreDeUsuario)
+                        new Claim(ClaimTypes.Name, usuario.nombreDeUsuario),
+                        new Claim(ClaimTypes.Role, usuario.esModerador?"moderador":"regular")
                     };
+                   
                     // Agrega los claims a la autentificación con cookies
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);

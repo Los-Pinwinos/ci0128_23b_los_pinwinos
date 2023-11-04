@@ -47,11 +47,11 @@ namespace LoCoMPro.Pages.VerRegistros
 
         public ICollection<Fotografia>? fotografias { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string productName, string categoriaNombre
+        public async Task<IActionResult> OnGetAsync(string productoNombre, string categoriaNombre
             , string marcaNombre, string unidadNombre, string tiendaNombre
             , string provinciaNombre, string cantonNombre)
         {
-            NombreProducto = productName;
+            NombreProducto = productoNombre;
             NombreCategoria = categoriaNombre;
             NombreMarca = marcaNombre;
             NombreUnidad = unidadNombre;
@@ -61,7 +61,7 @@ namespace LoCoMPro.Pages.VerRegistros
 
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.fotografias)
-                .Where(r => r.productoAsociado.Equals(productName) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
+                .Where(r => r.productoAsociado.Equals(productoNombre) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
                 .GroupBy(r => new
                 {
                     /*creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),*/

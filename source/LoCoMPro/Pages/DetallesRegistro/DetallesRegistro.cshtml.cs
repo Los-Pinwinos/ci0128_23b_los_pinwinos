@@ -54,7 +54,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
                 ActualizarCantidadCalificaciones(fecha, usuario);
-                
+
                 ActualizarUltimaCalificacion(fecha, usuario);
 
                 return Page();
@@ -86,21 +86,17 @@ namespace LoCoMPro.Pages.DetallesRegistro
         }
 
         public async Task<IActionResult> OnGetCalificar(int calificacion)
-        {       
+        {
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
-            if (TempData.ContainsKey("calificarRegistroCreacion") 
+            if (TempData.ContainsKey("calificarRegistroCreacion")
                 && TempData["calificarRegistroCreacion"] is DateTime creacion)
             {
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
                 ActualizarCalificacionUsuario(usuarioCreador, calificacion);
-
-                Console.WriteLine("calif: " + calificacion);
-
                 ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
-
-                Console.WriteLine("di todo listo");
+                ActualizarModeracionUsuario(usuarioCreador);
             }
             return Page();
         }
@@ -186,6 +182,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
             comandoActualizarRegistro.EjecutarProcedimiento();
+        }
+
+        private static void ActualizarModeracionUsuario(string usuario)
+        {
+            ControladorComandosSql controlador = new ControladorComandosSql();
+            controlador.ConfigurarNombreComando("actualizarModeracion");
+            controlador.ConfigurarParametroComando("nombreUsuario", usuario);
+            controlador.EjecutarProcedimiento();
         }
     }
 }

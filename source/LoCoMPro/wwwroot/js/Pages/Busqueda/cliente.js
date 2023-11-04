@@ -354,7 +354,7 @@ document.addEventListener("click", function () {
 
     rows.forEach(row => {
         row.addEventListener("click", function () {
-            const productName = row.querySelector("td:nth-child(1)").textContent;      // Columna 1
+            const productoNombre = row.querySelector("td:nth-child(1)").textContent;   // Columna 1
             const categoriaNombre = row.querySelector("td:nth-child(2)").textContent;  // Columna 2
             const marcaNombre = row.querySelector("td:nth-child(3)").textContent;      // Columna 3
             const unidadNombre = row.querySelector("td:nth-child(5)").textContent;     // Columna 5
@@ -362,7 +362,7 @@ document.addEventListener("click", function () {
             const provinciaNombre = row.querySelector("td:nth-child(8)").textContent;  // Columna 8
             const cantonNombre = row.querySelector("td:nth-child(9)").textContent;     // Columna 9
 
-            window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
+            window.location.href = `/VerRegistros/VerRegistros?productoNombre=${encodeURIComponent(productoNombre)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
         });
     });
 });

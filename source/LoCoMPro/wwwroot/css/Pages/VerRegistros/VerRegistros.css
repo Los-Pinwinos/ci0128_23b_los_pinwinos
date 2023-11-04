@@ -356,11 +356,11 @@ table {
 }
 
 
-.circular-checkbox-container {
+.checkbox-circular-contenedor {
     margin-bottom: 10px;
 }
 
-.circular-checkbox {
+.checkbox-circular {
     display: none;
 }
 
@@ -375,7 +375,7 @@ table {
     cursor: pointer;
 }
 
-.circular-checkbox:checked + .circular-label {
+.checkbox-circular:checked + .circular-label {
     background-color: #1A7254;
 }
 
