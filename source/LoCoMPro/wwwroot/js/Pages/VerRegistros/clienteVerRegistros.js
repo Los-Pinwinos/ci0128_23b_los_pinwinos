@@ -70,10 +70,9 @@ function renderizarTabla(datos) {
     titulosTabla.innerHTML = "";
 
     tituloNormal(titulosTabla);
-
     for (var dato in datos) {
         var fila = document.createElement("tr");
-
+        console.log(datos[dato].creacion);
         if (typeof datos[dato].creacion !== 'undefined' && datos[dato].creacion !== "") {
 
             var divFecha = document.createElement("div");
@@ -113,6 +112,7 @@ function renderizarTabla(datos) {
             fila.appendChild(descripcionCelda);
 
             cuerpoTabla.appendChild(fila);
+            console.log(cuerpoTabla == null);
 
             var fechaHoraEnviar = datos[dato].creacion;
             var usuarioEnviar = datos[dato].usuarioCreador;
@@ -837,7 +837,6 @@ function renderizarPrimerNumeroPagina(paginacionContenedor, paginaInicial) {
 }
 
 function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
-
     paginacionContenedor.innerHTML = "";
 
     const numeroDeLinksDePaginas = 5;

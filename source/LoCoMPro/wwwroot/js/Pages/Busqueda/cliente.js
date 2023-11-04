@@ -1,22 +1,21 @@
-﻿function agregarSeparador(numero) {
+﻿var filtroModificadorActual = "";
+
+function agregarSeparador(numero) {
     var textoNum = numero.toString();
     // Expresión regular para agregar un separador cada 3 dígitos
     textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return textoNum;
 }
 
-// Formatear fecha
 function formatearFecha(fecha) {
     const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return fecha.toLocaleDateString('es-ES', opciones);
 }
 
-// Paginar
 function paginar(numeroPagina = productosVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
 
-// Ordenar
 function ordenar(propiedadOrdenado) {
     // Configurar ordenador
     if (propiedadOrdenado === ordenador.ordenado) {
@@ -25,22 +24,19 @@ function ordenar(propiedadOrdenado) {
         ordenador.setPropiedadOrdenada(propiedadOrdenado);
         ordenador.setSentidoOrdenado('asc');
     }
-    // Ordenar
     resultados = ordenador.ordenar(resultados);
     productosVM = paginar();
-    // Renderizar
+
     renderizarPaginacion();
     renderizarTabla(productosVM);
 }
 
-// Filtrar
 function filtrar() {
-    // Obtener datos
-    var provincias = obtenerValoresSeleccionados("provincia");
-    var cantones = obtenerValoresSeleccionados("canton");
-    var tiendas = obtenerValoresSeleccionados("tienda");
-    var marcas = obtenerValoresSeleccionados("marca");
-    var categorias = obtenerValoresSeleccionados("categoria");
+    var provincias = obtenerCheckboxesSeleccionadas("provincia");
+    var cantones = obtenerCheckboxesSeleccionadas("canton");
+    var tiendas = obtenerCheckboxesSeleccionadas("tienda");
+    var marcas = obtenerCheckboxesSeleccionadas("marca");
+    var categorias = obtenerCheckboxesSeleccionadas("categoria");
 
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
@@ -48,10 +44,11 @@ function filtrar() {
     filtrador.setFiltroTiendas(tiendas);
     filtrador.setFiltroMarcas(marcas);
     filtrador.setFiltroCategorias(categorias);
-    // Filtrar
+
     resultados = filtrador.filtrar(resultados);
+
     productosVM = paginar(paginaDefault);
-    // Renderizar
+
     renderizarFiltros();
     renderizarPaginacion();
     renderizarTabla(productosVM);
@@ -153,6 +150,7 @@ function renderizarBotonesSiguienteAnterior() {
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
 
+    // Revisar si desplegar o no
     if (productosVM.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
@@ -170,180 +168,300 @@ function renderizarBotonesSiguienteAnterior() {
     }
 }
 
-// Renderizar filtros
-function renderizarFiltros() {
-    // Renderizar
-    renderizarFiltroConcreto(1, "provincia");
-    renderizarFiltroConcreto(2, "canton");
-    renderizarFiltroConcreto(3, "tienda");
-    renderizarFiltroConcreto(4, "marca");
-    renderizarFiltroConcreto(5, "categoria");
+function obtenerCantidadCheckboxesSeleccionados(nombreDeFiltro) {
+    return document.querySelectorAll('input[name="' + nombreDeFiltro + '"]:checked').length;
 }
 
-// Renderizar filtros de provincias
-function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
-    var filtros = document.getElementById("ContenidoFiltro" + numeroDeFiltro);
-    var valoresSeleccionados = {};
-    var valoresUnicos = {};
-    var casillasExistente = filtros.querySelectorAll('input[type="checkbox"]');
-    var checkboxesOrdenados = [];
+function renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador) {
+    var checkboxesSeleccionadasDeModificador = obtenerCheckboxesSeleccionadas(nombreDeFiltroModificador);
+    var checkboxesSeleccionadasFiltro = obtenerCheckboxesSeleccionadasFiltros(document.getElementById("ContenidoFiltro" + numeroDeFiltro).querySelectorAll('input[type="checkbox"]'));
 
-    // Obtener valores seleccionados
+    var filtro = document.getElementById("ContenidoFiltro" + numeroDeFiltro);
+
+    var checkBoxesAgregados = [];
+    var nuevosCheckboxes = [];
+    filtro.innerHTML = "";
+    resultados.forEach(function (dato) {
+        if (checkboxesSeleccionadasDeModificador.includes(dato[nombreDeFiltroModificador]) && !checkBoxesAgregados.includes(dato[nombreDeFiltro])) {
+            checkBoxesAgregados.push(dato[nombreDeFiltro]);
+
+            var checkbox = crearCheckbox(dato[nombreDeFiltro], nombreDeFiltro, checkboxesSeleccionadasFiltro);
+            var etiqueta = crearEtiqueta(dato[nombreDeFiltro], checkbox);
+            // Agregar un manejador de eventos "change" que invoca sincronizarFiltroConcreto
+            checkbox.addEventListener("change", function () {
+                sincronizarFiltroConcreto(numeroDeFiltroModificador, nombreDeFiltroModificador, numeroDeFiltro, nombreDeFiltro);
+            });
+            nuevosCheckboxes.push(etiqueta);
+        }
+    });
+
+    agregarCheckboxesAFiltro(filtro, nuevosCheckboxes);
+}
+
+function sincronizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador) {
+    var checkboxesSeleccionadasDeModificador = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltroModificador);
+    var checkboxesSeleccionadasDeFiltro = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltro);
+
+    // Si ya no hay filtros modificadores, restaurar el estado de los otros filtros
+    if (checkboxesSeleccionadasDeModificador == 0) {
+
+        filtroModificadorActual = "";
+        renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro);
+        sincronizarFiltros(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+        // Si hay filtros modificacores y no hay filtros normales seleccionado, significa que hay que cambiar los filtros en base a los modificadores
+    } else if (checkboxesSeleccionadasDeFiltro == 0) {
+
+        filtroModificadorActual = nombreDeFiltroModificador;
+        renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+    // Si el modificador sigue con filtros y el modificador actual es el modificador que llama a esta funcion, hay que renderizar de nuevo condicionalmente el filtro
+    } else if (checkboxesSeleccionadasDeModificador > 0 && filtroModificadorActual === nombreDeFiltroModificador) {
+
+        renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador);
+
+    }
+}
+
+function sincronizarFiltros(numeroDeFiltro1, nombreDeFiltro1, numeroDeFiltro2, nombreDeFiltro2) {
+    var checkboxesDeFiltro1 = document.querySelectorAll('input[name="' + nombreDeFiltro1 + '"]');
+    var checkboxesDeFiltro2 = document.querySelectorAll('input[name="' + nombreDeFiltro2 + '"]');
+
+    checkboxesDeFiltro1.forEach(function (casilla) {
+        // Agregar un manejador de eventos "click" que invoca sincronizarFiltroConcreto
+        casilla.addEventListener("click", function () {
+            sincronizarFiltroConcreto(numeroDeFiltro2, nombreDeFiltro2, numeroDeFiltro1, nombreDeFiltro1);
+        });
+    });
+
+    checkboxesDeFiltro2.forEach(function (casilla) {
+        // Agregar un manejador de eventos "click" que invoca sincronizarFiltroConcreto
+        casilla.addEventListener("click", function () {
+            sincronizarFiltroConcreto(numeroDeFiltro1, nombreDeFiltro1, numeroDeFiltro2, nombreDeFiltro2);
+        });
+    });
+}
+
+function renderizarFiltros() {
+    const filtroProvincia = { numeroDeFiltro: 1, nombreDeFiltro: "provincia" };
+    const filtroCanton = { numeroDeFiltro: 2, nombreDeFiltro: "canton" };
+    const filtroTienda = { numeroDeFiltro: 3, nombreDeFiltro: "tienda" };
+    const filtroMarca = { numeroDeFiltro: 4, nombreDeFiltro: "marca" };
+    const filtroCategoria = { numeroDeFiltro: 5, nombreDeFiltro: "categoria" };
+
+    renderizarFiltroConcreto(filtroProvincia["numeroDeFiltro"], filtroProvincia["nombreDeFiltro"]);
+    renderizarFiltroConcreto(filtroCanton["numeroDeFiltro"], filtroCanton["nombreDeFiltro"]);
+    renderizarFiltroConcreto(filtroTienda["numeroDeFiltro"], filtroTienda["nombreDeFiltro"]);
+    renderizarFiltroConcreto(filtroMarca["numeroDeFiltro"], filtroMarca["nombreDeFiltro"]);
+    renderizarFiltroConcreto(filtroCategoria["numeroDeFiltro"], filtroCategoria["nombreDeFiltro"]);
+
+    sincronizarFiltros(
+        filtroProvincia["numeroDeFiltro"], filtroProvincia["nombreDeFiltro"],
+        filtroCanton["numeroDeFiltro"], filtroCanton["nombreDeFiltro"]);
+}
+
+function obtenerCheckboxesSeleccionadasFiltros(casillasExistente) {
+    const valoresSeleccionados = {};
     casillasExistente.forEach(function (casilla) {
         if (casilla.checked) {
             valoresSeleccionados[casilla.value] = true;
         }
     });
+    return valoresSeleccionados;
+}
 
-    for (var resultado in resultados) {
-        // Obtener valor
-        var valor = resultados[resultado][nombreDeFiltro];
-        // Ver si es válido
+function crearCheckbox(valor, nombreDeFiltro, valoresSeleccionados) {
+    const casilla = document.createElement("input");
+    casilla.type = "checkbox";
+    casilla.name = nombreDeFiltro;
+    casilla.value = valor;
+    if (valoresSeleccionados[valor]) {
+        casilla.checked = true;
+    }
+    return casilla;
+}
+
+function crearEtiqueta(valor, casilla) {
+    const etiqueta = document.createElement("label");
+    etiqueta.appendChild(casilla);
+    etiqueta.appendChild(document.createTextNode(valor));
+    return etiqueta;
+}
+
+function construirCheckboxesYEtiquetas(resultados, nombreDeFiltro, valoresSeleccionados) {
+    const valoresUnicos = {};
+    const checkboxesOrdenados = [];
+
+    for (const resultado in resultados) {
+        const valor = resultados[resultado][nombreDeFiltro];
         if (typeof valor !== 'undefined' && valor !== "" && !valoresUnicos[valor]) {
-            // Asignar como valor único
             valoresUnicos[valor] = true;
-            // Crear checkbox
-            var casilla = document.createElement("input");
-            casilla.type = "checkbox";
-            casilla.name = nombreDeFiltro;
-            casilla.value = resultados[resultado][nombreDeFiltro];
-            // Poner como marcada
-            if (valoresSeleccionados[casilla.value]) {
-                casilla.checked = true;
-            }
-            // Crear label
-            var etiqueta = document.createElement("label");
-            etiqueta.appendChild(casilla);
-
-            etiqueta.appendChild(document.createTextNode(resultados[resultado][nombreDeFiltro]));
-            // Agregar a la lista para ordenar
+            const casilla = crearCheckbox(valor, nombreDeFiltro, valoresSeleccionados);
+            const etiqueta = crearEtiqueta(valor, casilla);
             checkboxesOrdenados.push(etiqueta);
         }
     }
 
-    // Ordenar los checkboxes alfabéticamente
-    checkboxesOrdenados.sort(function (a, b) {
-        var valueA = a.textContent;
-        var valueB = b.textContent;
+    return checkboxesOrdenados;
+}
+
+function ordenarCheckboxes(checkboxes) {
+    checkboxes.sort(function (a, b) {
+        const valueA = a.textContent;
+        const valueB = b.textContent;
         return valueA.localeCompare(valueB);
     });
+    return checkboxes;
+}
 
-    // Limpiar contenido
-    filtros.innerHTML = "";
+function agregarCheckboxesAFiltro(filtro, checkboxes) {
+    filtro.innerHTML = "";
 
-    // Agregar los checkboxes ordenados de nuevo
-    checkboxesOrdenados.forEach(function (checkboxLabel) {
-        checkboxLabel.style.marginTop = "30px";
-        checkboxLabel.style.marginBottom = "-8px";
-
-        // Append the modified checkboxLabel to your element (filtros)
-        filtros.appendChild(checkboxLabel);
+    checkboxes.forEach(function (etiquetaCheckbox) {
+        etiquetaCheckbox.style.marginTop = "30px";
+        etiquetaCheckbox.style.marginBottom = "-8px";
+        filtro.appendChild(etiquetaCheckbox);
     });
 
-    // Verificar si es solo uno
-    if (filtros.childElementCount === 1) filtros.innerHTML = "";
+    if (filtro.childElementCount === 1) {
+        filtro.innerHTML = "";
+    }
+}
+
+function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
+    const filtros = document.getElementById("ContenidoFiltro" + numeroDeFiltro);
+    const casillasExistente = filtros.querySelectorAll('input[type="checkbox"]');
+
+    const valoresSeleccionados = obtenerCheckboxesSeleccionadasFiltros(casillasExistente);
+
+    const checkboxes = construirCheckboxesYEtiquetas(resultados, nombreDeFiltro, valoresSeleccionados);
+
+    const checkboxesOrdenados = ordenarCheckboxes(checkboxes);
+
+    agregarCheckboxesAFiltro(filtros, checkboxesOrdenados);
+}
+
+function crearCeldaContenido(contenido, clase) {
+    const divContenido = document.createElement("div");
+    divContenido.className = clase;
+    divContenido.textContent = contenido;
+
+    const celda = document.createElement("td");
+    celda.setAttribute('data-tooltip', contenido);
+    celda.appendChild(divContenido);
+
+    return celda;
+}
+
+function agregarFilaALaTabla(cuerpoTabla, datos) {
+    const row = document.createElement("tr");
+    row.classList.add("result-row");
+
+    if (typeof datos.nombre !== 'undefined' && datos.nombre !== "") {
+        const nombreCelda = crearCeldaContenido(datos.nombre, "contenidoCeldaNombre");
+        const categoriaCelda = crearCeldaContenido(datos.categoria, "contenidoCeldaCategoria");
+        const marcaCelda = crearCeldaContenido(datos.marca, "contenidoCeldaMarca");
+        const precioArreglado = "₡" + agregarSeparador(parseFloat(datos.precio));
+        const precioCelda = crearCeldaContenido(precioArreglado, "contenidoCeldaPrecio");
+        const unidadCelda = crearCeldaContenido(datos.unidad, "contenidoCeldaUnidad");
+        const fechaCelda = crearCeldaContenido(formatearFecha(new Date(datos.fecha), "contenidoCeldaFecha"));
+        const tiendaCelda = crearCeldaContenido(datos.tienda, "contenidoCeldaTienda");
+        const provinciaCelda = crearCeldaContenido(datos.provincia, "contenidoCeldaProvincia");
+        const cantonCelda = crearCeldaContenido(datos.canton, "contenidoCeldaCanton");
+
+        row.appendChild(nombreCelda);
+        row.appendChild(categoriaCelda);
+        row.appendChild(marcaCelda);
+        row.appendChild(precioCelda);
+        row.appendChild(unidadCelda);
+        row.appendChild(fechaCelda);
+        row.appendChild(tiendaCelda);
+        row.appendChild(provinciaCelda);
+        row.appendChild(cantonCelda);
+
+        cuerpoTabla.appendChild(row);
+    }
 }
 
 
+function renderizarPinwinoTriste() {
+    var filaDeContenedores = document.getElementById("FilaDeFiltrosYResultados");
+    var tabla = document.getElementsByClassName("BusquedaIndice-tabla");
+    var paginacion = document.getElementsByClassName("BusquedaIndice-contenedor-paginacion");
 
-// Renderizar tabla
+    // Quitar elementos innecesarios
+    for (var i = 0; i < paginacion.length; i++) {
+        paginacion[i].style.visibility = "hidden";
+    }
+
+    for (var i = 0; i < tabla.length; i++) {
+        tabla[i].style.maxWidth = "25%";
+        tabla[i].style.visibility = "hidden";
+        tabla[i].style.overflowX = "unset";
+    }
+
+    var contenedorDiv = document.createElement("div");
+    contenedorDiv.className = "BusquedaIndice-contenedor-gif";
+    contenedorDiv.id = "ContenedorGif";
+
+    var imagenGif = document.createElement("img");
+    imagenGif.src = "/img/Pinwino_triste.gif";
+    imagenGif.alt = "Pinwino triste";
+    imagenGif.className = "BusquedaIndice-gif";
+    imagenGif.id = "PinwinoTriste";
+
+    var parrafo = document.createElement("p");
+    parrafo.className = "BusquedaIndice-texto";
+    parrafo.textContent = "No se encontraron resultados";
+
+    contenedorDiv.appendChild(imagenGif);
+    contenedorDiv.appendChild(parrafo);
+
+    filaDeContenedores.appendChild(contenedorDiv);
+
+    // Establecer el uso del filtrador para limpiar los filtros correctamente despues
+    filtrador.usado = true;
+}
+
+function removerPinwinoTriste() {
+    var tabla = document.getElementsByClassName("BusquedaIndice-tabla");
+    var paginacion = document.getElementsByClassName("BusquedaIndice-contenedor-paginacion");
+    var imagen = document.getElementById("ContenedorGif");
+
+    if (imagen != null) {
+        imagen.remove();
+
+        // Restaurar elementos
+        for (var i = 0; i < paginacion.length; i++) {
+            paginacion[i].style.visibility = "visible";
+        }
+
+        for (var i = 0; i < tabla.length; i++) {
+            tabla[i].style.maxWidth = "100%";
+            tabla[i].style.visibility = "visible";
+            tabla[i].style.overflowX = "auto";
+        }
+    }
+}
+
 function renderizarTabla(datos) {
-    // Obtener la tabla
-    var cuerpoTabla = document.getElementById("CuerpoResultados");
+    removerPinwinoTriste();
+
+    const cuerpoTabla = document.getElementById("ResultadosDeBusqueda");
 
     // Limpiar el contenido existente
     cuerpoTabla.innerHTML = "";
 
-    // Iterar
-    for (var dato in datos) {
-        var row = document.createElement("tr");
-        // result-row se utiliza para redirigir los datos de la fila selecionada a la página de VerRegistros
-        row.classList.add("result-row")
+    if (datos.length == 0) {
 
-        if (typeof datos[dato].nombre !== 'undefined' && datos[dato].nombre !== "") {
-            var divNombre = document.createElement("div");
-            divNombre.className = "contenidoCeldaNombre";
-            divNombre.textContent = datos[dato].nombre;
-            var nombreCelda = document.createElement("td");
-            nombreCelda.setAttribute('data-tooltip', datos[dato].nombre);
-            nombreCelda.appendChild(divNombre);
+        renderizarPinwinoTriste();
 
-            var divCategoria = document.createElement("div");
-            divCategoria.className = "contenidoCeldaCategoria";
-            divCategoria.textContent = datos[dato].categoria;
-            var categoriaCelda = document.createElement("td");
-            categoriaCelda.setAttribute('data-tooltip', datos[dato].categoria);
-            categoriaCelda.appendChild(divCategoria);
+    } else {
 
-            var divMarca = document.createElement("div");
-            divMarca.className = "contenidoCeldaMarca";
-            divMarca.textContent = datos[dato].marca;
-            var marcaCelda = document.createElement("td");
-            marcaCelda.setAttribute('data-tooltip', datos[dato].marca);
-            marcaCelda.appendChild(divMarca);
+        datos.forEach(function (dato) {
+            agregarFilaALaTabla(cuerpoTabla, dato);
+        });
 
-            var divPrecio = document.createElement("div");
-            divPrecio.className = "contenidoCeldaPrecio";
-            var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
-            divPrecio.textContent = precioArreglado;
-            var precioCelda = document.createElement("td");
-            precioCelda.setAttribute('data-tooltip', precioArreglado);
-            precioCelda.appendChild(divPrecio);
-
-            var divUnidad = document.createElement("div");
-            divUnidad.className = "contenidoCeldaUnidad";
-            divUnidad.textContent = datos[dato].unidad;
-            var unidadCelda = document.createElement("td");
-            unidadCelda.setAttribute('data-tooltip', datos[dato].unidad);
-            unidadCelda.appendChild(divUnidad);
-
-            var divFecha = document.createElement("div");
-            divFecha.className = "contenidoCeldaFecha";
-            divFecha.textContent = formatearFecha(new Date(datos[dato].fecha));
-            var fechaCelda = document.createElement("td");
-            var contenidoFecha = datos[dato].fecha[8] + datos[dato].fecha[9] + "/"
-                + datos[dato].fecha[5] + datos[dato].fecha[6] + "/" + datos[dato].fecha[0] + datos[dato].fecha[1]
-                + datos[dato].fecha[2] + datos[dato].fecha[3];
-            fechaCelda.setAttribute('data-tooltip', contenidoFecha);
-            fechaCelda.appendChild(divFecha);
-
-            var divTienda = document.createElement("div");
-            divTienda.className = "contenidoCeldaTienda";
-            divTienda.textContent = datos[dato].tienda;
-            var tiendaCelda = document.createElement("td");
-            tiendaCelda.setAttribute('data-tooltip', datos[dato].tienda);
-            tiendaCelda.appendChild(divTienda);
-
-            var divProvincia = document.createElement("div");
-            divProvincia.className = "contenidoCeldaProvincia";
-            divProvincia.textContent = datos[dato].provincia;
-            var provinciaCelda = document.createElement("td");
-            provinciaCelda.setAttribute('data-tooltip', datos[dato].provincia);
-            provinciaCelda.appendChild(divProvincia);
-
-            var divCanton = document.createElement("div");
-            divCanton.className = "contenidoCeldaCanton";
-            divCanton.textContent = datos[dato].canton;
-            var cantonCelda = document.createElement("td");
-            cantonCelda.setAttribute('data-tooltip', datos[dato].canton);
-            cantonCelda.appendChild(divCanton);
-
-            // Agregar celdas a fila
-            row.appendChild(nombreCelda);
-            row.appendChild(categoriaCelda);
-            row.appendChild(marcaCelda);
-            row.appendChild(precioCelda);
-            row.appendChild(unidadCelda);
-            row.appendChild(fechaCelda);
-            row.appendChild(tiendaCelda);
-            row.appendChild(provinciaCelda);
-            row.appendChild(cantonCelda);
-
-
-            // Agregar celdas cuerpo
-            cuerpoTabla.appendChild(row);
-
-        }
     }
 }
 
@@ -367,51 +485,46 @@ document.addEventListener("click", function () {
     });
 });
 
-// Pasar pagina
 function pasarPagina(numeroPagina) {
-    // Paginar
     productosVM = paginar(numeroPagina);
-    // Renderizar
+
     renderizarPaginacion();
     renderizarTabla(productosVM);
     window.scrollTo(0, 0);
 }
 
-// Limpiar check boxes
-function limpiarCheckboxes(nombreCampo) {
-    var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
+function limpiarCheckboxes(nombreDeCheckboxes) {
+    var checkboxes = document.querySelectorAll('input[name="' + nombreDeCheckboxes + '"]:checked');
 
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false;
     }
 }
 
-// Limpiar filtros
 function limpiarFiltros() {
-    // Limpiar checkboxes
     limpiarCheckboxes("provincia");
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
     limpiarCheckboxes("categoria");
     if (filtrador.usado) {
-        // Restaurar uso
+
         filtrador.resetearUso();
+
         // Restaurar resultados
         resultados = obtenerResultados();
-        // Paginar
+
         productosVM = paginar(paginaDefault);
-        // Renderizar
+
         renderizarFiltros();
         renderizarPaginacion();
         renderizarTabla(productosVM);
     }
 }
 
-// Obtener valores de checkboxes
-function obtenerValoresSeleccionados(nombreCampo) {
+function obtenerCheckboxesSeleccionadas(nombreDeCheckboxes) {
     var valores = [];
-    var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
+    var checkboxes = document.querySelectorAll('input[name="' + nombreDeCheckboxes + '"]:checked');
 
     for (var i = 0; i < checkboxes.length; i++) {
         valores.push(checkboxes[i].value);
