@@ -314,6 +314,20 @@ function ordenarCheckboxes(checkboxes) {
     return checkboxes;
 }
 
+function agregarCheckboxesAFiltro(filtro, checkboxes) {
+    filtro.innerHTML = "";
+
+    checkboxes.forEach(function (etiquetaCheckbox) {
+        etiquetaCheckbox.style.marginTop = "30px";
+        etiquetaCheckbox.style.marginBottom = "-8px";
+        filtro.appendChild(etiquetaCheckbox);
+    });
+
+    if (filtro.childElementCount === 1) {
+        filtro.innerHTML = "";
+    }
+}
+
 function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
     const filtros = document.getElementById("ContenidoFiltro" + numeroDeFiltro);
     const casillasExistente = filtros.querySelectorAll('input[type="checkbox"]');
@@ -324,17 +338,7 @@ function renderizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro) {
 
     const checkboxesOrdenados = ordenarCheckboxes(checkboxes);
 
-    filtros.innerHTML = "";
-
-    checkboxesOrdenados.forEach(function (etiquetaCheckbox) {
-        etiquetaCheckbox.style.marginTop = "30px";
-        etiquetaCheckbox.style.marginBottom = "-8px";
-        filtros.appendChild(etiquetaCheckbox);
-    });
-
-    if (filtros.childElementCount === 1) {
-        filtros.innerHTML = "";
-    }
+    agregarCheckboxesAFiltro(filtros, checkboxesOrdenados);
 }
 
 function crearCeldaContenido(contenido, clase) {
@@ -379,17 +383,64 @@ function agregarFilaALaTabla(cuerpoTabla, datos) {
     }
 }
 
+function renderizarPinwinoTriste() {
+    var filaDeContenedores = document.getElementById("FilaDeFiltrosYResultados");
+    var tabla = document.getElementsByClassName("BusquedaIndice-tabla");
+    var paginacion = document.getElementsByClassName("BusquedaIndice-contenedor-paginacion");
+
+    // Quitar elementos innecesarios
+    for (var i = 0; i < paginacion.length; i++) {
+        paginacion[i].style.visibility = "hidden";
+    }
+
+    for (var i = 0; i < tabla.length; i++) {
+        tabla[i].style.maxWidth = "25%";
+        tabla[i].style.visibility = "hidden";
+        tabla[i].style.overflowX = "unset";
+    }
+
+    var contenedorDiv = document.createElement("div");
+    contenedorDiv.className = "BusquedaIndice-contenedor-gif";
+    contenedorDiv.id = "ContenedorGif";
+
+    var imagenGif = document.createElement("img");
+    imagenGif.src = "/img/Pinwino_triste.gif";
+    imagenGif.alt = "Pinwino triste";
+    imagenGif.className = "BusquedaIndice-gif";
+    imagenGif.id = "PinwinoTriste";
+
+    var parrafo = document.createElement("p");
+    parrafo.className = "BusquedaIndice-texto";
+    parrafo.textContent = "No se encontraron resultados";
+
+    contenedorDiv.appendChild(imagenGif);
+    contenedorDiv.appendChild(parrafo);
+
+    filaDeContenedores.appendChild(contenedorDiv);
+
+    // Establecer el uso del filtrador para limpiar los filtros correctamente despues
+    filtrador.usado = true;
+}
+
 function renderizarTabla(datos) {
+
     const cuerpoTabla = document.getElementById("ResultadosDeBusqueda");
 
     // Limpiar el contenido existente
     cuerpoTabla.innerHTML = "";
 
-    datos.forEach(function (dato) {
-        agregarFilaALaTabla(cuerpoTabla, dato);
-    });
-}
+    if (datos.length == 0) {
 
+        renderizarPinwinoTriste();
+
+    } else {
+
+        datos.forEach(function (dato) {
+            agregarFilaALaTabla(cuerpoTabla, dato);
+        });
+
+    }
+}
 
 // Redirecionar a ver registros
 
@@ -398,7 +449,7 @@ document.addEventListener("click", function () {
 
     rows.forEach(row => {
         row.addEventListener("click", function () {
-            const productName = row.querySelector("td:nth-child(1)").textContent;      // Columna 1
+            const productoNombre = row.querySelector("td:nth-child(1)").textContent;   // Columna 1
             const categoriaNombre = row.querySelector("td:nth-child(2)").textContent;  // Columna 2
             const marcaNombre = row.querySelector("td:nth-child(3)").textContent;      // Columna 3
             const unidadNombre = row.querySelector("td:nth-child(5)").textContent;     // Columna 5
@@ -406,7 +457,7 @@ document.addEventListener("click", function () {
             const provinciaNombre = row.querySelector("td:nth-child(8)").textContent;  // Columna 8
             const cantonNombre = row.querySelector("td:nth-child(9)").textContent;     // Columna 9
 
-            window.location.href = `/VerRegistros/VerRegistros?productName=${encodeURIComponent(productName)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
+            window.location.href = `/VerRegistros/VerRegistros?productoNombre=${encodeURIComponent(productoNombre)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
         });
     });
 });

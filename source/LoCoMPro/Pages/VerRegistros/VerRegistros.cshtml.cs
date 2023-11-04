@@ -59,6 +59,7 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
 
+
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.fotografias)
                 .Where(r => r.productoAsociado.Equals(productoNombre) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
