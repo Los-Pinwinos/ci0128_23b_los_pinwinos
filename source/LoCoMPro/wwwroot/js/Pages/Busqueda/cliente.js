@@ -168,6 +168,36 @@ function renderizarBotonesSiguienteAnterior() {
     }
 }
 
+function obtenerCantidadCheckboxesSeleccionados(nombreDeFiltro) {
+    return document.querySelectorAll('input[name="' + nombreDeFiltro + '"]:checked').length;
+}
+
+function renderizarFiltroCoindicionalmente(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador) {
+    var checkboxesSeleccionadasDeModificador = obtenerCheckboxesSeleccionadas(nombreDeFiltroModificador);
+    var checkboxesSeleccionadasFiltro = obtenerCheckboxesSeleccionadasFiltros(document.getElementById("ContenidoFiltro" + numeroDeFiltro).querySelectorAll('input[type="checkbox"]'));
+
+    var filtro = document.getElementById("ContenidoFiltro" + numeroDeFiltro);
+
+    var checkBoxesAgregados = [];
+    var nuevosCheckboxes = [];
+    filtro.innerHTML = "";
+    resultados.forEach(function (dato) {
+        if (checkboxesSeleccionadasDeModificador.includes(dato[nombreDeFiltroModificador]) && !checkBoxesAgregados.includes(dato[nombreDeFiltro])) {
+            checkBoxesAgregados.push(dato[nombreDeFiltro]);
+
+            var checkbox = crearCheckbox(dato[nombreDeFiltro], nombreDeFiltro, checkboxesSeleccionadasFiltro);
+            var etiqueta = crearEtiqueta(dato[nombreDeFiltro], checkbox);
+            // Agregar un manejador de eventos "change" que invoca sincronizarFiltroConcreto
+            checkbox.addEventListener("change", function () {
+                sincronizarFiltroConcreto(numeroDeFiltroModificador, nombreDeFiltroModificador, numeroDeFiltro, nombreDeFiltro);
+            });
+            nuevosCheckboxes.push(etiqueta);
+        }
+    });
+
+    agregarCheckboxesAFiltro(filtro, nuevosCheckboxes);
+}
+
 function sincronizarFiltroConcreto(numeroDeFiltro, nombreDeFiltro, numeroDeFiltroModificador, nombreDeFiltroModificador) {
     var checkboxesSeleccionadasDeModificador = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltroModificador);
     var checkboxesSeleccionadasDeFiltro = obtenerCantidadCheckboxesSeleccionados(nombreDeFiltro);
