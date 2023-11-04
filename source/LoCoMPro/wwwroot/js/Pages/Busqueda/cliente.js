@@ -383,6 +383,7 @@ function agregarFilaALaTabla(cuerpoTabla, datos) {
     }
 }
 
+
 function renderizarPinwinoTriste() {
     var filaDeContenedores = document.getElementById("FilaDeFiltrosYResultados");
     var tabla = document.getElementsByClassName("BusquedaIndice-tabla");
@@ -422,7 +423,29 @@ function renderizarPinwinoTriste() {
     filtrador.usado = true;
 }
 
+function removerPinwinoTriste() {
+    var tabla = document.getElementsByClassName("BusquedaIndice-tabla");
+    var paginacion = document.getElementsByClassName("BusquedaIndice-contenedor-paginacion");
+    var imagen = document.getElementById("ContenedorGif");
+
+    if (imagen != null) {
+        imagen.remove();
+
+        // Restaurar elementos
+        for (var i = 0; i < paginacion.length; i++) {
+            paginacion[i].style.visibility = "visible";
+        }
+
+        for (var i = 0; i < tabla.length; i++) {
+            tabla[i].style.maxWidth = "100%";
+            tabla[i].style.visibility = "visible";
+            tabla[i].style.overflowX = "auto";
+        }
+    }
+}
+
 function renderizarTabla(datos) {
+    removerPinwinoTriste();
 
     const cuerpoTabla = document.getElementById("ResultadosDeBusqueda");
 
