@@ -110,7 +110,7 @@ namespace LoCoMPro.Pages.AgregarProducto
                 usuarioCreador = usuarioCreador,
                 descripcion = this.ViewModel.descripcion,
                 precio = decimal.Parse(this.ViewModel.precio),
-                calificacion = 5,  // TODO(Emilia): cambiar por 0 
+                calificacion = 0,
                 productoAsociado = this.ViewModel.nombreProducto,
                 nombreTienda = tiendaTemporal,
                 nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",

@@ -22,7 +22,7 @@
     <!-- Forms para guardar la información escrita en las cajas de texto al presionar el botón "Crear cuenta" -->
     <form method="post">
         <!-- Configuración para la validación del lado del cliente -->
-        <div asp-validation-summary="ModelOnly" class="Perfil-texto-error"></div>
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
         <!-- Contenedor para todos los elementos en la página -->
         <div class="Perfil-contenedor-centrado-primario">
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
@@ -30,7 +30,7 @@
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.nombreDeUsuario" for="CajaDeTextoUsuario">Usuario:</label>
-                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario" disabled>
+                <input asp-for="usuarioActual.nombreDeUsuario" type="text" id="CajaDeTextoUsuario">
             </div>
             <!-- Mensaje de error al no cumplir los atributos de validación del correo del modelo vista -->
             <span asp-validation-for="usuarioActual.correo" class="Perfil-texto-error"></span>
@@ -90,11 +90,17 @@
                 <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
             <!-- Botón para ver los aportes realizados por el usuario -->
-            <button class="Perfil-boton-basico" asp-page="/Cuenta/Aportes"> Ver aportes </button>
+            <a class="Perfil-boton-basico" href="/Cuenta/Aportes"> Ver aportes </a>
             <!-- Botón para actualizar los datos del usuario -->
             <button class="Perfil-boton-basico" asp-page-handler="ActualizarUsuario" id="BotonGuardarCambios" style="display: none;"> Guardar cambios </button>
         </div>
     </form>
+
+    <!-- Inputs invisibles para guardar información original del usuario -->
+    <input type="hidden" id="NombreDeUsuarioInicial" value="@Model.usuario.nombreDeUsuario" />
+    <input type="hidden" id="ProvinciaInicial" value="@Model.usuario.provinciaVivienda" />
+    <input type="hidden" id="CantonInicial" value="@Model.usuario.cantonVivienda" />
+    <input type="hidden" id="DistritoInicial" value="@Model.usuario.distritoVivienda" />
 
     <!-- Script para alinear cajas de texto -->
     <script>
@@ -104,22 +110,30 @@
 
     <!-- Script para mostrar o esconder el botón de guardar cambios -->
     <script>
-        // Obtener las cajas que pueden producir generar cambios y el botón
-        const cajaNombreUsuario = document.getElementById('CajaDeTextoUsuario');
-        const cajaProvincia = document.getElementById('CajaDeSeleccionProvincia');
-        const cajaCanton = document.getElementById('CajaDeSeleccionCanton');
-        const cajaDistrito = document.getElementById('CajaDeSeleccionDistrito');
-        const botonGuardar = document.getElementById('BotonGuardarCambios');
-
         // Función para verificar si ha habido cambios y ocultar o mostrar el botón
         function verificarCanbios() {
+            // Obtener las cajas con los valores actuales
+            var nombreUsuarioActual = document.getElementById('CajaDeTextoUsuario');
+            var provinciaActual = document.getElementById('CajaDeSeleccionProvincia');
+            var cantonActual = document.getElementById('CajaDeSeleccionCanton');
+            var distritoActual = document.getElementById('CajaDeSeleccionDistrito');
+
+            // Obtener las cajas con los valores originales
+            var nombreUsuario = document.getElementById('NombreDeUsuarioInicial');
+            var provincia = document.getElementById('ProvinciaInicial');
+            var canton = document.getElementById('CantonInicial');
+            var distrito = document.getElementById('DistritoInicial');
+
+            // Obtener el botón de guardar
+            var botonGuardar = document.getElementById('BotonGuardarCambios');
 
             // Si algo cambió con respecto al usuario
-            if ((cajaNombreUsuario.value !== '@Model.usuario.nombreDeUsuario' &&
-                (cajaNombreUsuario.value.length >= 5 && cajaNombreUsuario.value.length <= 20)) ||
-                cajaProvincia.value !== '@Model.usuario.provinciaVivienda' ||
-                cajaCanton.value !== '@Model.usuario.cantonVivienda' ||
-                cajaDistrito.value !== '@Model.usuario.distritoVivienda') {
+            // (En caso de cambiar el nombre de usuario, este debe tener logitud correcta)
+            if ((nombreUsuarioActual.value !== nombreUsuario.value &&
+                (nombreUsuarioActual.value.length >= 5 && nombreUsuarioActual.value.length <= 20)) ||
+                provinciaActual.value !== provincia.value ||
+                cantonActual.value !== canton.value ||
+                distritoActual.value !== distrito.value) {
                 // Mostrar el botón
                 botonGuardar.style.display = 'block';
             // Si no hubo cambios
@@ -129,15 +143,18 @@
             }
         }
 
+        // Obtener las cajas que pueden producir generar cambios
+        const cajaNombreUsuario = document.getElementById('CajaDeTextoUsuario');
+        const cajaProvincia = document.getElementById('CajaDeSeleccionProvincia');
+        const cajaCanton = document.getElementById('CajaDeSeleccionCanton');
+        const cajaDistrito = document.getElementById('CajaDeSeleccionDistrito');
+
         // Agregar event listeners en las cajas para verificar si se
         // producen cambios con respecto a la información del usuario
-        cajaNombreUsuario.addEventListener('input', verificarCanbios);
+        cajaNombreUsuario.addEventListener('change', verificarCanbios);
         cajaProvincia.addEventListener('change', verificarCanbios);
         cajaCanton.addEventListener('change', verificarCanbios);
         cajaDistrito.addEventListener('change', verificarCanbios);
-
-        // Chequeo inicial
-        verificarCanbios();
     </script>
 
 

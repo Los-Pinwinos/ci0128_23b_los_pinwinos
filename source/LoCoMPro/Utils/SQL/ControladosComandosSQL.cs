@@ -39,6 +39,14 @@ namespace LoCoMPro.Utils.SQL
             this.parametros.Add(new SqlParameter("@" + nombreParametro, valor));
         }
 
+        public void ConfigurarParametroDateTimeComando(string nombreParametro, object valor)
+        {
+            var parametro = new SqlParameter("@" + nombreParametro, SqlDbType.DateTime2);
+            parametro.Value = valor;
+            System.Diagnostics.Debug.WriteLine("FECHA_CONFIGURADO: " + parametro.Value);
+            this.parametros.Add(parametro);
+        }
+
         public IList<object[]> EjecutarFuncion()
         {
             if (this.conexion.State == ConnectionState.Closed)

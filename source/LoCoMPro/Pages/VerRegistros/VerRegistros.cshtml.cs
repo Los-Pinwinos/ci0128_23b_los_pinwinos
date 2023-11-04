@@ -80,7 +80,8 @@ namespace LoCoMPro.Pages.VerRegistros
                     calificacion = group.Key.calificacion,
                     descripcion = group.Key.descripcion,
                     fotografias = group.SelectMany(registro => registro.fotografias).ToList()
-                });
+                })
+             .OrderByDescending(r => r.creacion);
 
             Registros = await registrosIQ.ToListAsync();
             this.resultadoRegistros = JsonConvert.SerializeObject(Registros);

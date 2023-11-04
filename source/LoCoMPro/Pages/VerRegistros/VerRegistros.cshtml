@@ -6,7 +6,7 @@
 
 <head>
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
-    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
     <script>
 
         function adaptarCaracteresEspeciales(cadena) {
@@ -23,15 +23,16 @@
         var resultados = obtenerResultados();
         var paginador = new Paginador(5); // El número 5 se refiere al número de registros por página
         var paginaDefault = 1; // Inicia en la página 1 por defecto
+        var presionado = "ninguno"; // agrupamiento presionado
     </script>
-    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js?v=6117"></script>
+    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js" asp-append-version="true"></script>
 </head>
 
 <div>
     <div class="InfoProducto">
         <div class="Contenedor">
             <div class="Contenedor-fila">
-                 <div class="ColumnaImagen">
+                <div class="ColumnaImagen">
                     <div id="galeriaImagenes" class="GaleriaImagenes">
                         <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
                         <div id="imagenActual" class="ImagenActual">
@@ -60,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -69,31 +70,38 @@
         <div class="Agrupamientos">
             <div class="Contenedor-agrupamientos" id="contenedorAgrupamientos">
                 <label class="InfoColumnaNegrita">Agrupar por:</label>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Día" value = "Día" /> Día
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoDia" value="Día" />
+                        <span class="circular-label"></span> Día
                     </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Semana" value="Semana" /> Semana
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoSemana" value="Semana" />
+                        <span class="circular-label"></span> Semana
                     </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Mes" value="Mes" /> Mes
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoMes" value="Mes" />
+                        <span class="circular-label"></span> Mes
                     </label>
+                </div>
+
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Año" value="Año" /> Año
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoAno" value="Ano" />
+                        <span class="circular-label"></span> Año
                     </label>
+                </div>
             </div>
         </div>
         <!-- Tablas de resultados -->
         <div class="Tabla">
             <table>
                 <thead>
-                    <tr>
-                        <th style="padding-left: 10px;">Fecha</th>
-                        <th style="padding-left: 37px;">Precio</th>
-                        <th>Calificación</th>
-                        <th style="padding-right: 20px;">Descripción</th>
-                        <th></th>
-                    </tr>
+                    <tr id="TitulosTabla"> </tr>
                 </thead>
                 <tbody class="Tabla-resultados" id="cuerpoResultados"> </tbody>
             </table>
@@ -104,7 +112,7 @@
 <!-- Paginación -->
 <div class="Contenedor-paginacion">
     <div class="Contenedor-caja-paginacion">
-        <div id="paginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1)">
+        <div id="paginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1, presionado)">
             Anterior
         </div>
         <div id="sinPaginaPrevia" class="Boton-paginacion-deshabilitado">
@@ -113,7 +121,7 @@
 
         <span id="textoPaginacion" class="Texto-paginacion">  </span>
 
-        <div id="paginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1)">
+        <div id="paginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1, presionado)">
             Siguiente
         </div>
         <div id="sinPaginaSiguiente" class="Boton-paginacion-deshabilitado">
@@ -132,6 +140,66 @@
 </script>
 
 <script>
+    var agruparDia = document.getElementById("AgrupamientoDia");
+    agruparDia.addEventListener('click', function () {
+        if (presionado === "dia") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparDia.checked = false;
+        } else {
+            presionado = "dia";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparSemana = document.getElementById("AgrupamientoSemana");
+    agruparSemana.addEventListener('click', function () {
+        if (presionado === "semana") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparSemana.checked = false;
+        } else {
+            presionado = "semana";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparMes = document.getElementById("AgrupamientoMes");
+    agruparMes.addEventListener('click', function () {
+        if (presionado === "mes") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparMes.checked = false;
+        } else {
+            presionado = "mes";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparAno = document.getElementById("AgrupamientoAno");
+    agruparAno.addEventListener('click', function () {
+        if (presionado === "ano") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparAno.checked = false;
+        } else {
+            presionado = "ano";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+</script>
+
+
+
+<script>
     // Inicializar la galería de imágenes
     var imagenes = @Html.Raw(Json.Serialize(Model.fotografias));
     var indiceImagenActual = 0;
@@ -141,7 +209,7 @@
 
     function verImagenActual() {
         if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
-            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;  
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
         }
         vistaImagen.className = "Imagen";
         actualizarVisibilidadFlecha();
@@ -182,6 +250,5 @@
 
     verImagenActual();
 </script>
-
 
 
