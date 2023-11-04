@@ -7,6 +7,10 @@ using LoCoMPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
+using LoCoMPro.Utils.SQL;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using System.Globalization;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -26,6 +30,8 @@ namespace LoCoMPro.Pages.Cuenta
         public List<Distrito> distritos { get; set; }
 
         public int cantidadAportes { get; set; }
+
+        public string calificacionUsuario { get; set; }
 
         public ModeloPerfil(LoCoMProContext contexto)
         {
@@ -49,6 +55,13 @@ namespace LoCoMPro.Pages.Cuenta
 
         public IActionResult OnGet()
         {
+            // Verifica si la página OnPost generó un error
+            if (TempData.ContainsKey("ErrorCambiarUsuario"))
+            {
+                // Muestra el error
+                ModelState.AddModelError(string.Empty, TempData["ErrorCambiarUsuario"].ToString());
+            }
+
             this.provincias = this.contexto.Provincias.ToList();
 
             // Si el usuario está loggeado
@@ -57,6 +70,8 @@ namespace LoCoMPro.Pages.Cuenta
                 // Obtiene la instancia del usuario
                 this.usuario = this.contexto.Usuarios.FirstOrDefault(
                     p => p.nombreDeUsuario == User.Identity.Name) ?? this.usuario;
+
+                this.calificacionUsuario = (Math.Floor(this.usuario.calificacion * 10) / 10).ToString("0.0", new CultureInfo("fr-FR"));
 
                 // Actualiza el modelo vista con el usuario obtenido
                 this.usuarioActual.nombreDeUsuario = this.usuario.nombreDeUsuario;
@@ -114,7 +129,7 @@ namespace LoCoMPro.Pages.Cuenta
             return new JsonResult(listaDistritos);
         }
 
-        public IActionResult OnPostActualizarUsuario()
+        public async Task<IActionResult> OnPostActualizarUsuario()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -131,6 +146,35 @@ namespace LoCoMPro.Pages.Cuenta
                     this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda;
                     
                     this.contexto.SaveChanges();
+
+                    // Si el nombre de usuario cambió
+                    if (this.usuario.nombreDeUsuario != this.usuarioActual.nombreDeUsuario &&
+                        this.usuarioActual.nombreDeUsuario != null)
+                    {
+                        Usuario? nuevoUsuario = this.contexto.Usuarios.FirstOrDefault(
+                            p => p.nombreDeUsuario == this.usuarioActual.nombreDeUsuario);
+                        if (nuevoUsuario == null)
+                        {
+                            // Llamar al procedimiento para cambiar el nombre de usuario
+                            ControladorComandosSql controlador = new ControladorComandosSql();
+                            controlador.ConfigurarNombreComando("cambiarNombreUsuario");
+                            controlador.ConfigurarParametroComando("anteriorNombre", this.usuario.nombreDeUsuario);
+                            controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
+                            controlador.EjecutarProcedimiento();
+
+                            // Limpia la sesión
+                            HttpContext.Session.Clear();
+                            // Cierra sesión
+                            await HttpContext.SignOutAsync();
+                            // Redirecciona a la página de inicio
+                            return RedirectToPage("/Home/Index");
+
+                        } else
+                        {
+                            // Guarda el error para mostrarlo en la página principal
+                            TempData["ErrorCambiarUsuario"] = "Usuario ya existente en el sistema";
+                        }
+                    }
                 }
             }
             

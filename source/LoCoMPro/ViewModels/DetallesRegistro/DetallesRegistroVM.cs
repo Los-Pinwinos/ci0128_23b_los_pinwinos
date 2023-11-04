@@ -39,6 +39,8 @@ namespace LoCoMPro.ViewModels.DetallesRegistro
         [Display(Name = "Nombre del producto")]
         public required string productoAsociado { get; set; }
 
+        public int cantidadCalificaciones { get; set; }
+
         public ICollection<Fotografia>? fotografias { get; set; }
     }
 }
