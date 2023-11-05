@@ -1,123 +1,130 @@
 ﻿@page
-@model LoCoMPro.Pages.VerRegistros.VerRegistrosModel
+@model VerRegistrosModel
 @{
     ViewData["Title"] = "Ver Registros";
 }
 
 <head>
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
-    <script src="~/js/Pages/Busqueda/paginador.js"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
     <script>
-        // Función de traducción de codificación
-        function traducirCodificacion(cadena) {
+
+        function adaptarCaracteresEspeciales(cadena) {
             var elementoTemporal = document.createElement("div");
             elementoTemporal.innerHTML = cadena;
             return elementoTemporal.textContent;
         }
 
-        // Obtener resultados de busqueda principal
         function obtenerResultados() {
-            var resultadosDecodificados = traducirCodificacion('@Model.resultadoRegistros')
-            return JSON.parse(resultadosDecodificados);
+            var resultadosAdaptados = adaptarCaracteresEspeciales('@Model.resultadoRegistros')
+            return JSON.parse(resultadosAdaptados);
         }
 
         var resultados = obtenerResultados();
-        var paginador = new Paginador(5);
-        var paginaDefault = 1;
+        var paginador = new Paginador(5); // El número 5 se refiere al número de registros por página
+        var paginaDefault = 1; // Inicia en la página 1 por defecto
+        var presionado = "ninguno"; // agrupamiento presionado
     </script>
-    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js?v=6117"></script>
+    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js" asp-append-version="true"></script>
 </head>
 
 <div>
     <div class="InfoProducto">
-        <div class="VerRegistros-contenedor">
-            <div class="VerRegistros-contenedor-fila">
-                 <div class="ImageColumn">
+        <div class="Contenedor">
+            <div class="Contenedor-fila">
+                <div class="ColumnaImagen">
                     <div id="galeriaImagenes" class="GaleriaImagenes">
                         <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
-                        <div id="currentImage" class="CurrentImage">
+                        <div id="imagenActual" class="ImagenActual">
                             <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
                         </div>
                         <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                     </div>
                 </div>
-                <div class="VerRegistros-contenedor-caja-texto">
+                <div class="Contenedor-caja-texto">
                     <h2 class="TituloProducto">@Model.NombreProducto</h2>
                     <input type="hidden" id="nombreProducto" value="@Model.NombreProducto">
                     <div class="InfoProductoColumnas">
                         <div class="ContenedorInfoColumnas">
-                            <div class="InfoColumn">
+                            <div class="InfoColumnas">
                                 <p><strong>Tienda:</strong> @Model.NombreTienda</p>
                                 <p><strong>Categoría:</strong> @Model.NombreCategoria</p>
                             </div>
-                            <div class="InfoColumn">
+                            <div class="InfoColumnas">
                                 <p><strong>Marca:</strong> @Model.NombreMarca</p>
                                 <p><strong>Unidad:</strong> @Model.NombreUnidad</p>
                             </div>
-                            <div class="InfoColumn">
+                            <div class="InfoColumnas">
                                 <p><strong>Provincia:</strong> @Model.NombreProvincia</p>
                                 <p><strong>Cantón:</strong> @Model.NombreCanton</p>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
 
-    <div class="VerRegistros-contenedor-fila">
-        <div class="VerRegistros-agrupamientos">
-            <div class="VerRegistros-contenedor-agrupamientos" id="Contenedoragrupamientos">
-                <label class="InfoColumnBold">Agrupar por:</label>
+    <div class="Contenedor-fila">
+        <div class="Agrupamientos">
+            <div class="Contenedor-agrupamientos" id="contenedorAgrupamientos">
+                <label class="InfoColumnaNegrita">Agrupar por:</label>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Día" value = "Día" /> Día
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoDia" value="Día" />
+                        <span class="circular-label"></span> Día
                     </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Semana" value="Semana" /> Semana
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoSemana" value="Semana" />
+                        <span class="circular-label"></span> Semana
                     </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Mes" value="Mes" /> Mes
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoMes" value="Mes" />
+                        <span class="circular-label"></span> Mes
                     </label>
+                </div>
+
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="checkbox" name="Año" value="Año" /> Año
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoAno" value="Ano" />
+                        <span class="circular-label"></span> Año
                     </label>
+                </div>
             </div>
         </div>
         <!-- Tablas de resultados -->
-        <div class="VerRegistros-tabla">
+        <div class="Tabla">
             <table>
                 <thead>
-                    <tr>
-                        <th style="padding-left: 10px;">Fecha</th>
-                        <th style="padding-left: 37px;">Precio</th>
-                        <th>Calificación</th>
-                        <th style="padding-right: 20px;">Descripción</th>
-                        <th></th>
-                    </tr>
+                    <tr id="TitulosTabla"> </tr>
                 </thead>
-                <tbody class="VerRegistros-tabla-resultados" id="CuerpoResultados"> </tbody>
+                <tbody class="Tabla-resultados" id="cuerpoResultados"> </tbody>
             </table>
         </div>
     </div>
 </div>
 
 <!-- Paginación -->
-<div class="VerRegistros-contenedor-paginacion">
-    <div class="VerRegistros-contenedor-caja-paginacion">
-        <div id="PaginaPrevia" class="VerRegistros-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+<div class="Contenedor-paginacion">
+    <div class="Contenedor-caja-paginacion">
+        <div id="paginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1, presionado)">
             Anterior
         </div>
-        <div id="SinPaginaPrevia" class="VerRegistros-boton-paginacion-deshabilitado">
+        <div id="sinPaginaPrevia" class="Boton-paginacion-deshabilitado">
             Anterior
         </div>
 
-        <span id="TextoPaginacion" class="VerRegistros-texto-paginacion">  </span>
+        <span id="textoPaginacion" class="Texto-paginacion">  </span>
 
-        <div id="PaginaSiguiente" class="VerRegistros-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+        <div id="paginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1, presionado)">
             Siguiente
         </div>
-        <div id="SinPaginaSiguiente" class="VerRegistros-boton-paginacion-deshabilitado">
+        <div id="sinPaginaSiguiente" class="Boton-paginacion-deshabilitado">
             Siguiente
         </div>
     </div>
@@ -125,15 +132,75 @@
 
 
 <script>
-    var productosVM = paginar(paginaDefault);
+    var resultadosPaginados = paginar(paginaDefault);
 
-    // Renderizar
+    // Reenderizar las diferentes páginas necesarias
     renderizarPaginacion();
-    renderizarTabla(productosVM);
+    renderizarTabla(resultadosPaginados);
 </script>
 
 <script>
-    // Initialize the image gallery
+    var agruparDia = document.getElementById("AgrupamientoDia");
+    agruparDia.addEventListener('click', function () {
+        if (presionado === "dia") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparDia.checked = false;
+        } else {
+            presionado = "dia";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparSemana = document.getElementById("AgrupamientoSemana");
+    agruparSemana.addEventListener('click', function () {
+        if (presionado === "semana") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparSemana.checked = false;
+        } else {
+            presionado = "semana";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparMes = document.getElementById("AgrupamientoMes");
+    agruparMes.addEventListener('click', function () {
+        if (presionado === "mes") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparMes.checked = false;
+        } else {
+            presionado = "mes";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparAno = document.getElementById("AgrupamientoAno");
+    agruparAno.addEventListener('click', function () {
+        if (presionado === "ano") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparAno.checked = false;
+        } else {
+            presionado = "ano";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+</script>
+
+
+
+<script>
+    // Inicializar la galería de imágenes
     var imagenes = @Html.Raw(Json.Serialize(Model.fotografias));
     var indiceImagenActual = 0;
     var vistaImagen = document.getElementById("vistaImagen");
@@ -142,10 +209,9 @@
 
     function verImagenActual() {
         if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
-            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;  
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
         }
         vistaImagen.className = "Imagen";
-        // Update the arrow visibility
         actualizarVisibilidadFlecha();
     }
 
@@ -163,13 +229,11 @@
                 siguienteImagen.style.visibility = "visible";
             }
         } else {
-            // Hide the arrows when there are no imagenes
             imagenAnterior.style.visibility = "hidden";
             siguienteImagen.style.visibility = "hidden";
         }
     }
 
-    // Function to show the Anterior image
     function verImagenAnterior() {
         if (indiceImagenActual > 0) {
             indiceImagenActual--;
@@ -177,7 +241,6 @@
         }
     }
 
-    // Function to show the Siguiente image
     function verImagenSiguiente() {
         if (indiceImagenActual < imagenes.length - 1) {
             indiceImagenActual++;
@@ -185,9 +248,7 @@
         }
     }
 
-    // Initial display of the first image
     verImagenActual();
 </script>
-
 
 

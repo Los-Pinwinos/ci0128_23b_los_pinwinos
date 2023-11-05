@@ -136,6 +136,13 @@
     margin-right: 30%;
 }
 
+.CalificacionReciente {
+    font-size: 16px;
+    white-space: nowrap;
+    margin-right: 50%;
+    color: dimgray;
+}
+
 .Calificacion-label {
     font-size: 18px;
     white-space: nowrap;

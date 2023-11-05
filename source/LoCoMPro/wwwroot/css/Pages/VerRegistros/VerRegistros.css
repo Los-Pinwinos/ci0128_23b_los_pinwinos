@@ -1,45 +1,34 @@
-﻿/* Información del producto */
-.InfoProducto {
+﻿.InfoProducto {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
-    background-color: white; 
-    border: 2px solid #1A7254; 
+    background-color: white;
+    border: 2px solid #1A7254;
     border-radius: 5px;
     padding: 5px 10px;
-    width: 95%;
+    width: 96.9%;
     margin-bottom: 10px;
 }
 
-
-/* Centrar el título */
-.TituloProductoContainer {
-    display: flex;
-    margin-left: 200px
-}
-
-/* Título del producto */
 .TituloProducto {
     font-family: Arial, sans-serif;
     margin-left: 30%;
     font-size: 24px;
 }
 
-/* Cada columna */
 .InfoProductoColumnas {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin: 10px 0;
 }
 
-/* Contenedor de las columnas de información */
 .ContenedorInfoColumnas {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
 }
 
-.InfoColumn {
+.InfoColumnas {
     width: calc(50vw - 100px);
     margin-right: 20px;
     margin-left: 70px;
@@ -47,45 +36,47 @@
     font-size: 16px;
 }
 
-.ImageColumn {
-    width: 40%; 
+.ColumnaImagen {
+    width: 40%;
     text-align: left;
 }
 
-.InfoColumnBold {
-    width: 30%; 
-    text-align: left; 
-    font-size: 16px; 
+.InfoColumnaNegrita {
+    width: 30%;
+    text-align: left;
+    font-size: 16px;
     font-weight: bold;
 }
 
-/* Atributos */
 .InfoColumn p {
-    font-family: Helvetica, sans-serif; 
+    font-family: Helvetica, sans-serif;
 }
 
 
-/* Precio hacia la derecha */
 .precio {
     text-align: right;
-    margin-right: 200px;
+    margin-right: 10px;
 }
 
-/* El resto de columnas */
+
+.precioAgrupado {
+    text-align: right;
+    margin-left: 25px;
+}
+
+
 table tbody td.elementos {
-    text-align: left; 
+    text-align: left;
 }
 
-/* Contenedor */
-.VerRegistros-contenedor {
+.Contenedor {
     margin-bottom: 5px;
     width: 100%;
     height: 100%;
     max-width: 1600px;
 }
 
-/* Contenedor de fila */
-.VerRegistros-contenedor-fila {
+.Contenedor-fila {
     display: flex;
     align-items: flex-start;
     margin-bottom: 1px;
@@ -93,8 +84,7 @@ table tbody td.elementos {
     height: 100%;
 }
 
-/* Contenedor de caja de texto */
-.VerRegistros-contenedor-caja-texto {
+.Contenedor-caja-texto {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
@@ -104,8 +94,7 @@ table tbody td.elementos {
     height: 80%;
 }
 
-/* Tabla */
-.VerRegistros-tabla {
+.Tabla {
     width: 100%;
     max-width: 100%;
     margin-left: 15px;
@@ -114,8 +103,7 @@ table tbody td.elementos {
     overflow-y: unset;
 }
 
-/* Tabla de resultados */
-.VerRegistros-tabla-resultados {
+.Tabla-resultados {
     width: 100%;
     box-sizing: border-box;
     margin-left: 15px;
@@ -123,7 +111,6 @@ table tbody td.elementos {
     overflow-x: unset;
 }
 
-/* Tabla */
 table {
     border-collapse: separate;
     width: 100%;
@@ -131,50 +118,40 @@ table {
     border-spacing: 0 10px;
     font-size: 15px;
 }
-    /* Thead th */
+
     table thead th {
         background-color: white;
         text-align: left;
         border: none;
     }
 
-    /* Tbody td */
     table tbody td {
         background-color: #1A7254;
         cursor: pointer;
         text-align: left;
-        max-width: 70px;
         padding-top: 3px;
         padding-bottom: 3px;
-        padding-right: 10px;
         border: none;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         position: relative;
     }
-        /* Tbody td ultimo */
+
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
         }
 
-        /* Tbody td primero */
+
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
         }
 
-        table tbody td:nth-child(5) {
-            display: none;
-        }
-
-    /* Tbody fila */
     table tbody tr {
         color: white;
     }
 
-
-/* Contenedor de agrupamientos y tabla de resultados */
-.VerRegistros-tabla-agrupamientos-contenedor {
+.Tabla-agrupamientos-contenedor {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
@@ -182,8 +159,7 @@ table {
     height: 100%
 }
 
-/* Contenedor de agrupamientos */
-.VerRegistros-contenedor-agrupamientos {
+.Contenedor-agrupamientos {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
@@ -197,8 +173,7 @@ table {
     white-space: nowrap;
 }
 
-/* Caja de agrupamientos */
-.VerRegistros-agrupamientos {
+.Agrupamientos {
     display: flex;
     margin-left: 10px;
     background-color: #C3F3E5;
@@ -208,8 +183,7 @@ table {
     min-width: 160px;
 }
 
-/* Boton de agrupamientos */
-.VerRegistros-boton-agrupamientos {
+.Boton-agrupamientos {
     background-color: #1A7254;
     border-radius: 10px;
     width: 80%;
@@ -221,14 +195,30 @@ table {
     color: white;
 }
 
-/* Contenido de la celda de Fecha */
+.ContenidoTitulo {
+    min-width: 80px;
+    max-width: 80px;
+    white-space: nowrap;
+}
+
+.ContenidoTituloCorto {
+    min-width: 50px;
+    max-width: 50px;
+    white-space: nowrap;
+}
+
+.ContenidoTituloDescripcion {
+    min-width: 50px;
+    max-width: 50px;
+    white-space: nowrap;
+}
+
 .contenidoCeldaFecha {
     padding-left: 10px;
     min-width: 88px;
     max-width: 88px;
 }
 
-/* Contenido de la celda de Precio */
 .contenidoCeldaPrecio {
     text-align: right;
     min-width: 80px;
@@ -236,23 +226,28 @@ table {
     direction: rtl;
 }
 
-/* Contenido de la celda de Unidad */
 .contenidoCeldaCalificacion {
     min-width: 75px;
     max-width: 75px;
+    text-align: right;
+    margin-right: 25px;
+    direction: rtl;
+}
+
+.contenidoCeldaDescripcion {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 50px;
 }
 
 /* Paginacion */
-
-/* Contenedor de paginacion */
-.VerRegistros-contenedor-paginacion {
+.Contenedor-paginacion {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Contenedor de caja de paginacion */
-.VerRegistros-contenedor-caja-paginacion {
+.Contenedor-caja-paginacion {
     height: 30px;
     display: flex;
     align-items: center;
@@ -262,8 +257,7 @@ table {
     position: relative;
 }
 
-/* Boton de paginacion */
-.VerRegistros-boton-paginacion {
+.Boton-paginacion {
     width: 60px;
     height: 20px;
     color: black;
@@ -281,8 +275,7 @@ table {
     text-decoration: underline;
 }
 
-    /* Bordes de boton de paginacion */
-    .VerRegistros-boton-paginacion::before {
+    .Boton-paginacion::before {
         content: "";
         position: absolute;
         top: -25%;
@@ -293,8 +286,7 @@ table {
         border-radius: 50px;
     }
 
-/* Boton de paginacion deshabilitado */
-.VerRegistros-boton-paginacion-deshabilitado {
+.Boton-paginacion-deshabilitado {
     width: 60px;
     height: 20px;
     color: grey;
@@ -310,8 +302,7 @@ table {
     padding-left: 6px;
 }
 
-    /* Bordes de boton de paginacion deshabilitado */
-    .VerRegistros-boton-paginacion-deshabilitado::before {
+    .Boton-paginacion-deshabilitado::before {
         content: "";
         position: absolute;
         top: -25%;
@@ -322,10 +313,10 @@ table {
         border-radius: 50px;
     }
 
-/* Texto en paginacion */
-.VerRegistros-texto-paginacion {
+.Texto-paginacion {
     margin: 0 10px;
 }
+
 
 /* Numero de paginacion seleccionable */
 .pagina-seleccionable {
@@ -354,7 +345,6 @@ table {
         text-decoration: none;
     }
 
-/*Manejo de imágenes: */
 .Imagen {
     max-width: 200px;
     max-height: 130px;
@@ -384,11 +374,37 @@ table {
 }
 
 .NavegacionImagen-Siguiente {
-    margin-left: 0px; 
+    margin-left: 0px;
 }
 
-.CurrentImage {
+.ImagenActual {
     max-width: 100%;
-    max-height: 400px; 
+    max-height: 400px;
 }
 
+
+.checkbox-circular-contenedor {
+    margin-bottom: 10px;
+}
+
+.checkbox-circular {
+    display: none;
+}
+
+.circular-label {
+    width: 15px;
+    height: 15px;
+    background-color: #C3F3E5;
+    border: 2px solid #1A7254;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.checkbox-circular:checked + .circular-label {
+    background-color: #1A7254;
+}
+
+.Estilo-Agrupado {
+}
