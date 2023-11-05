@@ -52,6 +52,8 @@ function filtrar() {
     var tiendas = obtenerCheckboxesSeleccionadas("tienda");
     var marcas = obtenerCheckboxesSeleccionadas("marca");
     var categorias = obtenerCheckboxesSeleccionadas("categoria");
+    var precioMin = document.getElementById("precioMin").value;
+    var precioMax = document.getElementById("precioMax").value;
 
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
@@ -59,6 +61,8 @@ function filtrar() {
     filtrador.setFiltroTiendas(tiendas);
     filtrador.setFiltroMarcas(marcas);
     filtrador.setFiltroCategorias(categorias);
+    filtrador.setPrecioMinimo(precioMin);
+    filtrador.setPrecioMaximo(precioMax);
 
     resultados = filtrador.filtrar(resultados);
 

@@ -394,7 +394,7 @@ table {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
-    height: calc( 65vh - 100px);
+    height: 600px;
     min-width: 150px;
     max-width: 150px;
     border-radius: 5px;
@@ -498,6 +498,7 @@ table {
     border: 1px solid black;
     width: 80%;
     margin-left: 15%;
+    outline: none;
 }
 
 /* Ordenamientos */
