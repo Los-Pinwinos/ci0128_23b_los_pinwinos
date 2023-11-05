@@ -152,25 +152,25 @@ table {
         height: 50px;
     }
 
-/* Características de hover */
-table td:hover::before {
-    content: attr(data-tooltip);
-    display: block;
-    position: absolute;
-    background-color: #4E7366;
-    color: white;
-    padding: 5px;
-    border-radius: 4px;
-    top: -30%;
-    left: 70%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    z-index: 1;
-}
+    /* Características de hover */
+    table td:hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -30%;
+        left: 70%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
 
-table td::before {
-    content: "";
-}
+    table td::before {
+        content: "";
+    }
 
 /* Contenido de la celda de Nombre */
 .contenidoCeldaNombre {
@@ -394,7 +394,7 @@ table td::before {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
-    height: calc( 65vh - 100px);
+    height: 600px;
     min-width: 150px;
     max-width: 150px;
     border-radius: 5px;
@@ -482,8 +482,26 @@ table td::before {
     right: 5px;
 }
 
-/* Ordenamientos */
+/* Label de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-label {
+    padding-left: 15%;
+    padding-top: 8%;
+    color: black;
+}
 
+/* Input de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-input {
+    background-color: #C3F3E5;
+    margin-top: 10px;
+    border-radius: 8px;
+    border-color: black;
+    border: 1px solid black;
+    width: 80%;
+    margin-left: 15%;
+    outline: none;
+}
+
+/* Ordenamientos */
 /* Titulo presionable para ordenamiento */
 .BusquedaIndice-titulo-columna {
     color: black;
@@ -569,11 +587,12 @@ table td::before {
     flex-direction: column; /* Stack items vertically */
     justify-content: center;
     align-items: center;
+    max-width: 300px;
 }
 
 /* Gif */
 .BusquedaIndice-gif {
-    max-width: 35%;
+    max-width: 90%;
     height: auto;
 }
 
@@ -582,4 +601,5 @@ table td::before {
     color: black;
     font-size: 30px;
     text-align: center;
+    max-width: 100%;
 }

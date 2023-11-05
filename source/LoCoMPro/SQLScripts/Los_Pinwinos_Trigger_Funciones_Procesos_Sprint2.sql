@@ -60,13 +60,12 @@ BEGIN
 END;
 
 -- Procedimiento creado por Emilia Víquez Mora C18625
--- Observación: Este procedimiento es solamente una versión inicial, el cálculo de la calificación promedio puede variar.
 go
 create procedure actualizarModeracion
 @nombreUsuario nvarchar(max)
 as 
 begin
-	declare @esModerador bit, @cantidadRegistros int, @promedioCalificacion float
+	declare @esModerador bit, @cantidadRegistros int, @calificacionUsuario float
 
 	-- Obtener cantidad de registros realizados
 	select @cantidadRegistros = count(r.usuarioCreador)
@@ -74,11 +73,11 @@ begin
 		where r.usuarioCreador = @nombreUsuario
 	if (@cantidadRegistros > 0) begin
 			-- Obtener calificación promedio del usuario basada en sus registros
-			select @promedioCalificacion = isnull(sum(r.calificacion), 0) / nullif(count(r.calificacion), 0)
-			from Registros AS r
-			where r.usuarioCreador = @nombreUsuario and r.calificacion != 0
+			select @calificacionUsuario = u.calificacion
+			from Usuario AS u
+			where u.nombreDeUsuario = @nombreUsuario
 
-			if (@cantidadRegistros >= 10 and @promedioCalificacion >= 4.9) begin
+			if (@cantidadRegistros >= 10 and @calificacionUsuario >= 4.9) begin
 				-- Cumple con los requisitos para ser moderador
 				set @esModerador = 1
 			end
