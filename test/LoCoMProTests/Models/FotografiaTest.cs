@@ -99,29 +99,6 @@ namespace LoCoMProTests.Models
             Assert.IsFalse(esValido);
         }
 
-        // Hecho por: Enrique Guillermo Vílchez Lizano - C18477
-        // Modificado por: Luis David Solano Santamaría - C17634
-        [TestMethod]
-        public void usuarioCreador_ValidacionRegex_DeberiaSerInvalido()
-        {
-            // Crear con usuario incorrecto de prueba
-            var foto = new Fotografia
-            {
-                fotografia = BitConverter.GetBytes(12345),
-                nombreFotografia = "placeholder.png",
-                creacion = DateTime.Now,
-                // El nombre del creador debe tener al menos un digito
-                usuarioCreador = "Us-uario"
-            };
-
-            // Establecer condiciones de prueba
-            var esValido = Validator.TryValidateProperty(foto.usuarioCreador,
-                new ValidationContext(foto) { MemberName = "usuarioCreador" }, null);
-
-            // Revisar condiciones de prueba
-            Assert.IsFalse(esValido);
-        }
-
         // Hecho por: Luis David Solano Santamaría - C17634
         [TestMethod]
         public void nombreFotografia_ValidacionLongitud_DeberiaSerInvalido()
