@@ -394,7 +394,7 @@ table {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
-    height: 670px;
+    height: 725px;
     min-width: 150px;
     max-width: 150px;
     border-radius: 5px;
@@ -491,13 +491,13 @@ table {
 
 /* Input de dropdown de precio*/
 .BusquedaIndice-dropdown-precio-input {
-    background-color: #C3F3E5;
+    background-color: #ffffff;
     margin-top: 10px;
-    border-radius: 8px;
-    border-color: black;
-    border: 1px solid black;
-    width: 80%;
-    margin-left: 15%;
+    border-radius: 3px;
+    border-color: gray;
+    border: 1px solid gray;
+    width: 100%;
+    margin-left: 1%;
     outline: none;
 }
 
