@@ -31,12 +31,29 @@ function ordenar(propiedadOrdenado) {
     renderizarTabla(productosVM);
 }
 
+// Configurar formato de precio para el filtro
+function formatoPrecioFiltro() {
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMin").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
+    // Crea un evento al escribir en la caja de texto de precio
+    document.getElementById("precioMax").addEventListener("input", function (event) {
+        // Reemplaza el valor de la caja de texto siguiendo esa regex
+        event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
+    });
+}
+
+// Filtrar
 function filtrar() {
     var provincias = obtenerCheckboxesSeleccionadas("provincia");
     var cantones = obtenerCheckboxesSeleccionadas("canton");
     var tiendas = obtenerCheckboxesSeleccionadas("tienda");
     var marcas = obtenerCheckboxesSeleccionadas("marca");
     var categorias = obtenerCheckboxesSeleccionadas("categoria");
+    var precioMin = document.getElementById("precioMin").value;
+    var precioMax = document.getElementById("precioMax").value;
 
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
@@ -44,6 +61,8 @@ function filtrar() {
     filtrador.setFiltroTiendas(tiendas);
     filtrador.setFiltroMarcas(marcas);
     filtrador.setFiltroCategorias(categorias);
+    filtrador.setPrecioMinimo(precioMin);
+    filtrador.setPrecioMaximo(precioMax);
 
     resultados = filtrador.filtrar(resultados);
 
@@ -501,12 +520,22 @@ function limpiarCheckboxes(nombreDeCheckboxes) {
     }
 }
 
+// Limpiar input de precio
+function limpiarInputPrecio() {
+    var inputMinimo = document.getElementById("precioMin");
+    var inputMaximo = document.getElementById("precioMax");
+    inputMinimo.value = "";
+    inputMaximo.value = "";
+}
+
 function limpiarFiltros() {
     limpiarCheckboxes("provincia");
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
     limpiarCheckboxes("categoria");
+    limpiarInputPrecio();
+
     if (filtrador.usado) {
 
         filtrador.resetearUso();

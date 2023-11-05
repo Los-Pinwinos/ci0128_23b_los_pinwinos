@@ -394,7 +394,7 @@ table {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
-    height: calc( 65vh - 100px);
+    height: 600px;
     min-width: 150px;
     max-width: 150px;
     border-radius: 5px;
@@ -482,8 +482,26 @@ table {
     right: 5px;
 }
 
-/* Ordenamientos */
+/* Label de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-label {
+    padding-left: 15%;
+    padding-top: 8%;
+    color: black;
+}
 
+/* Input de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-input {
+    background-color: #C3F3E5;
+    margin-top: 10px;
+    border-radius: 8px;
+    border-color: black;
+    border: 1px solid black;
+    width: 80%;
+    margin-left: 15%;
+    outline: none;
+}
+
+/* Ordenamientos */
 /* Titulo presionable para ordenamiento */
 .BusquedaIndice-titulo-columna {
     color: black;

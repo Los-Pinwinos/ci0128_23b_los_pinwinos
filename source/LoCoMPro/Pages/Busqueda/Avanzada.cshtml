@@ -170,6 +170,14 @@
                         }
                     </div>
                 </div>
+                <div class="BusquedaIndice-dropdown">
+                    <label class="BusquedaIndice-dropdown-precio-label" id="LabelFiltro1">Precio</label>
+                    <!-- Contenido del filtro -->
+                    <div>
+                        <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMin" id="precioMin" placeholder="Mínimo" />
+                        <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMax" id="precioMax" placeholder="Máximo" />
+                    </div>
+                </div>
             </div>
         </form>
 
@@ -340,6 +348,10 @@
 
 <script>
     ordenador.esconderFlechas();
+    formatoPrecioFiltro();
+    limpiarInputPrecio();
+</script>
+<script>
     var productosVM = paginar(paginaDefault);
 
     // Renderizar
