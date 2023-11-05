@@ -1,14 +1,16 @@
 ﻿// Filtrador
 class FiltradorDeBusqueda {
-    constructor(provincias = null, cantones = null, tiendas = null, marcas = null, categorias = null, precioMin = null, precioMax = null) {
+    constructor(provincias = null, cantones = null, tiendas = null, marcas = null, categorias = null, precioMin = null, precioMax = null, fechaMin = null, fechaMax = null) {
         this.usado = false; // Un booleano que indica si el filtrador se ha utilizado.
         this.provincias = provincias ? provincias : []; // Una lista de provincias para filtrar.
         this.cantones = cantones ? cantones : []; // Una lista de cantones para filtrar.
         this.tiendas = tiendas ? tiendas : []; // Una lista de tiendas para filtrar.
         this.marcas = marcas ? marcas : []; // Una lista de marcas para filtrar.
         this.categorias = categorias ? categorias : []; // Una lista de categorias para filtrar.
-        this.precioMin = precioMin; // Valor mínimo para filtrar
-        this.precioMax = precioMax; // Valor máximo para filtrar
+        this.precioMin = precioMin; // Valor mínimo para filtrar por precio
+        this.precioMax = precioMax; // Valor máximo para filtrar por precio
+        this.fechaMin = fechaMin; // Valor mínimo para filtrar por fecha
+        this.fechaMax = fechaMax; // Valor máximo para filtrar por fecha
     }
 
     // Métodos para establecer los filtros de búsqueda para provincias, cantones, tiendas y marcas.
@@ -40,6 +42,14 @@ class FiltradorDeBusqueda {
         this.precioMax = precioMax;
     }
 
+    setFechaMinimo(fechaMin) {
+        this.fechaMin = fechaMin;
+    }
+
+    setFechaMaxima(fechaMax) {
+        this.fechaMax = fechaMax;
+    }
+
     // Método principal para aplicar los filtros a una entrada de búsqueda.
     filtrar(entradaIQ) {
         this.usado = true; // Se marca el filtrador como utilizado.
@@ -53,6 +63,8 @@ class FiltradorDeBusqueda {
         resultadosIQ = this.filtrarCategorias(resultadosIQ);
         resultadosIQ = this.filtrarPrecioMin(resultadosIQ);
         resultadosIQ = this.filtrarPrecioMax(resultadosIQ);
+        resultadosIQ = this.filtrarFechaMin(resultadosIQ);
+        resultadosIQ = this.filtrarFechaMax(resultadosIQ);
 
         // Se devuelve la lista de resultados filtrados.
         return resultadosIQ;
@@ -113,6 +125,29 @@ class FiltradorDeBusqueda {
             entradaIQ = entradaIQ.filter(r => r.precio <= filtro);
         }
         return entradaIQ;
+    }
+
+    filtrarFechaMin(entradaIQ) {
+        if (this.fechaMin !== "") {
+            const filtro = this.convertirAFecha(this.fechaMin);
+            entradaIQ = entradaIQ.filter(r => this.convertirAFecha(r.fecha) >= filtro);
+        }
+        return entradaIQ;
+    }
+
+    filtrarFechaMax(entradaIQ) {
+        if (this.fechaMax !== "") {
+            const filtro = this.convertirAFecha(this.fechaMax);
+            entradaIQ = entradaIQ.filter(r => this.convertirAFecha(r.fecha) <= filtro);
+        }
+        return entradaIQ;
+    }
+
+    convertirAFecha(fecha) {
+        const año = fecha.slice(0, 4);
+        const mes = fecha.slice(5, 7);
+        const dia = fecha.slice(8, 10);
+        return new Date(año, mes - 1, dia, 0, 0, 0, 0);
     }
 
     // Un método para restablecer el estado de "usado" del filtrador.
