@@ -78,6 +78,10 @@ namespace LoCoMPro.Models
         [ForeignKey("nombreTienda, nombreDistrito, nombreCanton, nombreProvincia")]
         public Tienda? tienda { get; set; }
 
+        // Propiedad para indicar si un registro es visible
+        // o si fue ocultado
+        public required bool visible { get; set; }  = true;
+
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
         public ICollection<Fotografia>? fotografias { get; set; }

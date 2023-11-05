@@ -41,6 +41,7 @@ namespace LoCoMPro.Utils.Buscadores
         {
             IQueryable<BusquedaVM> resultadosIQ = this.contexto.Registros
                 .Include(r => r.producto)
+                .Where(r => r.visible)
                 .GroupBy(r => new
                 {
                     r.productoAsociado,

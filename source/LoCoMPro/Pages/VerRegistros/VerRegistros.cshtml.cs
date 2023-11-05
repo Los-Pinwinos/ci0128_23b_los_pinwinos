@@ -61,7 +61,11 @@ namespace LoCoMPro.Pages.VerRegistros
 
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.fotografias)
-                .Where(r => r.productoAsociado.Equals(productName) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
+                .Where(r => r.productoAsociado.Equals(productName) &&
+                       r.nombreTienda.Equals(tiendaNombre) &&
+                       r.nombreProvincia.Equals(provinciaNombre) &&
+                       r.nombreCanton.Equals(cantonNombre) &&
+                       r.visible)
                 .GroupBy(r => new
                 {
                     /*creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),*/

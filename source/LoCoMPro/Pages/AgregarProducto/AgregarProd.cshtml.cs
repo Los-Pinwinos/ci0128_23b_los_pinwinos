@@ -109,7 +109,8 @@ namespace LoCoMPro.Pages.AgregarProducto
                 nombreTienda = tiendaTemporal,
                 nombreDistrito = TempData["distritoTienda"]?.ToString() ?? "",
                 nombreCanton = TempData["cantonTienda"]?.ToString() ?? "",
-                nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? ""
+                nombreProvincia = TempData["provinciaTienda"]?.ToString() ?? "",
+                visible = true
             };
             contexto.Registros.Add(nuevoRegistro);
             contexto.SaveChanges();
