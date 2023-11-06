@@ -10,8 +10,6 @@
 .VerReportes-contenedor-rectangular {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     border: 4px solid #033F63;
     border-radius: 6px;
     min-width: 95%;
@@ -27,6 +25,7 @@
     color: black;
     font-weight: bold;
     font-size: 24px;
+    align-items: center;
 }
 
 /* Estilo para el texto en lso rectangulos azúles en la página */
@@ -81,8 +80,8 @@
 .VerReportes-GaleriaImagenes {
     display: flex;
     align-items: center;
-    margin-bottom: 2%;
-    margin-left: 1%;
+    margin-bottom: 1.5%;
+    margin-top: -1.5%;
 }
 
 
@@ -103,6 +102,30 @@
 .VerReportes-NavegacionImagen-ImagenActual {
     max-width: 100%;
     max-height: 400px;
+}
+
+
+/* Gif */
+/* Contenedor para el gif y un mensaje */
+.VerReportes-contenedor-gif {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+/* Gif */
+.VerReportes-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el mensaje del gif */
+.VerReportes-texto-gif {
+    color: black;
+    font-size: 30px;
+    text-align: center;
 }
 
 /* Estrellas */

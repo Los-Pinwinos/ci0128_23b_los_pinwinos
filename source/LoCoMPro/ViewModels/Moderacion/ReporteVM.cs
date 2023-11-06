@@ -18,7 +18,12 @@ namespace LoCoMPro.ViewModels.Moderacion
         [Display(Name = "Por")]
         public required string creador { get; set; }
 
+        // Calificación del creador del reporte
         [Display(Name = "Calificación del creador")]
         public required double calificacionCreador { get; set; }
+
+        // Cantidad de calificaciones del creador del reporte
+        [Display(Name = "Cantidad de calificaciones")]
+        public int cantidadCalificacionesCreador { get; set; }
     }
 }

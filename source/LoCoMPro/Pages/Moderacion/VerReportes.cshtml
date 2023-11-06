@@ -22,7 +22,7 @@
             <!-- Rectángulo azúl -->
             <div class="VerReportes-contenedor-rectangular">
                 <!-- Título del rectángulo -->
-                <label class="VerReportes-contenedor-rectangular-titulo">Papas</label>
+                <label class="VerReportes-contenedor-rectangular-titulo">@Model.registro.producto</label>
             
                 <!-- Contenedor de fila invisible (Para foto y datos) -->
                 <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
@@ -58,8 +58,8 @@
                             <!-- Estrellas y calificación del usuario -->
                             <div class="VerReportes-contenedor-calificacion">
                                 <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacionCreador)"></p>
-                                <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionCreador.ToString("0.0") de 5,0</p>
-                                <p class="VerReportes-contenedor-calificacion-conteo">(5)</p>
+                                <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionCreador.ToString("0.0", Model.culturaComas) de 5,0</p>
+                                <p class="VerReportes-contenedor-calificacion-conteo">(@Model.registro.cantidadCalificacionesCreador)</p>
                             </div>
                         </div>
 
@@ -78,8 +78,8 @@
                             <!-- Estrellas y calificación del registro -->
                             <div class="VerReportes-contenedor-calificacion">
                                 <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacionRegistro)"></p>
-                                <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionRegistro.ToString("0.0") de 5,0</p>
-                                <p class="VerReportes-contenedor-calificacion-conteo">(5)</p>
+                                <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionRegistro.ToString("0.0", Model.culturaComas) de 5,0</p>
+                                <p class="VerReportes-contenedor-calificacion-conteo">(@Model.registro.cantidadCalificacionesRegistro)</p>
                             </div>
                         </div>
                     </div>
@@ -98,8 +98,8 @@
                         <!-- Estrellas y calificación del usuario -->
                         <div class="VerReportes-contenedor-calificacion" style="margin-left: -120px;">
                             <p class="starability-result" data-rating="@Math.Round(Model.reporte.calificacionCreador)"></p>
-                            <p class="VerReportes-contenedor-calificacion-calificacion">@Model.reporte.calificacionCreador.ToString("0.0") de 5,0</p>
-                            <p class="VerReportes-contenedor-calificacion-conteo">(5)</p>
+                            <p class="VerReportes-contenedor-calificacion-calificacion">@Model.reporte.calificacionCreador.ToString("0.0", Model.culturaComas) de 5,0</p>
+                            <p class="VerReportes-contenedor-calificacion-conteo">(@Model.reporte.cantidadCalificacionesCreador)</p>
                         </div>
                         <label class="VerReportes-label-corto" style="margin-left:auto; text-align:right;"> <span class="subtitulo">Fecha:</span> @Model.reporte.fecha</label>
                     </div>
@@ -114,6 +114,14 @@
             <!-- Contenedor de alineado invisible -->
             <div class="VerReportes-contenedor-botones">
                 <form method="post">
+                    <!-- Inputs invisibles para pasar parametros en el OnPost -->
+                    <!-- Parametros para manipulación de la base de datos -->
+                    <input type="hidden" asp-for="reporte.creador" value="@Model.reporte.creador">
+                    <input type="hidden" asp-for="registro.fecha" value="@Model.registro.fecha">
+                    <input type="hidden" asp-for="registro.usuario" value="@Model.registro.usuario">
+                    <!-- Propagar el índice del reporte actual -->
+                    <input type="hidden" asp-for="indiceReporteActual" value="@Model.indiceReporteActual" />
+
                     <!-- Botones ál final de la página que llaman métodos OnPost -->
                     <button asp-page-handler="Rechazar" id="BotonRechazar" style="margin-right: 110px;"> Rechazar reporte </button>
                     <button asp-page-handler="Aceptar" id="BotonAceptar"> Aceptar reporte </button>
@@ -176,8 +184,8 @@
         {
             <div class="VerReportes-contenedor-gif">
                 <!-- Logotipo de Penguin -->
-                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino triste" class="VerReportes-gif" id="PinwinoFelíz">
-                <p class="VerReportes-texto">Todos los reportes han sido revisados</p>
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino felíz" class="VerReportes-gif" id="PinwinoFelíz">
+                <p class="VerReportes-texto-gif">Todos los reportes han sido revisados</p>
             </div>
         }
     </div>

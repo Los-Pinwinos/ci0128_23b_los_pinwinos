@@ -26,7 +26,7 @@ namespace LoCoMPro.Data
                 // Crear unidades base
                 var unidades = new Unidad[]
                 {
-                    new Unidad {nombre= "Cantidad"},
+                    new Unidad {nombre= "Unidad"},
                     new Unidad {nombre= "Kilogramos"},
                     new Unidad {nombre = "Litros"}
                 };
@@ -63,9 +63,9 @@ namespace LoCoMPro.Data
                 {
                     nombreDeUsuario = "Usuario1*"
                     , correo = "prueba@gmail.com"
-                    , hashContrasena = "AQAAAAIAAYagAAAAEMJ9Nfs7XLlkln/sky+5Hu1cn6j8fg8fUWITCWMeJkvWJEkgPwKafpxbV5211FdvFg=="
+                    , hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
                     , estado = 'A'
-                    , calificacion = 4.6
+                    , calificacion = 0
                     , distritoVivienda = "Garita"
                     , cantonVivienda = "Alajuela"
                     , provinciaVivienda = "Alajuela"

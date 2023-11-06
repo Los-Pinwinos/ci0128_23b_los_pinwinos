@@ -46,6 +46,10 @@ namespace LoCoMPro.ViewModels.Moderacion
         [Display(Name = "Calificación")]
         public double calificacionCreador { get; set; }
 
+        // Cantidad de calificaciones del creador del registro
+        [Display(Name = "Cantidad de calificaciones")]
+        public int cantidadCalificacionesCreador { get; set; }
+
         // Nombre de la categoría del producto
         [Display(Name = "Categoría")]
         public required string categoria { get; set; }
@@ -57,5 +61,9 @@ namespace LoCoMPro.ViewModels.Moderacion
         // Calificación del registro
         [Display(Name = "Calificación")]
         public decimal calificacionRegistro { get; set; }
+
+        // Cantidad de calificaciones del registro del registro
+        [Display(Name = "Cantidad de calificaciones")]
+        public int cantidadCalificacionesRegistro { get; set; }
     }
 }
