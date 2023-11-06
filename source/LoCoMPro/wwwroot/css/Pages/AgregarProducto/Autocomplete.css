@@ -14,6 +14,8 @@
     cursor: pointer;
     border-radius: 10px;
     border-color: black;
+    position: fixed;
+    z-index: 10000;
 }
 
     /* Lo que ocurre cuando el cursor se coloca en el precio */

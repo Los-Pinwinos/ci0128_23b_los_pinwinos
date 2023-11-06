@@ -13,6 +13,12 @@
     <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <!-- Inclusiones para autocompletado -->
+    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
     <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
@@ -60,7 +66,7 @@
                                 </div>
                                 <div class="BusquedaAvanzada-caja-texto">
                                     <!-- Cuadro de texto para el nombre de la marca -->
-                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca" autocomplete="off">
+                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca">
                                 </div>
                             </div>
                         </div>
@@ -96,6 +102,7 @@
             </form>
         </div>
     </div>
+    
     <div class="BusquedaIndice-contenedor-fila">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
@@ -109,9 +116,9 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                            <label>
-                                                <input type="checkbox" name="provincia" value="@provincia" /> @provincia
-                                            </label>
+                                <label>
+                                    <input type="checkbox" name="provincia" value="@provincia" /> @provincia
+                                </label>
                             }
                         }
                     </div>
@@ -123,9 +130,9 @@
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                            <label>
-                                                <input type="checkbox" name="canton" value="@canton" /> @canton
-                                            </label>
+                                <label>
+                                    <input type="checkbox" name="canton" value="@canton" /> @canton
+                                </label>
                             }
                         }
                     </div>
@@ -137,9 +144,9 @@
                         @{
                             foreach (var tienda in Model.tiendasV)
                             {
-                                            <label>
-                                                <input type="checkbox" name="tienda" value="@tienda" /> @tienda
-                                            </label>
+                                <label>
+                                    <input type="checkbox" name="tienda" value="@tienda" /> @tienda
+                                </label>
                             }
                         }
                     </div>
@@ -151,9 +158,9 @@
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                            <label>
-                                                <input type="checkbox" name="marca" value="@marca" /> @marca
-                                            </label>
+                                <label>
+                                    <input type="checkbox" name="marca" value="@marca" /> @marca
+                                </label>
                             }
                         }
                     </div>
@@ -165,9 +172,9 @@
                         @{
                             foreach (var categoria in Model.categoriasV)
                             {
-                                            <label>
-                                                <input type="checkbox" name="categoria" value="@categoria" /> @categoria
-                                            </label>
+                                <label>
+                                    <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                </label>
                             }
                         }
                     </div>
@@ -347,12 +354,29 @@
         </div>
     </div>
 
+<!-- Función para autocompletar -->
+<script type="text/javascript">
+    $("#CajaDeTextoMarca").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: 'Autocompletado',
+                type: 'GET',
+                dataType: 'json',
+                data: { term: document.getElementById("CajaDeTextoMarca").value },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        }
+    });
+</script>
 
 <script>
     ordenador.esconderFlechas();
     formatoPrecioFiltro();
     limpiarInputPrecio();
 </script>
+
 <script>
     var productosVM = paginar(paginaDefault);
 
