@@ -1,10 +1,14 @@
 using LoCoMPro.Data;
+using LoCoMPro.Models;
 using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Text;
+using System.Web;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -17,6 +21,9 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         [BindProperty]
         public decimal ultimaCalificacion { get; set; }
+
+        [BindProperty]
+        public string reportePopup { get; set; }
 
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
@@ -88,9 +95,9 @@ namespace LoCoMPro.Pages.DetallesRegistro
         public async Task<IActionResult> OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
-            string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
-            if (TempData.ContainsKey("calificarRegistroCreacion")
-                && TempData["calificarRegistroCreacion"] is DateTime creacion)
+            string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            if (TempData.ContainsKey("RegistroCreacion")
+                && TempData["RegistroCreacion"] is DateTime creacion)
             {
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
@@ -141,16 +148,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             {
                 this.ultimaCalificacion = ultimaCalificacion.calificacion;
             }
-
-
-            Console.WriteLine("ult: " + this.ultimaCalificacion);
-
         }
 
         private void AlmacenarTempData(string usuario, DateTime creacion)
         {
-            TempData["calificarRegistroUsuario"] = usuario;
-            TempData["calificarRegistroCreacion"] = creacion;
+            TempData["RegistroUsuario"] = usuario;
+            TempData["RegistroCreacion"] = creacion;
         }
 
         private static void ActualizarTablaCalificaciones(string usuario, string usuarioCreador
@@ -190,6 +193,41 @@ namespace LoCoMPro.Pages.DetallesRegistro
             controlador.ConfigurarNombreComando("actualizarModeracion");
             controlador.ConfigurarParametroComando("nombreUsuario", usuario);
             controlador.EjecutarProcedimiento();
+        }
+
+        public IActionResult OnPostReportar()
+        {
+            string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            if (TempData.ContainsKey("RegistroCreacion")
+                && TempData["RegistroCreacion"] is DateTime creacion)
+            {
+                AlmacenarTempData(usuarioCreador, creacion);
+
+                if (reportePopup != "" && reportePopup != null)
+                {
+                    crearReporte(usuarioCreador, creacion);
+                }
+                return OnGet(creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"), usuarioCreador);
+            }
+            return RedirectToPage("/Home/Index");
+        }
+
+        private void crearReporte(string usuarioCreador, DateTime creacion)
+        {
+            if (User.Identity != null && User.Identity.Name != null)
+            {
+                string usuarioReportador = User.Identity.Name;
+                Reporte reporte = new Reporte
+                {
+                    usuarioCreadorReporte = usuarioReportador,
+                    usuarioCreadorRegistro = usuarioCreador,
+                    creacionRegistro = creacion,
+                    comentario = reportePopup,
+                    creacion = DateTime.Now
+                };
+                contexto.Reportes.Add(reporte);
+                contexto.SaveChanges();
+            }
         }
     }
 }
