@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
     <!-- Incluye el archivo de javaScript -->
     <script src="~/js/Pages/DetallesRegistro/clienteDetallesRegistro.js"></script>
+    <!-- Include para agregar íconos  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <!-- Cuerpo de la página -->
@@ -42,6 +44,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- Popup -->
+        <div class="Popup-container" id="popup">
+            <label>Reportar registro</label>
+            <textarea class="Popup-input" /> </textarea>
+            <button type="submit" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
+        </div>
+
         <div class="Contenedor-fila" style="margin-left:5%;">
             <div class="Contenedor-columna" style="margin-top:19%;">
                 <span class="Etiqueta-calificacion">Calificación:</span>
@@ -83,6 +93,16 @@
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="history.back()" value="Regresar" />
     </div>
+    <!-- Opción para reportar -->
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="Reportar-registro">
+            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                warning
+            </span>
+            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+        </div>
+    }
 </body>
 
 <script>
@@ -94,6 +114,18 @@
     labelUltimaCalificacion.hidden = true;
     if (@Model.ultimaCalificacion > 0) {
         labelUltimaCalificacion.hidden = false;
+    }
+</script>
+
+<script>
+    var popup = document.getElementById("popup");
+
+    function abrirPopup() {
+        popup.classList.add("Popup-abierto");
+    }
+
+    function cerrarPopup() {
+        popup.classList.remove("Popup-abierto");
     }
 </script>
 
