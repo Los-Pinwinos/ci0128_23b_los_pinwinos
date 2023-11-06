@@ -18,34 +18,66 @@ namespace LoCoMPro.Pages.VerRegistros
     public class VerRegistrosModel : PageModel
     {
         private readonly LoCoMProContext contexto;
-        private readonly IConfiguration _configuration;
-
-        public VerRegistrosModel(LoCoMProContext context, IConfiguration configuration)
-        {
-            contexto = context;
-            _configuration = configuration;
-        }
 
         public IList<VerRegistrosVM> Registros { get; set; } = new List<VerRegistrosVM>();
 
-        public string NombreProducto { get; set; }
-       
-        public string NombreCategoria { get; set; }
+        public string? NombreProducto { get; set; }
 
-        public string NombreMarca { get; set; }
+        public string? NombreCategoria { get; set; }
 
-        public string NombreUnidad { get; set; }
+        public string? NombreMarca { get; set; }
 
-        public string NombreTienda { get; set; }
+        public string? NombreUnidad { get; set; }
 
-        public string NombreProvincia { get; set; }
+        public string? NombreTienda { get; set; }
 
-        public string NombreCanton { get; set; }
-        public string NombreUsuario {  get; set; } 
+        public string? NombreProvincia { get; set; }
+
+        public string? NombreCanton { get; set; }
+        public string? NombreUsuario { get; set; }
 
         public string? resultadoRegistros { get; set; }
 
         public ICollection<Fotografia>? fotografias { get; set; }
+
+
+        public VerRegistrosModel(LoCoMProContext context, string? productoNombre = null, string? tiendaNombre = null, string? provinciaNombre = null, string? cantonNombre = null)
+        {
+            contexto = context;
+            NombreProducto = productoNombre;
+            NombreTienda = tiendaNombre;
+            NombreProvincia = provinciaNombre;
+            NombreCanton = cantonNombre;
+        }
+
+
+
+        public IQueryable<VerRegistrosVM> ObtenerRegistros()
+        {
+            IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
+                .Include(r => r.fotografias)
+                .Where(r => r.productoAsociado.Equals(NombreProducto) && r.nombreTienda.Equals(NombreTienda) && r.nombreProvincia.Equals(NombreProvincia) && r.nombreCanton.Equals(NombreCanton))
+                .GroupBy(r => new
+                {
+                    r.creacion,
+                    r.usuarioCreador,
+                    r.precio,
+                    r.calificacion,
+                    r.descripcion
+                })
+                .Select(group => new VerRegistrosVM
+                {
+                    creacion = group.Key.creacion,
+                    usuarioCreador = group.Key.usuarioCreador,
+                    precio = group.Key.precio,
+                    calificacion = group.Key.calificacion,
+                    descripcion = group.Key.descripcion,
+                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
+                })
+             .OrderByDescending(r => r.creacion);
+
+            return registrosIQ;
+        }
 
         public async Task<IActionResult> OnGetAsync(string productoNombre, string categoriaNombre
             , string marcaNombre, string unidadNombre, string tiendaNombre
@@ -59,30 +91,7 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
 
-
-            IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
-                .Include(r => r.fotografias)
-                .Where(r => r.productoAsociado.Equals(productoNombre) && r.nombreTienda.Equals(tiendaNombre) && r.nombreProvincia.Equals(provinciaNombre) && r.nombreCanton.Equals(cantonNombre))
-                .GroupBy(r => new
-                {
-                    /*creacionDate = new DateTime(r.creacion.Year, r.creacion.Month, r.creacion.Day),*/
-                    r.creacion,
-                    r.usuarioCreador,
-                    r.precio,
-                    r.calificacion,
-                    r.descripcion
-                })
-                .Select(group => new VerRegistrosVM
-                {
-                    /*creacion = group.Key.creacionDate,*/
-                    creacion = group.Key.creacion,
-                    usuarioCreador = group.Key.usuarioCreador,
-                    precio = group.Key.precio,
-                    calificacion = group.Key.calificacion,
-                    descripcion = group.Key.descripcion,
-                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
-                })
-             .OrderByDescending(r => r.creacion);
+            IQueryable<VerRegistrosVM> registrosIQ = this.ObtenerRegistros();
 
             Registros = await registrosIQ.ToListAsync();
             this.resultadoRegistros = JsonConvert.SerializeObject(Registros);

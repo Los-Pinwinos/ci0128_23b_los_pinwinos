@@ -13,6 +13,12 @@
     <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <!-- Inclusiones para autocompletado -->
+    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
     <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
@@ -41,7 +47,7 @@
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="BuscarAvanzado">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="BuscarAvanzado" id="BusquedaFormulario">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -60,7 +66,7 @@
                                 </div>
                                 <div class="BusquedaAvanzada-caja-texto">
                                     <!-- Cuadro de texto para el nombre de la marca -->
-                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca" autocomplete="off">
+                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca">
                                 </div>
                             </div>
                         </div>
@@ -69,19 +75,21 @@
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Provincia
                                 </div>
-                                <div class="BusquedaAvanzada-caja-texto">
-                                    <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreProvincia" asp-for="provincia" id="CajaDeTextoProvincia" autocomplete="off">
-                                </div>
+                                <select name="nombreProvincia" asp-for="provincia" id="CajaDeSeleccionProvincia" class="BusquedaAvanzada-caja-combo">
+                                    <option name="provincia" value=""></option>
+                                    @foreach (var provincia in Model.provincias)
+                                    {
+                                        <option name="provincia" value="@provincia.nombre">@provincia.nombre</option>
+                                    }
+                                </select>
                             </div>
                             <div class="BusquedaIndice-contenedor-caja-texto">
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Cantón
                                 </div>
-                                <div class="BusquedaAvanzada-caja-texto">
-                                    <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreCanton" asp-for="canton" id="CajaDeTextoCanton" autocomplete="off">
-                                </div>
+                                <select name="nombreCanton" asp-for="canton" id="CajaDeSeleccionCanton" class="BusquedaAvanzada-caja-combo">
+                                    <option name="canton" value=""></option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -352,6 +360,22 @@
         </div>
     </div>
 
+<!-- Función para autocompletar -->
+<script type="text/javascript">
+    $("#CajaDeTextoMarca").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: 'Autocompletado',
+                type: 'GET',
+                dataType: 'json',
+                data: { term: document.getElementById("CajaDeTextoMarca").value },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        }
+    });
+</script>
 
 <script>
     ordenador.esconderFlechas();
@@ -359,6 +383,7 @@
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
 </script>
+
 <script>
     var productosVM = paginar(paginaDefault);
 
@@ -369,8 +394,8 @@
 
     cajaProducto = document.getElementById("CajaDeTextoProducto");
     cajaMarca = document.getElementById("CajaDeTextoMarca");
-    cajaProvincia = document.getElementById("CajaDeTextoProvincia");
-    cajaCanton = document.getElementById("CajaDeTextoCanton");
+    cajaProvincia = document.getElementById("CajaDeSeleccionProvincia");
+    cajaCanton = document.getElementById("CajaDeSeleccionCanton");
 
     // Validar formulario
     function validarFormulario() {
@@ -383,6 +408,70 @@
             return true;
         }
     }
-
 </script>
+
+<script>
+    // Obtiene las cajas de selección
+    const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
+    const cajaDeSeleccionCanton = document.getElementById("CajaDeSeleccionCanton");
+
+    // Actualizar cantones
+    async function actualizarCantones() {
+        // Obtener la provincia seleccionada
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+        cajaDeSeleccionCanton.innerHTML = "";
+
+        var opcionNula = document.createElement("option");
+        opcionNula.value = "";
+        opcionNula.text = "";
+        cajaDeSeleccionCanton.appendChild(opcionNula);
+
+        // Si se eligió una provincia
+        if (provinciaSeleccionada) {
+            // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+            await fetch(`/Busqueda/Avanzada?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Por cada cantón
+                    data.forEach(canton => {
+                        // Crear una opción
+                        var opcion = document.createElement("option");
+                        // Establecer su valor y texto de mostrado
+                        opcion.value = canton.nombre;
+                        opcion.text = canton.nombre;
+                        // Agregarla a la caja de selección de cantón
+                        cajaDeSeleccionCanton.appendChild(opcion);
+                    });
+                });
+        }
+    }
+
+    function colocarCanton(canton) {
+        const opciones = cajaDeSeleccionCanton.options;
+        for (let i = 0; i < opciones.length; i++) {
+            if (opciones[i].value === canton) {
+                opciones[i].selected = true;
+                break;
+            }
+        }
+    }
+
+    // Llamar a esta función cada vez que se produzca un cambio en
+    // la caja de selección de provincia
+    cajaDeSeleccionProvincia.addEventListener("change", async function () {
+        await actualizarCantones();
+    });
+
+    async function revisarCanton() {
+        if (@Model.buscarPorCanton === 1) {
+            await actualizarCantones();
+            colocarCanton('@Html.Raw(Model.canton)');
+            cajaDeSeleccionCanton.value = '@Html.Raw(Model.canton)';
+        }
+    }
+    
+    revisarCanton();
+</script>
+
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>
