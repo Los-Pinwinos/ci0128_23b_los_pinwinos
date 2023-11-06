@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LoCoMPro.Migrations
 {
     /// <inheritdoc />
-    public partial class ActualizacionSprint2 : Migration
+    public partial class EntidadesCompletasSprint2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -169,12 +169,13 @@ namespace LoCoMPro.Migrations
                     usuarioCreador = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    calificacion = table.Column<double>(type: "float", nullable: true),
+                    calificacion = table.Column<double>(type: "float", nullable: false),
                     productoAsociado = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     nombreTienda = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     nombreDistrito = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     nombreCanton = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    nombreProvincia = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    nombreProvincia = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    visible = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,6 +198,37 @@ namespace LoCoMPro.Migrations
                         principalTable: "Usuario",
                         principalColumn: "nombreDeUsuario",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Calificaciones",
+                columns: table => new
+                {
+                    usuarioCalificador = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    usuarioCreadorRegistro = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    creacionRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    calificacion = table.Column<int>(type: "int", nullable: false),
+                    UsuarionombreDeUsuario = table.Column<string>(type: "nvarchar(20)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Calificaciones", x => new { x.usuarioCalificador, x.creacionRegistro, x.usuarioCreadorRegistro });
+                    table.ForeignKey(
+                        name: "FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro",
+                        columns: x => new { x.creacionRegistro, x.usuarioCreadorRegistro },
+                        principalTable: "Registros",
+                        principalColumns: new[] { "creacion", "usuarioCreador" },
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Calificaciones_Usuario_UsuarionombreDeUsuario",
+                        column: x => x.UsuarionombreDeUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "nombreDeUsuario");
+                    table.ForeignKey(
+                        name: "FK_Calificaciones_Usuario_usuarioCalificador",
+                        column: x => x.usuarioCalificador,
+                        principalTable: "Usuario",
+                        principalColumn: "nombreDeUsuario");
                 });
 
             migrationBuilder.CreateTable(
@@ -246,7 +278,9 @@ namespace LoCoMPro.Migrations
                     usuarioCreadorRegistro = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     creacionRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
                     comentario = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    creacion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    creacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    verificado = table.Column<bool>(type: "bit", nullable: false),
+                    UsuarionombreDeUsuario = table.Column<string>(type: "nvarchar(20)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -258,11 +292,26 @@ namespace LoCoMPro.Migrations
                         principalColumns: new[] { "creacion", "usuarioCreador" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Reportes_Usuario_UsuarionombreDeUsuario",
+                        column: x => x.UsuarionombreDeUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "nombreDeUsuario");
+                    table.ForeignKey(
                         name: "FK_Reportes_Usuario_usuarioCreadorReporte",
                         column: x => x.usuarioCreadorReporte,
                         principalTable: "Usuario",
                         principalColumn: "nombreDeUsuario");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Calificaciones_creacionRegistro_usuarioCreadorRegistro",
+                table: "Calificaciones",
+                columns: new[] { "creacionRegistro", "usuarioCreadorRegistro" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Calificaciones_UsuarionombreDeUsuario",
+                table: "Calificaciones",
+                column: "UsuarionombreDeUsuario");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cantones_nombreProvincia",
@@ -315,6 +364,11 @@ namespace LoCoMPro.Migrations
                 columns: new[] { "creacionRegistro", "usuarioCreadorRegistro" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reportes_UsuarionombreDeUsuario",
+                table: "Reportes",
+                column: "UsuarionombreDeUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tiendas_nombreDistrito_nombreCanton_nombreProvincia",
                 table: "Tiendas",
                 columns: new[] { "nombreDistrito", "nombreCanton", "nombreProvincia" });
@@ -333,6 +387,9 @@ namespace LoCoMPro.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Calificaciones");
+
             migrationBuilder.DropTable(
                 name: "Etiquetas");
 

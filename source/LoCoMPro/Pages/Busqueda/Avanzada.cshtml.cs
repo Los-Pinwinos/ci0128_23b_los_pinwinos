@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
 using Newtonsoft.Json;
+using LoCoMPro.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Pages.Busqueda
 {
@@ -14,7 +15,6 @@ namespace LoCoMPro.Pages.Busqueda
         public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion)
             : base(contexto, configuracion)
         {
-            // Inicializar
             this.InicializarAvanzado();
         }
 
@@ -26,15 +26,17 @@ namespace LoCoMPro.Pages.Busqueda
         [BindProperty(SupportsGet = true)]
         public string? canton { get; set; }
         public IList<string> resultadosAutocompletado { get; set; }
+        public IList<Provincia>? provincias;
+        public int buscarPorCanton { get; set; }
 
-        // Inicializar avanzado
         private void InicializarAvanzado()
         {
-            // Inicializar
             this.producto = "";
             this.marca = "";
             this.provincia = "";
             this.canton = "";
+            this.provincias = new List<Provincia>();
+            this.buscarPorCanton = 0;
         }
 
         // On GET avanzado
@@ -44,6 +46,9 @@ namespace LoCoMPro.Pages.Busqueda
             , string? nombreProvincia
             , string? nombreCanton)
         {
+            // Cargar toda la información de provincias de la base de datos
+            provincias = contexto.Provincias.ToList();
+
             if ((!string.IsNullOrEmpty(nombreProducto)
                 || !string.IsNullOrEmpty(nombreMarca)
                 || !string.IsNullOrEmpty(nombreProvincia)
@@ -55,7 +60,7 @@ namespace LoCoMPro.Pages.Busqueda
                 producto = string.IsNullOrEmpty(nombreProducto) ? "" : nombreProducto;
                 marca = string.IsNullOrEmpty(nombreMarca) ? "" : nombreMarca;
                 provincia = string.IsNullOrEmpty(nombreProvincia) ? "" : nombreProvincia;
-                canton = string.IsNullOrEmpty(nombreProvincia) ? "" : nombreCanton;
+                canton = string.IsNullOrEmpty(nombreCanton) ? "" : nombreCanton;
                 // Configurar buscador
                 IBuscador<BusquedaVM> buscador = new BuscadorDeProductosAvanzado(this.contexto, nombreProducto, nombreMarca, nombreProvincia, nombreCanton);
                 // Consultar la base de datos
@@ -64,23 +69,14 @@ namespace LoCoMPro.Pages.Busqueda
                 this.cargarFiltros(busqueda);
                 // Asignar data de JSON
                 this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
+
+                if (canton != null)
+                {
+                    buscarPorCanton = 1;
+                }
             }
             return Page();
         }
-
-
-        /*public async Task<IActionResult> OnGetActualizarAutocompletado(string hilera)
-        {
-            IList<string> resultados = await contexto.Productos
-                .Where(p => p.marca.StartsWith(hilera))
-                .Select(p => p.marca)
-                .Distinct()
-                .OrderBy(p => p)
-                .ToListAsync();
-
-            // Return the results as a JSON response
-            return new JsonResult(resultados);
-        }*/
 
         public async Task<IActionResult> OnPostAutocompletar(string hilera)
         {
@@ -94,5 +90,15 @@ namespace LoCoMPro.Pages.Busqueda
             return new JsonResult(resultados);
         }
 
+
+        public IActionResult OnGetCantonesPorProvincia(string provincia)
+        {
+            var cantones = contexto.Cantones
+                .Where(c => c.nombreProvincia == provincia)
+                .ToList();
+
+            // Retorna un JSON con los cantones de la provincia específica
+            return new JsonResult(cantones);
+        }
     }
 }

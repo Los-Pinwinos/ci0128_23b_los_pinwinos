@@ -5,7 +5,10 @@ using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Text;
+using System.Web;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -23,6 +26,9 @@ namespace LoCoMPro.Pages.DetallesRegistro
         // se realiza OnPost
         [BindProperty]
         public string? referenciaPrevia { get; set; }
+
+        [BindProperty]
+        public string reportePopup { get; set; }
 
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
@@ -123,7 +129,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
             // Recarga la página propagando la referencia a su página previa
             // (Para no perder la página anterior sin importar cuanto calificque)
-            return RedirectToPage("/DetallesRegistro/DetallesRegistro", new {
+            return RedirectToPage("/DetallesRegistro/DetallesRegistro", new
+            {
                 fechaHora = this.registro.creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"),
                 usuario = this.registro.usuarioCreador,
                 referencia = this.referenciaPrevia
@@ -170,16 +177,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             {
                 this.ultimaCalificacion = ultimaCalificacion.calificacion;
             }
-
-
-            Console.WriteLine("ult: " + this.ultimaCalificacion);
-
         }
 
         private void AlmacenarTempData(string usuario, DateTime creacion)
         {
-            TempData["calificarRegistroUsuario"] = usuario;
-            TempData["calificarRegistroCreacion"] = creacion;
+            TempData["RegistroUsuario"] = usuario;
+            TempData["RegistroCreacion"] = creacion;
         }
 
         private static void ActualizarTablaCalificaciones(string usuario, string usuarioCreador
@@ -219,6 +222,42 @@ namespace LoCoMPro.Pages.DetallesRegistro
             controlador.ConfigurarNombreComando("actualizarModeracion");
             controlador.ConfigurarParametroComando("nombreUsuario", usuario);
             controlador.EjecutarProcedimiento();
+        }
+
+        public IActionResult OnPostReportar()
+        {
+            string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            if (TempData.ContainsKey("RegistroCreacion")
+                && TempData["RegistroCreacion"] is DateTime creacion)
+            {
+                AlmacenarTempData(usuarioCreador, creacion);
+
+                if (reportePopup != "" && reportePopup != null)
+                {
+                    crearReporte(usuarioCreador, creacion);
+                }
+                return OnGet(creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"), usuarioCreador);
+            }
+            return RedirectToPage("/Home/Index");
+        }
+
+        private void crearReporte(string usuarioCreador, DateTime creacion)
+        {
+            if (User.Identity != null && User.Identity.Name != null)
+            {
+                string usuarioReportador = User.Identity.Name;
+                Reporte reporte = new Reporte
+                {
+                    usuarioCreadorReporte = usuarioReportador,
+                    usuarioCreadorRegistro = usuarioCreador,
+                    creacionRegistro = creacion,
+                    comentario = reportePopup,
+                    creacion = DateTime.Now,
+                    verificado = false
+                };
+                contexto.Reportes.Add(reporte);
+                contexto.SaveChanges();
+            }
         }
     }
 }

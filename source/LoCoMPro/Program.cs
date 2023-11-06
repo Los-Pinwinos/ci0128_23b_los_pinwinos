@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // (Recordar cambiar también la connection string en ControladorComandosSQL.cs
 // para ser consistente, de lo contrario el comportamiento será indefinido)
 // TODO(Pinwinos): Sincronizar con la de ControladorComandosSQL.cs
-const string connectionString = "LoCoMProContextLocal";
+const string connectionString = "LoCoMProContextRemote";
 
 // Crea un encriptador para desencriptar el connection string
 Encriptador encriptador = new Encriptador();

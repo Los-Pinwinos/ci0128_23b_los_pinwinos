@@ -25,6 +25,19 @@
         align-items: center;
     }
 
+.BusquedaAvanzada-caja-combo {
+    width: 103%;
+    height: 35px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: auto;
+    border-color: #033F63;
+    border-radius: 30px;
+    border: 1px solid #033F63;
+    background-color: #FFFBF8;
+    padding-left: 1%;
+}
+
 /* Boton de busqueda */
 .BusquedaAvanzada-boton-busqueda {
     display: flex;

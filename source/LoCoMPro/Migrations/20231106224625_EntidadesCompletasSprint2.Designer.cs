@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoCoMPro.Migrations
 {
     [DbContext(typeof(LoCoMProContext))]
-    [Migration("20231029222221_CambiosCalificacion")]
-    partial class CambiosCalificacion
+    [Migration("20231106224625_EntidadesCompletasSprint2")]
+    partial class EntidadesCompletasSprint2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,8 +195,8 @@ namespace LoCoMPro.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<decimal>("calificacion")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("calificacion")
+                        .HasColumnType("float");
 
                     b.Property<string>("descripcion")
                         .HasMaxLength(150)
@@ -229,6 +229,9 @@ namespace LoCoMPro.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("visible")
+                        .HasColumnType("bit");
 
                     b.HasKey("creacion", "usuarioCreador");
 
@@ -264,6 +267,9 @@ namespace LoCoMPro.Migrations
 
                     b.Property<DateTime>("creacion")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("verificado")
+                        .HasColumnType("bit");
 
                     b.HasKey("usuarioCreadorReporte", "creacionRegistro", "usuarioCreadorRegistro");
 

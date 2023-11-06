@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
     <!-- Incluye el archivo de javaScript -->
     <script src="~/js/Pages/DetallesRegistro/clienteDetallesRegistro.js"></script>
+    <!-- Include para agregar íconos  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <!-- Cuerpo de la página -->
@@ -42,6 +44,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Popup -->
+        <form method="post">
+            <div class="Popup-container" id="popup">
+                <label>Reportar registro</label>
+                <textarea class="Popup-input" id="reportePopup" asp-for="reportePopup"></textarea>
+                <button type="button" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
+                <button id="botonPopup" style="visibility: hidden;" type="submit" asp-page-handler="Reportar" />
+            </div>
+        </form>
+
         <div class="Contenedor-fila" style="margin-left:5%;">
             <div class="Contenedor-columna" style="margin-top:19%;">
                 <span class="Etiqueta-calificacion">Calificación:</span>
@@ -84,6 +97,17 @@
         <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
 
+    <!-- Opción para reportar -->
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="Reportar-registro">
+            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                warning
+            </span>
+            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+        </div>
+    }
+
     <!-- Form invisible con los atributos para enviar al método OnPost de calificar -->
     <form id="formOculto" method="post" asp-page-handler="Calificar">
         <!-- Bind properties (para mantenerlas en el modelo al hacer el OnPost) -->
@@ -122,6 +146,29 @@
     labelUltimaCalificacion.hidden = true;
     if (@Model.ultimaCalificacion > 0) {
         labelUltimaCalificacion.hidden = false;
+    }
+</script>
+
+<script>
+    var popup = document.getElementById("popup");
+    var popupCaja = document.getElementById("reportePopup");
+    var boton = document.getElementById("botonPopup");
+
+    function abrirPopup() {
+        if (popup.classList.contains("Popup-abierto")) {
+            popup.classList.remove("Popup-abierto");
+        } else {
+            popup.classList.add("Popup-abierto");
+        }
+    }
+
+    function cerrarPopup() {
+        if (popupCaja.value === "") {
+            alert("No puede realizar un reporte sin comentario");
+        } else {
+            popup.classList.remove("Popup-abierto");
+            boton.click();
+        }
     }
 </script>
 
