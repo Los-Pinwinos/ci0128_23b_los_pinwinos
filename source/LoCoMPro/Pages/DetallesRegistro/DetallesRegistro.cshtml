@@ -14,11 +14,16 @@
     <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
     <!-- Incluye el archivo de javaScript -->
     <script src="~/js/Pages/DetallesRegistro/clienteDetallesRegistro.js"></script>
+    <!-- Include para agregar íconos  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <!-- Cuerpo de la página -->
 <body>
+    
     <div class="Contenedor-central">
+        
+
         <!-- Contenedor para una fila -->
         <div class="Contenedor-fila" style="margin-left:5%;">
             <div class="Contenedor-columna">
@@ -79,9 +84,17 @@
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
         </div>
+        
     </div>
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="history.back()" value="Regresar" />
+    </div>
+    <!-- Opción para reportar -->
+    <div class="Reportar-registro">
+        <span class="material-symbols-outlined Reportar-registro-span">
+            warning
+        </span>
+        <label class="Reportar-registro-label"> Reportar</label>
     </div>
 </body>
 

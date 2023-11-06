@@ -182,3 +182,16 @@
     -ms-transform: translate(-50%, 0%);
     transform: translate(-50%, 0%);
 }
+
+.Reportar-registro {
+    color: #893636;
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
+
+.Reportar-registro-label {
+}
+
+.Reportar-registro-span {
+}
