@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Web;
 using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.ViewModels.DetallesRegistro;
+using LoCoMPro.Utils.SQL;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -266,6 +267,17 @@ namespace LoCoMPro.Pages.Moderacion
                 this.reporteActual.verificado = true;
                 // Guarda los cambios en la base de datos
                 this.contexto.SaveChanges();
+
+                // Actualizar la calificación y cuenta del usuario
+                ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
+                comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
+                comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", this.registro.usuario);
+                comandoActualizarUsuario.EjecutarProcedimiento();
+
+                ControladorComandosSql controlador = new ControladorComandosSql();
+                controlador.ConfigurarNombreComando("actualizarModeracion");
+                controlador.ConfigurarParametroComando("nombreUsuario", this.registro.usuario);
+                controlador.EjecutarProcedimiento();
             }
 
             // Propagar el mismo índice

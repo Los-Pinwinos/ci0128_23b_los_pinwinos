@@ -1,5 +1,5 @@
 ﻿@page
-@model DetallesRegistroModel
+@model LoCoMPro.Pages.DetallesRegistro.DetallesRegistroModel
 @{
     ViewData["Title"] = "Detalles Registro";
 }
@@ -79,7 +79,7 @@
                                 <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" />
                                 @for (int i = 1; i <= 5; i++)
                                 {
-                                    <input type="radio" id="calificacion@(i)" name="calificacion" value="@i" @(i <= Model.registro.calificacion ? "checked" : "") onclick="llamarOnPostCalificar(@i)" />
+                                    <input type="radio" id="calificacion@(i)" name="calificacion" value="@i" @(i <= Model.registro.calificacion ? "checked" : "") onclick="calificarRegistro(@i)" />
                                     <label for="calificacion@(i)">@i estrellas</label>
                                 }
                                 <span class="starability-focus-ring"></span>
@@ -96,7 +96,6 @@
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
-
     <!-- Opción para reportar -->
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
@@ -107,37 +106,30 @@
             <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
         </div>
     }
-
-    <!-- Form invisible con los atributos para enviar al método OnPost de calificar -->
-    <form id="formOculto" method="post" asp-page-handler="Calificar">
-        <!-- Bind properties (para mantenerlas en el modelo al hacer el OnPost) -->
-        <input type="hidden" asp-for="registro.usuarioCreador" value="@Model.registro.usuarioCreador">
-        <input type="hidden" asp-for="registro.creacion" value="@Model.registro.creacion">
-        <input type="hidden" asp-for="referenciaPrevia" value="@Model.referenciaPrevia">
-        <!-- Calificación seleccionada -->
-        <input type="hidden" name="calificacion" id="calificacionOnPost" />
-    </form>
 </body>
 
 <script>
+    if (@Model.registro.calificacion == 0) {
+        actualizarNoCalificaciones(true);
+    }
+
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = true;
+    if (@Model.ultimaCalificacion > 0) {
+        labelUltimaCalificacion.hidden = false;
+    }
+
     // Función para recargar la página anterior
     function recargar() {
         // Obtiene la página anterior de la referencia en el modelo
-        var paginaAnterior = '@Model.referenciaPrevia';
+        var paginaAnterior = document.referrer;
         // Recarga la página anterior
         window.location.href = paginaAnterior;
-        
-    }
 
-    // Función para llamar al método OnPost para calificar con
-    // la calificación dada
-    function llamarOnPostCalificar(calificacion) {
-        // Agrega la calificación al input invisible del form
-        document.getElementById("calificacionOnPost").value = calificacion;
-        // Realiza un submit del form
-        document.getElementById("formOculto").submit();
     }
+</script>
 
+<script>
     if (@Model.registro.calificacion == 0) {
         actualizarNoCalificaciones(true);
     }

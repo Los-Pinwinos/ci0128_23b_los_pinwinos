@@ -22,11 +22,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
         [BindProperty]
         public decimal ultimaCalificacion { get; set; }
 
-        // Referencia a la página previa para cuando
-        // se realiza OnPost
-        [BindProperty]
-        public string? referenciaPrevia { get; set; }
-
         [BindProperty]
         public string reportePopup { get; set; }
 
@@ -41,10 +36,9 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 nombreUnidad = " ",
                 productoAsociado = " "
             };
-            this.referenciaPrevia = null;
         }
 
-        public IActionResult OnGet(string fechaHora, string usuario, string? referencia = null)
+        public IActionResult OnGet(string fechaHora, string usuario)
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
@@ -71,18 +65,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 ActualizarCantidadCalificaciones(fecha, usuario);
 
                 ActualizarUltimaCalificacion(fecha, usuario);
-
-                // Si le pasaron una referencia a una página
-                if (referencia != null)
-                {
-                    // La usa como referencia a su página previa
-                    this.referenciaPrevia = referencia;
-                // Sino
-                } else
-                {
-                    // Obtiene la refencia a la página previa directamente
-                    this.referenciaPrevia = Request.Headers["Referer"].ToString();
-                }
 
                 return Page();
             }
@@ -113,28 +95,20 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public IActionResult OnPostCalificar(int calificacion)
+        public async Task<IActionResult> OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
-            if (usuario != "desconocido" &&
-                this.registro.usuarioCreador != "")
+            string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            if (TempData.ContainsKey("RegistroCreacion")
+                && TempData["RegistroCreacion"] is DateTime creacion)
             {
-                // Califica
-                AlmacenarTempData(this.registro.usuarioCreador, this.registro.creacion);
-                ActualizarTablaCalificaciones(usuario, this.registro.usuarioCreador, this.registro.creacion, calificacion);
-                ActualizarCalificacionUsuario(this.registro.usuarioCreador, calificacion);
-                ActualizarCalificacionRegistro(this.registro.creacion, this.registro.usuarioCreador, calificacion);
-                ActualizarModeracionUsuario(this.registro.usuarioCreador);
+                AlmacenarTempData(usuarioCreador, creacion);
+                ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
+                ActualizarCalificacionUsuario(usuarioCreador);
+                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
+                ActualizarModeracionUsuario(usuarioCreador);
             }
-
-            // Recarga la página propagando la referencia a su página previa
-            // (Para no perder la página anterior sin importar cuanto calificque)
-            return RedirectToPage("/DetallesRegistro/DetallesRegistro", new
-            {
-                fechaHora = this.registro.creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"),
-                usuario = this.registro.usuarioCreador,
-                referencia = this.referenciaPrevia
-            });
+            return Page();
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
@@ -197,12 +171,11 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoInsertarCalificacion.EjecutarProcedimiento();
         }
 
-        private static void ActualizarCalificacionUsuario(string usuario, int calificacion)
+        private static void ActualizarCalificacionUsuario(string usuario)
         {
             ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
             comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
             comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuario);
-            comandoActualizarUsuario.ConfigurarParametroComando("calificacion", calificacion);
             comandoActualizarUsuario.EjecutarProcedimiento();
         }
 

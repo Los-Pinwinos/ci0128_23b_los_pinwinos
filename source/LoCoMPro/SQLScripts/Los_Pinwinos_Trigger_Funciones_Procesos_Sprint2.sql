@@ -123,8 +123,7 @@ end;
 -- Procedimiento creado por Angie Sofía Solís Manzano - C17686
 go
 create procedure [dbo].[actualizarCalificacionDeUsuario]
-	(@nombreDeUsuario nvarchar(20),
-	 @calificacion int)
+	(@nombreDeUsuario nvarchar(20))
 as
 begin
 	declare @totalCalificaciones int, @sumaCalificaciones int, @promedioCalificaciones float;
