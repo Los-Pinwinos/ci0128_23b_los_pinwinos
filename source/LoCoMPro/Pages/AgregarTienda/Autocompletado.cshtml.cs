@@ -45,7 +45,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             // Obtiene los resultados de la base de datos
             IList<AgregarTiendaVM> resultados = resultados
                 = contexto.Tiendas
-                .Where(r => r.nombre.Contains(term))
+                .Where(r => r.nombre.StartsWith(term))
                 .Select(r => new AgregarTiendaVM
                 {
                     nombre = r.nombre,

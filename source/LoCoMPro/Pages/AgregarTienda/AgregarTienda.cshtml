@@ -61,14 +61,14 @@
 
             <!-- Nombre de la tienda -->
             <div class="Ubicacion-contenedor-form Ubicacion-margen-caja-texto">
-                <label for="Tienda">Tienda:</label>
-                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
+                <label asp-for="Tienda.nombre">Tienda:</label>
+                <input asp-for="Tienda.nombre" type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
             </div>
 
             <!-- Botón para seguir y para cancelar -->
             <div class="AgregarTienda-contenedor-botones">
                 <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
-                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" id="BotonSiguiente" onclick="return validarFormulario();">Siguiente</button>
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="VerificarDatos" id="BotonSiguiente" onclick="return validarFormulario();">Siguiente</button>
             </div>
         </div>
     </form>
