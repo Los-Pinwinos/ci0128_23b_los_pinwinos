@@ -60,7 +60,7 @@ namespace LoCoMPro.ViewModels.Moderacion
 
         // Calificación del registro
         [Display(Name = "Calificación")]
-        public decimal calificacionRegistro { get; set; }
+        public double calificacionRegistro { get; set; }
 
         // Cantidad de calificaciones del registro del registro
         [Display(Name = "Cantidad de calificaciones")]

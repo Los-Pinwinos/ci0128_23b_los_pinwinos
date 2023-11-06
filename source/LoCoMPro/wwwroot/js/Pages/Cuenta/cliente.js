@@ -11,6 +11,12 @@ function formatearFecha(fecha) {
     return fecha.toLocaleDateString('es-ES', opciones);
 }
 
+// Formatear la calificación para redondear, usar comas y tener solo un decimal
+function formatearCalificacion(calificacion) {
+    var redondeado = Math.floor(calificacion * 10) / 10;
+    return redondeado.toLocaleString("es", { minimumFractionDigits: 1 });
+}
+
 // Paginar
 function paginar(numeroPagina = aportesVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
@@ -206,9 +212,9 @@ function renderizarTabla(datos) {
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaCalificacion";
-            divCalificacion.textContent = datos[dato].calificacion;
+            divCalificacion.textContent = datos[dato].calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].calificacion);
             var calificacionCelda = document.createElement("td");
-            calificacionCelda.setAttribute('data-tooltip', datos[dato].calificacion);
+            calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
 
             // Agregar celdas a fila

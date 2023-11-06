@@ -1,12 +1,14 @@
 ﻿// Filtrador
 class FiltradorDeBusqueda {
-    constructor(provincias = null, cantones = null, tiendas = null, marcas = null, categorias = null) {
+    constructor(provincias = null, cantones = null, tiendas = null, marcas = null, categorias = null, precioMin = null, precioMax = null) {
         this.usado = false; // Un booleano que indica si el filtrador se ha utilizado.
         this.provincias = provincias ? provincias : []; // Una lista de provincias para filtrar.
         this.cantones = cantones ? cantones : []; // Una lista de cantones para filtrar.
         this.tiendas = tiendas ? tiendas : []; // Una lista de tiendas para filtrar.
         this.marcas = marcas ? marcas : []; // Una lista de marcas para filtrar.
         this.categorias = categorias ? categorias : []; // Una lista de categorias para filtrar.
+        this.precioMin = precioMin; // Valor mínimo para filtrar
+        this.precioMax = precioMax; // Valor máximo para filtrar
     }
 
     // Métodos para establecer los filtros de búsqueda para provincias, cantones, tiendas y marcas.
@@ -30,6 +32,14 @@ class FiltradorDeBusqueda {
         this.categorias = categorias;
     }
 
+    setPrecioMinimo(precioMin) {
+        this.precioMin = precioMin;
+    }
+
+    setPrecioMaximo(precioMax) {
+        this.precioMax = precioMax;
+    }
+
     // Método principal para aplicar los filtros a una entrada de búsqueda.
     filtrar(entradaIQ) {
         this.usado = true; // Se marca el filtrador como utilizado.
@@ -41,6 +51,8 @@ class FiltradorDeBusqueda {
         resultadosIQ = this.filtrarTienda(resultadosIQ);
         resultadosIQ = this.filtrarMarca(resultadosIQ);
         resultadosIQ = this.filtrarCategorias(resultadosIQ);
+        resultadosIQ = this.filtrarPrecioMin(resultadosIQ);
+        resultadosIQ = this.filtrarPrecioMax(resultadosIQ);
 
         // Se devuelve la lista de resultados filtrados.
         return resultadosIQ;
@@ -83,6 +95,22 @@ class FiltradorDeBusqueda {
         if (this.categorias.length > 0) {
             const filtro = this.categorias;
             entradaIQ = entradaIQ.filter(r => filtro.includes(r.categoria));
+        }
+        return entradaIQ;
+    }
+
+    filtrarPrecioMin(entradaIQ) {
+        if (this.precioMin !== "") {
+            const filtro = parseFloat(this.precioMin, 10);
+            entradaIQ = entradaIQ.filter(r => r.precio >= filtro);
+        }
+        return entradaIQ;
+    }
+
+    filtrarPrecioMax(entradaIQ) {
+        if (this.precioMax !== "") {
+            const filtro = parseFloat(this.precioMax, 10);
+            entradaIQ = entradaIQ.filter(r => r.precio <= filtro);
         }
         return entradaIQ;
     }

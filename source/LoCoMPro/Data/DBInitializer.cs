@@ -69,6 +69,7 @@ namespace LoCoMPro.Data
                     , distritoVivienda = "Garita"
                     , cantonVivienda = "Alajuela"
                     , provinciaVivienda = "Alajuela"
+                    , esModerador = true
                 };
                 contexto.Usuarios.Add(usuario);
                 contexto.SaveChanges();

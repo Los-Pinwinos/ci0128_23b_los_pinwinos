@@ -10,6 +10,7 @@ using System.Web;
 using LoCoMPro.Utils.SQL;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using System.Globalization;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -29,6 +30,8 @@ namespace LoCoMPro.Pages.Cuenta
         public List<Distrito> distritos { get; set; }
 
         public int cantidadAportes { get; set; }
+
+        public string calificacionUsuario { get; set; }
 
         public ModeloPerfil(LoCoMProContext contexto)
         {
@@ -67,6 +70,8 @@ namespace LoCoMPro.Pages.Cuenta
                 // Obtiene la instancia del usuario
                 this.usuario = this.contexto.Usuarios.FirstOrDefault(
                     p => p.nombreDeUsuario == User.Identity.Name) ?? this.usuario;
+
+                this.calificacionUsuario = (Math.Floor(this.usuario.calificacion * 10) / 10).ToString("0.0", new CultureInfo("fr-FR"));
 
                 // Actualiza el modelo vista con el usuario obtenido
                 this.usuarioActual.nombreDeUsuario = this.usuario.nombreDeUsuario;

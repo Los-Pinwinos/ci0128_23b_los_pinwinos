@@ -31,15 +31,13 @@
 <div>
     <div class="InfoProducto">
         <div class="Contenedor">
-            <div class="Contenedor-fila">
-                <div class="ColumnaImagen">
-                    <div id="galeriaImagenes" class="GaleriaImagenes">
-                        <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
-                        <div id="imagenActual" class="ImagenActual">
-                            <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
-                        </div>
-                        <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
+            <div class="Contenedor-fila" style="align-items: center;">
+                <div id="galeriaImagenes" class="GaleriaImagenes">
+                    <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
+                    <div id="imagenActual" class="ImagenActual">
+                        <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
                     </div>
+                    <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-caja-texto">
                     <h2 class="TituloProducto">@Model.NombreProducto</h2>
@@ -70,28 +68,28 @@
         <div class="Agrupamientos">
             <div class="Contenedor-agrupamientos" id="contenedorAgrupamientos">
                 <label class="InfoColumnaNegrita">Agrupar por:</label>
-                <div class="circular-checkbox-container">
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="radio" class="circular-checkbox grouped-checkbox" name="Agrupamiento" id="AgrupamientoDia" value="Día" />
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoDia" value="Día" />
                         <span class="circular-label"></span> Día
                     </label>
                 </div>
-                <div class="circular-checkbox-container">
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="radio" class="circular-checkbox grouped-checkbox" name="Agrupamiento" id="AgrupamientoSemana" value="Semana" />
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoSemana" value="Semana" />
                         <span class="circular-label"></span> Semana
                     </label>
                 </div>
-                <div class="circular-checkbox-container">
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="radio" class="circular-checkbox grouped-checkbox" name="Agrupamiento" id="AgrupamientoMes" value="Mes" />
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoMes" value="Mes" />
                         <span class="circular-label"></span> Mes
                     </label>
                 </div>
 
-                <div class="circular-checkbox-container">
+                <div class="checkbox-circular-contenedor">
                     <label>
-                        <input type="radio" class="circular-checkbox grouped-checkbox" name="Agrupamiento" id="AgrupamientoAno" value="Ano" />
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoAno" value="Ano" />
                         <span class="circular-label"></span> Año
                     </label>
                 </div>

@@ -33,12 +33,20 @@
                         {
                             <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Agregar registro</a>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Aportes">Ver aportes</a>
+
+                            if (User.IsInRole("moderador"))
+                            {
+                                <ul class="navbar-nav flex-grow-1">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes">Ver reportes</a>
+                                </ul>
+                            }
                         }
                     </ul>
                     <!-- Lista no ordenada para los elementos alineados a la derecha -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Si hay un usuario ingresado -->
-                        @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
                             <!-- Agregar la ventana parcial de salir y su modelo como elemento de navegación -->
                             <li class="nav-item">
                                 @await Html.PartialAsync("/Pages/Cuenta/SalirParcial.cshtml", new LoCoMPro.Pages.Cuenta.ModeloSalirParcial())
@@ -49,11 +57,13 @@
                             </li>
                             <!-- Icono de perfil que llevará a la ventana del perfil de la cuenta -->
                             <li class="nav-item">
-                                <a class="nav-link" >
+                                <a class="nav-link">
                                     <img src="~/img/icono_perfil.png" alt="Profile Image" class="Layout-icono-perfil">
                                 </a>
                             </li>
-                        }else {
+                        }
+                        else
+                        {
                             <!-- Texto presionable que llevá a la ventana de ingresar con una cuenta -->
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/Cuenta/Ingresar">Iniciar sesión</a>

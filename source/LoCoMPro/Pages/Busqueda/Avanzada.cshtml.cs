@@ -25,6 +25,7 @@ namespace LoCoMPro.Pages.Busqueda
         public string? provincia { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? canton { get; set; }
+        public IList<string> resultadosAutocompletado { get; set; }
 
         // Inicializar avanzado
         private void InicializarAvanzado()
@@ -49,6 +50,7 @@ namespace LoCoMPro.Pages.Busqueda
                 || !string.IsNullOrEmpty(nombreCanton))
                 && this.contexto.Productos != null)
             {
+                this.resultadosAutocompletado = new List<string>();
                 // Asignar variables
                 producto = string.IsNullOrEmpty(nombreProducto) ? "" : nombreProducto;
                 marca = string.IsNullOrEmpty(nombreMarca) ? "" : nombreMarca;
@@ -60,20 +62,37 @@ namespace LoCoMPro.Pages.Busqueda
                 IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
-
-                // Si la busqueda tuvo resultados
-                List<BusquedaVM> resultados = busqueda.ToList();
-                if (resultados.Count != 0)
-                {
-                    // Asignar data de JSON
-                    this.resultadosBusqueda = JsonConvert.SerializeObject(resultados);
-                }
-                else
-                {
-                    this.resultadosBusqueda = "Sin resultados";
-                }
+                // Asignar data de JSON
+                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
             }
             return Page();
         }
+
+
+        /*public async Task<IActionResult> OnGetActualizarAutocompletado(string hilera)
+        {
+            IList<string> resultados = await contexto.Productos
+                .Where(p => p.marca.StartsWith(hilera))
+                .Select(p => p.marca)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToListAsync();
+
+            // Return the results as a JSON response
+            return new JsonResult(resultados);
+        }*/
+
+        public async Task<IActionResult> OnPostAutocompletar(string hilera)
+        {
+            List<string> resultados = await contexto.Productos
+                .Where(p => p.marca.StartsWith(hilera))
+                .Select(p => p.marca)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToListAsync();
+
+            return new JsonResult(resultados);
+        }
+
     }
 }

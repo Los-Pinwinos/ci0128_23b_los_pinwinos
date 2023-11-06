@@ -7,6 +7,8 @@ using LoCoMPro.ViewModels.Cuenta;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Web;
+using LoCoMPro.ViewModels.VerRegistros;
+using LoCoMPro.ViewModels.DetallesRegistro;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -24,6 +26,7 @@ namespace LoCoMPro.Pages.Moderacion
             this.reporte = null;
             this.registro = null;
             this.fotografias = null;
+            this.fechaRegistro = "";
         }
 
         // Reporte actual
@@ -37,8 +40,10 @@ namespace LoCoMPro.Pages.Moderacion
         public ReporteVM? reporte { get; set; } = null;
         [BindProperty]
         public RegistroVM? registro { get; set; } = null;
-        // Fotografías
-        public ICollection<Fotografia>? fotografias { get; set; } = null;
+        public ICollection<FotografiaVM>? fotografias { get; set; } = null;
+
+        // Fecha del registro en el reporte
+        public string fechaRegistro { get; set; }
 
         // Cultura francesa para usar comas para separa
         public CultureInfo culturaComas { get; set; } = new System.Globalization.CultureInfo("fr-FR");
@@ -46,20 +51,30 @@ namespace LoCoMPro.Pages.Moderacion
         // On GET
         public IActionResult OnGet(int indiceActual = -1)
         {
-            // Si se indicó un indice
-            if (indiceActual != -1)
+            // Si el no está loggeado o no es moderador
+            if (User.Identity == null || !User.Identity.IsAuthenticated ||
+                !User.IsInRole("moderador"))
             {
-                // Se actualiza el indice al indicado del
-                // llamado anterior
-                this.indiceReporteActual = indiceActual;
+                // Establece mensaje para redireccionar
+                // (Utiliza unidoce para renderizar a con tilde)
+                ViewData["MensajeRedireccion"] = "redireccionar";
             }
+            else
+            {   // Si se indicó un indice
+                if (indiceActual != -1)
+                {
+                    // Se actualiza el indice al indicado del
+                    // llamado anterior
+                    this.indiceReporteActual = indiceActual;
+                }
 
-            // Obtiene el reporte en el indice actual
-            this.obtenerReporte();
+                // Obtiene el reporte en el indice actual
+                this.obtenerReporte();
 
-            // Obtener la información de los modelos vista
-            // a partir del reporte
-            this.obtenerModelosVista();
+                // Obtener la información de los modelos vista
+                // a partir del reporte
+                this.obtenerModelosVista();
+            }
             
             // Retorna la página
             return Page();
@@ -104,6 +119,9 @@ namespace LoCoMPro.Pages.Moderacion
                     calificacionCreador = this.reporteActual.creadorReporte.calificacion
                 };
 
+                // Obtiene el string de la fecha
+                this.fechaRegistro = this.reporteActual.creacionRegistro.ToString("yyyy-MM-dd-HH:mm:ss.fffffff");
+
                 // Redondear la calificación del usuario creador del reporte
                 this.reporte.calificacionCreador = (Math.Floor(this.reporte.calificacionCreador * 10) / 10);
 
@@ -117,28 +135,28 @@ namespace LoCoMPro.Pages.Moderacion
                 // Buscar el registro que corresponde con el reporte
                 // y crear un registro vista a partir del mismo
                 this.registro = this.contexto.Registros
-                .Include(r => r.producto)
-                .Include(r => r.creador)
-                .Where(r =>
-                    r.creacion == this.reporteActual.creacionRegistro &&
-                    r.usuarioCreador == this.reporteActual.usuarioCreadorRegistro)
-                .Select(r => new RegistroVM
-                {
-                    producto = r.productoAsociado,
-                    precio = r.precio,
-                    tienda = r.nombreTienda,
-                    fecha = r.creacion,
-                    unidad = r.producto.nombreUnidad,
-                    provincia = r.nombreProvincia,
-                    usuario = r.usuarioCreador,
-                    marca = r.producto.marca,
-                    canton = r.nombreCanton,
-                    calificacionCreador = r.creador.calificacion,
-                    categoria = r.producto.nombreCategoria,
-                    descripcion = r.descripcion,
-                    calificacionRegistro = r.calificacion
-                })
-                .FirstOrDefault();
+               .Include(r => r.producto)
+               .Include(r => r.creador)
+               .Where(r =>
+                   r.creacion == this.reporteActual.creacionRegistro &&
+                   r.usuarioCreador == this.reporteActual.usuarioCreadorRegistro)
+               .Select(r => new RegistroVM
+               {
+                   producto = r.productoAsociado,
+                   precio = r.precio,
+                   tienda = r.nombreTienda,
+                   fecha = r.creacion,
+                   unidad = r.producto.nombreUnidad,
+                   provincia = r.nombreProvincia,
+                   usuario = r.usuarioCreador,
+                   marca = r.producto.marca,
+                   canton = r.nombreCanton,
+                   calificacionCreador = r.creador.calificacion,
+                   categoria = r.producto.nombreCategoria,
+                   descripcion = r.descripcion,
+                   calificacionRegistro = r.calificacion
+               })
+               .FirstOrDefault();
 
                 // Redondear la calificación del usuario creador del registro
                 this.registro.calificacionCreador = (Math.Floor(this.registro.calificacionCreador * 10) / 10);
@@ -161,23 +179,31 @@ namespace LoCoMPro.Pages.Moderacion
 
                 // Buscar las fotografías del registro
                 this.fotografias = this.contexto.Fotografias
-                .Where(r =>
-                    r.creacion == this.registro.fecha &&
-                    r.usuarioCreador == this.registro.usuario)
+                .Where(f =>
+                    f.creacion == this.registro.fecha &&
+                    f.usuarioCreador == this.registro.usuario)
+                .Select(f => new FotografiaVM
+                {
+                    foto = f.fotografia
+                })
                 .ToList();
             }
         }
 
-        public IActionResult OnPostRechazar(int indiceReporteActual)
+        public IActionResult OnPostRechazar(string fechaRegistro, int indiceReporteActual)
         {
+            // Obtener la fecha del string
+            DateTime fecha = DateTime.ParseExact(fechaRegistro,
+                "yyyy-MM-dd-HH:mm:ss.fffffff",
+                System.Globalization.CultureInfo.InvariantCulture);
+
             // Obtener la instancia del reporte actual
             this.reporteActual = this.contexto.Reportes
                 .Include(r => r.creadorReporte)
-                .Include(r => r.registro)
                 .Where(r =>
                       !r.verificado &&
                        r.usuarioCreadorReporte == this.reporte.creador &&
-                       r.creacionRegistro == this.registro.fecha &&
+                       r.creacionRegistro == fecha &&
                        r.usuarioCreadorRegistro == this.registro.usuario)
                 .FirstOrDefault();
 
@@ -202,16 +228,20 @@ namespace LoCoMPro.Pages.Moderacion
         }
 
 
-        public IActionResult OnPostAceptar(int indiceReporteActual)
+        public IActionResult OnPostAceptar(string fechaRegistro, int indiceReporteActual)
         {
+            // Obtener la fecha del string
+            DateTime fecha = DateTime.ParseExact(fechaRegistro,
+                "yyyy-MM-dd-HH:mm:ss.fffffff",
+                System.Globalization.CultureInfo.InvariantCulture);
+
             // Obtener la instancia del reporte actual
             this.reporteActual = this.contexto.Reportes
                 .Include(r => r.creadorReporte)
-                .Include(r => r.registro)
                 .Where(r =>
                       !r.verificado &&
                        r.usuarioCreadorReporte == this.reporte.creador &&
-                       r.creacionRegistro == this.registro.fecha &&
+                       r.creacionRegistro == fecha &&
                        r.usuarioCreadorRegistro == this.registro.usuario)
                 .FirstOrDefault();
 
@@ -222,7 +252,7 @@ namespace LoCoMPro.Pages.Moderacion
                 Registro? registroReportado = this.contexto.Registros
                 .Where(r =>
                        r.usuarioCreador == this.registro.usuario &&
-                       r.creacion == this.registro.fecha)
+                       r.creacion == fecha)
                 .FirstOrDefault();
 
                 // Si el registro reportado existe
@@ -249,8 +279,9 @@ namespace LoCoMPro.Pages.Moderacion
             });
         }
 
-        public IActionResult OnPostPasar(int indiceReporteActual)
+        public IActionResult OnPostPasar(string fechaRegistro, int indiceReporteActual)
         {
+            fechaRegistro = "";
             // Propagar el índice siguiente
             this.indiceReporteActual = indiceReporteActual + 1;
 

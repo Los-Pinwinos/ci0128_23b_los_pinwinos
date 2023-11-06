@@ -1,10 +1,16 @@
 using LoCoMPro.Models;
+using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.AgregarProducto;
 using LoCoMPro.ViewModels.Tienda;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LoCoMPro.Pages.AgregarProducto
 {
@@ -114,6 +120,13 @@ namespace LoCoMPro.Pages.AgregarProducto
             };
             contexto.Registros.Add(nuevoRegistro);
             contexto.SaveChanges();
+
+            // Revisar si el usuario debe convertirse en moderador y realizar la conversión en caso de que sea necesario.
+            ControladorComandosSql controlador = new ControladorComandosSql();
+            controlador.ConfigurarNombreComando("actualizarModeracion");
+            controlador.ConfigurarParametroComando("nombreUsuario", usuarioCreador);
+            controlador.EjecutarProcedimiento();
+
             // Requerido para crear fotografías, debido a que es parte de la
             // llave primaria del registro
             return tiempoActual;

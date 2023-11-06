@@ -55,7 +55,8 @@ begin
 	-- Obtener cantidad de registros realizados
 	select @cantidadRegistros = count(r.usuarioCreador)
 		from Registros as r
-		where r.usuarioCreador = @nombreUsuario;
+		where r.usuarioCreador = @nombreUsuario and
+			  r.visible = 1;
 
 	if (@cantidadRegistros > 0) begin
 			-- Obtener calificación promedio del usuario basada en sus registros
@@ -129,12 +130,15 @@ begin
 	declare @totalCalificaciones int, @sumaCalificaciones int, @promedioCalificaciones float;
 
 	-- Se obtiene el total de calificaciones y la suma de dichas calificaciones
-	select  @totalCalificaciones = count(usuarioCreadorRegistro), @sumaCalificaciones = sum(calificacion)
-	from Calificaciones
-	where usuarioCreadorRegistro = @nombreDeUsuario;
+	select @totalCalificaciones = count(c.usuarioCreadorRegistro), @sumaCalificaciones = sum(c.calificacion)
+	from Calificaciones as c join Registros as r on
+		 c.creacionRegistro = r.creacion and
+		 c.usuarioCreadorRegistro = r.usuarioCreador
+	where c.usuarioCreadorRegistro = @nombreDeUsuario and
+		  r.visible = 1;
 
 	-- Se actualiza la calificación del usuario
-	set @promedioCalificaciones = (1.0 * @sumaCalificaciones) /(1.0 * @totalCalificaciones);
+	set @promedioCalificaciones = (1.0 * @sumaCalificaciones) / (1.0 * @totalCalificaciones);
 
 	update Usuario
 	set calificacion = @promedioCalificaciones
@@ -307,4 +311,39 @@ begin
 
     -- Liberar la memoria del cursor
     deallocate cursorImagen;
+end;
+
+-- Trigger realizado por Luis David Solano Santamaría - C17634
+go
+create trigger reemplazarReporte
+on Reportes
+instead of insert
+as
+begin
+	-- Declarar las variables requeridas del insert
+	declare @creadorReporte as nvarchar(20),
+			@creadorRegistro as nvarchar(20),
+			@creacionRegisto as datetime2(7),
+			@comentario as nvarchar(256),
+			@creacionReporte as datetime2(7);
+	-- Seleccionar los datos insertados
+	select @creadorReporte = usuarioCreadorReporte,
+		   @creadorRegistro = usuarioCreadorRegistro,
+		   @creacionRegisto = creacionRegistro,
+		   @comentario = comentario,
+		   @creacionReporte = creacion
+	from inserted;
+	-- Revisar si un usuario ha realizado un reporte de este registro previamente
+	if exists (select * from Reportes
+			   where usuarioCreadorReporte = @creadorReporte and
+			   usuarioCreadorRegistro = @creadorRegistro and
+			   creacionRegistro = @creacionRegisto) begin
+		delete from Reportes
+		where usuarioCreadorReporte = @creadorReporte and
+		usuarioCreadorRegistro = @creadorRegistro and
+		creacionRegistro = @creacionRegisto;
+	end
+	-- Insertar el nuevo reporte
+	insert into Reportes
+	values(@creadorReporte, @creadorRegistro, @creacionRegisto, @comentario, @creacionReporte, 0, null);
 end;

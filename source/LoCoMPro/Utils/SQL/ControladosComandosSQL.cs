@@ -17,8 +17,18 @@ namespace LoCoMPro.Utils.SQL
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            // Crea un encriptador para desencriptar el connection string
+            Encriptador encriptador = new Encriptador();
+            // Crea una constante para el connection string
+            // TODO(Pinwinos): Sincronizar con la de program.cs
+            const string connectionString = "LoCoMProContextLocal";
+
             // Abrir una conexion
-            this.conexion = new SqlConnection(configuracion.GetConnectionString("LoCoMProContextRemote"));
+            this.conexion = new SqlConnection(
+                encriptador.desencriptar(
+                    configuracion.GetConnectionString(connectionString) ??
+                    throw new InvalidOperationException(
+                        "Connection string " + connectionString + " no econtrada.")));
             this.conexion.Open();
 
             this.parametros = new List<SqlParameter>();

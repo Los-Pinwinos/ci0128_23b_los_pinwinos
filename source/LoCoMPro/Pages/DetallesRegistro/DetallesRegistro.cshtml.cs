@@ -1,4 +1,5 @@
 using LoCoMPro.Data;
+using LoCoMPro.Models;
 using LoCoMPro.Utils.SQL;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
@@ -18,26 +19,34 @@ namespace LoCoMPro.Pages.DetallesRegistro
         [BindProperty]
         public decimal ultimaCalificacion { get; set; }
 
+        // Referencia a la página previa para cuando
+        // se realiza OnPost
+        [BindProperty]
+        public string? referenciaPrevia { get; set; }
+
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
             this.contexto = contexto;
-            this.registro = new DetallesRegistroVM {
+            this.registro = new DetallesRegistroVM
+            {
                 creacion = DateTime.Now,
                 usuarioCreador = " ",
                 precio = 0,
                 nombreUnidad = " ",
                 productoAsociado = " "
             };
+            this.referenciaPrevia = null;
         }
 
-        public IActionResult OnGet(string fechaHora, string usuario)
+        public IActionResult OnGet(string fechaHora, string usuario, string? referencia = null)
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
                 if (!fechaHora.Contains("."))
                 {
                     fechaHora += ".0000000";
-                } else
+                }
+                else
                 {
                     for (int i = fechaHora.IndexOf('.'); i <= fechaHora.IndexOf('.') + 7; i++)
                     {
@@ -54,11 +63,24 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
                 ActualizarCantidadCalificaciones(fecha, usuario);
-                
+
                 ActualizarUltimaCalificacion(fecha, usuario);
 
+                // Si le pasaron una referencia a una página
+                if (referencia != null)
+                {
+                    // La usa como referencia a su página previa
+                    this.referenciaPrevia = referencia;
+                // Sino
+                } else
+                {
+                    // Obtiene la refencia a la página previa directamente
+                    this.referenciaPrevia = Request.Headers["Referer"].ToString();
+                }
+
                 return Page();
-            } else
+            }
+            else
             {
                 return RedirectToPage("/Home/Index");
             }
@@ -85,24 +107,27 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public async Task<IActionResult> OnGetCalificar(int calificacion)
-        {       
+        public IActionResult OnPostCalificar(int calificacion)
+        {
             string usuario = User.Identity?.Name ?? "desconocido";
-            string usuarioCreador = TempData["calificarRegistroUsuario"]?.ToString() ?? "";
-            if (TempData.ContainsKey("calificarRegistroCreacion") 
-                && TempData["calificarRegistroCreacion"] is DateTime creacion)
+            if (usuario != "desconocido" &&
+                this.registro.usuarioCreador != "")
             {
-                AlmacenarTempData(usuarioCreador, creacion);
-                ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
-                ActualizarCalificacionUsuario(usuarioCreador, calificacion);
-
-                Console.WriteLine("calif: " + calificacion);
-
-                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
-
-                Console.WriteLine("di todo listo");
+                // Califica
+                AlmacenarTempData(this.registro.usuarioCreador, this.registro.creacion);
+                ActualizarTablaCalificaciones(usuario, this.registro.usuarioCreador, this.registro.creacion, calificacion);
+                ActualizarCalificacionUsuario(this.registro.usuarioCreador, calificacion);
+                ActualizarCalificacionRegistro(this.registro.creacion, this.registro.usuarioCreador, calificacion);
+                ActualizarModeracionUsuario(this.registro.usuarioCreador);
             }
-            return Page();
+
+            // Recarga la página propagando la referencia a su página previa
+            // (Para no perder la página anterior sin importar cuanto calificque)
+            return RedirectToPage("/DetallesRegistro/DetallesRegistro", new {
+                fechaHora = this.registro.creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"),
+                usuario = this.registro.usuarioCreador,
+                referencia = this.referenciaPrevia
+            });
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
@@ -186,6 +211,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
             comandoActualizarRegistro.EjecutarProcedimiento();
+        }
+
+        private static void ActualizarModeracionUsuario(string usuario)
+        {
+            ControladorComandosSql controlador = new ControladorComandosSql();
+            controlador.ConfigurarNombreComando("actualizarModeracion");
+            controlador.ConfigurarParametroComando("nombreUsuario", usuario);
+            controlador.EjecutarProcedimiento();
         }
     }
 }

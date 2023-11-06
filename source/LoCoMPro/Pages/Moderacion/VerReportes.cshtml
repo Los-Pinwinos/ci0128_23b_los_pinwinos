@@ -74,7 +74,7 @@
                         </div>
 
                         <!-- Sexta fila -->
-                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
+                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila" style="margin-bottom: 40px;">
                             <!-- Estrellas y calificación del registro -->
                             <div class="VerReportes-contenedor-calificacion">
                                 <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacionRegistro)"></p>
@@ -96,7 +96,7 @@
                     <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
                         <label class="VerReportes-label-corto"> <span class="subtitulo">Por:</span> @Model.reporte.creador</label>
                         <!-- Estrellas y calificación del usuario -->
-                        <div class="VerReportes-contenedor-calificacion" style="margin-left: -120px;">
+                        <div class="VerReportes-contenedor-calificacion" style="margin-left: -60px;">
                             <p class="starability-result" data-rating="@Math.Round(Model.reporte.calificacionCreador)"></p>
                             <p class="VerReportes-contenedor-calificacion-calificacion">@Model.reporte.calificacionCreador.ToString("0.0", Model.culturaComas) de 5,0</p>
                             <p class="VerReportes-contenedor-calificacion-conteo">(@Model.reporte.cantidadCalificacionesCreador)</p>
@@ -106,7 +106,7 @@
 
                     <!-- Segunda fila -->
                     <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
-                        <label class="VerReportes-label-largo"> <span class="subtitulo">Comentario:</span> @Model.reporte.comentario</label>
+                        <label class="VerReportes-label-largo" style="max-width: 1410px;"> <span class="subtitulo">Comentario:</span> @Model.reporte.comentario</label>
                     </div>
                 </div>
             </div>
@@ -117,15 +117,18 @@
                     <!-- Inputs invisibles para pasar parametros en el OnPost -->
                     <!-- Parametros para manipulación de la base de datos -->
                     <input type="hidden" asp-for="reporte.creador" value="@Model.reporte.creador">
-                    <input type="hidden" asp-for="registro.fecha" value="@Model.registro.fecha">
                     <input type="hidden" asp-for="registro.usuario" value="@Model.registro.usuario">
+                    <!-- Pasar paremetros -->
+                    <input type="hidden" asp-for="fechaRegistro" value="@Model.fechaRegistro">
                     <!-- Propagar el índice del reporte actual -->
                     <input type="hidden" asp-for="indiceReporteActual" value="@Model.indiceReporteActual" />
 
                     <!-- Botones ál final de la página que llaman métodos OnPost -->
-                    <button asp-page-handler="Rechazar" id="BotonRechazar" style="margin-right: 110px;"> Rechazar reporte </button>
-                    <button asp-page-handler="Aceptar" id="BotonAceptar"> Aceptar reporte </button>
-                    <button asp-page-handler="Pasar" id="BotonPasar" style="margin-left: 110px;"> Pasar reporte </button>
+                    <button asp-page-handler="Rechazar" id="Botonrechazar" hidden></button>
+                    <button asp-page-handler="Aceptar" id="Botonaceptar" hidden></button>
+                    <button id="BotonRechazarMascara" type="button" style="margin-right: 110px;" onclick="confirmarAccion('rechazar')"> Rechazar reporte </button>
+                    <button id="BotonAceptarMascara" type="button" onclick="confirmarAccion('aceptar')"> Aceptar reporte </button>
+                    <button asp-page-handler="Pasar" id="Botonpasar" style="margin-left: 110px;"> Pasar reporte </button>
                 </form>
             </div>
 
@@ -139,7 +142,7 @@
 
                 function verImagenActual() {
                     if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
-                        vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
+                        vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].foto}`;
                     }
                     vistaImagen.className = "VerReportes-Imagen";
                     actualizarVisibilidadFlecha();
@@ -189,4 +192,24 @@
             </div>
         }
     </div>
+
+    <!-- Script para mostrar un popUp y redireccionar -->
+    <script>
+        var redireccionar = "@ViewData["MensajeRedireccion"]";
+        if (redireccionar) {
+            alert("Debe presentar permisos de moderador para acceder a esta página");
+            window.location.href = "/Home/Index";
+        }
+    </script>
+
+    <!-- Script para confirmar y llamar al método para aceptar un reporte -->
+    <script>
+        // Función para cerrar sesión
+        function confirmarAccion(accion) {
+            // Muestra un popUp de confirmación, si el usuario acepta...
+            if (confirm("¿Está seguro que desea " + accion + " el reporte?\n\n(Esta acción tendrá consecuencias)")) {
+                document.getElementById("Boton" + accion).click();
+            }
+        }
+    </script>
 </body>

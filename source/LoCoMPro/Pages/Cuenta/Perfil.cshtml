@@ -86,7 +86,7 @@
             <div class="Perfil-contenedor-calificacion" style="margin-right: @(130 - Model.cantidadAportes.ToString().Length * 10)px;">
                 <label class="Perfil-contenedor-calificacion-titulo">Calificación:</label>
                 <p class="starability-result" data-rating="@Math.Round(Model.usuario.calificacion)"></p>
-                <p class="Perfil-contenedor-calificacion-calificacion">@Model.usuario.calificacion.ToString("0.0") de 5,0</p>
+                <p class="Perfil-contenedor-calificacion-calificacion">@Model.calificacionUsuario de 5,0</p>
                 <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
             <!-- Botón para ver los aportes realizados por el usuario -->
