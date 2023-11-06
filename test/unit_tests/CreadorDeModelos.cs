@@ -44,6 +44,12 @@ namespace LoCoMProTests
         {
             return new Unidad { nombre = "Unidad" };
         }
+
+        public static Fotografia CrearFotografiaPorDefecto()
+        {
+            return new Fotografia { nombreFotografia = "123", fotografia = BitConverter.GetBytes(12345), creacion = DateTime.Now, usuarioCreador = "Usuario1212*" };
+        }
+
         public static Producto CrearProductoPorDefecto(Categoria? categoriaAsociada = null, Unidad? unidadAsociada = null)
         {
             categoriaAsociada = categoriaAsociada ?? CrearCategoriaPorDefecto();
