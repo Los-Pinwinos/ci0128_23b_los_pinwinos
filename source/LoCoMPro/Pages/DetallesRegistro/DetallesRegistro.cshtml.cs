@@ -203,7 +203,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             {
                 AlmacenarTempData(usuarioCreador, creacion);
 
-                if (reportePopup != "")
+                if (reportePopup != "" && reportePopup != null)
                 {
                     crearReporte(usuarioCreador, creacion);
                 }

@@ -50,7 +50,8 @@
             <div class="Popup-container" id="popup">
                 <label>Reportar registro</label>
                 <textarea class="Popup-input" id="reportePopup" asp-for="reportePopup"></textarea>
-                <button type="submit" class="Popup-boton" asp-page-handler="Reportar" onclick="cerrarPopup()">Enviar</button>
+                <button type="button" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
+                <button id="botonPopup" style="visibility: hidden;" type="submit" asp-page-handler="Reportar" />
             </div>
         </form>
 
@@ -121,13 +122,24 @@
 
 <script>
     var popup = document.getElementById("popup");
+    var popupCaja = document.getElementById("reportePopup");
+    var boton = document.getElementById("botonPopup");
 
     function abrirPopup() {
-        popup.classList.add("Popup-abierto");
+        if (popup.classList.contains("Popup-abierto")) {
+            popup.classList.remove("Popup-abierto");
+        } else {
+            popup.classList.add("Popup-abierto");
+        }
     }
 
     function cerrarPopup() {
-        popup.classList.remove("Popup-abierto");
+        if (popupCaja.value === "") {
+            alert("No puede realizar un reporte sin comentario");
+        } else {
+            popup.classList.remove("Popup-abierto");
+            boton.click();
+        }
     }
 </script>
 
