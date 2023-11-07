@@ -54,6 +54,8 @@ function filtrar() {
     var categorias = obtenerCheckboxesSeleccionadas("categoria");
     var precioMin = document.getElementById("precioMin").value;
     var precioMax = document.getElementById("precioMax").value;
+    var fechaMin = document.getElementById("fechaMin").value;
+    var fechaMax = document.getElementById("fechaMax").value;
 
     // Configurar filtrador
     filtrador.setFiltroProvincias(provincias);
@@ -63,6 +65,8 @@ function filtrar() {
     filtrador.setFiltroCategorias(categorias);
     filtrador.setPrecioMinimo(precioMin);
     filtrador.setPrecioMaximo(precioMax);
+    filtrador.setFechaMinimo(fechaMin);
+    filtrador.setFechaMaxima(fechaMax);
 
     resultados = filtrador.filtrar(resultados);
 
@@ -520,10 +524,10 @@ function limpiarCheckboxes(nombreDeCheckboxes) {
     }
 }
 
-// Limpiar input de precio
-function limpiarInputPrecio() {
-    var inputMinimo = document.getElementById("precioMin");
-    var inputMaximo = document.getElementById("precioMax");
+// Limpiar input según parámetro
+function limpiarInput(primerValor, segundoValor) {
+    var inputMinimo = document.getElementById(primerValor);
+    var inputMaximo = document.getElementById(segundoValor);
     inputMinimo.value = "";
     inputMaximo.value = "";
 }
@@ -534,7 +538,8 @@ function limpiarFiltros() {
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
     limpiarCheckboxes("categoria");
-    limpiarInputPrecio();
+    limpiarInput("precioMin", "precioMax");
+    limpiarInput("fechaMin", "fechaMax");
 
     if (filtrador.usado) {
 

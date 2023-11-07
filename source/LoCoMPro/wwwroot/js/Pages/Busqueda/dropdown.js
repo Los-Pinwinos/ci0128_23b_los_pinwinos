@@ -1,5 +1,5 @@
 ﻿// Constante de sobreestimación. Existe un adicional de espacio que se agrega por etiqueta que debe ser considerado para desplazar los filtros
-const sobreestimacionDeAltura = 21;
+const sobreestimacionDeAltura = 22;
 
 // Calcular la altura del contenido del desplegable
 function calcularAlturaDesplegable(idDesplegable) {
