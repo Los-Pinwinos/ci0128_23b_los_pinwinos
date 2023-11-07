@@ -139,6 +139,9 @@ begin
 	-- Se actualiza la calificación del usuario
 	set @promedioCalificaciones = (1.0 * @sumaCalificaciones) / (1.0 * @totalCalificaciones);
 
+	if @promedioCalificaciones is null
+		set @promedioCalificaciones = 0
+
 	update Usuario
 	set calificacion = @promedioCalificaciones
 	where nombreDeUsuario = @nombreDeUsuario;

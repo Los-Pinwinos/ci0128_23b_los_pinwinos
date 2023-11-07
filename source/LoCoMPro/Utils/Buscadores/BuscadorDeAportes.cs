@@ -30,24 +30,28 @@ namespace LoCoMPro.Utils.Buscadores
         // Buscar aportes del usuario
         public IQueryable<AporteVM> buscar()
         {
-            IQueryable<AporteVM> resultadosIQ = this.contexto.Registros
-                .Where(r => r.usuarioCreador == this.usuario &&
-                       r.visible)
-                .OrderByDescending(r => r.creacion)
-                .Select(r => new AporteVM
-                {
-                    fecha = r.creacion,
-                    producto = r.productoAsociado,
-                    precio = r.precio,
-                    unidad = r.producto.nombreUnidad,
-                    categoria = r.producto.nombreCategoria,
-                    tienda = r.nombreTienda,
-                    provincia = r.nombreProvincia,
-                    canton = r.nombreCanton,
-                    calificacion = r.calificacion
-                });
-
-            return resultadosIQ;
+            if (this.usuario != null)
+            {
+                return (this.contexto.Registros
+                    .Where(r => r.usuarioCreador == this.usuario && r.visible)
+                    .OrderByDescending(r => r.creacion)
+                    .Select(r => new AporteVM
+                    {
+                        fecha = r.creacion,
+                        producto = r.productoAsociado,
+                        precio = r.precio,
+                        unidad = r.producto.nombreUnidad,
+                        categoria = r.producto.nombreCategoria,
+                        tienda = r.nombreTienda,
+                        provincia = r.nombreProvincia,
+                        canton = r.nombreCanton,
+                        calificacion = r.calificacion
+                    }));
+            }
+            else
+            {
+                return Enumerable.Empty<AporteVM>().AsQueryable();
+            }
         }
     }
 }
