@@ -46,6 +46,54 @@ namespace LoCoMProTestFuncionales.Pages.Busqueda
             Assert.IsTrue(filtradoCorrecto);
         }
 
+        // Alumno: Luis David Solano Santamaría C17634 - Sprint 2
+        [Test]
+        public void PaginaBusqueda_OrdenamientoAscendienteNombre_ColumnaNoDebeTenerFlecha()
+        {
+            // Preparación
+            PaginaHome paginaHome = new PaginaHome(this.driver);
+            driver.Navigate().GoToUrl(paginaHome.ObtenerURL());
+
+            // Acción
+            this.paginaBusqueda = paginaHome.Buscar("a");
+
+            // Verificación
+            Assert.IsFalse(paginaBusqueda.RevisarFlecha("DescendenteNombre"));
+        }
+
+        // Alumno: Luis David Solano Santamaría C17634 - Sprint 2
+        [Test]
+        public void PaginaBusqueda_OrdenamientoAscendienteNombre_ColumnaDebeTenerFlecha()
+        {
+            // Preparación
+            PaginaHome paginaHome = new PaginaHome(this.driver);
+            driver.Navigate().GoToUrl(paginaHome.ObtenerURL());
+            this.paginaBusqueda = paginaHome.Buscar("a");
+
+            // Acción
+            this.paginaBusqueda.OrdenarColumna("//div[@id='FilaDeFiltrosYResultados']/div/table/thead/tr/th/label");
+
+            // Verificación
+            Assert.IsTrue(paginaBusqueda.RevisarFlecha("DescendenteNombre"));
+        }
+
+        // Alumno: Luis David Solano Santamaría C17634 - Sprint 2
+        [Test]
+        public void PaginaBusqueda_OrdenamientoDescendienteNombre_ColumnaDebeTenerFlecha()
+        {
+            // Preparación
+            PaginaHome paginaHome = new PaginaHome(this.driver);
+            driver.Navigate().GoToUrl(paginaHome.ObtenerURL());
+            this.paginaBusqueda = paginaHome.Buscar("a");
+
+            // Acción
+            this.paginaBusqueda.OrdenarColumna("//div[@id='FilaDeFiltrosYResultados']/div/table/thead/tr/th/label");
+            this.paginaBusqueda.OrdenarColumna("//div[@id='FilaDeFiltrosYResultados']/div/table/thead/tr/th/label");
+
+            // Verificación
+            Assert.IsTrue(paginaBusqueda.RevisarFlecha("AscendenteNombre"));
+        }
+
         [TearDown]
         public void Teardown()
         {

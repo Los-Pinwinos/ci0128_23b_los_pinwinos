@@ -4,16 +4,20 @@ using OpenQA.Selenium.Support.UI;
 
 namespace LoCoMProFunctionalTests.Pages.AgregarTienda
 {
+    // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
     internal class Tienda
     {
         private IWebDriver driver;
 
+        // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
         [SetUp]
         public void Setup()
         {
             driver = new ChromeDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(2000);
         }
 
+        // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
         [Test]
         public void RevisarCantonesDeLimonEnAgregarTienda()
         {
@@ -52,6 +56,7 @@ namespace LoCoMProFunctionalTests.Pages.AgregarTienda
             Assert.That(correcto, Is.True);
         }
 
+        // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
         private void IniciarSesion()
         {
             var botonIniciarSesionHome = driver.FindElement(By.LinkText("Iniciar sesión"));
@@ -67,6 +72,7 @@ namespace LoCoMProFunctionalTests.Pages.AgregarTienda
             botonIniciarSesion.Click();
         }
 
+        // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
         private static bool VerficarOpcionCanton(int i, string canton)
         {
             bool igualdad = false;
@@ -96,6 +102,7 @@ namespace LoCoMProFunctionalTests.Pages.AgregarTienda
             return igualdad;
         }
 
+        // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
         [TearDown]
         public void TearDown()
         {

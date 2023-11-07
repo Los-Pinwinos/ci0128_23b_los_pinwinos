@@ -287,6 +287,10 @@ Para realizar esta prueba se debe contar con un usuario válido y autenticado en
 
 El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que el botón para guardar los cambios se vuelve disponible hasta que se seleccionen datos distintos a los que presentaba la cuenta originalmente, es imperativo que la vivienda del usuario no estuviese en Guancaste, Hojancha, Huacas, pues estos son los valores a los que la prueba intentará cambiar la vivienda. Cualquier otra vivienda será válida.
 
+##### **Revisar ordenamiento de flechas**
+
+Para realizar esta prueba se requiere la conexión con la base de datos para realizar una búsqueda, pero no es dependiente de los resultados ya que solo se revisa la presencia de las flechas.
+
 ### **Manual de instalación o ejecución del sistema**
 
 Para la ejecución, por simpleza, se puede ejecutar desde `Visual Studio`.

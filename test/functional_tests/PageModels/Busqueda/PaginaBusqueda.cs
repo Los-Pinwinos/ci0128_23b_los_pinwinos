@@ -102,5 +102,16 @@ namespace LoCoMProTestFuncionales.PageModels.Busqueda
         {
             return base.ObtenerURL() + "/Busqueda";
         }
+
+        public void OrdenarColumna(string columna)
+        {
+            IWebElement ordenador = driver.FindElement(By.XPath(columna));
+            ordenador.Click();
+        }
+
+        public bool RevisarFlecha(string flecha)
+        {
+            return driver.FindElement(By.Id(flecha)).Displayed;
+    }
     }
 }

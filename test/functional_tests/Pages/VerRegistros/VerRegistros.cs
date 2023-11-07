@@ -171,7 +171,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
         }
 
 
-        [Test]
+        [TearDown]
         public void TearDown()
         {
             driver.Quit();
