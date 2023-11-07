@@ -1,0 +1,187 @@
+/* Estilo para un contenedor de todos los elementos en la página */
+.VerReportes-contenedor-centrado-primario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo para los rectangulos azúles en la página */
+.VerReportes-contenedor-rectangular {
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #033F63;
+    border-radius: 6px;
+    min-width: 95%;
+    max-width: 95%;
+    margin-left: 2%;
+    margin-right: 2%;
+    overflow: auto;
+}
+
+/* Estilo para los títulos de los rectangulos azúles en la página */
+.VerReportes-contenedor-rectangular-titulo {
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    font-size: 24px;
+    align-items: center;
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+/* Estilo para el texto en lso rectangulos azúles en la página */
+.VerReportes-contenedor-rectangular-subcontenedor-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.VerReportes-contenedor-rectangular-subcontenedor-fila {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2.2%;
+}
+
+
+    /* Estilo para los labels en los rectangulos azúles en la página */
+    .VerReportes-label-corto {
+        text-align: left;
+        color: black;
+        margin-right: 10px;
+        font-size: 16px;
+        min-width: 200px;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.VerReportes-label-largo {
+    text-align: left;
+    color: black;
+    font-size: 16px;
+    max-width: 700px;
+    overflow-wrap: break-word;
+}
+
+    /* Estilo para los subtitulos de atributos */
+    .subtitulo {
+        font-weight: bold;
+    }
+
+
+/* Imágenes */
+
+
+.VerReportes-Imagen {
+    max-width: 400px;
+    max-height: 260px;
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+}
+
+.VerReportes-GaleriaImagenes {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5%;
+    margin-top: -1.5%;
+    margin-left: 1%;
+}
+
+
+.VerReportes-NavegacionImagen {
+    font-size: 50px;
+    cursor: pointer;
+    color: #033F63;
+}
+
+.VerReportes-NavegacionImagen-Anterior {
+    margin-right: 0px;
+}
+
+.VerReportes-NavegacionImagen-Siguiente {
+    margin-left: 0px;
+}
+
+.VerReportes-NavegacionImagen-ImagenActual {
+    max-width: 100%;
+    max-height: 400px;
+}
+
+
+/* Gif */
+/* Contenedor para el gif y un mensaje */
+.VerReportes-contenedor-gif {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+/* Gif */
+.VerReportes-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el mensaje del gif */
+.VerReportes-texto-gif {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* Estrellas */
+/* Estilo para el contenedor de la calificación */
+.VerReportes-contenedor-calificacion {
+    display: flex;
+    transform: scale(0.6);
+    min-width: 200px;
+    text-align: left;
+    margin-left: -53px;
+    height: 10px;
+}
+
+.VerReportes-contenedor-calificacion-calificacion {
+    font-size: 16px;
+    margin-left: 10px;
+    margin-top: 1.4%;
+}
+
+.VerReportes-contenedor-calificacion-conteo {
+    font-size: 14px;
+    color: dimgray;
+    margin-left: 10px;
+    margin-top: 1.3%;
+}
+
+/* Botones */
+
+/* Estilo para contener los botones en la página */
+.VerReportes-contenedor-botones {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+/* Estilo para los botones en la página */
+.VerReportes-contenedor-botones button {
+    background-color: #033F63;
+    color: white;
+    width: 140px;
+    height: 35px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}

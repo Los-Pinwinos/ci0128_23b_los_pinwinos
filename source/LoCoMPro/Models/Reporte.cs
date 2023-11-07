@@ -43,5 +43,8 @@ namespace LoCoMPro.Models
         // Propiedad de navegación registro
         [ForeignKey("creacionRegistro, usuarioCreadorRegistro")]
         public Registro? registro { get; set; }
+
+        // Propiedad para indicar si un reporte ha sido verificado
+        public required bool verificado { get; set; } = false;
     }
 }

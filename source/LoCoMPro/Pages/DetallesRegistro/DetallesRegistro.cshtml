@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="Boton">
-        <input type="button" class="Boton-estandar" onclick="history.back()" value="Regresar" />
+        <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
     <!-- Opción para reportar -->
     @if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -107,6 +107,27 @@
         </div>
     }
 </body>
+
+<script>
+    if (@Model.registro.calificacion == 0) {
+        actualizarNoCalificaciones(true);
+    }
+
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = true;
+    if (@Model.ultimaCalificacion > 0) {
+        labelUltimaCalificacion.hidden = false;
+    }
+
+    // Función para recargar la página anterior
+    function recargar() {
+        // Obtiene la página anterior de la referencia en el modelo
+        var paginaAnterior = document.referrer;
+        // Recarga la página anterior
+        window.location.href = paginaAnterior;
+
+    }
+</script>
 
 <script>
     if (@Model.registro.calificacion == 0) {

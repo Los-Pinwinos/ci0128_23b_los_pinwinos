@@ -18,6 +18,12 @@ function formatearFecha(datos) {
     return contenidoFecha
 }
 
+// Formatear la calificación para redondear, usar comas y tener solo un decimal
+function formatearCalificacion(calificacion) {
+    var redondeado = Math.floor(calificacion * 10) / 10;
+    return redondeado.toLocaleString("es", { minimumFractionDigits: 1 });
+}
+
 function tituloNormal(titulosTabla) {
 
     var divFechaTitulo = document.createElement("div");
@@ -29,7 +35,7 @@ function tituloNormal(titulosTabla) {
 
 
     var divPrecioTitulo = document.createElement("div");
-    divPrecioTitulo.style.marginLeft = "40px";
+    divPrecioTitulo.style.marginLeft = "97px";
     divPrecioTitulo.textContent = "Precio";
     divPrecioTitulo.className = "ContenidoTituloCorto";
     var precioTitulo = document.createElement("th");
@@ -37,7 +43,7 @@ function tituloNormal(titulosTabla) {
 
 
     var divCalifTitulo = document.createElement("div");
-    divCalifTitulo.style.marginLeft = "0px";
+    divCalifTitulo.style.marginLeft = "55px";
     divCalifTitulo.textContent = "Calificación";
     divCalifTitulo.className = "ContenidoTituloCorto";
     var califTitulo = document.createElement("th");
@@ -45,7 +51,7 @@ function tituloNormal(titulosTabla) {
 
 
     var divDescripcionTitulo = document.createElement("div");
-    divDescripcionTitulo.style.marginLeft = "50px";
+    divDescripcionTitulo.style.marginLeft = "30%";
     divDescripcionTitulo.textContent = "Descripción";
     divDescripcionTitulo.className = "ContenidoTituloDescripcion";
     var descripcionTitulo = document.createElement("th");
@@ -87,6 +93,7 @@ function renderizarTabla(datos) {
             var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
             divPrecio.textContent = precioArreglado;
             divPrecio.classList.add("precio");
+            divPrecio.style.marginLeft = "60px";
             var precioCelda = document.createElement("td");
             precioCelda.classList.add("precio");
             precioCelda.setAttribute('data-tooltip', precioArreglado);
@@ -94,7 +101,8 @@ function renderizarTabla(datos) {
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaCalificacion";
-            divCalificacion.textContent = datos[dato].calificacion == 0 ? "Sin calificar" : datos[dato].calificacion;
+            divCalificacion.textContent = datos[dato].calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].calificacion);
+            divCalificacion.style.marginLeft = "60px";
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
@@ -145,7 +153,7 @@ function titulosAgrupados(titulosTabla, textoFecha) {
 
 
     var divPpromTitulo = document.createElement("div");
-    divPpromTitulo.style.marginLeft = "1px";
+    divPpromTitulo.style.marginLeft = "0px";
     divPpromTitulo.textContent = "Precio Promedio";
     divPpromTitulo.className = "ContenidoTitulo";
     var ppromTitulo = document.createElement("th");
@@ -202,6 +210,7 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
         var precioPromArreglado = "₡" + agregarSeparador(entradaAgregada.promedioPrecio);
         divPrecioProm.textContent = precioPromArreglado;
         divPrecioProm.classList.add("precioAgrupado");
+        divPrecioProm.style.marginLeft = "35px";
         var precioPromCelda = document.createElement("td");
         precioPromCelda.classList.add("precioAgrupado");
         precioPromCelda.setAttribute('data-tooltip', precioPromArreglado);
@@ -219,8 +228,8 @@ function renderizarTablaAgrupadaDia(datosAgregados) {
 
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
-        var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
+        divCalificacion.textContent = entradaAgregada.promedioCalificacion !== 0 ?
+            formatearCalificacion(entradaAgregada.promedioCalificacion) : "Sin calificar";
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
         calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
@@ -359,6 +368,7 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
         var precioPromArreglado = "₡" + agregarSeparador(entradaAgregada.promedioPrecio);
         divPrecioProm.textContent = precioPromArreglado;
         divPrecioProm.classList.add("precioAgrupado");
+        divPrecioProm.style.marginLeft = "35px";
         var precioPromCelda = document.createElement("td");
         precioPromCelda.classList.add("precioAgrupado");
         precioPromCelda.setAttribute('data-tooltip', precioPromArreglado);
@@ -377,8 +387,8 @@ function renderizarTablaAgrupadaSemana(datosAgregados) {
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
 
-        var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
+        divCalificacion.textContent = entradaAgregada.promedioCalificacion !== 0 ?
+            formatearCalificacion(entradaAgregada.promedioCalificacion) : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
@@ -496,6 +506,7 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
         var precioPromArreglado = "₡" + agregarSeparador(entradaAgregada.promedioPrecio);
         divPrecioProm.textContent = precioPromArreglado;
         divPrecioProm.classList.add("precioAgrupado");
+        divPrecioProm.style.marginLeft = "35px";
         var precioPromCelda = document.createElement("td");
         precioPromCelda.classList.add("precioAgrupado");
         precioPromCelda.setAttribute('data-tooltip', precioPromArreglado);
@@ -513,8 +524,8 @@ function renderizarTablaAgrupadaMes(datosAgregados) {
 
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
-        var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
+        divCalificacion.textContent = entradaAgregada.promedioCalificacion !== 0 ?
+            formatearCalificacion(entradaAgregada.promedioCalificacion) : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");
@@ -634,6 +645,7 @@ function renderizarTablaAgrupadaAno(datosAgregados) {
         var precioPromArreglado = "₡" + agregarSeparador(entradaAgregada.promedioPrecio);
         divPrecioProm.textContent = precioPromArreglado;
         divPrecioProm.classList.add("precioAgrupado");
+        divPrecioProm.style.marginLeft = "35px";
         var precioPromCelda = document.createElement("td");
         precioPromCelda.classList.add("precioAgrupado");
         precioPromCelda.setAttribute('data-tooltip', precioPromArreglado);
@@ -651,8 +663,8 @@ function renderizarTablaAgrupadaAno(datosAgregados) {
 
         var divCalificacion = document.createElement("div");
         divCalificacion.className = "contenidoCeldaCalificacion";
-        var promedioCalificacionText = entradaAgregada.promedioCalificacion;
-        divCalificacion.textContent = promedioCalificacionText !== 0 ? promedioCalificacionText : "Sin calificar";
+        divCalificacion.textContent = entradaAgregada.promedioCalificacion !== 0 ?
+            formatearCalificacion(entradaAgregada.promedioCalificacion) : "Sin calificar";
 
         var calificacionCelda = document.createElement("td");
         calificacionCelda.classList.add("contenidoCeldaCalificacion");

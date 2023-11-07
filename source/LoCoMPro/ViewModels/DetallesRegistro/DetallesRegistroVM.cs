@@ -33,7 +33,7 @@ namespace LoCoMPro.ViewModels.DetallesRegistro
         [Range(0, 5,
             ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
         [Display(Name = "Calificación")]
-        public decimal calificacion { get; set; }
+        public double calificacion { get; set; }
 
         [StringLength(256, MinimumLength = 1)]
         [Display(Name = "Nombre del producto")]
