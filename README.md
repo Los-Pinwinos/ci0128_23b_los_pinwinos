@@ -232,6 +232,45 @@ De igual manera, dentro de los archivos del proyecto es requerido la carpeta `jq
 
 En el caso de las pruebas funcionales, se necesita tener instalado el programa `Selenium` para Visual Studio y un driver para el buscador `Chrome`. Esto se puede encontrar dentro de la opción `Manage NuGet Packages for Solution`.
 
+### **Preparación de la base de datos**
+
+#### **Para la ejecución del proyecto**
+Para la preparación de la base de datos se debe tener configurado el *`connection string`* que establece la IP, puerto y características de la conexión con el servidor.
+
+En caso de estar utilizando una IP de la ECCI, se debe utilizar el **VPN de la ECCI**. Puede consultar información sobre su uso e instalación [aquí](https://wiki.ecci.ucr.ac.cr/estudiantes/vpn).
+
+`Observación`: si anteriormente ejecutó las pruebas funcionales, es necesario revertir los cambios realizados para que el connection string se mantenga como `LoCoMProContextRemote`.
+
+#### **Para la ejecución de las pruebas funcionales**
+
+##### **Prerequisitos**
+Primeramente, debe hacerse un cambio en los archivos `Program.cs` y `ControladorComandosSQL.cs`. En el archivo `Program.cs`, debe cambiar la constante `connectionString` para que esta contenga el string: `LoCoMProContextTest`. En el archivo `ControladorComandosSQL.cs` se debe cambiar la constante `connectionString` en el constructor para que contenga el mismo string mencionado anteriormente. Una vez realizado esto, debe ejecutar el programa para crear la base de datos necesaria para realizar las pruebas. 
+
+Una vez creada la base de datos, debe ejecutar los procedimientos, funciones y triggers en la nueva base de datos que se encuentra en la carpeta [SQLScripts](./source/LoCoMPro/SQLScripts).
+
+Para ejecutar las pruebas funcionales se necesita que la aplicación esté corriendo en el `puerto 5150 en localhost`. Esto se puede lograr ejecutando la aplicación desde la terminal. Para esto, se debe abrir la carpeta del proyecto en donde se tiene la aplicación ya compilada (con las carpetas bin y obj generadas) y correr el comando:
+
+    dotnet run
+
+Una vez realizado esto, la aplicación se ejecutará desde el `puerto 5150`. Además, es necesario tener el navegador Google Chrome instalado, pues Selenium se ejecuta por este medio. En caso de que el puerto deseado se encuentre bloqueado, deberá averiguar cuál es el puerto que se tomó y cambiar los enlaces en las diferentes pruebas funcionales para que contengan el puerto actual. 
+
+Se realizaron diversas pruebas funcionales con la herramienta de Selenium. Para el funcionamiento adecuado de las diferentes pruebas se requiere lo siguiente: (para ejecutarlas todas, deben cumplirse todas las condiciones mencionadas. Se indican de forma separada en caso de que solo se desee ejecutar alguna prueba de forma individual).
+
+##### **Títulos de columnas en agrupamientos de la ventana de Ver Registros**
+Para acceder a la ventana de Ver Registros se necesita estar visualizando un registro, en esta prueba, de forma aleatoria, se seleccionó ver los registros del producto `Camisa`, con las siguientes características:
+
+- Categoría: Ropa
+- Marca: Adidas
+- Unidad: Cantidad
+- Tienda: Maxi Pali
+- Provincia: Heredia
+- Canton: Heredia
+
+En caso de que este producto no existiese junto con registros, las pruebas igual serían válidas, simplemente no se visualizarían registros asociados dentro de la ventana, pero las columnas igual cambiarían al seleccionar los agrupamientos, lo cual es lo que se desea probar con la prueba.
+
+##### **Filtros de provincia**
+
+Para ejecutar esta prueba se requiere que existan productos cuyos registros asociados tengan como provincia a Guanacaste. Esto puesto que se seleccionó esta provincia para realizar las pruebas. 
 
 
 ### **Manual de instalación o ejecución del sistema**
