@@ -17,7 +17,8 @@ namespace LoCoMProTests.Pages.VerRegistros
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [TestMethod]
         public void verReportes_obtenerRegistros_ProductoConUnRegistro_DebeRetornarUno()
-        {           
+        {    
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -38,9 +39,11 @@ namespace LoCoMProTests.Pages.VerRegistros
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             VerRegistrosModel buscadorRegistros = new VerRegistrosModel(mockContexto.ObtenerObjetoDeMock(), registro.productoAsociado, registro.nombreTienda, registro.nombreProvincia, registro.nombreCanton);
             IQueryable<VerRegistrosVM> resultados = buscadorRegistros.ObtenerRegistros();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -48,6 +51,7 @@ namespace LoCoMProTests.Pages.VerRegistros
         [TestMethod]
         public void verReportes_obtenerRegistros_ProductoConVariosRegistros_DebeRetornarMasDeUno()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -73,9 +77,11 @@ namespace LoCoMProTests.Pages.VerRegistros
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             VerRegistrosModel buscadorRegistros = new VerRegistrosModel(mockContexto.ObtenerObjetoDeMock(), registro.productoAsociado, registro.nombreTienda, registro.nombreProvincia, registro.nombreCanton);
             IQueryable<VerRegistrosVM> resultados = buscadorRegistros.ObtenerRegistros();
 
+            // Verificación
             Assert.IsTrue(resultados.Count() > 1);
         }
 
@@ -83,6 +89,7 @@ namespace LoCoMProTests.Pages.VerRegistros
         [TestMethod]
         public void verReportes_obtenerRegistros_RegistrosConProvinciasDiferente_DebeRetornarUno()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -108,9 +115,11 @@ namespace LoCoMProTests.Pages.VerRegistros
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             VerRegistrosModel buscadorRegistros = new VerRegistrosModel(mockContexto.ObtenerObjetoDeMock(), registro.productoAsociado, registro.nombreTienda, registro.nombreProvincia, registro.nombreCanton);
             IQueryable<VerRegistrosVM> resultados = buscadorRegistros.ObtenerRegistros();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -118,6 +127,7 @@ namespace LoCoMProTests.Pages.VerRegistros
         [TestMethod]
         public void verReportes_obtenerRegistros_RegistrosConCantonDiferente_DebeRetornarUno()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -143,9 +153,11 @@ namespace LoCoMProTests.Pages.VerRegistros
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             VerRegistrosModel buscadorRegistros = new VerRegistrosModel(mockContexto.ObtenerObjetoDeMock(), registro.productoAsociado, registro.nombreTienda, registro.nombreProvincia, registro.nombreCanton);
             IQueryable<VerRegistrosVM> resultados = buscadorRegistros.ObtenerRegistros();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -153,6 +165,7 @@ namespace LoCoMProTests.Pages.VerRegistros
         [TestMethod]
         public void verReportes_obtenerRegistros_RegistrosConTiendasDiferentes_DebeRetornarUno()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Tienda tienda2 = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
@@ -179,9 +192,11 @@ namespace LoCoMProTests.Pages.VerRegistros
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             VerRegistrosModel buscadorRegistros = new VerRegistrosModel(mockContexto.ObtenerObjetoDeMock(), registro.productoAsociado, registro.nombreTienda, registro.nombreProvincia, registro.nombreCanton);
             IQueryable<VerRegistrosVM> resultados = buscadorRegistros.ObtenerRegistros();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 

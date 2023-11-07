@@ -16,6 +16,7 @@ namespace LoCoMProTests.Utils.Buscadores
         [TestMethod]
         public void buscadorDeProductosAvanzadoConMarca_ValidacionBusquedaProductoExistente_DeberiaDevolverSoloUnResultado()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -33,10 +34,11 @@ namespace LoCoMProTests.Utils.Buscadores
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             BuscadorDeProductosAvanzado buscador = new BuscadorDeProductosAvanzado(mockContexto.ObtenerObjetoDeMock(), null, producto.marca);
-
             var resultados = buscador.buscar();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -45,6 +47,7 @@ namespace LoCoMProTests.Utils.Buscadores
         [TestMethod]
         public void buscadorDeProductosAvanzadoConMarca_ValidacionBusquedaConHileraVacia_DeberiaDeberiaDevolverSoloUnResultado()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -63,9 +66,11 @@ namespace LoCoMProTests.Utils.Buscadores
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             BuscadorDeProductosAvanzado buscador = new BuscadorDeProductosAvanzado(mockContexto.ObtenerObjetoDeMock(), null, "");
             var resultados = buscador.buscar();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -74,6 +79,7 @@ namespace LoCoMProTests.Utils.Buscadores
         [TestMethod]
         public void buscadorDeProductosAvanzadoConMarca_ValidacionBusquedaConHileraNula_DeberiaDeberiaDevolverSoloUnResultado()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             Usuario usuario = CreadorDeModelos.CrearUsuarioPorDefecto();
@@ -91,9 +97,11 @@ namespace LoCoMProTests.Utils.Buscadores
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             BuscadorDeProductosAvanzado buscador = new BuscadorDeProductosAvanzado(mockContexto.ObtenerObjetoDeMock(), null, null);
             var resultados = buscador.buscar();
 
+            // Verificación
             Assert.AreEqual(1, resultados.Count());
         }
 
@@ -101,6 +109,7 @@ namespace LoCoMProTests.Utils.Buscadores
         [TestMethod]
         public void buscadorDeProductosAvanzadoConMarca_ValidacionBusquedaProductoConNombreVacio_DeberiaDeberiaDevolverCeroResultados()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto = CreadorDeModelos.CrearProductoPorDefecto();
             producto.nombre = "    ";
@@ -120,16 +129,19 @@ namespace LoCoMProTests.Utils.Buscadores
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             BuscadorDeProductosAvanzado buscador = new BuscadorDeProductosAvanzado(mockContexto.ObtenerObjetoDeMock(), null, "    ");
             var resultados = buscador.buscar();
 
+            // Verificación
             Assert.AreEqual(0, resultados.Count());
         }
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [TestMethod]
-        public void buscadorDeProductos_ValidacionBusquedaVariosProductos_DeberiaDeberiaDevolverMasDeUnResultado()
+        public void buscadorDeProductosAvanzadoConMarca_ValidacionBusquedaVariosProductos_DeberiaDeberiaDevolverMasDeUnResultado()
         {
+            // Preparación
             Tienda tienda = CreadorDeModelos.CrearTiendaPorDefecto();
             Producto producto1 = CreadorDeModelos.CrearProductoPorDefecto();
             Producto producto2 = CreadorDeModelos.CrearProductoPorDefecto();
@@ -161,9 +173,11 @@ namespace LoCoMProTests.Utils.Buscadores
             MockDeContexto<LoCoMProContext> mockContexto = new MockDeContexto<LoCoMProContext>();
             mockContexto.ConfigurarParaInstanciasDeModelo(p => p.Registros, mockModelo.ObtenerObjetoDeMock());
 
+            // Acción
             BuscadorDeProductosAvanzado buscador = new BuscadorDeProductosAvanzado(mockContexto.ObtenerObjetoDeMock(), null, "Marca");
             var resultados = buscador.buscar();
 
+            // Verificación
             Assert.IsTrue(resultados.Count() > 1);
         }
 

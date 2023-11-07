@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using LoCoMProTestFuncionales.PageModels.VerRegistros;
+
 
 namespace LoCoMProTestFuncionales.PageModels.Busqueda
 {
@@ -63,6 +65,20 @@ namespace LoCoMProTestFuncionales.PageModels.Busqueda
 
             return resultados;
 
+        }
+
+        public PaginaVerRegistros SeleccionarResultado(int resultado)
+        {
+            IWebElement cuerpoTabla = driver.FindElement(this.CuerpoDeTablaDeResultados);
+
+            IList<IWebElement> filas = cuerpoTabla.FindElements(By.TagName("tr"));
+
+            if (filas.Count > resultado)
+            {
+                filas[resultado].Click();
+                filas[resultado].Click();
+            }
+            return new PaginaVerRegistros(this.driver);
         }
 
         public void FiltrarConCajasDeSeleccion(string nombreDeFiltro, string valorDeFiltrado)
