@@ -230,7 +230,7 @@ Dentro de Visual Studio se requieren la siguiente extensión para desarrollo web
 
 De igual manera, dentro de los archivos del proyecto es requerido la carpeta `jquery` en el directorio `wwwroot/js` que incluye las bibliotecas `jQuery` y `jQuery UI`.
 
-En el caso de las pruebas funcionales, se necesita tener instalado el programa `Selenium` para Visual Studio y un driver para el buscador `Chrome`. Esto se puede encontrar dentro de la opción `Manage NuGet Packages for Solution`.
+En el caso de las pruebas funcionales, se necesita tener instalado el programa `Selenium` para Visual Studio, `Selenum Support` y un driver para el buscador `Chrome`. Esto se puede encontrar dentro de la opción `Manage NuGet Packages for Solution`.
 
 ### **Preparación de la base de datos**
 
@@ -271,6 +271,10 @@ En caso de que este producto no existiese junto con registros, las pruebas igual
 ##### **Filtros de provincia**
 
 Para ejecutar esta prueba se requiere que existan productos cuyos registros asociados tengan como provincia a Guanacaste. Esto puesto que se seleccionó esta provincia para realizar las pruebas. 
+
+##### **Cantones de Agregar Tienda**
+
+Esta prueba se encarga de verificar que los cantones que se muestran en el *combobox* de cantón correspoden únicamente a los cantones de la provincia de Limón. Para ejecutar esta prueba se requiere que exista la provincia de Limón y sus respectivos cantones.
 
 
 ### **Manual de instalación o ejecución del sistema**
