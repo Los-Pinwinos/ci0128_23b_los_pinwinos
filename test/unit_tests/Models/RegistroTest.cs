@@ -24,6 +24,8 @@ namespace LoCoMProTests.Models
                 precio = 5000.50m,
                 // Un número entre 5 y 0
                 calificacion = 5,
+                // El registro debe ser visible
+                visible = true,
                 // 11 caracteres representa una longitud válida
                 productoAsociado = "Tennissitas",
                 // 17 caracteres representa una longitud válida
@@ -61,6 +63,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -89,6 +92,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -120,6 +124,7 @@ namespace LoCoMProTests.Models
                 "texto extremadamente largo",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -148,6 +153,7 @@ namespace LoCoMProTests.Models
                 precio = 5000.50m,
                 // La calificación debe estar entre 0 y 5 puntos
                 calificacion = -1,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -175,6 +181,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 // El nombre del producto asociado debe tener entre 1 y
                 // 256 caracteres
                 productoAsociado = "",
@@ -204,6 +211,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 // El nombre de la tienda debe tener entre 1 y 256
                 // caracteres
@@ -233,6 +241,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 // El nombre de la tienda debe estar formado por letras
                 // solamente
@@ -262,6 +271,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 // El nombre del distrito tener entre 3 y 30 caracteres
@@ -290,6 +300,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 // El nombre del distrito debe estar formado por letras
@@ -319,6 +330,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -347,6 +359,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -376,6 +389,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",
@@ -404,6 +418,7 @@ namespace LoCoMProTests.Models
                 descripcion = "Esta es una descripción",
                 precio = 5000.50m,
                 calificacion = 5,
+                visible = true,
                 productoAsociado = "Tennissitas",
                 nombreTienda = "Tienda tus tennis",
                 nombreDistrito = "San Isidro del Géneral",

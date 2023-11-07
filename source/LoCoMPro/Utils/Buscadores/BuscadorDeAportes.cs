@@ -31,7 +31,8 @@ namespace LoCoMPro.Utils.Buscadores
         public IQueryable<AporteVM> buscar()
         {
             IQueryable<AporteVM> resultadosIQ = this.contexto.Registros
-                .Where(r => r.usuarioCreador == this.usuario)
+                .Where(r => r.usuarioCreador == this.usuario &&
+                       r.visible)
                 .OrderByDescending(r => r.creacion)
                 .Select(r => new AporteVM
                 {

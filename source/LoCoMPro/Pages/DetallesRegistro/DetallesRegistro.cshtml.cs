@@ -28,7 +28,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
         public DetallesRegistroModel(LoCoMProContext contexto)
         {
             this.contexto = contexto;
-            this.registro = new DetallesRegistroVM {
+            this.registro = new DetallesRegistroVM
+            {
                 creacion = DateTime.Now,
                 usuarioCreador = " ",
                 precio = 0,
@@ -44,7 +45,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 if (!fechaHora.Contains("."))
                 {
                     fechaHora += ".0000000";
-                } else
+                }
+                else
                 {
                     for (int i = fechaHora.IndexOf('.'); i <= fechaHora.IndexOf('.') + 7; i++)
                     {
@@ -65,7 +67,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 ActualizarUltimaCalificacion(fecha, usuario);
 
                 return Page();
-            } else
+            }
+            else
             {
                 return RedirectToPage("/Home/Index");
             }
@@ -101,7 +104,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             {
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
-                ActualizarCalificacionUsuario(usuarioCreador, calificacion);
+                ActualizarCalificacionUsuario(usuarioCreador);
                 ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
             }
@@ -168,12 +171,11 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoInsertarCalificacion.EjecutarProcedimiento();
         }
 
-        private static void ActualizarCalificacionUsuario(string usuario, int calificacion)
+        private static void ActualizarCalificacionUsuario(string usuario)
         {
             ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
             comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
             comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", usuario);
-            comandoActualizarUsuario.ConfigurarParametroComando("calificacion", calificacion);
             comandoActualizarUsuario.EjecutarProcedimiento();
         }
 
@@ -223,7 +225,8 @@ namespace LoCoMPro.Pages.DetallesRegistro
                     usuarioCreadorRegistro = usuarioCreador,
                     creacionRegistro = creacion,
                     comentario = reportePopup,
-                    creacion = DateTime.Now
+                    creacion = DateTime.Now,
+                    verificado = false
                 };
                 contexto.Reportes.Add(reporte);
                 contexto.SaveChanges();

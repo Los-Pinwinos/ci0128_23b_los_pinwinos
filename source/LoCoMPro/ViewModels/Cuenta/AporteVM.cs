@@ -32,6 +32,6 @@ namespace LoCoMPro.ViewModels.Cuenta
         public required string canton { get; set; }
         // Calificación
         [Display(Name = "Calificación")]
-        public decimal calificacion { get; set; }
+        public double calificacion { get; set; }
     }
 }

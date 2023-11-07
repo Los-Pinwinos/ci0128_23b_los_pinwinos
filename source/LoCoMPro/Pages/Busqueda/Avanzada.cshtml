@@ -201,11 +201,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.nombre)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('nombre')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('nombre')">
                                 expand_more
                             </span>
                         </th>
@@ -215,11 +215,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.categoria)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('categoria')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('categoria')">
                                 expand_more
                             </span>
                         </th>
@@ -229,11 +229,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.marca)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('marca')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('marca')">
                                 expand_more
                             </span>
                         </th>
@@ -257,11 +257,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.unidad)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('unidad')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('unidad')">
                                 expand_more
                             </span>
                         </th>
@@ -271,11 +271,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.fecha)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('fecha')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('fecha')">
                                 expand_more
                             </span>
                         </th>
@@ -285,11 +285,11 @@
                                 @Html.DisplayNameFor(model => model.productoVM.tienda)
                             </label>
                             <!-- Flecha de ordenamiento descendiente -->
-                            <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('tienda')">
                                 expand_less
                             </span>
                             <!-- Flecha de ordenamiento ascendiente -->
-                            <span id="AscendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento">
+                            <span id="AscendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('tienda')">
                                 expand_more
                             </span>
                         </th>
@@ -321,7 +321,6 @@
                                 expand_more
                             </span>
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="BusquedaIndice-tabla-resultados" id="ResultadosDeBusqueda"></tbody>

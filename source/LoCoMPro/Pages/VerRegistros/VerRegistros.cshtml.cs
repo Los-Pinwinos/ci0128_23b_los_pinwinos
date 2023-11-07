@@ -50,13 +50,15 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreCanton = cantonNombre;
         }
 
-
-
         public IQueryable<VerRegistrosVM> ObtenerRegistros()
         {
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
                 .Include(r => r.fotografias)
-                .Where(r => r.productoAsociado.Equals(NombreProducto) && r.nombreTienda.Equals(NombreTienda) && r.nombreProvincia.Equals(NombreProvincia) && r.nombreCanton.Equals(NombreCanton))
+                .Where(r => r.productoAsociado.Equals(NombreProducto) &&
+                       r.nombreTienda.Equals(NombreTienda) &&
+                       r.nombreProvincia.Equals(NombreProvincia) &&
+                       r.nombreCanton.Equals(NombreCanton) &&
+                       r.visible)
                 .GroupBy(r => new
                 {
                     r.creacion,

@@ -22,9 +22,17 @@ namespace LoCoMPro.Utils
             bool resultado = true;
 
             // Obtiene las credenciales y servidor del archivo de configuración
-            string? servidor = this.configuracion.GetValue<string>("serverCorreos");
-            string? enviador = this.configuracion.GetValue<string>("correoEmpresa");
-            string? contrasena = this.configuracion.GetValue<string>("contrasenaEmpresa");
+            string servidor = this.configuracion.GetValue<string>("serverCorreos") ??
+                throw new InvalidOperationException("Servidor de correos no encontrado");
+            string enviador = this.configuracion.GetValue<string>("correoEmpresa") ??
+                throw new InvalidOperationException("Cuenta de correos no encontrada");
+
+            // Crea un encriptador para desencriptar la contraseña
+            Encriptador encriptador = new Encriptador();
+            // Obtiene la contraseña de la cuenta de correos desencriptada
+            string contrasena = encriptador.desencriptar(
+                this.configuracion.GetValue<string>("contrasenaEmpresa") ??
+                throw new InvalidOperationException("Contraseña de correo no encontrada"));
 
             // Si las credenciales y servidor son válidas
             if (servidor != null && enviador != null && contrasena != null)

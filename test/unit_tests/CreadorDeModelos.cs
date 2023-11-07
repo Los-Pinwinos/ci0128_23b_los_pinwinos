@@ -62,7 +62,7 @@ namespace LoCoMProTests
             productoAsociado = productoAsociado ?? CrearProductoPorDefecto();
             tiendaAsociada = tiendaAsociada ?? CrearTiendaPorDefecto();
             usuarioAsociado = usuarioAsociado ?? CrearUsuarioPorDefecto();
-            return new Registro { creacion = DateTime.Now, productoAsociado = productoAsociado.nombre, usuarioCreador = usuarioAsociado.nombreDeUsuario, precio = 999.99M, nombreTienda = tiendaAsociada.nombre, nombreDistrito = tiendaAsociada.nombreDistrito, nombreCanton = tiendaAsociada.nombreCanton, nombreProvincia = tiendaAsociada.nombreProvincia, tienda = tiendaAsociada, producto = productoAsociado, creador = usuarioAsociado };
+            return new Registro { creacion = DateTime.Now, productoAsociado = productoAsociado.nombre, usuarioCreador = usuarioAsociado.nombreDeUsuario, precio = 999.99M, nombreTienda = tiendaAsociada.nombre, nombreDistrito = tiendaAsociada.nombreDistrito, nombreCanton = tiendaAsociada.nombreCanton, nombreProvincia = tiendaAsociada.nombreProvincia, tienda = tiendaAsociada, producto = productoAsociado, creador = usuarioAsociado, visible = true};
         }
     }
 }
