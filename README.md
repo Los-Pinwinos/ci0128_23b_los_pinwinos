@@ -31,7 +31,7 @@ El curso conforma un `Proyecto Integrador` de los cursos `Bases de Datos`  e `In
 
 `LoCoMPro` es un sistema que consiste en la `Localización y Consulta del Mejor Producto`. En otras palabras, es un sistema de búsqueda donde sus usuarios pueden obtener información de artículos en venta en base a su localización. Para realizar las consultas, se utilizará una base de datos que tendrá productos conformados por medio de registros. Cada registro es creado por datos proveídos por los mismos usuarios, formando un sistema basado en el concepto de *crowdsourcing*.
 
-La página debe permitir el ingreso de usuarios dando funcionalidades básicas de manejo de usuarios, como una opción de cambio de contraseña o borrado de cuenta. De igual manera, el sistema debe cumplir ciertas características para la manipulación de registros y filtrado y ordenamiento de productos. Para la manipulación de sus propios registros, los usuarios, podrán editar la información que contienen y eliminarlos en caso de que no deseen que se mantengan en el sistema. Para el manejo de productos, podrán ser ordenados o filtrados según ciertos atributos que cada producto posee.
+La página debe permitir el ingreso de usuarios dando funcionalidades básicas de manejo de usuarios, como una opción de cambio de contraseña o borrado de cuenta. De igual manera, el sistema debe cumplir ciertas características para la manipulación de registros y filtrado y ordenamiento de productos. Para la manipulación de sus propios registros, los usuarios, podrán editar la información que contienen y eliminarlos en caso de que no deseen que se mantengan en el sistema. Para el manejo de productos, podrán ser ordenados o filtrados según ciertos atributos que cada producto posee. Además, la página cuenta con un rol de moderador, el cual tiene funciones superiores a las de un usuario regular, ya que puede manipular los reportes realizados en el sistema.
 
 ## **Estructura de carpetas**
 
@@ -59,27 +59,52 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Búsqueda simple
 
-+ Búsqueda avanzada:
++ Búsqueda avanzada
 
-+ Ordenamiento de resultados de búsqueda:
++ Ordenamiento de resultados de búsqueda
 
-+ Filtrado de resultados de búsqueda:
++ Filtrado de resultados de búsqueda
 
-+ Agregar un registro de un producto:
++ Agregar un registro de un producto junto con imágenes
 
-Se debe tomar en cuenta que no todas las funcionalidades requieren estar loggeado al sistema como un usuario, solo las relacionadas a agregar un registro de un producto.
++ Ver los registros asignados a un producto junto con las características de dicho producto
+
++ Agrupar los registros asignados a un producto según su día, semana, mes o año de creación para visualizar aspectos importantes como precio mínimo, promedio y máximo, junto con su calificación promedio.
+
++ Ver la información de un registro de forma detallada
+
++ Calificar registros de forma tal que esto actualice la calificación del usuario
+
++ Ver los aportes de un usuario
+
++ Ver los datos de un usuario registrado
+
++ Cambiar los datos del usuario (nombre de usuario y ubicación)
+
++ Reportar un registro
+
++ Asignar rol de moderador a los usuarios que cumplan con tener 10 o más registros y tengan una calificación promedio mayor o igual a 4,9
+
++ Ver reportes de un registro
+
++ Aceptar o rechazar reportes para los registros
+
+Se debe tomar en cuenta que no todas las funcionalidades requieren estar loggeado al sistema como un usuario. Las funcionalidades que lo requieren son: ver los aportes realizados, agregar un registro de un producto, reportar un registro y calificar un registro. Además, solo los usuarios loggeados que son moderadores pueden visualizar, aceptar o rechazar los reportes realizados.
+
 
 #### **Registrarse como usuario al sistema**
 
 Para registrarse como usuario al sistema debe ingresar a la página de `Iniciar sesión` por medio del botón en el *layout* de la aplicación.
 
-Una vez encontrado en esa página, debe darle click al botón de `Registrase` e ingresar los datos solicitados para crear un usuario.
+Una vez encontrado en esa página, debe darle click al botón de `Registrase` e ingresar los datos solicitados para crear un usuario. Recibirá un correo electrónico generado por la aplicación para poder validar su cuenta.
+
 
 #### **Ingresar al sistema con un usuario válido**
 
-Para ingresar al sistema como un usuario válido, debe haber pasado previamente por el proceso de registrarse como usuario al sistema. 
+Para ingresar al sistema como un usuario válido, debe haber pasado previamente por el proceso de registrarse como usuario al sistema y debe haber validado su cuenta con el botón de confirmación que se muestra en el correo electrónico. 
 
 Posteriormente, debe ingresar los datos solicitados de su respectivo usuario.
+
 
 #### **Búsqueda simple**
 
@@ -87,23 +112,18 @@ Para realizar una búsqueda simple, desde la página *home*, debe rellenar el no
 
 La aplicación no va a permitir realizar búsquedas con una cadena vacía en el buscador.
 
+
 #### **Búsqueda avanzada**
 
 Para realizar una búsqueda avanzada, desde la página *home*, debe presionar el botón de `Búsqueda avanzada` donde se encontrará con una página donde puede modificar diferentes parámetros para la búsqueda.
 
 Se permite interacción con un mapa para delimitar la región del país que se desea, pero se puede modificar por medio de *comboboxes* la provincia y cantón del producto buscado.
 
+
 #### **Ordenamiento de resultados de búsqueda**
 
-Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede realizar un ordenamiento a los resultados (ascendiente o descendiente) al darle click a una de las siguientes columnas:
+Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede realizar un ordenamiento a los resultados (ascendiente o descendiente) al darle click a cualquiera de sus columnas.
 
-+ Precio
-
-+ Provincia
-
-+ Cantón
-
-Posteriormente, se implementarán nuevos ordenamientos.
 
 #### **Filtrado de resultados de búsqueda**
 
@@ -117,9 +137,14 @@ Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede 
 
 + Marca
 
++ Precio
+
++ Fecha
+
 Al ser realizado por medio de *checkboxes*, se pueden aplicar varios filtros a la vez donde se pueden delimitar los resultados de la búsqueda posteriormente.
 
 Estos filtros son aplicados a los resultados iniciales de la búsqueda y si se desean nuevos se deben realizar nuevas búsquedas.
+
 
 #### **Agregar un registro de un producto**
 
@@ -130,6 +155,64 @@ Debido a la naturaleza de *crowdsourcing* del proyecto, los usuarios registrados
 2. Identificar el producto respectivo.
 
 3. Agregar los datos del registro deseado.
+
+
+#### **Ver los registros de un producto**
+
+Estando en la página de resultados de la búsqueda (puede ser avanzada o regular), seleccionar alguno de los productos resultados de la búsqueda para acceder a los registros del mismo. Además, se puede navegar por las imágenes de todos los registros asociados desde el rectángulo mostrado en la parte superior de la página. Estas imágenes vienen acompañadas con flechas que permiten la fácil navegación por las imágenes mostradas. 
+
+
+#### **Agrupar los registros de un producto**
+
+Para poder observar el precio mínimo, promedio y máximo junto con la calificación promedio de los registros, se puede seleccionar alguna de las opciones de agrupamiento que se presentan en el lado izquierdo de la página. Es importante indicar que solo se permite un agrupamiento a la vez.
+
+
+#### **Ver la información de un registro**
+
+En la página de ver los registros de un producto, se puede seleccionar uno de los registros para desplegar la información del mismo junto con las imágenes asignadas a dicho registro. Cabe indicar que no se puede acceder a esta información si hay algún agrupamiento activo.
+
+
+#### **Calificar los registros de un producto**
+
+Una vez en la ventana de observar la información de un registro en particular, se tiene acceso a las estrellas de calificación. Estas despliegan la calificación actual asignada al registro y permiten que el usuario seleccione la estrella con la que desea calificar el registro y la almacena. Si se vuelve a ingresar a la página del mismo registro, la calificación mostrada corresponde al nuevo promedio del registro.
+
+
+#### **Reportar un registro**
+
+En la ventana de observar la información de un registro se muestra el botón de `Reportar`. Al seleccionarlo, se despliega el espacio para indicar el motivo del reporte y confirmar el envío del mismo. Esta funcionalidad solo existe para usuarios ingresados en el sistema.
+
+
+#### **Ver la información de un usuario**
+
+Una vez ingresado en el sistema, se muestra en las opciones en la parte superior de la ventana un botón de `Mi Perfil`, que permite desplegar la información del mismo y cambiar aspectos como el nombre de usuario, provincia, cantón y distrito.
+
+
+#### **Ver los aportes de un usuario**
+
+Una vez igresado en el sistema, tanto en la ventana de `Mi Perfil` como en el menú de la ventana principal, se muestra la opción de `Ver aportes`. En esta página se muestran los registros ingresados al sistema por dicho usuario.
+
+
+#### **Obtener rol de moderador**
+
+Para ser moderador, un usuario debe cumplir con las siguientes características:
+
+1. Tener más de 10 registros en el sistema.
+
+2. Tener una calificación mayor o igual a 4.9 según el promedio de calificaciones de sus registros.
+
+Una vez cumplidas las características, el usuario moderador podrá ver la opción de `Ver reportes`, que le permite aceptar o rechazar los reportes del usuario. Es importante indicar que si el usuario que se convirtió en moderador se encuentra ingresado en el sistema en el momento en el que su estado cambia, no se le notificará hasta que no cierre su sesión y vuelva a ingresar al sistema.
+
+
+#### **Ver los reportes agregados a los diferentes registros**
+
+En la página principal, los usuarios con permisos de moderador pueden ver la opción de `Ver reportes`. En esta ventana, el usuario puede decidir si:
+
+1. Aceptar un reporte: esto significa darle la razón a la persona que reportó y ocultar el registro para los demás usuarios.
+
+2. Rechazar un reporte: esto significa indicar que el reporte es inválido y que no se quiere ocultar el registro.
+
+3. Saltar un reporte: esto significa que el moderador no quiere tomar ninguna decisión sobre dicho reporte.
+
 
 ## **Manual técnico de la aplicación**
 
@@ -147,11 +230,9 @@ Dentro de Visual Studio se requieren la siguiente extensión para desarrollo web
 
 De igual manera, dentro de los archivos del proyecto es requerido la carpeta `jquery` en el directorio `wwwroot/js` que incluye las bibliotecas `jQuery` y `jQuery UI`.
 
-### **Preparación de la base de datos**
+En el caso de las pruebas funcionales, se necesita tener instalado el programa `Selenium` para Visual Studio y un driver para el buscador `Chrome`. Esto se puede encontrar dentro de la opción `Manage NuGet Packages for Solution`.
 
-Para la preparación de la base de datos se debe tener configurado el *`connection string`* que establece la IP, puerto y características de la conexión con el servidor.
 
-En caso de estar utilizando una IP de la ECCI, se debe utilizar el **VPN de la ECCI**. Puede consultar información sobre su uso e instalación [aquí](https://wiki.ecci.ucr.ac.cr/estudiantes/vpn).
 
 ### **Manual de instalación o ejecución del sistema**
 
@@ -208,4 +289,27 @@ Dentro del Sprint 1 se entragaron tres avances, con sus respectivos archivos de 
 
 + [Código fuente del proyecto](./source/LoCoMPro)
 
-+ [Código fuente de las pruebas unitarias](./test/LoCoMProTests/)
++ [Código fuente de las pruebas unitarias](./test/unit_tests/)
+
+
+### **Reporte del Sprint 2**
+
+Dentro del Sprint 2 se entragaron tres avances, con sus respectivos archivos de diseño y progreso. Posteriormente, puede encontrar el acceso a ciertos de estos archivos según su respectivo avance:
+
+#### **Primer avance**
+
++ [Diseño del *mockup*](./design/sprint2/mockups/Mockup_Sprint2_Avance1.pdf)
+
+
+#### **Segundo avance**
+
++ [Diagramas UML de casos de uso, actividad y clases](https://app.diagrams.net/#G1qJkUy_LJMj5MtduuwwVkmtTsn6y5Bip9)
+
+
+#### **Tercer avance**
+
++ [Código fuente del proyecto](./source/LoCoMPro)
+
++ [Código fuente de las pruebas unitarias](./test/unit_tests/)
+
++ [Código fuente de las pruebas funcionales](./test/functional_tests/)
