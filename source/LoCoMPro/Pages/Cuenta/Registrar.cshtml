@@ -11,7 +11,7 @@
     <!-- Titulo de la página -->
     <title>Registrar cuenta</title>
     <!-- Cargar el archivo JavaScript para alinear -->
-    <script src="~/js/Pages/alinear.js"></script>
+    <script src="~/js/Pages/alinear.js" asp-append-version="true"></script>
     <!-- Incluir el archivo de CSS con los estilos de la página -->
     <link rel="stylesheet" href="~/css/Pages/Cuenta/Registrar.css" asp-append-version="true" />
 </head>
@@ -24,6 +24,8 @@
         <div asp-validation-summary="ModelOnly" class="Registrar-texto-error"></div>
         <!-- Contenedor para todos los elementos en la página -->
         <div class="Registrar-contenedor-centrado-primario">
+            <!-- Titulo de la página -->
+            <p class="Registrar-titulo">Crear cuenta</p>
             <!-- Mensaje de error al no cumplir los atributos de validación del nombre de usuario del modelo vista -->
             <span asp-validation-for="usuarioActual.nombreDeUsuario" class="Registrar-texto-error"></span>
             <!-- Caja de texto para el nombre de usuario ligada al modelo vista -->
@@ -88,7 +90,7 @@
                 <input asp-for="usuarioActual.confirmarContrasena" type="password" id="CajaDeTextoConfirmarContraseña">
             </div>
             <!-- Botón para crear la cuenta -->
-            <button class="Registrar-boton-basico"> Crear cuenta </button>
+            <button class="Registrar-boton-basico">Crear</button>
         </div>
     </form>
 

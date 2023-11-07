@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
 
 namespace LoCoMPro.Pages.Cuenta
 {
@@ -58,15 +59,15 @@ namespace LoCoMPro.Pages.Cuenta
         // Método cuando se presiona el botón de ingresar
         public async Task<IActionResult> OnPostIngresar()
         {
-            // Si los datos recopilados son válidos (cumplen con las propiedades de
-            // validación del modelo de vista del lado del servidor)
-            if (ModelState.IsValid)
+             if (ModelState.IsValid)
             {
+                // Si los datos recopilados son válidos (cumplen con las propiedades de
+                // validación del modelo de vista del lado del servidor)
                 // Busca al usuario en la base de datos
                 var usuario = this.contexto.Usuarios.FirstOrDefault(
                     u => u.nombreDeUsuario == usuarioActual.nombreDeUsuario);
-                // Si lo encuentra y tiene el mismo hash de contraseña
-                if (usuario != null &&
+                // Si lo encuentra, está activo y tiene el mismo hash de contraseña
+                if (usuario != null && usuario.estado == 'A' &&
                     this.hasheador.VerifyHashedPassword(
                         usuario, usuario.hashContrasena, this.usuarioActual.contrasena) ==
                         PasswordVerificationResult.Success)
@@ -80,8 +81,10 @@ namespace LoCoMPro.Pages.Cuenta
                     // (No se agregaron más porque se pueden obtener de la base, pero es posible)
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, usuario.nombreDeUsuario)
+                        new Claim(ClaimTypes.Name, usuario.nombreDeUsuario),
+                        new Claim(ClaimTypes.Role, usuario.esModerador?"moderador":"regular")
                     };
+                   
                     // Agrega los claims a la autentificación con cookies
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -99,10 +102,17 @@ namespace LoCoMPro.Pages.Cuenta
                     // Redirecciona a la página home
                     return RedirectToPage("/Home/Index");
                 }
+                else
+                {
+                    // Muestra error por no cumplir requerimientos del View Model
+                    ModelState.AddModelError(string.Empty, "Credenciales inválidas, inténtelo de nuevo");
+                }
             }
-
-            // Establece el error para enviar un mensaje
-            HttpContext.Items["error"] = "Credenciales inválidas, intentelo de nuevo";
+            else
+            {
+                // Muestra error por no cumplir requerimientos del View Model
+                ModelState.AddModelError(string.Empty, "Credenciales inválidas, inténtelo de nuevo");
+            }
 
             // Recarga la misma página
             return Page();

@@ -15,12 +15,48 @@
     <!-- Incluye su archivo de estilo CSS específico -->
     <link rel="stylesheet" href="~/css/Pages/Home/BusquedaAvanzada.css" asp-append-version="true" />
     <!-- Carga la biblioteca JavaScript Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" asp-append-version="true"></script>
+    <!-- Inclusiones para autocompletado -->
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
 </head>
 <!-- Contenido de la página -->
 <body>
     <!-- Contenedor para los elementos centrados -->
     <form class="HomeAvanzada-contenedor-centrado" method="get" asp-page-handler="Buscar">
+        <!-- Mapa interactivo -->
+        <div id="map" class="HomeAvanzada-mapa"></div>
+        <!-- Contenedor para los elementos del formulario -->
+        <div class="HomeAvanzada-contenedor-form">
+            <!-- Combobox de Provincia -->
+            <div class="HomeAvanzada-contenedor-caja-texto">
+                <div class="HomeAvanzada-contenedor-fila">
+                    <label for="CajaDeSeleccionProvincia" style="margin-right:15px;">Provincia:</label>
+                    <select asp-for="provincia" id="CajaDeSeleccionProvincia" class="HomeAvanzada-caja-texto HomeAvanzada-caja-combo">
+                        @foreach (var provincia in Model.provincias)
+                        {
+                            <option value="@provincia.nombre">@provincia.nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <!-- Combobox de Cantón -->
+            <div class="HomeAvanzada-contenedor-caja-texto">
+                <div class="HomeAvanzada-contenedor-fila">
+                    <label for="CajaDeSeleccionCanton" style="margin-right:15px;">Cantón:</label>
+                    <select asp-for="canton" id="CajaDeSeleccionCanton" class="HomeAvanzada-caja-texto HomeAvanzada-caja-combo">
+                    </select>
+                </div>
+            </div>
+            <!-- Botón de búsqueda -->
+            <button type="button" class="HomeAvanzada-boton-localizacion" id="BotonBusqueda">
+                <img src="~/img/white_search_icon.png" id="Boton" alt="Icono de Búsqueda Blanco" class="HomeAvanzada-icono-busqueda" />
+            </button>
+        </div>
+        <input type="hidden" id="CajaTextoLongitud" />
+        <input type="hidden" id="CajaTextoLatitud" />
         <div class="HomeAvanzada-contenedor-fila" style="margin-left:5%;">
             <div class="HomeAvanzada-contenedor-columna" style="margin-top:10px;">
                 <span class="HomeAvanzada-etiqueta">Producto:</span>
@@ -35,41 +71,18 @@
                 </div>
             </div>
         </div>
-        <!-- Mapa interactivo -->
-        <div id="map" class="HomeAvanzada-mapa"></div>
-        <!-- Contenedor para los elementos del formulario -->
-        <div class="HomeAvanzada-contenedor-form">
-            <!-- Combobox de Provincia -->
-            <div class="HomeAvanzada-contenedor-caja-texto">
-                <div class="HomeAvanzada-contenedor-fila">
-                    <label for="CajaDeSeleccionProvincia" style="margin-right:10px;">Provincia:</label>
-                    <select asp-for="provincia" id="CajaDeSeleccionProvincia" class="HomeAvanzada-caja-texto HomeAvanzada-caja-combo">
-                        @foreach (var provincia in Model.provincias)
-                        {
-                            <option value="@provincia.nombre">@provincia.nombre</option>
-                        }
-                    </select>
-                </div>
-            </div>
-            <!-- Combobox de Cantón -->
-            <div class="HomeAvanzada-contenedor-caja-texto">
-                <div class="HomeAvanzada-contenedor-fila">
-                    <label for="CajaDeSeleccionCanton" style="margin-right:10px;">Cantón:</label>
-                    <select asp-for="canton" id="CajaDeSeleccionCanton" class="HomeAvanzada-caja-texto HomeAvanzada-caja-combo">
-                    </select>
-                </div>
-            </div>
-            <!-- Botón de búsqueda -->
-            <button type="button" class="HomeAvanzada-boton-localizacion" id="BotonBusqueda">
-                <img src="~/img/white_search_icon.png" id="Boton" alt="Icono de Búsqueda Blanco" class="HomeAvanzada-icono-busqueda" />
-            </button>
-        </div>
-        <input type="hidden" id="CajaTextoLongitud" />
-        <input type="hidden" id="CajaTextoLatitud" />
-
         <!-- Botón de aceptar -->
         <button asp-page-handler="Buscar" class="HomeAvanzada-boton-aceptar"> Buscar </button>
     </form>
+
+    <!-- Función para autocompletar -->
+    <script type="text/javascript">
+        $("#CajaTextoMarca").autocomplete({
+            // Obtiene .Json de la ventana
+            source: 'Autocompletado'
+        });
+    </script>
+
 </body>
 
 @section Scripts {
@@ -146,5 +159,5 @@
 
 
     <!-- Carga el archivo JavaScript en esta ruta -->
-    <script src="~/js/Pages/Busqueda/mapaAvanzada.js"></script>
+    <script src="~/js/Pages/Busqueda/mapaAvanzada.js" asp-append-version="true"></script>
 }

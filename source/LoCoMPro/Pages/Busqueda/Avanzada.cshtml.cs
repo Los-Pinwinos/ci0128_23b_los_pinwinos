@@ -1,18 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
-
+using LoCoMPro.Utils.Buscadores;
+using LoCoMPro.Utils.Interfaces;
+using Newtonsoft.Json;
+using LoCoMPro.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Pages.Busqueda
 {
     public class BusquedaAvanzadaModel : BusquedaModel
     {
         // Constructor
-        public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion) 
+        public BusquedaAvanzadaModel(LoCoMProContext contexto, IConfiguration configuracion)
             : base(contexto, configuracion)
         {
-            // Inicializar
             this.InicializarAvanzado();
         }
 
@@ -23,187 +25,80 @@ namespace LoCoMPro.Pages.Busqueda
         public string? provincia { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? canton { get; set; }
+        public IList<string> resultadosAutocompletado { get; set; }
+        public IList<Provincia>? provincias;
+        public int buscarPorCanton { get; set; }
 
-        // Inicializar avanzado
         private void InicializarAvanzado()
         {
-            // Inicializar
             this.producto = "";
             this.marca = "";
             this.provincia = "";
             this.canton = "";
+            this.provincias = new List<Provincia>();
+            this.buscarPorCanton = 0;
         }
 
         // On GET avanzado
-        public async Task<IActionResult> OnGetBuscarAvanzadoAsync(int? indicePagina
-            , string? nombreProducto, string? filtroProducto
-            , string? nombreMarca, string? filtroMarca
-            , string? nombreProvincia, string? filtroProvincia
-            , string? nombreCanton, string? filtroCanton
-            , string? nombresProvincias, string? filtrosProvincias
-            , string? nombresCantones, string? filtrosCantones
-            , string? nombresTiendas, string? filtrosTiendas
-            , string? nombresMarcas, string? filtrosMarcas
-            , string? columnaOrdenado, string? sentidoOrdenado)
+        public IActionResult OnGetBuscarAvanzado(
+            string? nombreProducto
+            , string? nombreMarca
+            , string? nombreProvincia
+            , string? nombreCanton)
         {
-            if ((!string.IsNullOrEmpty(nombreProducto) || !string.IsNullOrEmpty(filtroProducto)
-                || !string.IsNullOrEmpty(nombreMarca)|| !string.IsNullOrEmpty(filtroMarca)
-                || !string.IsNullOrEmpty(nombreProvincia)|| !string.IsNullOrEmpty(filtroProvincia)
-                || !string.IsNullOrEmpty(nombreCanton) || !string.IsNullOrEmpty(filtroCanton))
+            // Cargar toda la información de provincias de la base de datos
+            provincias = contexto.Provincias.ToList();
+
+            if ((!string.IsNullOrEmpty(nombreProducto)
+                || !string.IsNullOrEmpty(nombreMarca)
+                || !string.IsNullOrEmpty(nombreProvincia)
+                || !string.IsNullOrEmpty(nombreCanton))
                 && this.contexto.Productos != null)
             {
-                // Verificar parámetros y asignar índice de página correcto
-                indicePagina = this.verificarParametros(indicePagina
-                    , nombreProducto, filtroProducto
-                    , nombresProvincias, filtrosProvincias
-                    , nombresCantones, filtrosCantones
-                    , nombresTiendas, filtrosTiendas
-                    , nombresMarcas, filtrosMarcas
-                    , columnaOrdenado, sentidoOrdenado);
-
-                // Verificar parámetros y asignar índice de página correcto
-                indicePagina = this.verificarParametrosAvanzados(indicePagina
-                    , nombreMarca, filtroMarca
-                    , nombreProvincia, filtroProvincia
-                    , nombreCanton, filtroCanton);
-
-                // Hacer la consulta de productos con registros
-                IQueryable<BusquedaVM> productosIQ = this.buscarProductos();
-
+                this.resultadosAutocompletado = new List<string>();
+                // Asignar variables
+                producto = string.IsNullOrEmpty(nombreProducto) ? "" : nombreProducto;
+                marca = string.IsNullOrEmpty(nombreMarca) ? "" : nombreMarca;
+                provincia = string.IsNullOrEmpty(nombreProvincia) ? "" : nombreProvincia;
+                canton = string.IsNullOrEmpty(nombreCanton) ? "" : nombreCanton;
+                // Configurar buscador
+                IBuscador<BusquedaVM> buscador = new BuscadorDeProductosAvanzado(this.contexto, nombreProducto, nombreMarca, nombreProvincia, nombreCanton);
+                // Consultar la base de datos
+                IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
-                this.cargarFiltros(productosIQ);
+                this.cargarFiltros(busqueda);
+                // Asignar data de JSON
+                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
 
-                // La cagada esta arriba de ssotaodjaos-djqaop0jfoi0aejfesto
-
-                // Filtrar
-                productosIQ = this.filtrarProductos(productosIQ);
-
-                // Ordenar por precio
-                productosIQ = this.ordenarProductos(productosIQ);
-
-                // Paginar
-                await this.paginarProductos(productosIQ, indicePagina);
+                if (canton != null)
+                {
+                    buscarPorCanton = 1;
+                }
             }
             return Page();
         }
 
-        // Verificar parámetros
-        private int? verificarParametrosAvanzados(int? indicePagina
-            , string? nombreMarca, string? filtroMarca
-            , string? nombreProvincia, string? filtroProvincia
-            , string? nombreCanton, string? filtroCanton)
+        public async Task<IActionResult> OnPostAutocompletar(string hilera)
         {
-            // Revisar si hay que regresar numero de página
-            if (!string.IsNullOrEmpty(nombreMarca))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombreMarca = filtroMarca;
-            }
-            this.marca = nombreMarca;
+            List<string> resultados = await contexto.Productos
+                .Where(p => p.marca.StartsWith(hilera))
+                .Select(p => p.marca)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToListAsync();
 
-            if (!string.IsNullOrEmpty(nombreProvincia))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombreProvincia = filtroProvincia;
-            }
-            this.provincia = nombreProvincia;
-
-            if (!string.IsNullOrEmpty(nombreCanton))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombreCanton = filtroCanton;
-            }
-            this.canton = nombreCanton;
-
-            return indicePagina;
+            return new JsonResult(resultados);
         }
 
-        // Sobrecarga de buscar productos
-        new protected IQueryable<BusquedaVM> buscarProductos()
-        {
-            IQueryable<BusquedaVM> productosIQ = contexto.Registros
-                .Include(r => r.producto)
-                .GroupBy(r => new
-                {
-                    r.productoAsociado,
-                    r.nombreTienda,
-                    r.nombreProvincia,
-                    r.nombreCanton,
-                    r.nombreDistrito
-                })
-                .Select(group => new BusquedaVM
-                {
-                    nombre = group.Key.productoAsociado,
-                    precio = group.OrderByDescending(item => item.creacion).First().precio,
-                    unidad = group.First().producto.nombreUnidad,
-                    fecha = group.OrderByDescending(item => item.creacion).First().creacion,
-                    tienda = group.Key.nombreTienda,
-                    provincia = group.Key.nombreProvincia,
-                    canton = group.Key.nombreCanton,
-                    marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
-                        group.First().producto.marca : "Sin marca"
-                });
-            // Buscar por nombre
-            productosIQ = this.buscarNombre(productosIQ);
-            // Buscar por marca
-            productosIQ = this.buscarMarca(productosIQ);
-            // Buscar por provincia
-            productosIQ = this.buscarProvincia(productosIQ);
-            // Buscar por canton
-            productosIQ = this.buscarCanton(productosIQ);
-            // Retornar busqueda
-            return productosIQ;
-        }
 
-        // Buscar por marca
-        private IQueryable<BusquedaVM> buscarMarca(IQueryable<BusquedaVM> productosIQ)
+        public IActionResult OnGetCantonesPorProvincia(string provincia)
         {
-            // Ver si se usa el nombre de busqueda
-            if (!string.IsNullOrEmpty(marca))
-            {
-                return productosIQ.Where(r => r.marca.Contains(marca));
-            }
-            else
-            {
-                return productosIQ;
-            }
-        }
+            var cantones = contexto.Cantones
+                .Where(c => c.nombreProvincia == provincia)
+                .ToList();
 
-        // Buscar por provincia
-        private IQueryable<BusquedaVM> buscarProvincia(IQueryable<BusquedaVM> productosIQ)
-        {
-            // Ver si se usa el nombre de busqueda
-            if (!string.IsNullOrEmpty(provincia))
-            {
-                return productosIQ.Where(r => r.provincia.Contains(provincia));
-            }
-            else
-            {
-                return productosIQ;
-            }
-        }
-
-        // Buscar por canton
-        private IQueryable<BusquedaVM> buscarCanton(IQueryable<BusquedaVM> productosIQ)
-        {
-            // Ver si se usa el nombre de busqueda
-            if (!string.IsNullOrEmpty(canton))
-            {
-                return productosIQ.Where(r => r.canton.Contains(canton));
-            }
-            else
-            {
-                return productosIQ;
-            }
+            // Retorna un JSON con los cantones de la provincia específica
+            return new JsonResult(cantones);
         }
     }
 }

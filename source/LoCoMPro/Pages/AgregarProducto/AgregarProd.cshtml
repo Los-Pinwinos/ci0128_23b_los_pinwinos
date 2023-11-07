@@ -9,14 +9,16 @@
     <title>Agregar Producto</title>
     <!-- JQuery -->
     <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript"></script>
-    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
     <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
     <!-- Alinear la ventana -->
-    <script src="~/js/Pages/alinear.js"></script>
+    <script src="~/js/Pages/alinear.js" asp-append-version="true"></script>
     <!-- Archivo css -->
     <link rel="stylesheet" href="~/css/Pages/AgregarProducto/AgregarProducto.css" asp-append-version="true" />
+    <!-- Ícono de ojo para ver imágenes agregadas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
         // Función para actualizar categoría y unidad en base a un producto ingresado
         function updateCategoriaUnidad(productoIngresado) {
@@ -56,45 +58,57 @@
 
 <body>
     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
-    <form method="post" asp-page-handler="Aceptar">
+    <form method="post" asp-page-handler="Aceptar" enctype="multipart/form-data">
         <!-- Contenedor para el formulario -->
         <div class="AgregarProd-contenedor-central">
             <!-- Agregar Producto -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Producto:</label>
-                <input asp-for="viewModel.nombreProducto" type="text" class="AgregarProd-caja-texto-larga" id="Producto">
+                <input asp-for="ViewModel.nombreProducto" type="text" class="AgregarProd-caja-texto-larga" id="Producto">
             </div>
             <!-- Agregar Marca -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="MarcaTexto">Marca:</label>
-                <input asp-for="viewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
+                <input asp-for="ViewModel.marcaProducto" type="text" class="AgregarProd-caja-texto-larga" id="Marca">
             </div>
             <!-- Agregar Categoría -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="ProductoTexto">Categoría:</label>
                 <!-- Genera de manera automática los elementos del select -->
-                <select asp-for="viewModel.nombreCategoria" id="Categoria" asp-items="Model.opcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
+                <select asp-for="ViewModel.nombreCategoria" id="Categoria" asp-items="Model.OpcionesCategoria" class="AgregarProd-caja-texto-combobox"></select>
             </div>
             <!-- Agregar Precio -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="PrecioTexto">Precio:</label>
-                <input asp-for="viewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
+                <input asp-for="ViewModel.precio" type="text" inputmode="decimal" class="AgregarProd-caja-texto-larga" id="Precio">
             </div>
             <!-- Agregar Unidad -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="UnidadTexto">Unidad:</label>
                 <!-- Genera de manera automática los elementos del select -->
-                <select asp-for="viewModel.nombreUnidad" id="Unidad" asp-items="Model.opcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
+                <select asp-for="ViewModel.nombreUnidad" id="Unidad" asp-items="Model.OpcionesUnidad" class="AgregarProd-caja-texto-combobox"></select>
+            </div>
+            <!-- Agregar imágenes -->
+            <div class="AgregarProd-contenedor-imagen">
+                <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
+                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
+                <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()">visibility</button>
+                <div class="popup_imagenes" id="popup_imagenes">
+                    <label class="eliminar_imagenes">Eliminar imágenes</label>
+                    <!-- Utilizada para ser rellenada y borrada con los archivos insertados en JavaScript -->
+                    <ul id="lista_archivos" style="list-style: none;" ></ul>
+                    <button type="button" onclick="cerrarPopup()">Aceptar</button>
+                </div>
             </div>
             <!-- Agregar Etiqueta -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="EtiquetaTexto">Etiqueta:</label>
-                <input asp-for="viewModel.etiqueta" type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta">
+                <input asp-for="ViewModel.etiqueta" type="text" class="AgregarProd-caja-texto-larga" id="Etiqueta">
             </div>
             <!-- Descripción -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="DescripcionTexto">Descripción:</label>
-                <input asp-for="viewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
+                <input asp-for="ViewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
             </div>
             <!-- Botones de aceptar y cancelar -->
             <div class="AgregarProd-contenedor-texto">
@@ -105,14 +119,26 @@
     </form>
     <script type="text/javascript">
         $("#Producto").autocomplete({
-            // Obtiene .Json de la ventana encarga de Autocompletado
-            source: 'Autocompletado'
+            source: function (request, response) {
+                $.getJSON('Autocompletado?term=' + request.term + '&attribute=Producto', function (data) {
+                    response(data);
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $("#Marca").autocomplete({
+            source: function (request, response) {
+                $.getJSON('Autocompletado?term=' + request.term + '&attribute=Marca', function (data) {
+                    response(data);
+                });
+            }
         });
     </script>
     <script>
         // Crea un evento al escribir en la caja de texto de precio
         document.getElementById("Precio").addEventListener("input", function (event) {
-            // Remplaza el valor de la caja de texto siguiendo esa regex
+            // Reemplaza el valor de la caja de texto siguiendo esa regex
             event.target.value = event.target.value.replace(/[^\d,]|(,{2,})|(^,)|(^0+[0-9,]+)/g, "");
         });
     </script>
@@ -151,7 +177,71 @@
         }
     </script>
     <script>
+        // Se encarga de no permitir más de 5 imágenes
+        function checkFileCount(input) {
+            if (input.files.length > 5) {
+                alert("Más de 5 imágenes seleccionadas");
+                input.value = '';
+            }
+        }
+    </script>
+    <script>
+        // Scripts para manejo de popup
+        var popup = document.getElementById("popup_imagenes");
+        // Función para abrir popup
+        function abrirPopup() {
+            popup.classList.add("abrir_popup");
+        }
+        // Función para cerrar popup
+        function cerrarPopup() {
+            popup.classList.remove("abrir_popup");
+        }
+    </script>
+    <script>
+        // Script para rellenar elementos de popup de manera dinámica y permitir
+        // borrarlos con un click
+        // Variables requeridas
+        const inputArchivos = document.getElementById('subida_imagen');
+        const listaOrdenada = document.getElementById('lista_archivos');
+        // Script para rellenar lista con nombres de archivo
+        inputArchivos.addEventListener('change', function () {
+            const archivos = inputArchivos.files;
+            // Limpiar lista previa
+            listaOrdenada.innerHTML = '';
+            // Script para eliminar elementos al darle click
+            function borrarArchivo(elementoLista, archivo) {
+                // Arreglo de archivos
+                var nuevosArchivos = Array.from(inputArchivos.files);
+                // Borrar elemento de la lista nueva
+                const indice = nuevosArchivos.indexOf(archivo);
+                nuevosArchivos.splice(indice, 1);
+                // Establecer la nueva lista de archivos sin el elemento borrado
+                const datosTemporales = new DataTransfer();
+                for (const archivoTemporal of nuevosArchivos) {
+                    datosTemporales.items.add(archivoTemporal);
+                }
+                inputArchivos.files = datosTemporales.files;
+                // Remover de lista visual
+                listaOrdenada.removeChild(elementoLista);
+            }
+            // Iterar por archivos agregados
+            for (let i = 0; i < archivos.length; ++i) {
+                // Crear un elemento de la lista para ser agregado
+                const elementoLista = document.createElement('li');
+                // Establecer nombre del archivo como elemento de la lista
+                elementoLista.textContent = archivos[i].name;
+                // Establecer evento con click para eliminarlo cuando se le hace click
+                elementoLista.addEventListener('click', function () {
+                    borrarArchivo(elementoLista, archivos[i]);
+                });
+                // Agregar a lista ordenada
+                listaOrdenada.appendChild(elementoLista);
+            }
+        });
+    </script>
+    <script>
         // Función de alineado para las cajas de texto
         alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-texto", 112);
+        alinearContenedoresDeBarrasDeTexto(".AgregarProd-contenedor-imagen", 80);
     </script>
 </body>

@@ -1,10 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using LoCoMPro.Utils;
 
+// Crear un builder para la aplicación
 var builder = WebApplication.CreateBuilder(args);
+
+// ################## ATENCIÓN #####################
+// Constante para el connection string a utilizar
+// (Recordar cambiar también la connection string en ControladorComandosSQL.cs
+// para ser consistente, de lo contrario el comportamiento será indefinido)
+// TODO(Pinwinos): Sincronizar con la de ControladorComandosSQL.cs
+const string connectionString = "LoCoMProContextRemote";
+
+// Crea un encriptador para desencriptar el connection string
+Encriptador encriptador = new Encriptador();
+// Desencripta el connection string
 builder.Services.AddDbContext<LoCoMProContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LoCoMProContext") ?? throw new InvalidOperationException("Connection string 'LoCoMProContext' not found.")));
+    options.UseSqlServer(encriptador.desencriptar(builder.Configuration.GetConnectionString(connectionString) ?? throw new InvalidOperationException("Connection string " + connectionString + " no econtrada."))));
 
 // Agrega servicios a los containers
 builder.Services.AddRazorPages(options =>
@@ -53,7 +66,15 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<LoCoMProContext>();
-    // context.Database.EnsureCreated();
+
+    // Si se utiliza una base de datos local
+    if (connectionString == "LoCoMProContextLocal" ||
+        connectionString == "LoCoMProContextTest")
+    {
+        // Asegurarse de su creación
+        context.Database.EnsureCreated();
+    }
+    
     // Alimenta la base de datos si no hay nada
     DBInitializer.Initialize(context);
 }

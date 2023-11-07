@@ -13,9 +13,6 @@ namespace LoCoMPro.Models
         [Required]
         [StringLength(20, MinimumLength = 5,
             ErrorMessage = "El nombre de usuario debe tener entre 5 y 20 caracteres")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$",
-           ErrorMessage =
-           "El nombre de usuario debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial")]
         [Display(Name = "Nombre de usuario")]
         public required string nombreDeUsuario { get; set; }
 
@@ -41,7 +38,7 @@ namespace LoCoMPro.Models
         [Range(0, 5,
             ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
         [Display(Name = "Calificación")]
-        public int? calificacion { get; set; }
+        public double calificacion { get; set; }
 
         // Distrito vivienda
         [StringLength(30, MinimumLength = 3)]
@@ -61,11 +58,19 @@ namespace LoCoMPro.Models
         [Display(Name = "Provincia de vivienda")]
         public string? provinciaVivienda { get; set; }
 
+        // Boolean que indica si es administrador
+        public bool esAdministrador { get; set; } = false;
+
+        // Boolean que indica si es moderador
+        public bool esModerador { get; set; } = false;
+
         // Propiedad de navegación vivienda
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
 
-        // Colección
+        // Colecciones
         public ICollection<Registro>? registros { get; set; }
+        public ICollection<Reporte>? reportes { get; set; }
+        public ICollection<Calificacion>? calificaciones { get; set; }
     }
 }

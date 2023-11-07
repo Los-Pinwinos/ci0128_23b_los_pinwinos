@@ -1,53 +1,62 @@
-﻿
-// Obtener contenedor de filtros
-const contenedorFiltros = document.getElementById("ContenedorFiltros");
+﻿// Constante de sobreestimación. Existe un adicional de espacio que se agrega por etiqueta que debe ser considerado para desplazar los filtros
+const sobreestimacionDeAltura = 22;
 
-// Obtener dropdowns
-const dropdowns = contenedorFiltros.querySelectorAll(".BusquedaIndice-dropdown-content");
-// Obtener el contador de dropdowns
-const cuentaDeDropdowns = dropdowns.length;
-// Tamanno de label en px
-const tamannoDeLabel = 35;
+// Calcular la altura del contenido del desplegable
+function calcularAlturaDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    const etiquetas = contenidoDesplegable.querySelectorAll('label');
+    let alturaTotal = 0;
 
-// Ajustar posicion de dropdown
-function adjustDropdownPosition(triggerElement, dropdownId, action) {
-    // Dropdown de arriba
-    const dropDownArriba = document.getElementById('ContenidoFiltro' + (dropdownId - 1));
+    etiquetas.forEach(etiqueta => {
+        // Obtener la altura de cada etiqueta
+        const alturaEtiqueta = etiqueta.clientHeight + sobreestimacionDeAltura;
+        alturaTotal += alturaEtiqueta;
+    });
 
-    // Obtener elementos
-    const boton = triggerElement.getElementById('BotonFiltro' + dropdownId);
+    return alturaTotal;
+}
 
-    // Determinar accion
-    if (action === 'Bajar') {
-        // Calcular el nuevo margen (bajar)
-        const labels = dropDownArriba.querySelectorAll('label');
-        const cuentaDeLabels = labels.length;
-        if (cuentaDeLabels > 0) {
-            const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual + cuentaDeLabels * tamannoDeLabel}px`;
+// Ajustar la posición del desplegable
+function ajustarPosicionDesplegable(elementoDisparador, idDesplegable, accion, posicion) {
+    const desplegableSuperior = document.getElementById('ContenidoFiltro' + (idDesplegable - 1));
+
+    const boton = elementoDisparador.getElementById('BotonFiltro' + idDesplegable);
+
+    try {
+        if (accion === 'Bajar') {
+            // Calcular el nuevo margen (bajar)
+            const etiquetas = desplegableSuperior.querySelectorAll('label');
+            const cuentaDeEtiquetas = etiquetas.length;
+            if (cuentaDeEtiquetas > 0) {
+                const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
+                boton.style.marginTop = `${margenActual + posicion}px`;
+            }
+        } else {
+            // Calcular el nuevo margen (subir)
+            const etiquetas = desplegableSuperior.querySelectorAll('label');
+            const cuentaDeEtiquetas = etiquetas.length;
+            if (cuentaDeEtiquetas > 0) {
+                const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
+                boton.style.marginTop = `${margenActual - posicion}px`;
+            }
         }
-    } else {
-        // Calcular el nuevo margen (subir)
-        const labels = dropDownArriba.querySelectorAll('label');
-        const cuentaDeLabels = labels.length;
-        if (cuentaDeLabels > 0) {
-            const margenActual = parseInt(getComputedStyle(boton).marginTop, 10);
-            boton.style.marginTop = `${margenActual - cuentaDeLabels * tamannoDeLabel}px`;
-        }
+    } catch (error) {
+        // No hacer nada
+        // En ocasiones un dropdown puede dar un error si se sale de su espacio disponible, pero el funcionamiento se mantiene
     }
-}
-
-// Mostrar dropdown
-function showdropdown(dropdownId) {
-    const dropdownContent = document.getElementById('ContenidoFiltro' + dropdownId);
-    dropdownContent.style.display = 'block';
-    adjustDropdownPosition(document, dropdownId + 1, 'Bajar');
 
 }
 
-// Esconder dropdown
-function hidedropdown(dropdownId) {
-    const dropdownContent = document.getElementById('ContenidoFiltro' + dropdownId);
-    dropdownContent.style.display = 'none';
-    adjustDropdownPosition(document, dropdownId + 1, 'Subir');
+function mostrarDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    contenidoDesplegable.style.display = 'block';
+    const posicion = calcularAlturaDesplegable(idDesplegable);
+    ajustarPosicionDesplegable(document, idDesplegable + 1, 'Bajar', posicion);
+}
+
+function ocultarDesplegable(idDesplegable) {
+    const contenidoDesplegable = document.getElementById('ContenidoFiltro' + idDesplegable);
+    const posicion = calcularAlturaDesplegable(idDesplegable);
+    contenidoDesplegable.style.display = 'none';
+    ajustarPosicionDesplegable(document, idDesplegable + 1, 'Subir', posicion);
 }

@@ -14,7 +14,7 @@
     background-color: rgba(3, 63, 99, 0.15);
     border-radius: 5px;
     padding: 6px 10px;
-    width: 95%;
+    width: 96%;
     margin-bottom: 10px;
 }
 
@@ -64,7 +64,6 @@
         align-items: center;
     }
 
-
 /* Contenedor de texto */
 .BusquedaIndice-contenedor-texto {
     margin-left: 5px;
@@ -96,7 +95,7 @@
 /* Tabla */
 .BusquedaIndice-tabla {
     width: 100%;
-    max-width:100%;
+    max-width: 100%;
     margin-left: 15px;
     box-sizing: border-box;
     overflow-x: auto;
@@ -116,7 +115,7 @@
 table {
     border-collapse: separate;
     width: 100%;
-    max-width:97%;
+    max-width: 97%;
     border-spacing: 0 10px;
     font-size: 15px;
 }
@@ -125,42 +124,141 @@ table {
         background-color: white;
         text-align: left;
         border: none;
-        padding-left: 10px;
     }
 
     /* Tbody td */
     table tbody td {
         background-color: #1A7254;
+        cursor: pointer;
         text-align: left;
-        padding: 3px 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
         border: none;
-        max-width: 100px;
-        min-width: 60px;
-        overflow-wrap: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        position: relative;
     }
         /* Tbody td ultimo */
         table tbody td:last-child {
             border-radius: 0 15px 15px 0;
-            border: none;
-            max-width: 100px;
-            min-width: 100px;
         }
 
         /* Tbody td primero */
         table tbody td:first-child {
             border-radius: 15px 0 0 15px;
-            border: none;
-            padding: 0px -2px;
-            max-width: 100px;
-            min-width: 100px;
         }
 
     /* Tbody fila */
     table tbody tr {
         color: white;
+        height: 50px;
     }
+
+    /* Características de hover */
+    table td:hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -30%;
+        left: 70%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    table td::before {
+        content: "";
+    }
+
+/* Contenido de la celda de Nombre */
+.contenidoCeldaNombre {
+    padding-left: 10px;
+    max-width: 120px;
+    min-width: 120px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Categoria */
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Marca */
+.contenidoCeldaMarca {
+    min-width: 90px;
+    max-width: 90px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Precio */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 80px;
+    max-width: 80px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Unidad */
+.contenidoCeldaUnidad {
+    min-width: 75px;
+    max-width: 75px;
+    margin-left: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Fecha */
+.contenidoCeldaFecha {
+    min-width: 78px;
+    max-width: 78px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaTienda {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 20px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaProvincia {
+    min-width: 80px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Tienda */
+.contenidoCeldaCanton {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 10px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* Paginacion */
 
@@ -182,7 +280,7 @@ table {
     position: relative;
 }
 
-/* Boton de paginacion */
+/* Botón de paginacion */
 .BusquedaIndice-boton-paginacion {
     width: 60px;
     height: 20px;
@@ -197,7 +295,16 @@ table {
     white-space: nowrap;
     margin: 0;
     position: relative;
+    padding-left: 6px;
+    text-decoration: none;
+    cursor: pointer;
 }
+
+    /* Botón de paginacion al hacer hover */
+    .BusquedaIndice-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
 
     /* Bordes de boton de paginacion */
     .BusquedaIndice-boton-paginacion::before {
@@ -225,6 +332,7 @@ table {
     white-space: nowrap;
     margin: 0;
     position: relative;
+    padding-left: 6px;
 }
 
     /* Bordes de boton de paginacion deshabilitado */
@@ -239,15 +347,41 @@ table {
         border-radius: 50px;
     }
 
+
 /* Texto en paginacion */
 .BusquedaIndice-texto-paginacion {
     margin: 0 10px;
 }
 
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
 
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
 
 /* Contenedor de filtros y tabla de resultados */
-BusquedaIndice-tabla-filtros-contenedor {
+.BusquedaIndice-tabla-filtros-contenedor {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
@@ -260,14 +394,14 @@ BusquedaIndice-tabla-filtros-contenedor {
     display: flex;
     flex-direction: column;
     background-color: #C3F3E5;
-    height: calc( 65vh - 100px);
+    height: 240px;
     min-width: 150px;
+    max-width: 150px;
     border-radius: 5px;
     padding: 5px;
     overflow-y: auto;
     overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    hyphens: auto;
 }
 
 /* Caja de filtros */
@@ -307,6 +441,8 @@ BusquedaIndice-tabla-filtros-contenedor {
     border: none;
     color: #000;
     padding: 10px 20px;
+    position: relative;
+    z-index: 2;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -318,18 +454,18 @@ BusquedaIndice-tabla-filtros-contenedor {
     position: absolute;
     background-color: #C3F3E5;
     z-index: 1;
-    max-height: 150px;
+    margin-top: -25px;
 }
 
     /* Label de dropdown */
     .BusquedaIndice-dropdown-content label {
         display: block;
-        padding: 5px 25px;
+        padding: 0px 20px;
+        margin-bottom: -30px;
+        font-size: 14px;
         background-color: #C3F3E5;
-        max-width: 95%;
-        white-space: nowrap;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
+        white-space: pre-wrap;
+        line-height: 1.2;
     }
 
 /* Before de boton dropdown */
@@ -346,12 +482,31 @@ BusquedaIndice-tabla-filtros-contenedor {
     right: 5px;
 }
 
-/* Ordenamientos */
+/* Label de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-label {
+    padding-left: 15%;
+    padding-top: 8%;
+    color: black;
+}
 
+/* Input de dropdown de precio*/
+.BusquedaIndice-dropdown-precio-input {
+    background-color: #ffffff;
+    margin-top: 10px;
+    border-radius: 3px;
+    border-color: gray;
+    border: 1px solid gray;
+    width: 100%;
+    margin-left: 1%;
+    outline: none;
+}
+
+/* Ordenamientos */
 /* Titulo presionable para ordenamiento */
 .BusquedaIndice-titulo-columna {
-    color: black; 
+    color: black;
     text-decoration: none;
+    line-height: 1;
 }
 
     /* Hover para titulo de ordenamiento */
@@ -380,26 +535,26 @@ BusquedaIndice-tabla-filtros-contenedor {
 
 /* Track de barra de scroll */
 ::-webkit-scrollbar-track {
-    background: #C3F3E5;
+    background: #ebedec;
     border-radius: 10px;
 }
 
-    /* Thumb para barra de scroll de resultados y filtros */
-    .BusquedaIndice-tabla::-webkit-scrollbar-thumb, BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb {
-        background-color: #CCCCCC;
-        border-radius: 10px;
+/* Thumb para barra de scroll de resultados y filtros */
+.BusquedaIndice-tabla::-webkit-scrollbar-thumb, BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb {
+    background-color: #CCCCCC;
+    border-radius: 10px;
+}
+
+    /* Hover para barra de scroll de resultados y filtros */
+    .BusquedaIndice-tabla::-webkit-scrollbar-thumb:hover, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb:hover, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb:hover {
+        background-color: #999999;
     }
 
-        /* Hover para barra de scroll de resultados y filtros */
-        .BusquedaIndice-tabla::-webkit-scrollbar-thumb:hover, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-thumb:hover, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-thumb:hover {
-            background-color: #999999;
-        }
-
-    /* Track para barra de scroll de resultados y filtros */
-    .BusquedaIndice-tabla::-webkit-scrollbar-track, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-track, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-track {
-        background: #C3F3E5;
-        border-radius: 10px;
-    }
+/* Track para barra de scroll de resultados y filtros */
+.BusquedaIndice-tabla::-webkit-scrollbar-track, .BusquedaIndice-tabla-resultados::-webkit-scrollbar-track, .BusquedaIndice-contenedor-filtros::-webkit-scrollbar-track {
+    background: #ebedec;
+    border-radius: 10px;
+}
 
 
 /* Ordenamientos */
@@ -412,6 +567,39 @@ BusquedaIndice-tabla-filtros-contenedor {
 
     /* Hover para titulo de ordenamiento */
     .BusquedaIndice-titulo-columna:hover {
+        cursor: pointer;
         color: blue;
         text-decoration: underline;
     }
+
+
+/* Flechas de ordenamiento */
+.BusquedaFlechaOrdenamiento {
+    cursor: pointer;
+    clip-path: polygon(10% 20%, 90% 20%, 90% 80%, 10% 80%);
+    vertical-align: middle;
+    position: absolute;
+}
+
+/* Contenedor para el gif y un mensaje */
+.BusquedaIndice-contenedor-gif {
+    display: flex; /* Add this to create a flex container */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+}
+
+/* Gif */
+.BusquedaIndice-gif {
+    max-width: 90%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.BusquedaIndice-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+    max-width: 100%;
+}

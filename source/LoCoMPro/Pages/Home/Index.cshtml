@@ -52,9 +52,19 @@
 
         const gif = document.getElementById('pinwinoLogo');
 
+        // Función para obtener enteros aleatorios en un rango
+        function numeroAleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         // Set the initial margin
         gif.addEventListener('mouseover', () => {
-            gif.src = '@Url.Content("~/img/pinwino_gif.gif")';
+            const numero = numeroAleatorio(1, 20);
+            if (numero === 6) {
+                gif.src = '@Url.Content("~/img/Pinwino_feliz.gif")';
+            } else {
+                gif.src = '@Url.Content("~/img/pinwino_gif.gif")';
+            }
             gif.style.marginBottom = "-25px";
         });
 

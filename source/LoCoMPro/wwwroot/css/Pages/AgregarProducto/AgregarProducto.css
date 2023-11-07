@@ -55,6 +55,7 @@
     color: white;
     border-radius: 5px;
     margin-left: 1%;
+    border: none;
 }
 
 /* Caja de texto utilizada para el precio */
@@ -123,4 +124,89 @@
     text-align: center;
     border-radius: 5px;
     padding: 5px 5px;
+}
+
+/* Contenedor para la sección de agregar imagen */
+.AgregarProd-contenedor-imagen {
+    width: 100%;
+    height: 100%;
+    padding-left: 20%;
+}
+
+/* Input de imagen que simula un botón */
+.agregar-imagen {
+    background-color: #033F63;
+    color: white;
+    width: 77%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition-duration: 0.4s;
+    font: 13px system-ui;
+    text-align: center;
+    display: inline-block;
+    padding-left: 80px;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+/* Limpia el botón del ojo */
+.boton-ojo {
+    border: none;
+    background-color: white;   
+}
+
+/*Popup para ver imágenes agregadas*/
+.popup_imagenes {
+    width: 400px;
+    background: white;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #033F63;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+
+    /*Elemento de popup para h2*/
+    .popup_imagenes h2 {
+        font-size: 38px;
+        font-weight: 500;
+        margin: 30px 0 10px;
+    }
+
+    /*Elemento de popup para button*/
+    .popup_imagenes button {
+        background-color: #033F63;
+        color: white;
+        width: 60%;
+        height: 100%;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 25px;
+        transition-duration: 0.4s;
+        font: 13px system-ui;
+        text-align: center;
+        display: inline-block;
+    }
+
+/*Open del popup*/
+.abrir_popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Label de eliminar imágenes */
+.eliminar_imagenes {
+    color: #033F63;
+    font-weight: bold;
 }

@@ -17,7 +17,6 @@ namespace LoCoMPro.Models
 
         // Usuario creador
         [StringLength(20, MinimumLength = 5)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_=*./\\%$#@!¡¿?()~])[-a-zA-Z\d+_=*./\\%$#@!¡¿?()~]+$")]
         [Display(Name = "Creador")]
         public required string usuarioCreador { get; set; }
 
@@ -35,6 +34,12 @@ namespace LoCoMPro.Models
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Precio")]
         public required decimal precio { get; set; }
+
+        // Calificación
+        [Range(0, 5,
+            ErrorMessage = "La calificación debe estar entre 0 y 5 puntos")]
+        [Display(Name = "Calificación")]
+        public double calificacion { get; set; }
 
         // Producto asociado
         [StringLength(256, MinimumLength = 1)]
@@ -73,9 +78,14 @@ namespace LoCoMPro.Models
         [ForeignKey("nombreTienda, nombreDistrito, nombreCanton, nombreProvincia")]
         public Tienda? tienda { get; set; }
 
+        // Propiedad para indicar si un registro es visible
+        // o si fue ocultado
+        public required bool visible { get; set; }  = true;
+
         // Colecciones
         public ICollection<Etiqueta>? etiquetas { get; set; }
-
         public ICollection<Fotografia>? fotografias { get; set; }
+        public ICollection<Reporte>? reportes { get; set; }
+        public ICollection<Calificacion>? calificaciones { get; set; }
     }
 }

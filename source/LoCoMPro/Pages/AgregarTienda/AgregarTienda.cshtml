@@ -10,8 +10,8 @@
     <title>Agregar Tienda</title>
     <!-- JQuery -->
     <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript"></script>
-    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
     <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/Pages/AgregarTienda/Autocomplete.css">
     <!-- Enlace a la biblioteca JavaScript Leaflet -->
@@ -19,7 +19,7 @@
     <!-- Incluye su archivo de estilo CSS específico -->
     <link rel="stylesheet" href="~/css/Pages/AgregarTienda/AgregarTienda.css" asp-append-version="true" />
     <!-- Carga la biblioteca JavaScript Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" asp-append-version="true"></script>
 </head>
 
 <!-- Cuerpo de la página -->
@@ -61,14 +61,14 @@
 
             <!-- Nombre de la tienda -->
             <div class="Ubicacion-contenedor-form Ubicacion-margen-caja-texto">
-                <label for="Tienda">Tienda:</label>
-                <input type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
+                <label asp-for="Tienda.nombre">Tienda:</label>
+                <input asp-for="Tienda.nombre" type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
             </div>
 
             <!-- Botón para seguir y para cancelar -->
             <div class="AgregarTienda-contenedor-botones">
                 <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Cancelar">Cancelar</button>
-                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="Siguiente" id="BotonSiguiente" onclick="return validarFormulario();">Siguiente</button>
+                <button class="AgregarTienda-boton-estandar" type="submit" asp-page-handler="VerificarDatos" id="BotonSiguiente" onclick="return validarFormulario();">Siguiente</button>
             </div>
         </div>
     </form>
@@ -206,4 +206,4 @@
 </script>
 
 <!-- Carga los archivos JavaScript -->
-<script src="~/js/Pages/mapaTienda.js"></script> <!-- Corresponde al mapa -->
+<script src="~/js/Pages/mapaTienda.js" asp-append-version="true"></script> <!-- Corresponde al mapa -->

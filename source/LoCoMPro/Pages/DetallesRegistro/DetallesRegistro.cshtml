@@ -1,0 +1,219 @@
+﻿@page
+@model LoCoMPro.Pages.DetallesRegistro.DetallesRegistroModel
+@{
+    ViewData["Title"] = "Detalles Registro";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Detalles Registro</title>
+    <!-- Incluye su archivo de estilo CSS específico -->
+    <link rel="stylesheet" href="~/css/Pages/DetallesRegistro/DetallesRegistro.css" asp-append-version="true" />
+    <!-- Incluye archivo para las estrellas utilizadas en la calificación -->
+    <link rel="stylesheet" type="text/css" href="~/css/Pages/Shared/starability-growRotate.css" />
+    <!-- Incluye el archivo de javaScript -->
+    <script src="~/js/Pages/DetallesRegistro/clienteDetallesRegistro.js"></script>
+    <!-- Include para agregar íconos  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<!-- Cuerpo de la página -->
+<body>
+    <div class="Contenedor-central">
+        <!-- Contenedor para una fila -->
+        <div class="Contenedor-fila" style="margin-left:5%;">
+            <div class="Contenedor-columna">
+                <span class="Etiqueta">Producto:</span>
+                <span class="Etiqueta">Precio:</span>
+                <span class="Etiqueta">Unidad:</span>
+                <span class="Etiqueta-final">Descripción:</span>
+            </div>
+            <div class="Contenedor-columna">
+                <div class="Contenedor Caja-texto-larga">
+                    <span class="Caja-texto">@Model.registro.productoAsociado</span>
+                </div>
+                <div class="Contenedor Caja-texto-larga">
+                    <span class="Caja-texto">₡@Model.SepararPrecio(".")</span>
+                </div>
+                <div class="Contenedor Caja-texto-larga">
+                    <span class="Caja-texto">@Model.registro.nombreUnidad</span>
+                </div>
+                <div class="Contenedor Caja-texto-larga">
+                    <span class="Caja-texto-grande">@Model.registro.descripcion</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popup -->
+        <form method="post">
+            <div class="Popup-container" id="popup">
+                <label>Reportar registro</label>
+                <textarea class="Popup-input" id="reportePopup" asp-for="reportePopup"></textarea>
+                <button type="button" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
+                <button id="botonPopup" style="visibility: hidden;" type="submit" asp-page-handler="Reportar" />
+            </div>
+        </form>
+
+        <div class="Contenedor-fila" style="margin-left:5%;">
+            <div class="Contenedor-columna" style="margin-top:19%;">
+                <span class="Etiqueta-calificacion">Calificación:</span>
+            </div>
+            <div class="Contenedor-columna">
+                <div id="galeriaImagenes" class="GaleriaImagenes">
+                    <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
+                    <div id="currentImage" class="CurrentImage">
+                        <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
+                    </div>
+                    <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
+                </div>
+                <div class="Contenedor-calificacion">
+                    @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                    {
+                        <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
+                    }
+                    else
+                    {
+                        <form>
+                            <fieldset class="starability-growRotate">
+                                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" />
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" id="calificacion@(i)" name="calificacion" value="@i" @(i <= Model.registro.calificacion ? "checked" : "") onclick="calificarRegistro(@i)" />
+                                    <label for="calificacion@(i)">@i estrellas</label>
+                                }
+                                <span class="starability-focus-ring"></span>
+                            </fieldset>
+                        </form>
+                    }
+                    <p id="CalificacionTotal" class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
+                    <p id="CantidadCalificacionesTotal" class="Conteo">(@Model.registro.cantidadCalificaciones)</p>
+                </div>
+                <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
+            </div>
+        </div>
+    </div>
+    <div class="Boton">
+        <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
+    </div>
+    <!-- Opción para reportar -->
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="Reportar-registro">
+            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                warning
+            </span>
+            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+        </div>
+    }
+</body>
+
+<script>
+    if (@Model.registro.calificacion == 0) {
+        actualizarNoCalificaciones(true);
+    }
+
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = true;
+    if (@Model.ultimaCalificacion > 0) {
+        labelUltimaCalificacion.hidden = false;
+    }
+
+    // Función para recargar la página anterior
+    function recargar() {
+        // Obtiene la página anterior de la referencia en el modelo
+        var paginaAnterior = document.referrer;
+        // Recarga la página anterior
+        window.location.href = paginaAnterior;
+
+    }
+</script>
+
+<script>
+    if (@Model.registro.calificacion == 0) {
+        actualizarNoCalificaciones(true);
+    }
+
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = true;
+    if (@Model.ultimaCalificacion > 0) {
+        labelUltimaCalificacion.hidden = false;
+    }
+</script>
+
+<script>
+    var popup = document.getElementById("popup");
+    var popupCaja = document.getElementById("reportePopup");
+    var boton = document.getElementById("botonPopup");
+
+    function abrirPopup() {
+        if (popup.classList.contains("Popup-abierto")) {
+            popup.classList.remove("Popup-abierto");
+        } else {
+            popup.classList.add("Popup-abierto");
+        }
+    }
+
+    function cerrarPopup() {
+        if (popupCaja.value === "") {
+            alert("No puede realizar un reporte sin comentario");
+        } else {
+            popup.classList.remove("Popup-abierto");
+            boton.click();
+        }
+    }
+</script>
+
+<script>
+    // Inicializa galería de imágenes
+    var imagenes = @Html.Raw(Json.Serialize(Model.registro.fotografias));
+    var indiceImagenActual = 0;
+    var vistaImagen = document.getElementById("vistaImagen");
+    var imagenAnterior = document.getElementById("imagenAnterior");
+    var siguienteImagen = document.getElementById("siguienteImagen");
+
+    function verImagenActual() {
+        if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
+        }
+        vistaImagen.className = "Imagen";
+        actualizarVisibilidadFlecha();
+    }
+
+    // Esconde las flechas si no hay fotos antes y/o después
+    function actualizarVisibilidadFlecha() {
+        if (imagenes && imagenes.length > 0) {
+            if (indiceImagenActual <= 0) {
+                imagenAnterior.style.visibility = "hidden";
+            } else {
+                imagenAnterior.style.visibility = "visible";
+            }
+
+            if (indiceImagenActual >= imagenes.length - 1) {
+                siguienteImagen.style.visibility = "hidden";
+            } else {
+                siguienteImagen.style.visibility = "visible";
+            }
+        } else {
+            imagenAnterior.style.visibility = "hidden";
+            siguienteImagen.style.visibility = "hidden";
+        }
+    }
+
+    function verImagenAnterior() {
+        if (indiceImagenActual > 0) {
+            indiceImagenActual--;
+            verImagenActual();
+        }
+    }
+
+    function verImagenSiguiente() {
+        if (indiceImagenActual < imagenes.length - 1) {
+            indiceImagenActual++;
+            verImagenActual();
+        }
+    }
+
+    // Muestra la primera imagen
+    verImagenActual();
+</script>

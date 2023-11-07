@@ -10,11 +10,44 @@
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Avanzada.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <!-- Inclusiones para autocompletado -->
+    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
+    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Pages/AgregarProducto/Autocomplete.css">
+    <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script>
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.resultadosBusqueda')
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        var resultados = obtenerResultados();
+        var filtrador = new FiltradorDeBusqueda();
+        var ordenador = new OrdenadorDeBusqueda();;
+        var paginador = new Paginador(@Model.resultadosPorPagina);
+        var paginaDefault = @Model.paginaDefault;
+    </script>
+    <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
 <div>
     <div class="BusquedaIndice-contenedor-fila">
         <div class="BusquedaIndice-contenedor">
-            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="BuscarAvanzado">
+            <form class="BusquedaIndice-contenedor-form" method="get" asp-page-handler="BuscarAvanzado" id="BusquedaFormulario">
                 <div class="BusquedaIndice-contenedor-fila">
                     <div style="width:85%;">
                         <div class="BusquedaIndice-contenedor-fila">
@@ -33,7 +66,7 @@
                                 </div>
                                 <div class="BusquedaAvanzada-caja-texto">
                                     <!-- Cuadro de texto para el nombre de la marca -->
-                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca" autocomplete="off">
+                                    <input type="text" name="nombreMarca" asp-for="marca" id="CajaDeTextoMarca">
                                 </div>
                             </div>
                         </div>
@@ -42,19 +75,21 @@
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Provincia
                                 </div>
-                                <div class="BusquedaAvanzada-caja-texto">
-                                    <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreProvincia" asp-for="provincia" id="CajaDeTextoProvincia" autocomplete="off">
-                                </div>
+                                <select name="nombreProvincia" asp-for="provincia" id="CajaDeSeleccionProvincia" class="BusquedaAvanzada-caja-combo">
+                                    <option name="provincia" value=""></option>
+                                    @foreach (var provincia in Model.provincias)
+                                    {
+                                        <option name="provincia" value="@provincia.nombre">@provincia.nombre</option>
+                                    }
+                                </select>
                             </div>
                             <div class="BusquedaIndice-contenedor-caja-texto">
                                 <div class="BusquedaIndice-contenedor-texto">
                                     Cantón
                                 </div>
-                                <div class="BusquedaAvanzada-caja-texto">
-                                    <!-- Cuadro de texto para el nombre del producto -->
-                                    <input type="text" name="nombreCanton" asp-for="canton" id="CajaDeTextoCanton" autocomplete="off">
-                                </div>
+                                <select name="nombreCanton" asp-for="canton" id="CajaDeSeleccionCanton" class="BusquedaAvanzada-caja-combo">
+                                    <option name="canton" value=""></option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -67,359 +102,375 @@
             </form>
         </div>
     </div>
-    <div class="BusquedaIndice-contenedor-fila">
+    <div class="BusquedaIndice-contenedor-fila" id="FilaDeFiltrosYResultados">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltros()"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
             <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
-            <div class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(1)" onmouseleave="hidedropdown(1)">
+            <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(1)" onmouseleave="ocultarDesplegable(1)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1">Provincia</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro1">
                         <!-- Contenido del menú desplegable -->
                         @{
-                            <!-- Aplicar filtro por provincia -->
                             foreach (var provincia in Model.provinciasV)
                             {
-                                var revisado = "";
-                                if (Model.provincias.Length > 0)
-                                {
-                                    // Revisar si la provincia está en el arreglo de provincias del modelo
-                                    revisado = Model.provincias.Contains(provincia) ? "checked" : "";
-                                }
-
                                 <label>
-                                    <input type="checkbox" name="provincia" value="@provincia" @revisado /> @provincia
+                                    <input type="checkbox" name="provincia" value="@provincia" /> @provincia
                                 </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(2)" onmouseleave="hidedropdown(2)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(2)" onmouseleave="ocultarDesplegable(2)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
                         @{
-                            <!-- Aplicar filtro por cantón -->
                             foreach (var canton in Model.cantonesV)
                             {
-                                var revisado = "";
-                                if (Model.cantones.Length > 0)
-                                {
-                                    // Revisar si el cantón está en el arreglo de cantones del modelo
-                                    revisado = Model.cantones.Contains(canton) ? "checked" : "";
-                                }
-
                                 <label>
-                                    <input type="checkbox" name="canton" value="@canton" @revisado /> @canton
+                                    <input type="checkbox" name="canton" value="@canton" /> @canton
                                 </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(3)" onmouseleave="hidedropdown(3)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(3)" onmouseleave="ocultarDesplegable(3)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
                         @{
-                            <!-- Aplicar filtro por tienda -->
                             foreach (var tienda in Model.tiendasV)
                             {
-                                var revisado = "";
-                                if (Model.tiendas.Length > 0)
-                                {
-                                    // Revisar si la tienda está en el arreglo de tiendas del modelo
-                                    revisado = Model.tiendas.Contains(tienda) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="tienda" value="@tienda" @revisado/> @tienda
+                                    <input type="checkbox" name="tienda" value="@tienda" /> @tienda
                                 </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="showdropdown(4)" onmouseleave="hidedropdown(4)">
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(4)" onmouseleave="ocultarDesplegable(4)">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                var revisado = "";
-                                if (Model.marcas.Length > 0)
-                                {
-                                    // Revisar si la marca está en el arreglo de marcas del modelo
-                                    revisado = Model.marcas.Contains(marca) ? "checked" : "";
-                                }
                                 <label>
-                                    <input type="checkbox" name="marca" value="@marca" @revisado/> @marca
+                                    <input type="checkbox" name="marca" value="@marca" /> @marca
                                 </label>
                             }
                         }
                     </div>
                 </div>
+                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(5)" onmouseleave="ocultarDesplegable(5)">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5">Categoría</button>
+                    <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro5">
+                        <!-- Contenido del menú desplegable -->
+                        @{
+                            foreach (var categoria in Model.categoriasV)
+                            {
+                                <label>
+                                    <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="BusquedaIndice-dropdown">
+                    <label class="BusquedaIndice-dropdown-precio-label" id="BotonFiltro6">Precio</label>
+                    <div id="ContenidoFiltro6">
+                        <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMin" id="precioMin" placeholder="Mínimo" />
+                        <input type="text" class="BusquedaIndice-dropdown-precio-input" inputmode="decimal" name="precioMax" id="precioMax" placeholder="Máximo" />
+                    </div>
+                </div>
+                <div class="BusquedaIndice-dropdown">
+                    <label class="BusquedaIndice-dropdown-precio-label" id="BotonFiltro7">Fecha</label>
+                    <!-- Contenido del menú desplegable -->
+                    <div id="ContenidoFiltro7">
+                        <input type="date" id="fechaMin" style="margin-top: 10px;" />
+                        <input type="date" id="fechaMax" style="margin-top: 10px;" />
+                    </div>
+                </div>
             </div>
         </form>
+
         <!-- Tabla de resultados -->
-        <div class="BusquedaIndice-tabla" style="width:95%">
+        <div class="BusquedaIndice-tabla">
             <table>
                 <thead>
                     <tr>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].nombre)
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('nombre')">
+                                @Html.DisplayNameFor(model => model.productoVM.nombre)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('nombre')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteNombre" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('nombre')">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].marca)
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('categoria')">
+                                @Html.DisplayNameFor(model => model.productoVM.categoria)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('categoria')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteCategoria" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('categoria')">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="precio" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtroMarca="@(Model.marca)"
-                               asp-route-filtroProvincia="@(Model.provincia)"
-                               asp-route-filtroCanton="@(Model.canton)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].precio)
-                            </a>
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('marca')">
+                                @Html.DisplayNameFor(model => model.productoVM.marca)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('marca')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteMarca" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('marca')">
+                                expand_more
+                            </span>
+                        </th>
+                        <th style="padding-left:37px">
+                            <!-- Nombre de columna -->
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('precio')">
+                                @Html.DisplayNameFor(model => model.productoVM.precio)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendentePrecio" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('precio')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendentePrecio" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('precio')">
+                                expand_more
+                            </span>
+                        </th>
+                        <th style="padding-left:24px;">
+                            <!-- Nombre de columna -->
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('unidad')">
+                                @Html.DisplayNameFor(model => model.productoVM.unidad)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('unidad')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteUnidad" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('unidad')">
+                                expand_more
+                            </span>
+                        </th>
+                        <th style="padding-left:20px;">
+                            <!-- Nombre de columna -->
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('fecha')">
+                                @Html.DisplayNameFor(model => model.productoVM.fecha)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('fecha')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteFecha" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('fecha')">
+                                expand_more
+                            </span>
+                        </th>
+                        <th style="padding-left:20px;">
+                            <!-- Nombre de columna -->
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('tienda')">
+                                @Html.DisplayNameFor(model => model.productoVM.tienda)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('tienda')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteTienda" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('tienda')">
+                                expand_more
+                            </span>
                         </th>
                         <th>
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].fecha)
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('provincia')">
+                                @Html.DisplayNameFor(model => model.productoVM.provincia)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteProvincia" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('provincia')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteProvincia" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('provincia')">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
+                        <th style="padding-left:10px;">
                             <!-- Nombre de columna -->
-                            @Html.DisplayNameFor(model => model.productosVM[0].tienda)
+                            <label class="BusquedaIndice-titulo-columna" onclick="ordenar('canton')">
+                                @Html.DisplayNameFor(model => model.productoVM.canton)
+                            </label>
+                            <!-- Flecha de ordenamiento descendiente -->
+                            <span id="DescendenteCanton" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('canton')">
+                                expand_less
+                            </span>
+                            <!-- Flecha de ordenamiento ascendiente -->
+                            <span id="AscendenteCanton" class="material-symbols-outlined BusquedaFlechaOrdenamiento" onclick="ordenar('canton')">
+                                expand_more
+                            </span>
                         </th>
-                        <th>
-                            <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="provincia" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtroMarca="@(Model.marca)"
-                               asp-route-filtroProvincia="@(Model.provincia)"
-                               asp-route-filtroCanton="@(Model.canton)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].provincia)
-                            </a>
-                        </th>
-                        <th>
-                            <!-- Nombre de columna -->
-                            <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
-                               asp-route-indicePagina="@(Model.productosVM.IndicePagina)"
-                               asp-route-columnaOrdenado="canton" class="BusquedaIndice-titulo-columna"
-                               asp-route-sentidoOrdenado="@((Model.sentidoOrdenActual == "asc") ? "desc" : "asc")"
-                               asp-route-filtroProducto="@(Model.producto)"
-                               asp-route-filtroMarca="@(Model.marca)"
-                               asp-route-filtroProvincia="@(Model.provincia)"
-                               asp-route-filtroCanton="@(Model.canton)"
-                               asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                               asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                               asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                               asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))">
-                                @Html.DisplayNameFor(model => model.productosVM[0].canton)
-                            </a>
-                        </th>
-                        <th></th>
                     </tr>
                 </thead>
-                <tbody class="BusquedaIndice-tabla-resultados" id="productosVM">
-                    @foreach (var item in Model.productosVM)
-                    {
-                        <tr>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.nombre)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.marca)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.precio) / @Html.DisplayFor(modelItem => item.unidad)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.fecha)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.tienda)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.provincia)
-                            </td>
-                            <td>
-                                <!-- Valor de la columna -->
-                                @Html.DisplayFor(modelItem => item.canton)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                <tbody class="BusquedaIndice-tabla-resultados" id="ResultadosDeBusqueda"></tbody>
             </table>
         </div>
     </div>
 </div>
 
-@{
-    var prevDeshabilitado = !Model.productosVM.TienePaginaPrevia ? "disabled" : "";
-    var proxDeshabilitado = !Model.productosVM.TieneProximaPagina ? "disabled" : "";
-}
+    <!-- Paginación -->
+    <div class="BusquedaIndice-contenedor-paginacion">
+        <div class="BusquedaIndice-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
 
-<div class="BusquedaIndice-contenedor-paginacion">
-    <!-- Container box -->
-    <div class="BusquedaIndice-contenedor-caja-paginacion">
-        @{
-            if (Model.productosVM.TienePaginaPrevia)
-            {
-                <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
-                   asp-route-indicePagina="@(Model.productosVM.IndicePagina - 1)"
-                   asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
-                   asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
-                   asp-route-filtroProducto="@(Model.producto)"
-                   asp-route-filtroMarca="@(Model.marca)"
-                   asp-route-filtroProvincia="@(Model.provincia)"
-                   asp-route-filtroCanton="@(Model.canton)"
-                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
-                   class="BusquedaIndice-boton-paginacion">
-                    Anterior
-                </a>
-            }
-            else
-            {
-                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Anterior </span>
-            }
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
 
-            var currentIndex = Model.productosVM.IndicePagina;
-            <span class="BusquedaIndice-texto-paginacion"> @(currentIndex) </span>
-
-            if (Model.productosVM.TieneProximaPagina)
-            {
-                <a asp-page="/Busqueda/Avanzada" asp-page-handler="BuscarAvanzado"
-                   asp-route-indicePagina="@(Model.productosVM.IndicePagina + 1)"
-                   asp-route-columnaOrdenado="@(Model.columnaOrdenActual)"
-                   asp-route-sentidoOrdenado="@(Model.sentidoOrdenActual)"
-                   asp-route-filtroProducto="@(Model.producto)"
-                   asp-route-filtroMarca="@(Model.marca)"
-                   asp-route-filtroProvincia="@(Model.provincia)"
-                   asp-route-filtroCanton="@(Model.canton)"
-                   asp-route-filtrosProvincias="@(string.Join(',', Model.provincias))"
-                   asp-route-filtrosCantones="@(string.Join(',', Model.cantones))"
-                   asp-route-filtrosTiendas="@(string.Join(',', Model.tiendas))"
-                   asp-route-filtrosMarcas="@(string.Join(',', Model.marcas))"
-                   class="BusquedaIndice-boton-paginacion">
-                    Siguiente
-                </a>
-            }
-            else
-            {
-                <span class="BusquedaIndice-boton-paginacion-deshabilitado"> Siguiente </span>
-            }
-        }
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-    <script>
-        // Cajas
-        cajaProducto = document.getElementById("CajaDeTextoProducto");
-        cajaMarca = document.getElementById("CajaDeTextoMarca");
-        cajaProvincia = document.getElementById("CajaDeTextoProvincia");
-        cajaCanton = document.getElementById("CajaDeTextoCanton");
-
-        // Función de traducción de codificación
-        function traducirCodificacion(cadena) {
-            var elementoTemporal = document.createElement("div");
-            elementoTemporal.innerHTML = cadena;
-            return elementoTemporal.textContent;
+<!-- Función para autocompletar -->
+<script type="text/javascript">
+    $("#CajaDeTextoMarca").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: 'Autocompletado',
+                type: 'GET',
+                dataType: 'json',
+                data: { term: document.getElementById("CajaDeTextoMarca").value },
+                success: function (data) {
+                    response(data);
+                }
+            });
         }
+    });
+</script>
 
-        // Limpiar filtros
-        function limpiarFiltros() {
-            // Construir la cadena de consulta default
-            var queryString = "nombreProducto=" + traducirCodificacion('@Model.producto') + "&"
-                + "nombreMarca=" + traducirCodificacion('@Model.marca') + "&"
-                + "nombreProvincia=" + traducirCodificacion('@Model.provincia') + "&"
-                + "nombreCanton=" + traducirCodificacion('@Model.canton') + "&";
+<script>
+    ordenador.esconderFlechas();
+    formatoPrecioFiltro();
+    limpiarInput("precioMin", "precioMax");
+    limpiarInput("fechaMin", "fechaMax");
+</script>
 
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda/Avanzada/BuscarAvanzado?" + queryString;
+<script>
+    var productosVM = paginar(paginaDefault);
+
+    // Renderizar
+    renderizarPaginacion();
+    renderizarFiltros();
+    renderizarTabla(productosVM);
+
+    cajaProducto = document.getElementById("CajaDeTextoProducto");
+    cajaMarca = document.getElementById("CajaDeTextoMarca");
+    cajaProvincia = document.getElementById("CajaDeSeleccionProvincia");
+    cajaCanton = document.getElementById("CajaDeSeleccionCanton");
+
+    // Validar formulario
+    function validarFormulario() {
+        if (!cajaProducto.value &&
+            !cajaMarca.value &&
+            !cajaProvincia.value &&
+            !cajaCanton.value) {
+            return false;
+        } else {
+            return true;
         }
+    }
+</script>
 
-        // Aplicar filtros
-        function aplicarFiltros() {
-            // Obtener los valores seleccionados de cada sección
-            var provinciasSeleccionadas = obtenerValoresSeleccionados("provincia");
-            var cantonesSeleccionados = obtenerValoresSeleccionados("canton");
-            var tiendasSeleccionadas = obtenerValoresSeleccionados("tienda");
-            var marcasSeleccionadas = obtenerValoresSeleccionados("marca");
+<script>
+    // Obtiene las cajas de selección
+    const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
+    const cajaDeSeleccionCanton = document.getElementById("CajaDeSeleccionCanton");
 
-            // Construir la cadena de consulta con los valores seleccionados
-            var queryString = "nombreProducto=" + traducirCodificacion('@Model.producto') + "&"
-                + "nombreMarca=" + traducirCodificacion('@Model.marca') + "&"
-                + "nombreProvincia=" + traducirCodificacion('@Model.provincia') + "&"
-                + "nombreCanton=" + traducirCodificacion('@Model.canton') + "&";
+    // Actualizar cantones
+    async function actualizarCantones() {
+        // Obtener la provincia seleccionada
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
 
-            if (provinciasSeleccionadas.length !== 0) {
-                queryString += "nombresProvincias=" + provinciasSeleccionadas + "&";
-            }
-            if (cantonesSeleccionados.length !== 0) {
-                queryString += "nombresCantones=" + cantonesSeleccionados + "&";
-            }
-            if (tiendasSeleccionadas.length !== 0) {
-                queryString += "nombresTiendas=" + tiendasSeleccionadas + "&";
-            }
-            if (marcasSeleccionadas.length !== 0) {
-                queryString += "nombresMarcas=" + marcasSeleccionadas + "&";
-            }
+        cajaDeSeleccionCanton.innerHTML = "";
 
-            // Remover el ultimo &
-            queryString = queryString.substring(0, queryString.length - 1);
+        var opcionNula = document.createElement("option");
+        opcionNula.value = "";
+        opcionNula.text = "";
+        cajaDeSeleccionCanton.appendChild(opcionNula);
 
-            // Redirige a la página con la cadena de consulta en la URL
-            window.location.href = "/Busqueda/Avanzada/BuscarAvanzado?" + queryString;
+        // Si se eligió una provincia
+        if (provinciaSeleccionada) {
+            // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+            await fetch(`/Busqueda/Avanzada?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Por cada cantón
+                    data.forEach(canton => {
+                        // Crear una opción
+                        var opcion = document.createElement("option");
+                        // Establecer su valor y texto de mostrado
+                        opcion.value = canton.nombre;
+                        opcion.text = canton.nombre;
+                        // Agregarla a la caja de selección de cantón
+                        cajaDeSeleccionCanton.appendChild(opcion);
+                    });
+                });
         }
+    }
 
-        // Obtener valores de checkboxes
-        function obtenerValoresSeleccionados(nombreCampo) {
-            var valores = [];
-            var checkboxes = document.querySelectorAll('input[name="' + nombreCampo + '"]:checked');
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                valores.push(checkboxes[i].value);
-            }
-
-            return valores.join(",");
-        }
-
-        // Validad formulario
-        function validarFormulario() {
-            if (!cajaProducto.value
-                && !cajaMarca.value
-                && !cajaProvincia.value
-                && !cajaCanton.value) {
-                return false;
-            } else {
-                return true;
+    function colocarCanton(canton) {
+        const opciones = cajaDeSeleccionCanton.options;
+        for (let i = 0; i < opciones.length; i++) {
+            if (opciones[i].value === canton) {
+                opciones[i].selected = true;
+                break;
             }
         }
-    </script>
-    <script src="~/js/Pages/Busqueda/dropdown.js"></script>
-}
+    }
+
+    // Llamar a esta función cada vez que se produzca un cambio en
+    // la caja de selección de provincia
+    cajaDeSeleccionProvincia.addEventListener("change", async function () {
+        await actualizarCantones();
+    });
+
+    async function revisarCanton() {
+        if (@Model.buscarPorCanton === 1) {
+            await actualizarCantones();
+            colocarCanton('@Html.Raw(Model.canton)');
+            cajaDeSeleccionCanton.value = '@Html.Raw(Model.canton)';
+        }
+    }
+    
+    revisarCanton();
+</script>
+
+<script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

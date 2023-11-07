@@ -3,187 +3,187 @@
     "nombre": "Arroz",
     "marca": "Tio Pelon",
     "nombreCategoria": "Alimentos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Manzanas",
     "marca": "Del Valle",
     "nombreCategoria": "Alimentos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Iphone 14",
     "marca": "Apple",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Televisor LED",
     "marca": "Sony",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Tableta",
     "marca": "Samsung",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Película en Blu-ray",
     "marca": "Warner Bros",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Videojuego",
     "marca": "Nintendo",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Termómetro Digital",
     "marca": "Braun",
     "nombreCategoria": "Salud",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Vitaminas",
     "marca": "Centrum",
     "nombreCategoria": "Salud",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Detergente",
     "marca": "Tide",
     "nombreCategoria": "Limpieza",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Bolsas de Basura",
     "marca": "Glad",
     "nombreCategoria": "Limpieza",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Camisa",
     "marca": "Adidas",
     "nombreCategoria": "Ropa",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Zapatillas Deportivas",
     "marca": "Nike",
     "nombreCategoria": "Ropa",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Laptop",
     "marca": "Dell",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Smartphone",
     "marca": "Apple",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Libro",
     "marca": "Penguin Random House",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Puzzle",
     "marca": "Ravensburger",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Termómetro Infrarrojo",
     "marca": "Braun",
     "nombreCategoria": "Salud",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Suplemento Alimenticio",
     "marca": "Nature Made",
     "nombreCategoria": "Salud",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Limpiador Multiusos",
     "marca": "Lysol",
     "nombreCategoria": "Limpieza",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Jabón de Lavandería",
     "marca": "Tide",
     "nombreCategoria": "Limpieza",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Pantalones",
     "marca": "Levi's",
     "nombreCategoria": "Ropa",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Vestido",
     "marca": "Calvin Klein",
     "nombreCategoria": "Ropa",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Afeitadora Eléctrica",
     "marca": "Braun",
     "nombreCategoria": "Otros",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Gafas de Sol",
     "marca": "Ray-Ban",
     "nombreCategoria": "Otros",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Cereal",
     "marca": "Kellogg's",
     "nombreCategoria": "Alimentos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Pan",
     "marca": "Bimbo",
     "nombreCategoria": "Alimentos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Reproductor de MP3",
     "marca": "Apple",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Altavoz Bluetooth",
     "marca": "Bose",
     "nombreCategoria": "Electrónicos",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Pelota de Fútbol",
     "marca": "Adidas",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Cámara de Video",
     "marca": "Sony",
     "nombreCategoria": "Entretenimiento",
-    "nombreUnidad": "Cantidad"
+    "nombreUnidad": "Unidad"
   },
   {
     "nombre": "Aceite de Oliva",

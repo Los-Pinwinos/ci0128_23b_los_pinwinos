@@ -26,7 +26,7 @@ namespace LoCoMPro.Data
                 // Crear unidades base
                 var unidades = new Unidad[]
                 {
-                    new Unidad {nombre= "Cantidad"},
+                    new Unidad {nombre= "Unidad"},
                     new Unidad {nombre= "Kilogramos"},
                     new Unidad {nombre = "Litros"}
                 };
@@ -63,12 +63,13 @@ namespace LoCoMPro.Data
                 {
                     nombreDeUsuario = "Usuario1*"
                     , correo = "prueba@gmail.com"
-                    , hashContrasena = "AQAAAAIAAYagAAAAEH+LtjtVrlYttSVNFRGl4Ll/YFTgFPg04A4gh2vH/IzO7CwUMVI907upp5C5YTvAxQ=="
+                    , hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
                     , estado = 'A'
-                    , calificacion = 5
+                    , calificacion = 0
                     , distritoVivienda = "Garita"
                     , cantonVivienda = "Alajuela"
                     , provinciaVivienda = "Alajuela"
+                    , esModerador = true
                 };
                 contexto.Usuarios.Add(usuario);
                 contexto.SaveChanges();

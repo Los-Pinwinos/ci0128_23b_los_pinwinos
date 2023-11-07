@@ -1,9 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
 using Microsoft.IdentityModel.Tokens;
+using LoCoMPro.Utils.Buscadores;
+using LoCoMPro.Utils.Interfaces;
+using LoCoMPro.Utils;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace LoCoMPro.Pages.Busqueda
 {
@@ -24,217 +28,71 @@ namespace LoCoMPro.Pages.Busqueda
         // Busquedas
         [BindProperty(SupportsGet = true)]
         public string? producto { get; set; }
-        // Filtros
-        public string[] provincias { get; set; } = default!;
-        public string[] cantones { get; set; } = default!;
-        public string[] tiendas { get; set; } = default!;
-        public string[] marcas { get; set; } = default!;
-        // Ordenamiento
-        public string? columnaOrdenActual { get; set; }
-        public string? sentidoOrdenActual { get; set; }
-
+        public string? resultadosBusqueda { get; set; }
         // Visual
         [BindProperty]
         public IList<string> provinciasV { get; set; } = default!;
         public IList<string> cantonesV { get; set; } = default!;
         public IList<string> tiendasV { get; set; } = default!;
         public IList<string?> marcasV { get; set; } = default!;
+        public IList<string> categoriasV { get; set; } = default!;
+        public BusquedaVM productoVM { get; set; } = default!;
 
-        // Paginación
-        public ListaPaginada<BusquedaVM> productosVM { get; set; } = default!;
+        // PaginaciÃ³n
+        public int paginaDefault { get; set; }
+        public int resultadosPorPagina { get; set; }
 
         // Inicializar atributos
         public void Inicializar()
         {
-            // Inicializar datos de filtrados
-            this.provincias = Array.Empty<string>();
-            this.cantones = Array.Empty<string>();
-            this.tiendas = Array.Empty<string>();
-            this.marcas = Array.Empty<string>();
-            // Inicializar datos de ordenamientos
-            this.columnaOrdenActual = null;
-            this.sentidoOrdenActual = "asc";
+
             // Inicializar datos de vista
             this.provinciasV = new List<string>();
             this.cantonesV = new List<string>();
             this.tiendasV = new List<string>();
             this.marcasV = new List<string?>();
+            this.categoriasV = new List<string>();
 
-            this.productosVM = new ListaPaginada<BusquedaVM>();
+            this.productoVM = new BusquedaVM
+            {
+                nombre = "",
+                canton = "",
+                fecha = new DateTime(),
+                precio = 0,
+                marca = "",
+                provincia = "",
+                tienda = "",
+                unidad = "",
+                categoria = ""
+            };
+
+            this.paginaDefault = 1;
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 4);
         }
 
         // ON GET buscar
-        public async Task<IActionResult> OnGetAsync(int? indicePagina
-            , string? nombreProducto, string? filtroProducto
-            , string? nombresProvincias, string? filtrosProvincias
-            , string? nombresCantones, string? filtrosCantones
-            , string? nombresTiendas, string? filtrosTiendas
-            , string? nombresMarcas, string? filtrosMarcas
-            , string? columnaOrdenado, string? sentidoOrdenado)
+        public IActionResult OnGet(string? nombreProducto)
         {
-            if ((!string.IsNullOrEmpty(nombreProducto) ||
-                !string.IsNullOrEmpty(filtroProducto)) &&
+            if (!string.IsNullOrEmpty(nombreProducto) ||
                 contexto.Productos != null)
             {
-                // Verificar parámetros y asignar índice de página correcto
-                indicePagina = this.verificarParametros(indicePagina
-                    , nombreProducto, filtroProducto
-                    , nombresProvincias, filtrosProvincias
-                    , nombresCantones, filtrosCantones
-                    , nombresTiendas, filtrosTiendas
-                    , nombresMarcas, filtrosMarcas
-                    , columnaOrdenado, sentidoOrdenado);
-
-                // Hacer la consulta de productos con registros
+                // Asignar valores
+                producto = nombreProducto;
+                // Configurar buscador
+                IBuscador<BusquedaVM> buscador = new BuscadorDeProductos(this.contexto, nombreProducto);
                 // Consultar la base de datos
-                IQueryable<BusquedaVM> productosIQ = this.buscarProductos();
-
+                IQueryable<BusquedaVM> busqueda = buscador.buscar();
                 // Cargar filtros
-                this.cargarFiltros(productosIQ);
+                this.cargarFiltros(busqueda);
+                // Asignar data de JSON
+                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
 
-                // Filtrar
-                productosIQ = this.filtrarProductos(productosIQ);
-
-                // Ordenar
-                productosIQ = this.ordenarProductos(productosIQ);
-
-                // Paginar
-                await this.paginarProductos(productosIQ, indicePagina);
             }
             return Page();
         }
 
-        // Verificar parámetros de ON GET Buscar
-        protected int? verificarParametros(int? indicePagina
-            , string? nombreProducto, string? filtroProducto
-            , string? nombresProvincias, string? filtrosProvincias
-            , string? nombresCantones, string? filtrosCantones
-            , string? nombresTiendas, string? filtrosTiendas
-            , string? nombresMarcas, string? filtrosMarcas
-            , string? columnaOrdenado, string? sentidoOrdenado)
-        {
-            // Revisar si hay que regresar numero de página
-            if (!string.IsNullOrEmpty(nombreProducto))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombreProducto = filtroProducto;
-            }
-            this.producto = nombreProducto;
-
-            if (!string.IsNullOrEmpty(nombresProvincias))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombresProvincias = filtrosProvincias;
-            }
-            this.provincias = !string.IsNullOrEmpty(nombresProvincias) ?
-                nombresProvincias.Split(',') : Array.Empty<string>();
-
-            if (!string.IsNullOrEmpty(nombresCantones))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombresCantones = filtrosCantones;
-            }
-            this.cantones = !string.IsNullOrEmpty(nombresCantones) ?
-                nombresCantones.Split(',') : Array.Empty<string>();
-
-            if (!string.IsNullOrEmpty(nombresTiendas))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombresTiendas = filtrosTiendas;
-            }
-            this.tiendas = !string.IsNullOrEmpty(nombresTiendas) ?
-                nombresTiendas.Split(',') : Array.Empty<string>();
-
-            if (!string.IsNullOrEmpty(nombresMarcas))
-            {
-                indicePagina = 1;
-            }
-            else
-            {
-                nombresMarcas = filtrosMarcas;
-            }
-            this.marcas = !string.IsNullOrEmpty(nombresMarcas) ?
-                nombresMarcas.Split(',') : Array.Empty<string>();
-
-            // En caso de haber recibido una columna para ordernar
-            // y un sentido
-            if (!string.IsNullOrEmpty(columnaOrdenado) &&
-                !string.IsNullOrEmpty(sentidoOrdenado))
-            {
-                // Guarda los valores recibidos en sus propiedades
-                this.columnaOrdenActual = columnaOrdenado;
-                this.sentidoOrdenActual = sentidoOrdenado;
-            }
-            // Si no se recibió ambos parametros de ordenado
-            else
-            {
-                // Se reinician a sus valores originales
-                this.columnaOrdenActual = null;
-                this.sentidoOrdenActual = "asc";
-            }
-            
-            return indicePagina;
-        }
-
-        // Buscar productos
-        protected IQueryable<BusquedaVM> buscarProductos()
-        {
-            IQueryable<BusquedaVM> productosIQ = contexto.Registros
-                .Include(r => r.producto)
-                .GroupBy(r => new
-                {
-                    r.productoAsociado,
-                    r.nombreTienda,
-                    r.nombreProvincia,
-                    r.nombreCanton,
-                    r.nombreDistrito
-                })
-                .Select(group => new BusquedaVM
-                {
-                    nombre = group.Key.productoAsociado,
-                    precio = group.OrderByDescending(item => item.creacion).First().precio,
-                    unidad = group.First().producto.nombreUnidad,
-                    fecha = group.OrderByDescending(item => item.creacion).First().creacion,
-                    tienda = group.Key.nombreTienda,
-                    provincia = group.Key.nombreProvincia,
-                    canton = group.Key.nombreCanton,
-                    marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
-                        group.First().producto.marca : "Sin marca"
-                });
-            // Buscar por nombre
-            productosIQ = this.buscarNombre(productosIQ);
-            // Retornar busqueda
-            return productosIQ;
-        }
-
-        // Buscar por nombre
-        protected IQueryable<BusquedaVM> buscarNombre(IQueryable<BusquedaVM> productosIQ)
-        {
-            // Ver si se usa el nombre de busqueda
-            if (!string.IsNullOrEmpty(producto))
-            {
-                return productosIQ.Where(r => r.nombre.Contains(producto));
-            }
-            else
-            {
-                return productosIQ;
-            }
-        }
-
         // Cargar los filtros
-        protected void cargarFiltros(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltros(IQueryable<BusquedaVM> productosIQ)
         {
             // Cargar filtros de provincia
             this.cargarFiltrosProvincia(productosIQ);
@@ -244,12 +102,15 @@ namespace LoCoMPro.Pages.Busqueda
             this.cargarFiltrosTienda(productosIQ);
             // Cargar filtros de marca
             this.cargarFiltrosMarca(productosIQ);
+            // Cargar filtros de categoria
+            this.cargarFiltrosCategoria(productosIQ);
+
         }
 
         // Cargar los filtros de provincias
-        protected void cargarFiltrosProvincia(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltrosProvincia(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no están vacíos
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las provincias distintas
@@ -261,9 +122,9 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de cantones
-        protected void cargarFiltrosCanton(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltrosCanton(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no están vacíos
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todos los cantones distintos
@@ -275,9 +136,9 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de tiendas
-        protected void cargarFiltrosTienda(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltrosTienda(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no están vacíos
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las tiendas distintas
@@ -289,9 +150,9 @@ namespace LoCoMPro.Pages.Busqueda
         }
 
         // Cargar los filtros de marcas
-        protected void cargarFiltrosMarca(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltrosMarca(IQueryable<BusquedaVM> productosIQ)
         {
-            // Si los productos no están vacíos
+            // Si los productos no estan vacios
             if (!productosIQ.IsNullOrEmpty())
             {
                 // Obtener todas las marcas distintas
@@ -302,153 +163,17 @@ namespace LoCoMPro.Pages.Busqueda
             }
         }
 
-        // Filtrar productos
-        protected IQueryable<BusquedaVM> filtrarProductos(IQueryable<BusquedaVM> productosIQ)
+        public void cargarFiltrosCategoria(IQueryable<BusquedaVM> productosIQ)
         {
-            // Filtrar por provincia
-            productosIQ = this.filtrarProvincia(productosIQ);
-            // Filtrar por canton
-            productosIQ = this.filtrarCanton(productosIQ);
-            // Filtrar por tienda
-            productosIQ = this.filtrarTienda(productosIQ);
-            // Filtrar por marca
-            productosIQ = this.filtrarMarca(productosIQ);
-            // Retornar productos filtrados
-            return productosIQ;
-        }
-
-        // Filtrar por provincia
-        protected IQueryable<BusquedaVM> filtrarProvincia(IQueryable<BusquedaVM> productosIQ)
-        {
-            if (this.provincias.Length > 0)
+            // Si los productos no estan vacios
+            if (!productosIQ.IsNullOrEmpty())
             {
-                // Asignar filtro
-                string[] filtro = this.provincias;
-                // Filtrar por provincia
-                productosIQ = productosIQ.Where(r => filtro.Contains(r.provincia));
+                // Obtener todas las categorÃ­as distintas
+                this.categoriasV = productosIQ
+                    .Select(p => p.categoria)
+                    .Distinct()
+                    .ToList();
             }
-            // Retornar resultados
-            return productosIQ;
-        }
-
-        // Filtrar por canton
-        protected IQueryable<BusquedaVM> filtrarCanton(IQueryable<BusquedaVM> productosIQ)
-        {
-            if (this.cantones.Length > 0)
-            {
-                // Convertir provincias a lista
-                string[] filtro = this.cantones;
-                // Filtrar
-                productosIQ = productosIQ.Where(r => filtro.Contains(r.canton));
-            }
-            // Retornar resultados
-            return productosIQ;
-        }
-
-        // Filtrar por tienda
-        protected IQueryable<BusquedaVM> filtrarTienda(IQueryable<BusquedaVM> productosIQ)
-        {
-            if (this.tiendas.Length > 0)
-            {
-                // Asignar filtro
-                string[] filtro = this.tiendas;
-                // Filtrar por nombre de tienda
-                productosIQ = productosIQ.Where(r => filtro.Contains(r.tienda));
-            }
-            return productosIQ;
-        }
-
-        // Filtrar por marca
-        protected IQueryable<BusquedaVM> filtrarMarca(IQueryable<BusquedaVM> productosIQ)
-        {
-            if (this.marcas.Length > 0)
-            {
-                // Asignar filtro
-                string[] filtro = this.marcas;
-                // Filtrar por nombre de tienda
-                productosIQ = productosIQ.Where(r => filtro.Contains(r.marca));
-            }
-            return productosIQ;
-        }
-
-        // Ordenar producto
-        public IQueryable<BusquedaVM> ordenarProductos(IQueryable<BusquedaVM> productosIQ)
-        {
-            // En caso de tener parametros de ordenamiento
-            if (!string.IsNullOrEmpty(this.columnaOrdenActual) &&
-                !string.IsNullOrEmpty(this.sentidoOrdenActual))
-            {
-                // Ordena los productos
-                productosIQ = this.ordenar(productosIQ);
-            }
-
-            // Retorna los productos ordenados
-            return productosIQ;
-        }
-
-        protected IQueryable<BusquedaVM> ordenar(IQueryable<BusquedaVM> productosIQ)
-        {
-            // Ordenamientos ascendentes
-            if (this.sentidoOrdenActual == "asc")
-            {
-                // Columna de ordenado
-                switch (this.columnaOrdenActual)
-                {
-                    case "precio":
-                        // Ordenar por precio ascendente
-                        productosIQ = productosIQ.OrderBy(p => p.precio);
-                        break;
-
-                    case "provincia":
-                        // Ordenar por provincia descendente
-                        productosIQ = productosIQ.OrderBy(p => p.provincia);
-                        break;
-
-                    case "canton":
-                        // Ordenar por cantón ascendente
-                        productosIQ = productosIQ.OrderBy(c => c.canton);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            // Ordenamientos descendentes
-            else
-            {
-                // Columna de ordenado
-                switch (this.columnaOrdenActual)
-                {
-                    case "precio":
-                        // Ordenar por precio descendente
-                        productosIQ = productosIQ.OrderByDescending(p => p.precio);
-                        break;
-
-                    case "provincia":
-                        // Ordenar por provincia descendente
-                        productosIQ = productosIQ.OrderByDescending(p => p.provincia);
-                        break;
-
-                    case "canton":
-                        // Ordenar por cantón descendente
-                        productosIQ = productosIQ.OrderByDescending(c => c.canton);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            return productosIQ;
-        }
-
-        // Paginar productos
-        protected async Task paginarProductos(IQueryable<BusquedaVM> productosFinales, int? indicePagina)
-        {
-            // Obtener tamaño de página
-            var tamPagina = configuracion.GetValue("TamPagina", 4);
-            // Crear productos paginados
-            this.productosVM = await ListaPaginada<BusquedaVM>.CrearAsync(
-                productosFinales.AsNoTracking(), indicePagina ?? 1, tamPagina);
         }
     }
 }

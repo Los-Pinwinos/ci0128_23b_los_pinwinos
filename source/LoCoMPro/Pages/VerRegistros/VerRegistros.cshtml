@@ -1,0 +1,252 @@
+﻿@page
+@model VerRegistrosModel
+@{
+    ViewData["Title"] = "Ver Registros";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <script>
+
+        function adaptarCaracteresEspeciales(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        function obtenerResultados() {
+            var resultadosAdaptados = adaptarCaracteresEspeciales('@Model.resultadoRegistros')
+            return JSON.parse(resultadosAdaptados);
+        }
+
+        var resultados = obtenerResultados();
+        var paginador = new Paginador(5); // El número 5 se refiere al número de registros por página
+        var paginaDefault = 1; // Inicia en la página 1 por defecto
+        var presionado = "ninguno"; // agrupamiento presionado
+    </script>
+    <script src="~/js/Pages/VerRegistros/clienteVerRegistros.js" asp-append-version="true"></script>
+</head>
+
+<div>
+    <div class="InfoProducto">
+        <div class="Contenedor">
+            <div class="Contenedor-fila" style="align-items: center;">
+                <div id="galeriaImagenes" class="GaleriaImagenes">
+                    <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
+                    <div id="imagenActual" class="ImagenActual">
+                        <img id="vistaImagen" src="~/img/pinwino_no_disponible.png" alt="Product Image" class="Image">
+                    </div>
+                    <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
+                </div>
+                <div class="Contenedor-caja-texto">
+                    <h2 class="TituloProducto">@Model.NombreProducto</h2>
+                    <input type="hidden" id="nombreProducto" value="@Model.NombreProducto">
+                    <div class="InfoProductoColumnas">
+                        <div class="ContenedorInfoColumnas">
+                            <div class="InfoColumnas">
+                                <p><strong>Tienda:</strong> @Model.NombreTienda</p>
+                                <p><strong>Categoría:</strong> @Model.NombreCategoria</p>
+                            </div>
+                            <div class="InfoColumnas">
+                                <p><strong>Marca:</strong> @Model.NombreMarca</p>
+                                <p><strong>Unidad:</strong> @Model.NombreUnidad</p>
+                            </div>
+                            <div class="InfoColumnas">
+                                <p><strong>Provincia:</strong> @Model.NombreProvincia</p>
+                                <p><strong>Cantón:</strong> @Model.NombreCanton</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="Contenedor-fila">
+        <div class="Agrupamientos">
+            <div class="Contenedor-agrupamientos" id="contenedorAgrupamientos">
+                <label class="InfoColumnaNegrita">Agrupar por:</label>
+                <div class="checkbox-circular-contenedor">
+                    <label>
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoDia" value="Día" />
+                        <span class="circular-label"></span> Día
+                    </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
+                    <label>
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoSemana" value="Semana" />
+                        <span class="circular-label"></span> Semana
+                    </label>
+                </div>
+                <div class="checkbox-circular-contenedor">
+                    <label>
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoMes" value="Mes" />
+                        <span class="circular-label"></span> Mes
+                    </label>
+                </div>
+
+                <div class="checkbox-circular-contenedor">
+                    <label>
+                        <input type="radio" class="checkbox-circular checkboxes-agrupados" name="Agrupamiento" id="AgrupamientoAno" value="Ano" />
+                        <span class="circular-label"></span> Año
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- Tablas de resultados -->
+        <div class="Tabla">
+            <table>
+                <thead>
+                    <tr id="TitulosTabla"> </tr>
+                </thead>
+                <tbody class="Tabla-resultados" id="cuerpoResultados"> </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Paginación -->
+<div class="Contenedor-paginacion">
+    <div class="Contenedor-caja-paginacion">
+        <div id="paginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1, presionado)">
+            Anterior
+        </div>
+        <div id="sinPaginaPrevia" class="Boton-paginacion-deshabilitado">
+            Anterior
+        </div>
+
+        <span id="textoPaginacion" class="Texto-paginacion">  </span>
+
+        <div id="paginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1, presionado)">
+            Siguiente
+        </div>
+        <div id="sinPaginaSiguiente" class="Boton-paginacion-deshabilitado">
+            Siguiente
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var resultadosPaginados = paginar(paginaDefault);
+
+    // Reenderizar las diferentes páginas necesarias
+    renderizarPaginacion();
+    renderizarTabla(resultadosPaginados);
+</script>
+
+<script>
+    var agruparDia = document.getElementById("AgrupamientoDia");
+    agruparDia.addEventListener('click', function () {
+        if (presionado === "dia") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparDia.checked = false;
+        } else {
+            presionado = "dia";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparSemana = document.getElementById("AgrupamientoSemana");
+    agruparSemana.addEventListener('click', function () {
+        if (presionado === "semana") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparSemana.checked = false;
+        } else {
+            presionado = "semana";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparMes = document.getElementById("AgrupamientoMes");
+    agruparMes.addEventListener('click', function () {
+        if (presionado === "mes") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparMes.checked = false;
+        } else {
+            presionado = "mes";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+
+    var agruparAno = document.getElementById("AgrupamientoAno");
+    agruparAno.addEventListener('click', function () {
+        if (presionado === "ano") {
+            presionado = "ninguno";
+            resultadosPaginados = paginar(paginaDefault);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPaginados);
+            agruparAno.checked = false;
+        } else {
+            presionado = "ano";
+            agrupar(presionado, paginaDefault);
+        }
+    });
+</script>
+
+
+
+<script>
+    // Inicializar la galería de imágenes
+    var imagenes = @Html.Raw(Json.Serialize(Model.fotografias));
+    var indiceImagenActual = 0;
+    var vistaImagen = document.getElementById("vistaImagen");
+    var imagenAnterior = document.getElementById("imagenAnterior");
+    var siguienteImagen = document.getElementById("siguienteImagen");
+
+    function verImagenActual() {
+        if (imagenes && imagenes.length > 0 && indiceImagenActual >= 0 && indiceImagenActual < imagenes.length) {
+            vistaImagen.src = `data:image/jpeg;base64,${imagenes[indiceImagenActual].fotografia}`;
+        }
+        vistaImagen.className = "Imagen";
+        actualizarVisibilidadFlecha();
+    }
+
+    function actualizarVisibilidadFlecha() {
+        if (imagenes && imagenes.length > 0) {
+            if (indiceImagenActual <= 0) {
+                imagenAnterior.style.visibility = "hidden";
+            } else {
+                imagenAnterior.style.visibility = "visible";
+            }
+
+            if (indiceImagenActual >= imagenes.length - 1) {
+                siguienteImagen.style.visibility = "hidden";
+            } else {
+                siguienteImagen.style.visibility = "visible";
+            }
+        } else {
+            imagenAnterior.style.visibility = "hidden";
+            siguienteImagen.style.visibility = "hidden";
+        }
+    }
+
+    function verImagenAnterior() {
+        if (indiceImagenActual > 0) {
+            indiceImagenActual--;
+            verImagenActual();
+        }
+    }
+
+    function verImagenSiguiente() {
+        if (indiceImagenActual < imagenes.length - 1) {
+            indiceImagenActual++;
+            verImagenActual();
+        }
+    }
+
+    verImagenActual();
+</script>
+
+

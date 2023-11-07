@@ -14,11 +14,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(75vh - 50px);
+    height: calc(60vh - 50px);
     width:100%;
     max-width: calc(75vw - 14%);
     position: relative;
-    margin-top: 20px;
 }
 
 /* Contenedor de fila */
@@ -73,7 +72,7 @@
 /* Caja de texto */
 .HomeAvanzada-caja-texto {
     background-color: #FFFBF8;
-    border-color: black;
+    border-color: #033F63;
     border-radius: 30px;
     padding: 1px 5px;
     width: 100%;
@@ -124,6 +123,6 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
-    margin-top: 10px;
+    margin-top: 5px;
     transition-duration: 0.4s;
 }
