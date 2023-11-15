@@ -129,7 +129,9 @@ namespace LoCoMPro.Pages.AgregarTienda
                 nombre = this.Tienda.nombre,
                 nombreDistrito = this.Tienda.nombreDistrito,
                 nombreCanton = this.Tienda.nombreCanton,
-                nombreProvincia = this.Tienda.nombreProvincia
+                nombreProvincia = this.Tienda.nombreProvincia,
+                latitud = 0,
+                longitud = 0
             };
             this.contexto.Add(nuevaTienda);
             this.contexto.SaveChanges();

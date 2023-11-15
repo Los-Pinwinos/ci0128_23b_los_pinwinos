@@ -41,7 +41,7 @@ namespace LoCoMPro.Models
         public ICollection<Registro>? registros { get; set; }
 
         // Coordenadas
-        public double latitud { get; set; } = 0;
-        public double longitud { get; set; } = 0;
+        public required double latitud { get; set; } = 0;
+        public required double longitud { get; set; } = 0;
     }
 }
