@@ -18,10 +18,10 @@ namespace LoCoMPro.Pages.AgregarTienda
         public required string Provincia { get; set; }
 
         [BindProperty]
-        public required double Latitud { get; set; }
+        public required string Latitud { get; set; }
 
         [BindProperty]
-        public required double Longitud { get; set; }
+        public required string Longitud { get; set; }
 
         [BindProperty]
         public required AgregarTiendaVM Tienda { get; set; }
@@ -35,7 +35,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.contexto = contexto;
             this.Tienda = new AgregarTiendaVM
             {
-                nombre = " ",
+                nombre = "",
                 nombreDistrito = " ",
                 nombreCanton = " ",
                 nombreProvincia = " "
@@ -109,8 +109,8 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.Tienda.nombreProvincia = this.Provincia;
             this.Tienda.nombreCanton = this.Canton;
             this.Tienda.nombreDistrito = this.Distrito;
-            this.Tienda.latitud = this.Latitud;
-            this.Tienda.longitud = this.Longitud;
+            this.Tienda.latitud = double.Parse(this.Latitud);
+            this.Tienda.longitud = double.Parse(this.Longitud);
 
             return VerificarTiendaValida();
         }
