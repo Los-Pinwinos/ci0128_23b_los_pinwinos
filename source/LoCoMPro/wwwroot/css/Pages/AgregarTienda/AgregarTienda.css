@@ -87,7 +87,6 @@
     height: calc(40vh - 50px);
     width: 70%;
     margin-bottom: 4%;
-    margin-top: 4%;
 }
 
 /* Contenedor de botones y texto */
@@ -127,4 +126,12 @@
     margin-bottom: 10px;
     transition-duration: 0.4s;
     font: 13px system-ui;
+}
+
+/* Texto ordenario */
+.AgregarTienda-texto {
+    color: grey;
+    font-size: 14px;
+    margin-top: 2%;
+    margin-bottom: 1%;
 }

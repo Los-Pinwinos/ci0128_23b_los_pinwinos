@@ -62,6 +62,8 @@
             <input type="hidden" id="CajaTextoLatitud" asp-for="Latitud" name="Latitud">
 
             <!-- Mapa interactivo -->
+            <p class="AgregarTienda-texto">Marque el lugar exacto de la tienda en el mapa</p>
+            <!-- Mapa interactivo -->
             <div id="map" class="AgregarTienda-mapa"></div>
 
             <!-- Nombre de la tienda -->
@@ -105,6 +107,7 @@
     // Obtiene las cajas de selección
     const cajaDeSeleccionProvincia = document.getElementById("Provincia");
     const cajaDeSeleccionCanton = document.getElementById("Canton");
+    const cajaDeSeleccionDistrito = document.getElementById("Distrito");
 
     async function actualizarCantones() {
         // Obtener la provincia seleccionada
@@ -131,7 +134,12 @@
                     cajaDeSeleccionCanton.appendChild(opcion);
                 });
             });
+
+        // Notificar un evento de cambio en la provincia
+        var event = new Event('change');
+        cajaDeSeleccionCanton.dispatchEvent(event);
     }
+
     async function actualizarDistritos() {
         // Obtener la provincia seleccionada
         var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
@@ -177,6 +185,11 @@
         await actualizarCantones();
     });
 
+    // Cada vez que el canton cambia, la funcion ocurre
+    cajaDeSeleccionCanton.addEventListener("change", async function () {
+        await actualizarDistritos();
+    });
+
     // Obtiene la lista de provincias
     function obtenerProvincias() {
         const opciones = Provincia.options;
@@ -198,6 +211,19 @@
         }
 
         return cantones;
+    }
+
+    // Obtiene la lista de distritos de un canton
+    async function obtenerDistritos() {
+        await actualizarDistritos();
+
+        const opciones = Distrito.options;
+        var distritos = [];
+        for (let i = 0; i < opciones.length; i++) {
+            distritos.push(opciones[i].value);
+        }
+
+        return distritos;
     }
 </script>
 
