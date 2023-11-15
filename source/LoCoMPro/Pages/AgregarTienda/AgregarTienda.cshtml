@@ -132,15 +132,44 @@
                 });
             });
     }
+    async function actualizarDistritos() {
+        // Obtener la provincia seleccionada
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+        // Obtener el canton seleccionado
+        var cantonSeleccionado = cajaDeSeleccionCanton.value;
+
+        // Eliminar las opciones de cantones
+        if (cajaDeSeleccionDistrito.options.length > 0) {
+            cajaDeSeleccionDistrito.options.length = 0;
+        }
+
+        // Usar el Fetch API para llamar al handler de DistritosPorCanton
+        // con la provincia y canton seleccionados
+        await fetch(`/AgregarTienda/AgregarTienda?handler=DistritosPorCanton&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`)
+            .then(response => response.json())
+            .then(data => {
+                // Por cada distrito
+                data.forEach(distrito => {
+                    // Crear una opción
+                    var opcion = document.createElement("option");
+                    // Establecer su valor y texto de mostrado
+                    opcion.value = distrito.nombre;
+                    opcion.text = distrito.nombre;
+                    // Agregarla a la caja de selección de cantón
+                    cajaDeSeleccionDistrito.appendChild(opcion);
+                });
+            });
+    }
 
     // Función para asignar el distrito correspondiente
     async function colocar() {
         // Obtiene la provincia y cantón seleccionados
         var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
         var cantonSeleccionado = cajaDeSeleccionCanton.value;
+        var distritoSeleccionado = cajaDeSeleccionDistrito.value;
 
         // Usa el Fetch API para llamar al handler de ColocarDatosTemporales
-        await fetch(`/AgregarTienda/AgregarTienda?handler=ColocarDatosTemporales&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`);
+        await fetch(`/AgregarTienda/AgregarTienda?handler=ColocarDatosTemporales&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}&distrito=${distritoSeleccionado}`);
     }
 
     // Cada vez que la provincia cambia, la función ocurre
