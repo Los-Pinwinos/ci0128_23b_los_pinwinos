@@ -18,7 +18,6 @@ namespace LoCoMPro.Pages.AgregarTienda
         // Crea JSON
         public JsonResult OnGet(String term)
         {
-            term = term.Trim();
             // IList para el resultado
             IList<string> tiendas = new List<string>();
 
