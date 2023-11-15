@@ -15,6 +15,12 @@ namespace LoCoMPro.Pages.AgregarTienda
         public required string Provincia { get; set; }
 
         [BindProperty]
+        public required double Latitud { get; set; }
+
+        [BindProperty]
+        public required double Longitud { get; set; }
+
+        [BindProperty]
         public required AgregarTiendaVM Tienda { get; set; }
 
         public List<Provincia> ListaProvincias { get; set; }

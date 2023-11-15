@@ -45,6 +45,11 @@
                     <label for="Canton">Cantón:</label>
                     <select id="Canton" name="Canton" class="Ubicacion-comboBox" onChange="colocar();"></select>
                 </div>
+                <!-- Cuadro de texto de Distrito -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Distrito">Distrito:</label>
+                    <select id="Distrito" name="Distrito" class="Ubicacion-comboBox" onChange="colocar();"></select>
+                </div>
                 <!-- Espacio oculto para para actualizar los datos -->
                 <input type="hidden" id="Actualizar" name="Actualizar" onclick="colocar();">
                 <!-- Botón de búsqueda -->
@@ -53,8 +58,8 @@
                 </button>
             </div>
 
-            <input type="hidden" id="CajaTextoLongitud" name="CajaTextoLongitud">
-            <input type="hidden" id="CajaTextoLatitud" name="CajaTextoLatitud">
+            <input type="hidden" id="CajaTextoLongitud" asp-for="Longitud" name="Longitud">
+            <input type="hidden" id="CajaTextoLatitud" asp-for="Latitud" name="Latitud">
 
             <!-- Mapa interactivo -->
             <div id="map" class="AgregarTienda-mapa"></div>
