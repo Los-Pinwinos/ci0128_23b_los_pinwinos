@@ -121,9 +121,7 @@ namespace LoCoMPro.Pages.AgregarTienda
                 (p => p.nombre == this.Tienda.nombre
                 && p.nombreDistrito == this.Tienda.nombreDistrito
                 && p.nombreCanton == this.Tienda.nombreCanton
-                && p.nombreProvincia == this.Tienda.nombreProvincia
-                && p.latitud == this.Latitud
-                && p.longitud == this.Longitud);
+                && p.nombreProvincia == this.Tienda.nombreProvincia);
 
             if (tiendaExistenteEnDistrito == null)
             {  // La tienda no existe y el nombre está disponible
