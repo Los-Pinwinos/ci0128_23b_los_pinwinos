@@ -33,7 +33,7 @@ namespace LoCoMProTests
         public static Tienda CrearTiendaPorDefecto(Distrito? distritoAsociado = null)
         {
             distritoAsociado = distritoAsociado ?? CrearDistritoPorDefecto();
-            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado };
+            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado, longitud = 0, latitud = 0 };
         }
 
         public static Categoria CrearCategoriaPorDefecto()

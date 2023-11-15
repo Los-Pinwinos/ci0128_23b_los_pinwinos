@@ -41,6 +41,7 @@ namespace LoCoMPro.Models
         public ICollection<Registro>? registros { get; set; }
 
         // Coordenadas
-        // TODO(Los Pinwinos): coordenadas
+        public double latitud { get; set; } = 0;
+        public double longitud { get; set; } = 0;
     }
 }
