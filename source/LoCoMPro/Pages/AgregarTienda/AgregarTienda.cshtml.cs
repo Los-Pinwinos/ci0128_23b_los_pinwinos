@@ -9,6 +9,9 @@ namespace LoCoMPro.Pages.AgregarTienda
     public class AgregarTiendaModel : PageModel
     {
         [BindProperty]
+        public required string Distrito { get; set; }
+
+        [BindProperty]
         public required string Canton { get; set; }
 
         [BindProperty]
@@ -64,18 +67,19 @@ namespace LoCoMPro.Pages.AgregarTienda
             return new JsonResult(cantones);
         }
 
-        // Método que obtiene los datos para enviarlos al Autcompletado
-        public void OnGetColocarDatosTemporales(string provincia, string canton)
+        public async Task<IActionResult> OnGetDistritosPorCanton(string provincia, string canton)
         {
-            string distrito = this.ObtenerDistritos(provincia, canton)[0].nombre;
-            AgregarDatosAutocompletado(provincia, canton, distrito);
+            var distritos = await this.contexto.Distritos
+                .Where(c => c.nombreProvincia == provincia && c.nombreCanton == canton)
+                .ToListAsync();
+
+            return new JsonResult(distritos);
         }
 
-        private List<Distrito> ObtenerDistritos(string provincia, string canton)
+        // Método que obtiene los datos para enviarlos al Autcompletado
+        public void OnGetColocarDatosTemporales(string provincia, string canton, string distrito)
         {
-            return this.contexto.Distritos
-                .Where(d => d.nombreProvincia == provincia && d.nombreCanton == canton)
-                .ToList();
+            AgregarDatosAutocompletado(provincia, canton, distrito);
         }
 
         // Agrega al TempData la provincia, cantón y distrito necesarias para el Autocompletado
@@ -104,9 +108,9 @@ namespace LoCoMPro.Pages.AgregarTienda
         {
             this.Tienda.nombreProvincia = this.Provincia;
             this.Tienda.nombreCanton = this.Canton;
-            // Se debe encontrar el distrito correspondiente
-            this.Tienda.nombreDistrito
-                = ObtenerDistritos(this.Provincia, this.Canton)[0].nombre;
+            this.Tienda.nombreDistrito = this.Distrito;
+            this.Tienda.latitud = this.Latitud;
+            this.Tienda.longitud = this.Longitud;
 
             return VerificarTiendaValida();
         }
@@ -117,7 +121,9 @@ namespace LoCoMPro.Pages.AgregarTienda
                 (p => p.nombre == this.Tienda.nombre
                 && p.nombreDistrito == this.Tienda.nombreDistrito
                 && p.nombreCanton == this.Tienda.nombreCanton
-                && p.nombreProvincia == this.Tienda.nombreProvincia);
+                && p.nombreProvincia == this.Tienda.nombreProvincia
+                && p.latitud == this.Latitud
+                && p.longitud == this.Longitud);
 
             if (tiendaExistenteEnDistrito == null)
             {  // La tienda no existe y el nombre está disponible
@@ -136,8 +142,8 @@ namespace LoCoMPro.Pages.AgregarTienda
                 nombreDistrito = this.Tienda.nombreDistrito,
                 nombreCanton = this.Tienda.nombreCanton,
                 nombreProvincia = this.Tienda.nombreProvincia,
-                latitud = 0,
-                longitud = 0
+                latitud = this.Tienda.latitud,
+                longitud = this.Tienda.longitud
             };
             this.contexto.Add(nuevaTienda);
             this.contexto.SaveChanges();
