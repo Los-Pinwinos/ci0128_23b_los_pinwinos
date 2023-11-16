@@ -476,8 +476,8 @@ table {
     transition: transform 0.3s ease-in-out;
 }
 
-/* Hover de boton dropdown */
-.BusquedaIndice-dropdown:hover .BusquedaIndice-boton-dropdown::before {
+/* Click de boton dropdown */
+.BusquedaIndice-dropdown.clicked .BusquedaIndice-boton-dropdown::before {
     transform: rotate(90deg);
     right: 5px;
 }
