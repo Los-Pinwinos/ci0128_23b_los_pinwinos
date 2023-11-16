@@ -124,29 +124,47 @@ namespace LoCoMPro.Pages.Cuenta
                     if (this.controladorCorreos.enviarCorreoHtml(this.usuarioActual.correo,
                         asunto, titulo, cuerpo, enlace,"Autenticar cuenta"))
                     {
-                        // Crea un nuevo usuario con los datos del modelo vista
-                        var nuevoUsuario = new Usuario
+                        // Crear un cliente para consultar las coordenadas a un API
+                        using (HttpClient cliente = new HttpClient())
                         {
-                            nombreDeUsuario = this.usuarioActual.nombreDeUsuario,
-                            correo = this.usuarioActual.correo,
-                            hashContrasena = this.usuarioActual.contrasena,
-                            estado = 'I',
-                            calificacion = 0.0,
-                            distritoVivienda = this.usuarioActual.distritoVivienda,
-                            cantonVivienda = this.usuarioActual.cantonVivienda,
-                            provinciaVivienda = this.usuarioActual.provinciaVivienda,
-                            latitudVivienda = 0.0,
-                            longitudVivienda = 0.0
-                        };
-                        // Agrega la contraseña hasheada
-                        nuevoUsuario.hashContrasena =
-                            this.hasheador.HashPassword(nuevoUsuario, this.usuarioActual.contrasena);
-                        // Agrega el nuevo usuario al contexto
-                        this.contexto.Add(nuevoUsuario);
-                        // Envía los datos a la base de datos
-                        await this.contexto.SaveChangesAsync();
-                        // Retorna a la página
-                        return RedirectToPage("Ingresar");
+                            // Consultar a la API las coordenadas de la ubicación del usuario
+                            string apiURL = Localizador.ObtenerUrlLocalizacion(this.usuarioActual.provinciaVivienda, this.usuarioActual.cantonVivienda, this.usuarioActual.distritoVivienda);
+                            var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                            // Si se pudo acceder a las coordenadas correctamente
+                            if (latitud != 0 && longitud != 0)
+                            {
+                                // Crea un nuevo usuario con los datos del modelo vista
+                                var nuevoUsuario = new Usuario
+                                {
+                                    nombreDeUsuario = this.usuarioActual.nombreDeUsuario,
+                                    correo = this.usuarioActual.correo,
+                                    hashContrasena = this.usuarioActual.contrasena,
+                                    estado = 'I',
+                                    calificacion = 0.0,
+                                    distritoVivienda = this.usuarioActual.distritoVivienda,
+                                    cantonVivienda = this.usuarioActual.cantonVivienda,
+                                    provinciaVivienda = this.usuarioActual.provinciaVivienda,
+                                    latitudVivienda = latitud,
+                                    longitudVivienda = longitud
+                                };
+                                // Agrega la contraseña hasheada
+                                nuevoUsuario.hashContrasena =
+                                    this.hasheador.HashPassword(nuevoUsuario, this.usuarioActual.contrasena);
+                                // Agrega el nuevo usuario al contexto
+                                this.contexto.Add(nuevoUsuario);
+                                // Envía los datos a la base de datos
+                                await this.contexto.SaveChangesAsync();
+                                // Retorna a la página
+                                return RedirectToPage("Ingresar");
+                            }
+                            else
+                            {
+                                // Guarda el error para mostrarlo en la página principal
+                                HttpContext.Items["error"] = "Hubieron problemas al procesar su ubicación. Inténtelo más tarde";
+                            }
+                        }
+                        
                     }
                     // Si falla enviando el correo
                     else
