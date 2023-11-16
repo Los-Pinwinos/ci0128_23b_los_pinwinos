@@ -184,21 +184,29 @@
 }
 
 .Reportar-registro {
-    color: #893636;
+    color: white;
     position: absolute;
     top: 10%;
-    width: 20%;
+    padding-right: 6px;
+    padding-left: 6px;
+    justify-content: right;
+    background-color: #893636;
+    font-size: 1.4em;
+    border-radius: 6px;
 }
 
-.Reportar-registro-label {
+.Reportar-registro-label,
+.Reportar-registro-span {
+    color: white; 
     vertical-align: middle;
     cursor: pointer;
 }
 
 .Reportar-registro-span {
-    cursor: pointer;
-    vertical-align: middle;
+    background-color: #893636; 
 }
+
+
 
 .Popup-container {
     width: 400px;
