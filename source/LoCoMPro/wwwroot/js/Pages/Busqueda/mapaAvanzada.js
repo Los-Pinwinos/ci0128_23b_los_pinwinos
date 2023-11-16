@@ -207,6 +207,11 @@ class Mapa {
 
 // Función para inicializar el mapa al cargar el documento
 document.addEventListener("DOMContentLoaded", function () {
-    // Crear una instancia de la clase Mapa
-    const mapa = new Mapa();
+    var mapa;
+    // Verficar si se puede localizar al usuario
+    if (longitud == 0 && latitud == 0)
+        // Crear una instancia de la clase Mapa
+        mapa = new Mapa();
+    else
+        mapa = new Mapa(latitud, longitud);
 });

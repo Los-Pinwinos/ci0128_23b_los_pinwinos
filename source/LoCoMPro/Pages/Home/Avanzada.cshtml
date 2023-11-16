@@ -75,6 +75,15 @@
         <button asp-page-handler="Buscar" class="HomeAvanzada-boton-aceptar"> Buscar </button>
     </form>
 
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <input value="Hola" />
+    }
+    else
+    {
+        <input value="Adios" />
+    }
+
     <!-- Función para autocompletar -->
     <script type="text/javascript">
         $("#CajaTextoMarca").autocomplete({
@@ -86,6 +95,12 @@
 </body>
 
 @section Scripts {
+    <script>
+        // Longitud y latitud del usuario
+        const longitud = @Model.longitudUsuario;
+        const latitud = @Model.latitudUsuario;
+    </script>
+
     <script>
         // Obtiene las cajas de selección
         const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
@@ -156,7 +171,6 @@
             return cantones;
         }
     </script>
-
 
     <!-- Carga el archivo JavaScript en esta ruta -->
     <script src="~/js/Pages/Busqueda/mapaAvanzada.js" asp-append-version="true"></script>

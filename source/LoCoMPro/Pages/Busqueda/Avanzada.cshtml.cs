@@ -39,7 +39,7 @@ namespace LoCoMPro.Pages.Busqueda
             this.buscarPorCanton = 0;
         }
 
-        // On GET avanzado
+            // On GET avanzado
         public IActionResult OnGetBuscarAvanzado(
             string? nombreProducto
             , string? nombreMarca

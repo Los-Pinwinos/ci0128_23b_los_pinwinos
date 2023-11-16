@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.ViewModels.Tienda;
 using LoCoMPro.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
@@ -108,8 +109,8 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.Tienda.nombreProvincia = this.Provincia;
             this.Tienda.nombreCanton = this.Canton;
             this.Tienda.nombreDistrito = this.Distrito;
-            this.Tienda.latitud = double.Parse(this.Latitud);
-            this.Tienda.longitud = double.Parse(this.Longitud);
+            this.Tienda.latitud = double.Parse(this.Latitud, CultureInfo.InvariantCulture);
+            this.Tienda.longitud = double.Parse(this.Longitud, CultureInfo.InvariantCulture);
 
             return VerificarTiendaValida();
         }
