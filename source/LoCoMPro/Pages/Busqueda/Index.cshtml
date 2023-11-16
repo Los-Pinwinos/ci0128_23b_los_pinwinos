@@ -77,8 +77,8 @@
     <div class="BusquedaIndice-contenedor-fila" id="FilaDeFiltrosYResultados">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()" id= "AplicarFiltrosBoton"> Aplicar filtros</button>
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;" id="LimpiarFiltrosBoton"> Limpiar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltrosFuncion()" id="AplicarFiltrosBoton"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltrosFuncion()" style="margin-bottom:5px;" id="LimpiarFiltrosBoton"> Limpiar filtros</button>
             <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
                 <div class="BusquedaIndice-dropdown" id="Dropdown1">
                     <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1" onclick="toggleDesplegable(1)">Provincia</button>
@@ -87,9 +87,9 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                                                        <label>
-                                                                            <input type="checkbox" name="provincia" value="@provincia" /> @provincia
-                                                                        </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="provincia" value="@provincia" /> @provincia
+                                                                            </label>
                             }
                         }
                     </div>
@@ -101,9 +101,9 @@
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                                                        <label>
-                                                                            <input type="checkbox" name="canton" value="@canton" /> @canton
-                                                                        </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="canton" value="@canton" /> @canton
+                                                                            </label>
                             }
                         }
                     </div>
@@ -115,9 +115,9 @@
                         @{
                             foreach (var tienda in Model.tiendasV)
                             {
-                                                                        <label>
-                                                                            <input type="checkbox" name="tienda" value="@tienda" /> @tienda
-                                                                        </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="tienda" value="@tienda" /> @tienda
+                                                                            </label>
                             }
                         }
                     </div>
@@ -129,9 +129,9 @@
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                                                        <label>
-                                                                            <input type="checkbox" name="marca" value="@marca" /> @marca
-                                                                        </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="marca" value="@marca" /> @marca
+                                                                            </label>
                             }
                         }
                     </div>
@@ -143,9 +143,9 @@
                         @{
                             foreach (var categoria in Model.categoriasV)
                             {
-                                                                        <label>
-                                                                            <input type="checkbox" name="categoria" value="@categoria" /> @categoria
-                                                                        </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                                                            </label>
                             }
                         }
                     </div>
@@ -357,6 +357,16 @@
     }
 </script>
 <script>
+    function aplicarFiltrosFuncion() {
+        cerrarDesplegados();
+        filtrar();
+    }
+
+    function limpiarFiltrosFuncion() {
+        cerrarDesplegados();
+        limpiarFiltros();
+    }
+
     function toggleDesplegable(index) {
         var dropdownContent = document.getElementById('ContenidoFiltro' + index);
         var dropdownButton = document.getElementById('BotonFiltro' + index);
