@@ -42,7 +42,9 @@ namespace LoCoMPro.Pages.Cuenta
                 nombreDeUsuario = "",
                 correo = "",
                 hashContrasena = "",
-                calificacion = 0.0
+                calificacion = 0.0,
+                latitudVivienda = 0.0,
+                longitudVivienda = 0.0
             };
             // Crea un ModificarUsuarioVM con datos vacíos para no tener nulo
             this.usuarioActual = new ModificarUsuarioVM

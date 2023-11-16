@@ -1,0 +1,68 @@
+[
+    {
+        "nombreDeUsuario": "Usuario1*",
+        "correo": "prueba@gmail.com",
+        "hashContrasena": "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "Carmen",
+        "cantonVivienda": "San José",
+        "provinciaVivienda": "San José",
+        "esModerador": true
+    },
+    {
+        "nombreDeUsuario": "emilia_Viqu1*",
+        "correo": "emilia.viquez@ucr.ac.cr",
+        "hashContrasena": "AQAAAAIAAYagAAAAEMqXJ/6/c9/YLRWkuz49O2jxVLseFaYO7Y06Q91mxpeXdgJUX18RtzRP8+rznlJ4TQ==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "Ulloa",
+        "cantonVivienda": "Heredia",
+        "provinciaVivienda": "Heredia",
+        "esModerador": true
+    },
+    {
+        "nombreDeUsuario": "Kdaniel1652*",
+        "correo": "kennethvillalobos16@gmail.com",
+        "hashContrasena": "AQAAAAIAAYagAAAAECoYO8tyarb7qTTnF/23Ywxs/XgyYkJksLqYkQ6+kGbQOUOf8F0j4YSX0GqUsupAtg==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "Sabanilla",
+        "cantonVivienda": "Montes De Oca",
+        "provinciaVivienda": "San José",
+        "esModerador": true
+    },
+    {
+        "nombreDeUsuario": "Angies2311!",
+        "correo": "angie.solismanzano@ucr.ac.cr",
+        "hashContrasena": "AQAAAAIAAYagAAAAEFLwCXT6Sb0C+pefc+uCOGlVDUfpPvub6jYJ4C7xg6A62Jc6ElhKpK5/JMoVxbimZA==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "La Trinidad",
+        "cantonVivienda": "Moravia",
+        "provinciaVivienda": "San José",
+        "esModerador": true
+    },
+    {
+        "nombreDeUsuario": "Luis.solano25",
+        "correo": "luisdi2503@gmail.com",
+        "hashContrasena": "AQAAAAIAAYagAAAAENNLWa4Db4mteoTg5vVntM7A2Vg9/dd6eBBPjLnxxVS7bMhDJefzNk/Sf4czmEH6BA==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "Alajuela",
+        "cantonVivienda": "Alajuela",
+        "provinciaVivienda": "Alajuela",
+        "esModerador": true
+    },
+    {
+        "nombreDeUsuario": "Envil0705!",
+        "correo": "enriquevil0705@gmail.com",
+        "hashContrasena": "AQAAAAIAAYagAAAAEHsdeQes5J5rFlv70nqX8jfXT54929a1Rxw9ZcmPW/Ou1MmfDIBgyxmLRUXrXA0Asg==",
+        "estado": "A",
+        "calificacion": 0,
+        "distritoVivienda": "Mercedes",
+        "cantonVivienda": "Heredia",
+        "provinciaVivienda": "Heredia",
+        "esModerador": true
+    }
+]

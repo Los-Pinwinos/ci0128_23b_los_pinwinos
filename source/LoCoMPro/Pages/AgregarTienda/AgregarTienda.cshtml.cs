@@ -51,7 +51,6 @@ namespace LoCoMPro.Pages.AgregarTienda
                 // Se redirige al usuario porque debe estar ingresado para esta funcionalidad
                 ViewData["RedirectMessage"] = "usuario";
             }
-
             // Cargar toda la información de provincias de la base de datos
             this.ListaProvincias = this.contexto.Provincias.ToList();
 

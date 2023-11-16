@@ -134,7 +134,9 @@ namespace LoCoMPro.Pages.Cuenta
                             calificacion = 0.0,
                             distritoVivienda = this.usuarioActual.distritoVivienda,
                             cantonVivienda = this.usuarioActual.cantonVivienda,
-                            provinciaVivienda = this.usuarioActual.provinciaVivienda
+                            provinciaVivienda = this.usuarioActual.provinciaVivienda,
+                            latitudVivienda = 0.0,
+                            longitudVivienda = 0.0
                         };
                         // Agrega la contraseña hasheada
                         nuevoUsuario.hashContrasena =
