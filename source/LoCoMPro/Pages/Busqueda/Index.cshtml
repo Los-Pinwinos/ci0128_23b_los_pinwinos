@@ -366,13 +366,21 @@
             dropdown.classList.toggle('clicked');
             filtrosDesplegados[index - 1] = 0;
         } else {
-            // cerrarDesplegados();
+            cerrarDesplegados();
             mostrarDesplegable(index);
             dropdown.classList.toggle('clicked');
             filtrosDesplegados[index - 1] = 1;
         }
     }
 
+    function cerrarDesplegados() {
+        for (var i = 0; i < 5; i++) {
+            if (filtrosDesplegados[i] === 1) {
+                console.log("Voy a borrar");
+                toggleDesplegable(i + 1);
+            }
+        }
+    }
 
     function mostrarDesplegable(index) {
         var dropdownContent = document.getElementById('ContenidoFiltro' + index);
