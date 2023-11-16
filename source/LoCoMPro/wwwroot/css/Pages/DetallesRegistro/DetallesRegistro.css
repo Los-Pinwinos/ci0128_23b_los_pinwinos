@@ -187,9 +187,9 @@
     color: white;
     position: absolute;
     top: 10%;
-    margin-right: 2%;
     padding-right: 6px;
     padding-left: 6px;
+    justify-content: right;
     background-color: #893636;
     font-size: 1.4em;
     border-radius: 6px;

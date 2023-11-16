@@ -60,6 +60,18 @@
                 <span class="Etiqueta-calificacion">Calificación:</span>
             </div>
             <div class="Contenedor-columna">
+                <!-- Opción para reportar -->
+                <div class="Contenedor-fila" style="justify-content:right;">  
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <div class="Reportar-registro">
+                                <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                                    warning
+                                </span>
+                                <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+                            </div>
+                        }  
+                </div>
                 <div id="galeriaImagenes" class="GaleriaImagenes">
                     <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
                     <div id="currentImage" class="CurrentImage">
@@ -90,18 +102,6 @@
                     <p id="CantidadCalificacionesTotal" class="Conteo">(@Model.registro.cantidadCalificaciones)</p>
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
-            </div>
-            <!-- Opción para reportar -->
-            <div class="Contenedor-columna">
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <div class="Reportar-registro">
-                        <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
-                            warning
-                        </span>
-                        <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
-                    </div>
-                }
             </div>
         </div>
     </div>
