@@ -1,15 +1,19 @@
-﻿using LoCoMPro.Data.CR;
+﻿using Azure;
+using LoCoMPro.Data.CR;
 using LoCoMPro.Models;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net.Http.Json;
+using System.Security.Policy;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoCoMPro.Data
 {
     public class DBInitializer
     {
-        public static void Initialize(LoCoMProContext contexto)
+        public static async Task Initialize(LoCoMProContext contexto)
         {
             // Si no tiene distritos, cantones ni provincias
             if (!contexto.Distritos.Any() &&
@@ -62,20 +66,28 @@ namespace LoCoMPro.Data
                 var usuario = new Usuario
                 {
                     nombreDeUsuario = "Usuario1*"
-                    , correo = "prueba@gmail.com"
-                    , hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
-                    , estado = 'A'
-                    , calificacion = 0
-                    , distritoVivienda = "Garita"
-                    , cantonVivienda = "Alajuela"
-                    , provinciaVivienda = "Alajuela"
-                    , esModerador = true
+                    ,
+                    correo = "prueba@gmail.com"
+                    ,
+                    hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
+                    ,
+                    estado = 'A'
+                    ,
+                    calificacion = 0
+                    ,
+                    distritoVivienda = "Garita"
+                    ,
+                    cantonVivienda = "Alajuela"
+                    ,
+                    provinciaVivienda = "Alajuela"
+                    ,
+                    esModerador = true
                 };
                 contexto.Usuarios.Add(usuario);
                 contexto.SaveChanges();
 
                 // Cargar tiendas base
-                DBInitializer.CargarTiendas(contexto);
+                await DBInitializer.CargarTiendas(contexto);
 
                 // Cargar productos base
                 DBInitializer.CargarProductos(contexto);
@@ -106,10 +118,10 @@ namespace LoCoMPro.Data
         private static void AgregarDatos(LoCoMProContext contexto, CR.CostaRica costaRica)
         {
             if (costaRica.Provincias != null)
-            foreach (var entradaProvincia in costaRica.Provincias.Values)
-            {
-                AgregarProvincias(contexto, entradaProvincia);
-            }
+                foreach (var entradaProvincia in costaRica.Provincias.Values)
+                {
+                    AgregarProvincias(contexto, entradaProvincia);
+                }
         }
 
         private static void AgregarProvincias(LoCoMProContext contexto, CR.Provincia entradaProvincia)
@@ -126,10 +138,10 @@ namespace LoCoMPro.Data
             }
 
             if (entradaProvincia.Cantones != null && entradaProvincia.Nombre != null)
-            foreach (var entradaCanton in entradaProvincia.Cantones.Values)
-            {
-                AgregarCantones(contexto, entradaProvincia.Nombre, entradaCanton);
-            }
+                foreach (var entradaCanton in entradaProvincia.Cantones.Values)
+                {
+                    AgregarCantones(contexto, entradaProvincia.Nombre, entradaCanton);
+                }
         }
 
         private static void AgregarCantones(LoCoMProContext contexto, string nombreProv, CR.Canton entradaCanton)
@@ -152,10 +164,10 @@ namespace LoCoMPro.Data
             }
 
             if (entradaCanton.Distritos != null && nombreCant != null)
-            foreach (var entradaDistrito in entradaCanton.Distritos.Values)
-            {
-                AgregarDistrito(contexto, nombreProv, nombreCant, entradaDistrito);
-            }
+                foreach (var entradaDistrito in entradaCanton.Distritos.Values)
+                {
+                    AgregarDistrito(contexto, nombreProv, nombreCant, entradaDistrito);
+                }
         }
 
         private static void AgregarDistrito(LoCoMProContext contexto, string nombreProv, string nombreCant, string nombreDistrito)
@@ -192,7 +204,7 @@ namespace LoCoMPro.Data
             }
         }
 
-        private static void CargarTiendas(LoCoMProContext contexto)
+        private static async Task CargarTiendas(LoCoMProContext contexto)
         {
             // Cargar JSON
             string pathArchivoJson = "./Data/ArchivosJSON/Tiendas.json";
@@ -200,13 +212,73 @@ namespace LoCoMPro.Data
 
             // Deserializar
             var tiendas = JsonConvert.DeserializeObject<Tienda[]>(datosJson);
-
-            // Agregar los datos
-            if (tiendas != null)
+            // Crear un cliente
+            using (HttpClient cliente = new HttpClient())
             {
-                contexto.Tiendas.AddRange(tiendas);
+                if (tiendas != null)
+                {
+                    foreach (Tienda tienda in tiendas)
+                    {
+                        // Obtener las coordenadas de la tienda
+                        string apiURL = ObtenerUrlLocalizacion(tienda.nombreProvincia, tienda.nombreCanton, tienda.nombreDistrito, tienda.nombre);
+                        var (latitud, longitud) = await ObtenerCoordenadas(cliente, apiURL);
+
+                        // Verificar si se obtuvieron las coordenadas con éxito
+                        if (longitud != 0 && latitud != 0)
+                        {
+                            tienda.latitud = latitud;
+                            tienda.longitud = longitud;
+
+                            contexto.Tiendas.Add(tienda);
+                        }
+
+                    }
+                }
                 contexto.SaveChanges();
             }
+        }
+
+        private static async Task<(double, double)> ObtenerCoordenadas(HttpClient cliente, string apiUrl)
+        {
+            double latitud = 0;
+            double longitud = 0;
+
+            HttpResponseMessage respuesta = await cliente.GetAsync(apiUrl);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                // Obtener el contenido JSON de la respuesta del fetch
+                string contenidoJSON = await respuesta.Content.ReadAsStringAsync();
+                AdaptadorArgcisJSON objetoJSON;
+
+                if (contenidoJSON != null)
+                {
+                    // Convertir el contenido del JSON en un objeto conocido
+                    objetoJSON = JsonConvert.DeserializeObject<AdaptadorArgcisJSON>(contenidoJSON);
+
+                    if (objetoJSON != null && objetoJSON.Candidatos != null)
+                    {
+                        latitud = objetoJSON.Candidatos[0].Coordenadas.Latitud;
+                        longitud = objetoJSON.Candidatos[0].Coordenadas.Longitud;
+                    }
+                }
+            }
+            return (latitud, longitud);
+        }
+
+        private static string ObtenerUrlLocalizacion(string provincia, string canton, string distrito, string? tienda = null)
+        {
+            // Crear URL para obtener las coordenadas de una tienda
+            string urlBase = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson";
+            string url = "";
+
+            // Verificar si se solicitó tienda
+            if (string.IsNullOrEmpty(tienda))
+                url = $"{urlBase}&singleLine={tienda},{distrito},{canton},{provincia}";
+            else
+                url = $"{urlBase}&singleLine={distrito},{canton},{provincia}";
+
+            return url;
         }
 
         private static void CargarRegistros(LoCoMProContext contexto)

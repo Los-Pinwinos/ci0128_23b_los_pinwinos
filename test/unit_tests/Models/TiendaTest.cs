@@ -29,7 +29,10 @@ namespace LoCoMProTests.Models
                 nombreCanton = "Moravia",
                 // 8 caracteres representa una longitud válida
                 // No presenta números
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                // Coordenadas
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -51,7 +54,9 @@ namespace LoCoMProTests.Models
                 nombre = "",
                 nombreDistrito = "San Vicente",
                 nombreCanton = "Moravia",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -73,7 +78,9 @@ namespace LoCoMProTests.Models
                 nombre = "Supermercado Cool!",
                 nombreDistrito = "San Vicente",
                 nombreCanton = "Moravia",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -96,7 +103,9 @@ namespace LoCoMProTests.Models
                 nombreDistrito = "Distrito Invalido Por No Estar Dentro Del " +
                     "Rango Del Largo de Distritos en Costa Rica",
                 nombreCanton = "Moravia",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -119,7 +128,9 @@ namespace LoCoMProTests.Models
                 // solamente
                 nombreDistrito = "¡El mejor distrito!",
                 nombreCanton = "Moravia",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -142,7 +153,9 @@ namespace LoCoMProTests.Models
                 // El nombre del cantón debe tener entre 3 y 20 caracteres
                 nombreCanton = "Canton Invalido Por No Estar Dentro Del Rango " +
                 "Del Largo de Cantones en Costa Rica",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -164,7 +177,9 @@ namespace LoCoMProTests.Models
                 nombreDistrito = "San Vicente",
                 // El nombre del cantón debe estar formado por letras solamente
                 nombreCanton = "123",
-                nombreProvincia = "San José"
+                nombreProvincia = "San José",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -187,7 +202,9 @@ namespace LoCoMProTests.Models
                 nombreCanton = "Moravia",
                 // El nombre de la provincia debe tener entre 5 y 10 caracteres
                 nombreProvincia = "Provincia Invalida Por No Estar Dentro Del " +
-                "Rango Del Lago de Provincias en Costa Rica"
+                "Rango Del Lago de Provincias en Costa Rica",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba
@@ -209,7 +226,9 @@ namespace LoCoMProTests.Models
                 nombreDistrito = "San Vicente",
                 nombreCanton = "Moravia",
                 // El nombre de la provincia debe estar formado por letras
-                nombreProvincia = " "
+                nombreProvincia = " ",
+                latitud = 0,
+                longitud = 0
             };
 
             // Establecer condiciones de prueba

@@ -76,7 +76,7 @@ using (var scope = app.Services.CreateScope())
     }
     
     // Alimenta la base de datos si no hay nada
-    DBInitializer.Initialize(context);
+    await DBInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
