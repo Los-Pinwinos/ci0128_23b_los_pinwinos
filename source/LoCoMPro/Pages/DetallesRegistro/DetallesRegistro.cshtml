@@ -91,21 +91,23 @@
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
+            <!-- Opción para reportar -->
+            <div class="Contenedor-columna">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="Reportar-registro">
+                        <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                            warning
+                        </span>
+                        <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+                    </div>
+                }
+            </div>
         </div>
     </div>
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
-    <!-- Opción para reportar -->
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <div class="Reportar-registro">
-            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
-                warning
-            </span>
-            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
-        </div>
-    }
 </body>
 
 <script>
