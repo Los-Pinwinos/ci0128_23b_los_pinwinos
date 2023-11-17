@@ -11,7 +11,7 @@ namespace LoCoMProTests
     {
         public static Usuario CrearUsuarioPorDefecto()
         {
-            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena" };
+            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena", longitudVivienda = 0, latitudVivienda = 0 };
         }
         public static Provincia CrearProvinciaPorDefecto()
         {

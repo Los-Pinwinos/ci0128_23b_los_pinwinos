@@ -1,13 +1,6 @@
-﻿using Azure;
-using LoCoMPro.Data.CR;
-using LoCoMPro.Models;
-using Microsoft.Win32;
+﻿using LoCoMPro.Models;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Net.Http.Json;
-using System.Security.Policy;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using LoCoMPro.Utils;
 
 namespace LoCoMPro.Data
 {
@@ -61,30 +54,8 @@ namespace LoCoMPro.Data
                 !contexto.Productos.Any() &&
                 !contexto.Registros.Any())
             {
-                // TODO(Pinwinos): Agregar usuarios para cada miembro
-                // Crear Usuario base
-                var usuario = new Usuario
-                {
-                    nombreDeUsuario = "Usuario1*"
-                    ,
-                    correo = "prueba@gmail.com"
-                    ,
-                    hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
-                    ,
-                    estado = 'A'
-                    ,
-                    calificacion = 0
-                    ,
-                    distritoVivienda = "Garita"
-                    ,
-                    cantonVivienda = "Alajuela"
-                    ,
-                    provinciaVivienda = "Alajuela"
-                    ,
-                    esModerador = true
-                };
-                contexto.Usuarios.Add(usuario);
-                contexto.SaveChanges();
+                // Crear usuarios base
+                await DBInitializer.CargarUsuarios(contexto);
 
                 // Cargar tiendas base
                 await DBInitializer.CargarTiendas(contexto);
@@ -187,6 +158,41 @@ namespace LoCoMPro.Data
             }
         }
 
+        private static async Task CargarUsuarios(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Usuarios.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var usuarios = JsonConvert.DeserializeObject<Usuario[]>(datosJson);
+
+            // Crear un cliente
+            using (HttpClient cliente = new HttpClient())
+            {
+                if (usuarios != null)
+                {
+                    foreach (Usuario usuario in usuarios)
+                    {
+                        // Obtener las coordenadas de la tienda
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(usuario.provinciaVivienda, usuario.cantonVivienda, usuario.distritoVivienda);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                        // Verificar si se obtuvieron las coordenadas con éxito
+                        if (longitud != 0 && latitud != 0)
+                        {
+                            usuario.latitudVivienda = latitud;
+                            usuario.longitudVivienda = longitud;
+
+                            contexto.Usuarios.Add(usuario);
+                        }
+
+                    }
+                }
+                contexto.SaveChanges();
+            }
+        }
+
         private static void CargarProductos(LoCoMProContext contexto)
         {
             // Cargar JSON
@@ -220,8 +226,8 @@ namespace LoCoMPro.Data
                     foreach (Tienda tienda in tiendas)
                     {
                         // Obtener las coordenadas de la tienda
-                        string apiURL = ObtenerUrlLocalizacion(tienda.nombreProvincia, tienda.nombreCanton, tienda.nombreDistrito, tienda.nombre);
-                        var (latitud, longitud) = await ObtenerCoordenadas(cliente, apiURL);
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(tienda.nombreProvincia, tienda.nombreCanton, tienda.nombreDistrito, tienda.nombre);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
 
                         // Verificar si se obtuvieron las coordenadas con éxito
                         if (longitud != 0 && latitud != 0)
@@ -236,49 +242,6 @@ namespace LoCoMPro.Data
                 }
                 contexto.SaveChanges();
             }
-        }
-
-        private static async Task<(double, double)> ObtenerCoordenadas(HttpClient cliente, string apiUrl)
-        {
-            double latitud = 0;
-            double longitud = 0;
-
-            HttpResponseMessage respuesta = await cliente.GetAsync(apiUrl);
-
-            if (respuesta.IsSuccessStatusCode)
-            {
-                // Obtener el contenido JSON de la respuesta del fetch
-                string contenidoJSON = await respuesta.Content.ReadAsStringAsync();
-                AdaptadorArgcisJSON objetoJSON;
-
-                if (contenidoJSON != null)
-                {
-                    // Convertir el contenido del JSON en un objeto conocido
-                    objetoJSON = JsonConvert.DeserializeObject<AdaptadorArgcisJSON>(contenidoJSON);
-
-                    if (objetoJSON != null && objetoJSON.Candidatos != null)
-                    {
-                        latitud = objetoJSON.Candidatos[0].Coordenadas.Latitud;
-                        longitud = objetoJSON.Candidatos[0].Coordenadas.Longitud;
-                    }
-                }
-            }
-            return (latitud, longitud);
-        }
-
-        private static string ObtenerUrlLocalizacion(string provincia, string canton, string distrito, string? tienda = null)
-        {
-            // Crear URL para obtener las coordenadas de una tienda
-            string urlBase = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson";
-            string url = "";
-
-            // Verificar si se solicitó tienda
-            if (string.IsNullOrEmpty(tienda))
-                url = $"{urlBase}&singleLine={tienda},{distrito},{canton},{provincia}";
-            else
-                url = $"{urlBase}&singleLine={distrito},{canton},{provincia}";
-
-            return url;
         }
 
         private static void CargarRegistros(LoCoMProContext contexto)

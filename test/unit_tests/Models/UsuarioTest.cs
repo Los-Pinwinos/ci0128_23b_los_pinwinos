@@ -23,7 +23,9 @@ namespace LoCoMProTests.Models
                 // El estado debe ser 'A', 'B' o 'C'
                 estado = 'A',
                 // La calificación debe estar entre 0 y 5 puntos
-                calificacion = 5.0
+                calificacion = 5.0,
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -46,7 +48,9 @@ namespace LoCoMProTests.Models
                 correo = "example@gmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5.0
+                calificacion = 5.0,
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -69,7 +73,9 @@ namespace LoCoMProTests.Models
                 correo = "examplegmail.com",
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
-                calificacion = 5.0
+                calificacion = 5.0,
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -92,7 +98,9 @@ namespace LoCoMProTests.Models
                 hashContrasena = "hashcontrasena",
                 // El estado debe ser 'A', 'B' o 'C'
                 estado = 'P',
-                calificacion = 5.0
+                calificacion = 5.0,
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -115,7 +123,9 @@ namespace LoCoMProTests.Models
                 hashContrasena = "hashcontrasena",
                 estado = 'A',
                 // La calificación debe estar entre 0 y 5 puntos
-                calificacion = -1.0
+                calificacion = -1.0,
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -139,7 +149,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // El distrito debe tener entre 3 y 30 caracteres
-                distritoVivienda = "d1"
+                distritoVivienda = "d1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -163,7 +175,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // El distrito debe estar formado por letras solamente
-                distritoVivienda = "distrito1"
+                distritoVivienda = "distrito1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -187,7 +201,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // El canton debe tener entre 3 y 20 caracteres
-                cantonVivienda = "c1"
+                cantonVivienda = "c1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -211,7 +227,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // El canton debe tener entre 3 y 20 caracteres
-                cantonVivienda = "canton1"
+                cantonVivienda = "canton1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -235,7 +253,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // La provincia debe tener entre 5 y 10 caracteres
-                provinciaVivienda = "p1"
+                provinciaVivienda = "p1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba
@@ -259,7 +279,9 @@ namespace LoCoMProTests.Models
                 estado = 'A',
                 calificacion = 5.0,
                 // La provincia debe tener entre 5 y 10 caracteres
-                provinciaVivienda = "provin1"
+                provinciaVivienda = "provin1",
+                longitudVivienda = 0,
+                latitudVivienda = 0
             };
 
             // Establecer condiciones de prueba

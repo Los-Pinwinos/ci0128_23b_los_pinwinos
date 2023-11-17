@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.ViewModels.Tienda;
 using LoCoMPro.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
@@ -51,7 +52,6 @@ namespace LoCoMPro.Pages.AgregarTienda
                 // Se redirige al usuario porque debe estar ingresado para esta funcionalidad
                 ViewData["RedirectMessage"] = "usuario";
             }
-
             // Cargar toda la información de provincias de la base de datos
             this.ListaProvincias = this.contexto.Provincias.ToList();
 
@@ -109,8 +109,8 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.Tienda.nombreProvincia = this.Provincia;
             this.Tienda.nombreCanton = this.Canton;
             this.Tienda.nombreDistrito = this.Distrito;
-            this.Tienda.latitud = double.Parse(this.Latitud);
-            this.Tienda.longitud = double.Parse(this.Longitud);
+            this.Tienda.latitud = double.Parse(this.Latitud, CultureInfo.InvariantCulture);
+            this.Tienda.longitud = double.Parse(this.Longitud, CultureInfo.InvariantCulture);
 
             return VerificarTiendaValida();
         }

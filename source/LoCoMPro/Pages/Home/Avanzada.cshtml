@@ -87,6 +87,12 @@
 
 @section Scripts {
     <script>
+        // Longitud y latitud del usuario
+        const longitud = @Model.longitudUsuario;
+        const latitud = @Model.latitudUsuario;
+    </script>
+
+    <script>
         // Obtiene las cajas de selección
         const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
         const cajaDeSeleccionCanton = document.getElementById("CajaDeSeleccionCanton");
@@ -156,7 +162,6 @@
             return cantones;
         }
     </script>
-
 
     <!-- Carga el archivo JavaScript en esta ruta -->
     <script src="~/js/Pages/Busqueda/mapaAvanzada.js" asp-append-version="true"></script>
