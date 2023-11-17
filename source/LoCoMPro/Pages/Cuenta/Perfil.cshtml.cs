@@ -11,12 +11,14 @@ using LoCoMPro.Utils.SQL;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LoCoMPro.Pages.Cuenta
 {
     public class ModeloPerfil : PageModel
     {
         private readonly LoCoMProContext contexto;
+        private readonly IConfiguration configuracion;
 
         public Usuario usuario { get; set; }
 
@@ -36,6 +38,13 @@ namespace LoCoMPro.Pages.Cuenta
         public ModeloPerfil(LoCoMProContext contexto)
         {
             this.contexto = contexto;
+
+            // Accede al archivo de configuración
+            this.configuracion = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json")
+               .Build();
+
             // Crea un usuario con datos vacíos para no tener nulo
             this.usuario = new Usuario
             {
@@ -164,12 +173,9 @@ namespace LoCoMPro.Pages.Cuenta
                             controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
                             controlador.EjecutarProcedimiento();
 
-                            // Limpia la sesión
-                            HttpContext.Session.Clear();
-                            // Cierra sesión
-                            await HttpContext.SignOutAsync();
-                            // Redirecciona a la página de inicio
-                            return RedirectToPage("/Home/Index");
+
+                            // Reinicia la sesión para actualizar los claims
+                            await this.reiniciarSesion();
 
                         } else
                         {
@@ -181,6 +187,62 @@ namespace LoCoMPro.Pages.Cuenta
             }
             
             return RedirectToPage("/Cuenta/Perfil");
+        }
+
+        private async Task reiniciarSesion()
+        {
+            // Cierra la swsión
+            await this.cerrarSesion();
+            // Vuelve a iniciar la sesión
+            await this.iniciarSesion();
+        }
+
+        private async Task cerrarSesion()
+        {
+            // Remueve la información guardada en la sesión
+            HttpContext.Session.Remove("NombreDeUsuario");
+            // Limpia la sesión
+            HttpContext.Session.Clear();
+            // Cierra sesión
+            await HttpContext.SignOutAsync();
+        }
+
+        private async Task iniciarSesion()
+        {
+            // Obtiene el usuario de la base de datos
+            var usuarioEncontrado = this.contexto.Usuarios.FirstOrDefault(
+                    u => u.nombreDeUsuario == this.usuarioActual.nombreDeUsuario);
+
+            // Si encuentra al usuario
+            if (usuarioEncontrado != null)
+            {
+                // Guarda la información del nombre de usuario en la sesión actual
+                HttpContext.Session.SetString("NombreDeUsuario", usuarioEncontrado.nombreDeUsuario);
+
+                // Establece los Claims para guardar los datos del usuario en las páginas
+                var claims = new List<Claim>
+                {
+                    // Crea un claim con el nombre de usuario
+                    new Claim(ClaimTypes.Name, usuarioEncontrado.nombreDeUsuario),
+                    // Crea un claim con el rol del usuario
+                    new Claim(ClaimTypes.Role, usuarioEncontrado.esModerador? "moderador":"regular")
+                };
+
+                // Agrega los claims a la autentificación con cookies
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Inicia sesión en el contexto http con los nuevos claims
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(
+                            this.configuracion.GetValue<int>("minutosTimeout"))
+                    });
+            }
         }
     }
 }
