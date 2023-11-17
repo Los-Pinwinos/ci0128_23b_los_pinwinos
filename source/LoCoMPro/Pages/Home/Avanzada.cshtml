@@ -75,15 +75,6 @@
         <button asp-page-handler="Buscar" class="HomeAvanzada-boton-aceptar"> Buscar </button>
     </form>
 
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <input value="Hola" />
-    }
-    else
-    {
-        <input value="Adios" />
-    }
-
     <!-- Función para autocompletar -->
     <script type="text/javascript">
         $("#CajaTextoMarca").autocomplete({

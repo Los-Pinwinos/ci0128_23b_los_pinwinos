@@ -149,7 +149,7 @@ class Mapa {
             const provincia = encontrarPalabraMasSimilar(data.address.Region, this.provinciasDisponibles);
 
             // Actualizar el valor en la caja de provincia si hay una coincidencia suficientemente alta
-            if (provincia.porcentaje > 50 && this.cajaProvincia.value != provincia.palabra) {
+            if (provincia.porcentaje > 50) {
                 this.cajaProvincia.value = provincia.palabra;
                 // Esperar a que se actualicen los cantones
                 await actualizarCantones();
