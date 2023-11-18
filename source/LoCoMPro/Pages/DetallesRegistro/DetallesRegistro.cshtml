@@ -96,8 +96,8 @@
                             </fieldset>
                         </form>
                     }
-                    <p id="CalificacionTotal" class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
-                    <p id="CantidadCalificacionesTotal" class="Conteo">(@Model.registro.cantidadCalificaciones)</p>
+                    <p class="Calificacion" id="CalificacionTotal">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
+                    <p class="Conteo" id="CantidadCalificacionesTotal">(@Model.registro.cantidadCalificaciones)</p>
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
@@ -219,9 +219,13 @@
 </script>
 
 <script>
-    function actualizarCalificacion(calificacion) {
-        var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
-        labelUltimaCalificacion.hidden = false;
-        labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
+    function actualizarCalificacion() {
+        // Actualizar calificación del registro
+        var labelCalificacion = document.getElementById("CalificacionTotal");
+        labelCalificacion.innerHTML = @Model.registro.calificacion.ToString("0.0")[0] + "," + @Model.registro.calificacion.ToString("0.0")[2] + " de 5,0";
+
+        // Actualizar cantidad de calificaciones
+        var labelConteo = document.getElementById("CantidadCalificacionesTotal");
+        labelConteo.innerHTML = "(" + @Model.registro.cantidadCalificaciones + ")";
     }
 </script>

@@ -3,6 +3,12 @@ async function actualizarNoCalificaciones(estado) {
     estrella0.checked = estado;
 }
 
+function actualizarUltimaCalificacion(calificacion) {
+    var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+    labelUltimaCalificacion.hidden = false;
+    labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
+}
+
 async function calificarRegistro(calificacion) {
     actualizarNoCalificaciones(false);
 
@@ -10,7 +16,7 @@ async function calificarRegistro(calificacion) {
         const response = await fetch(`/DetallesRegistro/DetallesRegistro?handler=Calificar&calificacion=${calificacion}`);
 
         if (response.ok) {
-            actualizarCalificacion(calificacion);
+            actualizarUltimaCalificacion(calificacion);
         } else {
             console.error("Error: ", response.status);
         }
