@@ -56,9 +56,6 @@
         </form>
 
         <div class="Contenedor-fila" style="margin-left:5%;">
-            <div class="Contenedor-columna" style="margin-top:19%;">
-                <span class="Etiqueta-calificacion">Calificación:</span>
-            </div>
             <div class="Contenedor-columna">
                 <!-- Opción para reportar -->
                 <div class="Contenedor-fila" style="justify-content:right;">  
@@ -80,6 +77,7 @@
                     <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-calificacion">
+                    <p class="Etiqueta-calificacion">Calificación:</p>
                     @if (User.Identity == null || !User.Identity.IsAuthenticated)
                     {
                         <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
