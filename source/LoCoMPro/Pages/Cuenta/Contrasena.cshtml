@@ -1,0 +1,53 @@
+﻿@page
+@model ModeloContrasena
+
+@{
+    ViewData["Title"] = "Contrasena";
+}
+
+<head>
+    <title>Cambio de contraseña</title>
+    <script src="~/js/Pages/alinear.js"></script>
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Contrasena.css" asp-append-version="true" />
+</head>
+
+<body>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" ></div>
+        <div class="Contrasena-contenedor-centrado-primario">
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoActual">Contraseña actual:</label>
+                <input type="password" id="CajaDeTextoActual">
+            </div>
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoNueva">Contraseña nueva:</label>
+                <input type="password" id="CajaDeTextoNueva">
+            </div>
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
+                <input type="password" id="CajaDeTextoConfirmacion">
+            </div>
+            <button class="Contrasena-boton-basico" id="BotonGuardarCambios"> Guardar cambios </button>
+        </div>
+    </form>
+
+
+    <script>
+        alinearContenedoresDeBarrasDeTexto(".Contrasena-contenedor-caja-de-texto", 98);
+    </script>
+
+    <script>
+        var mensaje = "@ViewData["Redireccionar"]";
+        if (mensaje) {
+            alert(mensaje);
+            window.location.href = "/Home/Index";
+        }
+    </script>
+
+    <!-- Sección para realizar validaciones de los datos del lado del cliente -->
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
