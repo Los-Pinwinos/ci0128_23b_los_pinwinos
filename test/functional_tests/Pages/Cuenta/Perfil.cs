@@ -40,7 +40,9 @@ namespace LoCoMProFunctionalTests.Pages.Home
         private void cambiarVivienda()
         {
             // Ir a la p�gina del perfil
-            IWebElement botonLayoutPerfil = driver.FindElement(By.Id("BotonMiPerfilLayout"));
+            IWebElement dropdownPerfil = driver.FindElement(By.Id("perfilDropdown"));
+            dropdownPerfil.Click();
+            IWebElement botonLayoutPerfil = driver.FindElement(By.Id("BotonPerfilLayout"));
             botonLayoutPerfil.Click();
 
 

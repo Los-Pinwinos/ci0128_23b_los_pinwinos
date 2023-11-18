@@ -21,7 +21,7 @@ namespace LoCoMPro.Utils.SQL
             Encriptador encriptador = new Encriptador();
             // Crea una constante para el connection string
             // TODO(Pinwinos): Sincronizar con la de program.cs
-            const string connectionString = "LoCoMProContextRemote";
+            const string connectionString = "LoCoMProContextTest";
 
             // Abrir una conexion
             this.conexion = new SqlConnection(
