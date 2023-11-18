@@ -89,7 +89,7 @@
                                     Cantón
                                 </div>
                                 <select name="nombreCanton" asp-for="canton" id="CajaDeSeleccionCanton" class="BusquedaAvanzada-caja-combo">
-                                    <option name="canton" value="">TTodas</option>
+                                    <option name="canton" value="">Todas</option>
                                 </select>
                             </div>
                         </div>
@@ -424,7 +424,7 @@
 
         var opcionNula = document.createElement("option");
         opcionNula.value = "";
-        opcionNula.text = "";
+        opcionNula.text = "Todas";
         cajaDeSeleccionCanton.appendChild(opcionNula);
 
         // Si se eligió una provincia
