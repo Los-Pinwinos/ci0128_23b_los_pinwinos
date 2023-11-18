@@ -25,7 +25,7 @@
             </div>
             <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
                 <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
-                <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.contrasenaNueva">
+                <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.confirmarContrasena">
             </div>
             <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Guardar cambios </button>
         </div>
@@ -43,11 +43,4 @@
             window.location.href = "/Home/Index";
         }
     </script>
-
-    <!-- Sección para realizar validaciones de los datos del lado del cliente -->
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
 </body>

@@ -19,7 +19,7 @@ namespace LoCoMPro.Pages.Cuenta
         private readonly LoCoMProContext contexto;
 
         [BindProperty]
-        public CambiarContraseñaVM usuarioActual { get; set; }
+        public CambiarContrasenaVM usuarioActual { get; set; }
 
 
         private readonly PasswordHasher<Usuario> hasheador;
@@ -30,7 +30,7 @@ namespace LoCoMPro.Pages.Cuenta
             this.contexto = contexto;
             this.hasheador = new PasswordHasher<Usuario>();
             // Crea un ModificarUsuarioVM con datos vacíos para no tener nulo
-            this.usuarioActual = new CambiarContraseñaVM
+            this.usuarioActual = new CambiarContrasenaVM
             {
                 nombreDeUsuario = "",
                 contrasenaActual = "+",
@@ -40,14 +40,14 @@ namespace LoCoMPro.Pages.Cuenta
             this.hasheador = new PasswordHasher<Usuario>();
         }
 
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
         public void OnPostAceptar()
         {
             this.usuarioActual.nombreDeUsuario = User.Identity?.Name ?? "desconocido";
+
+            Console.WriteLine(this.usuarioActual.nombreDeUsuario);
+            Console.WriteLine(this.usuarioActual.contrasenaActual);
+            Console.WriteLine(this.usuarioActual.contrasenaNueva);
+            Console.WriteLine(this.usuarioActual.confirmarContrasena);
 
             if (ModelState.IsValid)
             {
@@ -70,23 +70,18 @@ namespace LoCoMPro.Pages.Cuenta
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Las contraseñas no son iguales.");
-
-                        Console.WriteLine("Son diferentes");
                     }
                 } 
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Contraseña actual incorrecta.");
-
-                    Console.WriteLine("Mala contraseña");
                 }
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Los datos brindados no son correctos. Recuerde que la contraseña debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial. Además, debe estar entre 8 y 20 caracteres.");
-                Console.WriteLine("No cumple lo que se pide");
+               Console.WriteLine("No cumple lo que se pide");
             }
-            // return Page();
         }
     }
 }
