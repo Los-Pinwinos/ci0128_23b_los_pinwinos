@@ -77,7 +77,7 @@
                                     Provincia
                                 </div>
                                 <select name="nombreProvincia" asp-for="provincia" id="CajaDeSeleccionProvincia" class="BusquedaAvanzada-caja-combo">
-                                    <option name="provincia" value=""></option>
+                                    <option name="provincia" value="">Todas</option>
                                     @foreach (var provincia in Model.provincias)
                                     {
                                         <option name="provincia" value="@provincia.nombre">@provincia.nombre</option>
@@ -89,7 +89,7 @@
                                     Cantón
                                 </div>
                                 <select name="nombreCanton" asp-for="canton" id="CajaDeSeleccionCanton" class="BusquedaAvanzada-caja-combo">
-                                    <option name="canton" value=""></option>
+                                    <option name="canton" value="">TTodas</option>
                                 </select>
                             </div>
                         </div>
