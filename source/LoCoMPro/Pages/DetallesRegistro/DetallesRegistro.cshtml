@@ -217,3 +217,11 @@
     // Muestra la primera imagen
     verImagenActual();
 </script>
+
+<script>
+    function actualizarCalificacion(calificacion) {
+        var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
+        labelUltimaCalificacion.hidden = false;
+        labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
+    }
+</script>
