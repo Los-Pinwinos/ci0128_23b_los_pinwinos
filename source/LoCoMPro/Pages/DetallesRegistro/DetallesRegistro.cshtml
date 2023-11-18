@@ -60,6 +60,18 @@
                 <span class="Etiqueta-calificacion">Calificación:</span>
             </div>
             <div class="Contenedor-columna">
+                <!-- Opción para reportar -->
+                <div class="Contenedor-fila" style="justify-content:right;">  
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <div class="Reportar-registro">
+                                <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                                    warning
+                                </span>
+                                <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+                            </div>
+                        }  
+                </div>
                 <div id="galeriaImagenes" class="GaleriaImagenes">
                     <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
                     <div id="currentImage" class="CurrentImage">
@@ -96,16 +108,6 @@
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
-    <!-- Opción para reportar -->
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <div class="Reportar-registro">
-            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
-                warning
-            </span>
-            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
-        </div>
-    }
 </body>
 
 <script>

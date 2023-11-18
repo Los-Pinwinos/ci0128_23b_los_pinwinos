@@ -3,16 +3,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LoCoMPro.ViewModels.Tienda;
 using LoCoMPro.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
     public class AgregarTiendaModel : PageModel
     {
         [BindProperty]
+        public required string Distrito { get; set; }
+
+        [BindProperty]
         public required string Canton { get; set; }
 
         [BindProperty]
         public required string Provincia { get; set; }
+
+        [BindProperty]
+        public required string Latitud { get; set; }
+
+        [BindProperty]
+        public required string Longitud { get; set; }
 
         [BindProperty]
         public required AgregarTiendaVM Tienda { get; set; }
@@ -26,7 +36,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             this.contexto = contexto;
             this.Tienda = new AgregarTiendaVM
             {
-                nombre = " ",
+                nombre = "",
                 nombreDistrito = " ",
                 nombreCanton = " ",
                 nombreProvincia = " "
@@ -42,7 +52,6 @@ namespace LoCoMPro.Pages.AgregarTienda
                 // Se redirige al usuario porque debe estar ingresado para esta funcionalidad
                 ViewData["RedirectMessage"] = "usuario";
             }
-
             // Cargar toda la información de provincias de la base de datos
             this.ListaProvincias = this.contexto.Provincias.ToList();
 
@@ -58,18 +67,19 @@ namespace LoCoMPro.Pages.AgregarTienda
             return new JsonResult(cantones);
         }
 
-        // Método que obtiene los datos para enviarlos al Autcompletado
-        public void OnGetColocarDatosTemporales(string provincia, string canton)
+        public async Task<IActionResult> OnGetDistritosPorCanton(string provincia, string canton)
         {
-            string distrito = this.ObtenerDistritos(provincia, canton)[0].nombre;
-            AgregarDatosAutocompletado(provincia, canton, distrito);
+            var distritos = await this.contexto.Distritos
+                .Where(c => c.nombreProvincia == provincia && c.nombreCanton == canton)
+                .ToListAsync();
+
+            return new JsonResult(distritos);
         }
 
-        private List<Distrito> ObtenerDistritos(string provincia, string canton)
+        // Método que obtiene los datos para enviarlos al Autcompletado
+        public void OnGetColocarDatosTemporales(string provincia, string canton, string distrito)
         {
-            return this.contexto.Distritos
-                .Where(d => d.nombreProvincia == provincia && d.nombreCanton == canton)
-                .ToList();
+            AgregarDatosAutocompletado(provincia, canton, distrito);
         }
 
         // Agrega al TempData la provincia, cantón y distrito necesarias para el Autocompletado
@@ -98,9 +108,9 @@ namespace LoCoMPro.Pages.AgregarTienda
         {
             this.Tienda.nombreProvincia = this.Provincia;
             this.Tienda.nombreCanton = this.Canton;
-            // Se debe encontrar el distrito correspondiente
-            this.Tienda.nombreDistrito
-                = ObtenerDistritos(this.Provincia, this.Canton)[0].nombre;
+            this.Tienda.nombreDistrito = this.Distrito;
+            this.Tienda.latitud = double.Parse(this.Latitud, CultureInfo.InvariantCulture);
+            this.Tienda.longitud = double.Parse(this.Longitud, CultureInfo.InvariantCulture);
 
             return VerificarTiendaValida();
         }
@@ -129,7 +139,9 @@ namespace LoCoMPro.Pages.AgregarTienda
                 nombre = this.Tienda.nombre,
                 nombreDistrito = this.Tienda.nombreDistrito,
                 nombreCanton = this.Tienda.nombreCanton,
-                nombreProvincia = this.Tienda.nombreProvincia
+                nombreProvincia = this.Tienda.nombreProvincia,
+                latitud = this.Tienda.latitud,
+                longitud = this.Tienda.longitud
             };
             this.contexto.Add(nuevaTienda);
             this.contexto.SaveChanges();

@@ -43,6 +43,7 @@
         var ordenador = new OrdenadorDeBusqueda();;
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
+        var filtrosDesplegados = Array(5).fill(0);
     </script>
     <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
@@ -76,75 +77,75 @@
     <div class="BusquedaIndice-contenedor-fila" id="FilaDeFiltrosYResultados">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltrosFuncion()" id="AplicarFiltrosBoton"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltrosFuncion()" style="margin-bottom:5px;" id="LimpiarFiltrosBoton"> Limpiar filtros</button>
             <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(1)" onmouseleave="ocultarDesplegable(1)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1">Provincia</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown1">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1" onclick="toggleDesplegable(1)">Provincia</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro1">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                <label>
-                                    <input type="checkbox" name="provincia" value="@provincia" /> @provincia
-                                </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="provincia" value="@provincia" /> @provincia
+                                                                            </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(2)" onmouseleave="ocultarDesplegable(2)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown2">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2" onclick="toggleDesplegable(2)">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                <label>
-                                    <input type="checkbox" name="canton" value="@canton" /> @canton
-                                </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="canton" value="@canton" /> @canton
+                                                                            </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(3)" onmouseleave="ocultarDesplegable(3)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown3">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3" onclick="toggleDesplegable(3)">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var tienda in Model.tiendasV)
                             {
-                                <label>
-                                    <input type="checkbox" name="tienda" value="@tienda" /> @tienda
-                                </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="tienda" value="@tienda" /> @tienda
+                                                                            </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(4)" onmouseleave="ocultarDesplegable(4)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown4">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4" onclick="toggleDesplegable(4)">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                <label>
-                                    <input type="checkbox" name="marca" value="@marca" /> @marca
-                                </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="marca" value="@marca" /> @marca
+                                                                            </label>
                             }
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(5)" onmouseleave="ocultarDesplegable(5)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5">Categoría</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown5">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5" onclick="toggleDesplegable(5)">Categoría</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro5">
                         <!-- Contenido del menú desplegable -->
                         @{
                             foreach (var categoria in Model.categoriasV)
                             {
-                                <label>
-                                    <input type="checkbox" name="categoria" value="@categoria" /> @categoria
-                                </label>
+                                                                            <label>
+                                                                                <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                                                            </label>
                             }
                         }
                     </div>
@@ -336,6 +337,7 @@
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
 </script>
+
 <script>
     var productosVM = paginar(paginaDefault);
 
@@ -354,5 +356,53 @@
             return true;
         }
     }
+</script>
+
+<script>
+    function aplicarFiltrosFuncion() {
+        cerrarDesplegados();
+        filtrar();
+    }
+
+    function limpiarFiltrosFuncion() {
+        cerrarDesplegados();
+        limpiarFiltros();
+    }
+
+    function toggleDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        var dropdownButton = document.getElementById('BotonFiltro' + index);
+        var dropdown = document.getElementById('Dropdown' + index);
+        if (dropdownContent.style.display === 'block') {
+            ocultarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 0;
+        } else {
+            cerrarDesplegados();
+            mostrarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 1;
+        }
+    }
+
+    function cerrarDesplegados() {
+        for (var i = 0; i < 5; i++) {
+            if (filtrosDesplegados[i] === 1) {
+                console.log("Voy a borrar");
+                toggleDesplegable(i + 1);
+            }
+        }
+    }
+
+    function mostrarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'block';
+    }
+
+    function ocultarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'none'; 
+    }
+
 </script>
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

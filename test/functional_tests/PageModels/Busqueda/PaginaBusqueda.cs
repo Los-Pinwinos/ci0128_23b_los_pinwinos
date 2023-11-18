@@ -10,8 +10,8 @@ namespace LoCoMProTestFuncionales.PageModels.Busqueda
         protected By CajaDeTextoProducto = By.Id("CajaDeTextoProducto");
         protected By BotonDeBusqueda = By.ClassName("BusquedaIndice-boton-busqueda");
 
-        protected By BotonAplicarFiltros = By.CssSelector(".BusquedaIndice-boton-filtros[onclick='filtrar()']");
-        protected By BotonLimpiarFiltros = By.CssSelector(".BusquedaIndice-boton-filtros[onclick='limpiarFiltros()']");
+        protected By BotonAplicarFiltros = By.CssSelector(".BusquedaIndice-boton-filtros[onclick='aplicarFiltrosFuncion()']");
+        protected By BotonLimpiarFiltros = By.CssSelector(".BusquedaIndice-boton-filtros[onclick='limpiarFiltrosFuncion()']");
 
         protected By CabezaDeTablaDeResultados = By.TagName("thead");
         protected By CuerpoDeTablaDeResultados = By.TagName("tbody");
@@ -26,11 +26,11 @@ namespace LoCoMProTestFuncionales.PageModels.Busqueda
         }
         private void InicializarFiltros()
         {
-            this.desplegablesDeFiltros.Add("provincia", By.XPath("//div[@class='BusquedaIndice-dropdown' and @onmouseenter='mostrarDesplegable(1)' and @onmouseleave='ocultarDesplegable(1)']"));
-            this.desplegablesDeFiltros.Add("canton", By.XPath("//div[@class='BusquedaIndice-dropdown' and @onmouseenter='mostrarDesplegable(2)' and @onmouseleave='ocultarDesplegable(2)']"));
-            this.desplegablesDeFiltros.Add("tienda", By.XPath("//div[@class='BusquedaIndice-dropdown' and @onmouseenter='mostrarDesplegable(3)' and @onmouseleave='ocultarDesplegable(3)']"));
-            this.desplegablesDeFiltros.Add("marca", By.XPath("//div[@class='BusquedaIndice-dropdown' and @onmouseenter='mostrarDesplegable(4)' and @onmouseleave='ocultarDesplegable(4)']"));
-            this.desplegablesDeFiltros.Add("categoria", By.XPath("//div[@class='BusquedaIndice-dropdown' and @onmouseenter='mostrarDesplegable(5)' and @onmouseleave='ocultarDesplegable(5)']"));
+            this.desplegablesDeFiltros.Add("provincia", By.Id("Dropdown1"));
+            this.desplegablesDeFiltros.Add("canton", By.Id("Dropdown2"));
+            this.desplegablesDeFiltros.Add("tienda", By.Id("Dropdown3"));
+            this.desplegablesDeFiltros.Add("marca", By.Id("Dropdown4"));
+            this.desplegablesDeFiltros.Add("categoria", By.Id("Dropdown5"));
         }
 
         public PaginaBusqueda Buscar(string nombreDeProducto)
@@ -85,8 +85,7 @@ namespace LoCoMProTestFuncionales.PageModels.Busqueda
         {
             IWebElement filtro = driver.FindElement(this.desplegablesDeFiltros[nombreDeFiltro]);
 
-            Actions action = new Actions(driver);
-            action.MoveToElement(filtro).Perform();
+            filtro.Click();
 
             IReadOnlyCollection<IWebElement> opciones = driver.FindElements(By.Name(nombreDeFiltro));
 

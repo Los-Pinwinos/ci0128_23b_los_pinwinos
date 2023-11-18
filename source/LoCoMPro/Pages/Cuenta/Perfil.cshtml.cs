@@ -51,7 +51,12 @@ namespace LoCoMPro.Pages.Cuenta
                 nombreDeUsuario = "",
                 correo = "",
                 hashContrasena = "",
-                calificacion = 0.0
+                calificacion = 0.0,
+                distritoVivienda = "",
+                cantonVivienda = "",
+                provinciaVivienda = "",
+                latitudVivienda = 0,
+                longitudVivienda = 0
             };
             // Crea un ModificarUsuarioVM con datos vacíos para no tener nulo
             this.usuarioActual = new ModificarUsuarioVM
@@ -152,11 +157,30 @@ namespace LoCoMPro.Pages.Cuenta
                 if (ModelState.IsValid)
                 {
                     // Actualiza el usuario con los datos del modelo vista
-                    this.usuario.provinciaVivienda = this.usuarioActual.provinciaVivienda;
-                    this.usuario.cantonVivienda = this.usuarioActual.cantonVivienda;
-                    this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda;
+                    this.usuario.provinciaVivienda = this.usuarioActual.provinciaVivienda ?? "";
+                    this.usuario.cantonVivienda = this.usuarioActual.cantonVivienda ?? "";
+                    this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda ?? "";
+
+                    // Crear un cliente para consultar las coordenadas a un API
+                    using (HttpClient cliente = new HttpClient())
+                    {
+                        // Consultar a la API las coordenadas de la ubicación del usuario
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(this.usuario.provinciaVivienda, this.usuario.cantonVivienda, this.usuario.distritoVivienda);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                        if (latitud != 0 && longitud != 0)
+                        {
+                            this.usuario.latitudVivienda = latitud;
+                            this.usuario.longitudVivienda = longitud;
+                            this.contexto.SaveChanges();
+                        }
+                        else
+                        {
+                            // Guarda el error para mostrarlo en la página principal
+                            TempData["ErrorCambiarUsuario"] = "Hubieron problemas al procesar su ubicación. Inténtelo más tarde";
+                        }
+                    }
                     
-                    this.contexto.SaveChanges();
 
                     // Si el nombre de usuario cambió
                     if (this.usuario.nombreDeUsuario != this.usuarioActual.nombreDeUsuario &&

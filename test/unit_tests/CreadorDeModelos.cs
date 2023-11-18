@@ -11,7 +11,7 @@ namespace LoCoMProTests
     {
         public static Usuario CrearUsuarioPorDefecto()
         {
-            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena" };
+            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena", longitudVivienda = 0, latitudVivienda = 0 };
         }
         public static Provincia CrearProvinciaPorDefecto()
         {
@@ -33,7 +33,7 @@ namespace LoCoMProTests
         public static Tienda CrearTiendaPorDefecto(Distrito? distritoAsociado = null)
         {
             distritoAsociado = distritoAsociado ?? CrearDistritoPorDefecto();
-            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado };
+            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado, longitud = 0, latitud = 0 };
         }
 
         public static Categoria CrearCategoriaPorDefecto()

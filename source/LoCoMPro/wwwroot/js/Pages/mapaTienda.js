@@ -86,8 +86,8 @@ function encontrarPalabraMasSimilar(palabraDada, listaPalabras) {
 // Clase Mapa para agregar una nueva tienda
 class MapaTienda {
     // Coordenadas de San José, Costa Rica
-    latitudInicial = 9.9281;
-    longitudInicial = -84.0907;
+    latitudInicial = 9.93669;
+    longitudInicial = -84.07025;
     // Constructor
     constructor(latitud = this.latitudInicial, longitud = this.longitudInicial) {
         // Crea mapa
@@ -104,6 +104,7 @@ class MapaTienda {
         // Asocia elementos HTML
         this.cajaProvincia = document.getElementById("Provincia");
         this.cajaCanton = document.getElementById("Canton");
+        this.cajaDistrito = document.getElementById("Distrito");
         this.cajaLatitud = document.getElementById("CajaTextoLatitud");
         this.cajaLongitud = document.getElementById("CajaTextoLongitud");
         this.botonBusqueda = document.getElementById("BotonBusqueda");
@@ -122,10 +123,6 @@ class MapaTienda {
         try {
             var clickedLatLng = event.latlng;
 
-            // Coloca valores en elementos HTML
-            this.cajaLatitud.value = clickedLatLng.lat;
-            this.cajaLongitud.value = clickedLatLng.lng;
-
             // Revisa si hay marcador en el mapa
             if (this.marcador) {
                 this.map.removeLayer(this.marcador);
@@ -142,14 +139,38 @@ class MapaTienda {
             // Encontrar provincia
             const provincia = encontrarPalabraMasSimilar(datos.address.Region, obtenerProvincias());
             if (provincia.porcentaje > 50) {
-                this.cajaProvincia.value = provincia.palabra;
+                if (this.cajaProvincia.value != provincia.palabra)
+                    this.cajaProvincia.value = provincia.palabra;
 
                 const listaCantones = await obtenerCantones();
+                // Colocar valores en elementos de coordenadas
+                this.cajaLatitud.value = clickedLatLng.lat;
+                this.cajaLongitud.value = clickedLatLng.lng;
 
                 // Encontrar canton
                 const canton = encontrarPalabraMasSimilar(datos.address.Subregion, listaCantones);
                 if (canton.porcentaje > 50) {
-                    this.cajaCanton.value = canton.palabra;
+                    if (this.cajaCanton.value != canton.palabra)
+                        this.cajaCanton.value = canton.palabra;
+
+                    const listaDistritos = await obtenerDistritos();
+
+                    // Encontrar distrito
+                    const distritoOpcion1 = encontrarPalabraMasSimilar(datos.address.Neighborhood, listaDistritos);
+                    const distritoOpcion2 = encontrarPalabraMasSimilar(datos.address.City, listaDistritos);
+                    var distrito = "";
+
+                    // Comparar los posibles distritos
+                    if (distritoOpcion1.porcentaje >= distritoOpcion2.porcentaje) {
+                        distrito = distritoOpcion1;
+                    }else {
+                        distrito = distritoOpcion2;
+                    }
+
+                    if (distrito.porcentaje > 50) {
+                        if (this.cajaDistrito.value != distrito.palabra)
+                            this.cajaDistrito.value = distrito.palabra;
+                    }
                 }
             }
             this.botonActualizar.click();
@@ -164,10 +185,11 @@ class MapaTienda {
             // Obtiene valores de HTML que el usuario escribió
             const provincia = this.cajaProvincia.value;
             const canton = this.cajaCanton.value;
+            const distrito = this.cajaDistrito.value;
 
             // Obtiene codificación de argcis
             const respuesta = await fetch('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?singleLine='
-                + canton + ',' + provincia + '&f=pjson');
+                + distrito + ',' + canton + ',' + provincia + '&f=pjson');
             const datos = await respuesta.json();
 
             // Obtener longitud y latitud
