@@ -69,7 +69,6 @@ namespace LoCoMPro.Pages.Busqueda
                 this.cargarFiltros(busqueda);
                 // Asignar data de JSON
                 this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
-
                 if (canton != null)
                 {
                     buscarPorCanton = 1;
