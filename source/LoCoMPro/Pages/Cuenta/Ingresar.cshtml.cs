@@ -75,13 +75,12 @@ namespace LoCoMPro.Pages.Cuenta
                     // Guarda la información del nombre de usuario en la sesión actual
                     HttpContext.Session.SetString("NombreDeUsuario", usuario.nombreDeUsuario);
 
-                    // Establece los Claims para mapear los datos del usuario al elemento HTML
-                    // para poder utilizar User.Identity y verificar usuarios ingresados
-                    // Crea un claim con el nombre de usuario
-                    // (No se agregaron más porque se pueden obtener de la base, pero es posible)
+                    // Establece los Claims para guardar los datos del usuario en las páginas
                     var claims = new List<Claim>
                     {
+                        // Crea un claim con el nombre de usuario
                         new Claim(ClaimTypes.Name, usuario.nombreDeUsuario),
+                        // Crea un claim con el rol del usuario
                         new Claim(ClaimTypes.Role, usuario.esModerador?"moderador":"regular")
                     };
                    
