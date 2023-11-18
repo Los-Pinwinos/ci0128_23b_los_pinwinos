@@ -98,6 +98,9 @@
                     }
                     <p class="Calificacion" id="CalificacionTotal">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
                     <p class="Conteo" id="CantidadCalificacionesTotal">(@Model.registro.cantidadCalificaciones)</p>
+                    <form method="post">
+                        <button type="submit" id="BotonActualizar" asp-page-handler="ActualizarCalificacion" hidden/>
+                    </form>
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
@@ -216,16 +219,4 @@
 
     // Muestra la primera imagen
     verImagenActual();
-</script>
-
-<script>
-    function actualizarCalificacion() {
-        // Actualizar calificación del registro
-        var labelCalificacion = document.getElementById("CalificacionTotal");
-        labelCalificacion.innerHTML = @Model.registro.calificacion.ToString("0.0")[0] + "," + @Model.registro.calificacion.ToString("0.0")[2] + " de 5,0";
-
-        // Actualizar cantidad de calificaciones
-        var labelConteo = document.getElementById("CantidadCalificacionesTotal");
-        labelConteo.innerHTML = "(" + @Model.registro.cantidadCalificaciones + ")";
-    }
 </script>

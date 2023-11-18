@@ -95,6 +95,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
+        public void OnPostActualizarCalificacion()
+        {
+            ++this.registro.cantidadCalificaciones;
+            ActualizarCalificacion();
+        }
+
         public async Task<IActionResult> OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
@@ -153,6 +159,15 @@ namespace LoCoMPro.Pages.DetallesRegistro
             }
         }
 
+        private void ActualizarCalificacion()
+        {
+            this.registro.calificacion = contexto.Registros
+                .Where(r => r.creacion == this.registro.creacion && r.usuarioCreador.Equals(this.registro.usuarioCreador))
+                .Select(r => r.calificacion)
+                .ToList()
+                .FirstOrDefault();
+        }
+
         private void AlmacenarTempData(string usuario, DateTime creacion)
         {
             TempData["RegistroUsuario"] = usuario;
@@ -207,14 +222,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 if (reportePopup != "" && reportePopup != null)
                 {
-                    crearReporte(usuarioCreador, creacion);
+                    CrearReporte(usuarioCreador, creacion);
                 }
                 return OnGet(creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"), usuarioCreador);
             }
             return RedirectToPage("/Home/Index");
         }
 
-        private void crearReporte(string usuarioCreador, DateTime creacion)
+        private void CrearReporte(string usuarioCreador, DateTime creacion)
         {
             if (User.Identity != null && User.Identity.Name != null)
             {

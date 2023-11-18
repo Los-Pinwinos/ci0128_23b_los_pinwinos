@@ -7,6 +7,9 @@ function actualizarUltimaCalificacion(calificacion) {
     var labelUltimaCalificacion = document.getElementById("UltimaCalificacion");
     labelUltimaCalificacion.hidden = false;
     labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
+
+    var boton = document.getElementById("BotonActualizar");
+    boton.click();
 }
 
 async function calificarRegistro(calificacion) {
