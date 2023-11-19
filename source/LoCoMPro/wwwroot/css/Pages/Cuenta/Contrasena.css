@@ -1,0 +1,58 @@
+﻿.Contrasena-contenedor-centrado-primario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15%;
+}
+
+.Contrasena-contenedor-caja-de-texto {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.6%;
+}
+
+    .Contrasena-contenedor-caja-de-texto label {
+        font-size: 18px;
+        white-space: nowrap;
+        margin-right: 40px;
+    }
+
+    .Contrasena-contenedor-caja-de-texto input {
+        background-color: #FFFBF8;
+        border-color: black;
+        border-radius: 10px;
+        border-width: 1px;
+        padding: 1px 10px;
+        width: 240px;
+    }
+
+    .Contrasena-contenedor-caja-de-texto select {
+        background-color: #FFFBF8;
+        border-color: black;
+        border-radius: 10px;
+        border-width: 1px;
+        padding: 1px 10px;
+        width: 240px;
+    }
+
+.Contrasena-boton-basico {
+    background-color: #d9996b;
+    color: black;
+    width: 240px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 5%;
+    margin-left:7%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+    .Contrasena-boton-basico:hover {
+        color: black;
+    }
