@@ -44,11 +44,6 @@ namespace LoCoMPro.Pages.Cuenta
         {
             this.usuarioActual.nombreDeUsuario = User.Identity?.Name ?? "desconocido";
 
-            Console.WriteLine(this.usuarioActual.nombreDeUsuario);
-            Console.WriteLine(this.usuarioActual.contrasenaActual);
-            Console.WriteLine(this.usuarioActual.contrasenaNueva);
-            Console.WriteLine(this.usuarioActual.confirmarContrasena);
-
             if (ModelState.IsValid)
             {
                 // Buscar usuario con el nombre de usaurio
@@ -66,6 +61,9 @@ namespace LoCoMPro.Pages.Cuenta
                         // Cambiar la contraseña del usuario por la indicada
                         usuario.hashContrasena = this.hasheador.HashPassword(usuario, this.usuarioActual.contrasenaNueva);
                         this.contexto.SaveChanges();
+
+                        TempData["ExitoContrasena"] = "Contraseña cambiada exitosamente.";
+                        
                     }
                     else
                     {
@@ -80,7 +78,6 @@ namespace LoCoMPro.Pages.Cuenta
             else
             {
                 ModelState.AddModelError(string.Empty, "Los datos brindados no son correctos. Recuerde que la contraseña debe contener al menos: una minúscula, una mayúscula, un dígito y un carácter especial. Además, debe estar entre 8 y 20 caracteres.");
-               Console.WriteLine("No cumple lo que se pide");
             }
         }
     }

@@ -14,6 +14,10 @@
 <body>
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="alert alert-danger" ></div>
+        @if (!string.IsNullOrEmpty(TempData["ExitoContrasena"]?.ToString()))
+        {
+            <div class="alert alert-success">@TempData["ExitoContrasena"]</div>
+        }
         <div class="Contrasena-contenedor-centrado-primario">
             <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
                 <label for="CajaDeTextoActual">Contraseña actual:</label>
@@ -27,7 +31,7 @@
                 <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
                 <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.confirmarContrasena">
             </div>
-            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Guardar cambios </button>
+            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Cambiar Contraseña </button>
         </div>
     </form>
 
