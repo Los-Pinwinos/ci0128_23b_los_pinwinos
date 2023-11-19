@@ -95,16 +95,13 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public void OnPostActualizarCalificacion()
-        {
-            ++this.registro.cantidadCalificaciones;
-            ActualizarCalificacion();
-        }
-
         public async Task<IActionResult> OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            int conteo = 0;
+            double promedio = 0.0;
+
             if (TempData.ContainsKey("RegistroCreacion")
                 && TempData["RegistroCreacion"] is DateTime creacion)
             {
@@ -113,8 +110,13 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 ActualizarCalificacionUsuario(usuarioCreador);
                 ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
+
+                // TODO(Angie): obtener los datos reales
+                conteo = 1;
+                promedio = 2.3;
             }
-            return Page();
+            
+            return new JsonResult(new { Conteo = conteo, Calificacion = promedio.ToString() });
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
@@ -157,15 +159,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
             {
                 this.ultimaCalificacion = ultimaCalificacion.calificacion;
             }
-        }
-
-        private void ActualizarCalificacion()
-        {
-            this.registro.calificacion = contexto.Registros
-                .Where(r => r.creacion == this.registro.creacion && r.usuarioCreador.Equals(this.registro.usuarioCreador))
-                .Select(r => r.calificacion)
-                .ToList()
-                .FirstOrDefault();
         }
 
         private void AlmacenarTempData(string usuario, DateTime creacion)

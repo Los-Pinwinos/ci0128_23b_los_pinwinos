@@ -98,9 +98,6 @@
                     }
                     <p class="Calificacion" id="CalificacionTotal">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
                     <p class="Conteo" id="CantidadCalificacionesTotal">(@Model.registro.cantidadCalificaciones)</p>
-                    <form method="post">
-                        <button type="submit" id="BotonActualizar" asp-page-handler="ActualizarCalificacion" hidden/>
-                    </form>
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
