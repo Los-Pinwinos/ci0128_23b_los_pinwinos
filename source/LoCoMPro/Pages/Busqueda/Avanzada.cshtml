@@ -383,6 +383,7 @@
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
     establecerFechaMaxima();
+    establecerFechaDinamica();
 </script>
 
 <script>
@@ -505,7 +506,6 @@
     function cerrarDesplegados() {
         for (var i = 0; i < 5; i++) {
             if (filtrosDesplegados[i] === 1) {
-                console.log("Voy a borrar");
                 toggleDesplegable(i + 1);
             }
         }

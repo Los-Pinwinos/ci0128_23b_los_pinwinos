@@ -583,3 +583,17 @@ function establecerFechaMaxima() {
     document.getElementById("fechaMin").setAttribute("max", fechaActual);
     document.getElementById("fechaMax").setAttribute("max", fechaActual);
 }
+
+function establecerFechaDinamica() {
+    fechaMin = document.getElementById("fechaMin");
+    fechaMax = document.getElementById("fechaMax");
+
+    fechaMax.addEventListener('change', function () {
+        fechaInsertada = fechaMax.value;
+        if (fechaInsertada === "" || fechaInsertada === null) {
+            establecerFechaMaxima();
+        } else {
+            fechaMin.setAttribute("max", fechaInsertada);
+        }
+    });
+}
