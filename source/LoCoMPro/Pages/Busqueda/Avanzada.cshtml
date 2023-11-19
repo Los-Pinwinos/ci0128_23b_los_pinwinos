@@ -336,29 +336,29 @@
     </div>
 </div>
 
-    <!-- Paginación -->
-    <div class="BusquedaIndice-contenedor-paginacion">
-        <div class="BusquedaIndice-contenedor-caja-paginacion">
-            <!-- Botón anterior -->
-            <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
-                Anterior
-            </div>
-            <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Anterior
-            </div>
+<!-- Paginación -->
+<div class="BusquedaIndice-contenedor-paginacion">
+    <div class="BusquedaIndice-contenedor-caja-paginacion">
+        <!-- Botón anterior -->
+        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
 
-            <!-- Botones de número de página -->
-            <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
+        <!-- Botones de número de página -->
+        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
 
-            <!-- botón siguiente -->
-            <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
-                Siguiente
-            </div>
-            <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Siguiente
-            </div>
+        <!-- botón siguiente -->
+        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Siguiente
         </div>
     </div>
+</div>
 
 <!-- Función para autocompletar -->
 <script type="text/javascript">
@@ -519,7 +519,6 @@
         var dropdownContent = document.getElementById('ContenidoFiltro' + index);
         dropdownContent.style.display = 'none';
     }
-
 </script>
 
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>
