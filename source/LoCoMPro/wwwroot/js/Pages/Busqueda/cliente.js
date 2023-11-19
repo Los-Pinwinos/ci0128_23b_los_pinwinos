@@ -566,3 +566,20 @@ function obtenerCheckboxesSeleccionadas(nombreDeCheckboxes) {
 
     return valores;
 }
+
+function establecerFechaMaxima() {
+    var fechaActual = new Date();
+    var dia = fechaActual.getDate();
+    // Enero se maneja como 0
+    var mes = fechaActual.getMonth() + 1;
+    var anno = fechaActual.getFullYear();
+    if (dia < 10) {
+        dia = '0' + dia
+    }
+    if (mes < 10) {
+        mes = '0' + mes
+    }
+    fechaActual = anno + '-' + mes + '-' + dia;
+    document.getElementById("fechaMin").setAttribute("max", fechaActual);
+    document.getElementById("fechaMax").setAttribute("max", fechaActual);
+}
