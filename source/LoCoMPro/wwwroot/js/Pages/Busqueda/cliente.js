@@ -532,12 +532,18 @@ function limpiarInput(primerValor, segundoValor) {
     inputMaximo.value = "";
 }
 
+function reiniciarFechas() {
+    establecerFechaMaxima();
+    establecerFechaMinima();
+}
+
 function limpiarFiltros() {
     limpiarCheckboxes("provincia");
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
     limpiarCheckboxes("categoria");
+    reiniciarFechas();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
 
@@ -584,9 +590,22 @@ function establecerFechaMaxima() {
     document.getElementById("fechaMax").setAttribute("max", fechaActual);
 }
 
+function establecerFechaMinima() {
+    document.getElementById("fechaMax").removeAttribute("min");;
+}
+
 function establecerFechaDinamica() {
     fechaMin = document.getElementById("fechaMin");
     fechaMax = document.getElementById("fechaMax");
+
+    fechaMin.addEventListener('change', function () {
+        fechaInsertada = fechaMin.value;
+        if (fechaInsertada === "" || fechaInsertada === null) {
+            establecerFechaMinima();
+        } else {
+            fechaMax.setAttribute("min", fechaInsertada);
+        }
+    });
 
     fechaMax.addEventListener('change', function () {
         fechaInsertada = fechaMax.value;
