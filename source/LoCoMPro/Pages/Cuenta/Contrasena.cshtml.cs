@@ -15,7 +15,6 @@ namespace LoCoMPro.Pages.Cuenta
     public class ModeloContrasena : PageModel
     {
 
-        // Contexto para interactuar con la base de datos
         private readonly LoCoMProContext contexto;
 
         [BindProperty]
@@ -29,7 +28,6 @@ namespace LoCoMPro.Pages.Cuenta
         {
             this.contexto = contexto;
             this.hasheador = new PasswordHasher<Usuario>();
-            // Crea un ModificarUsuarioVM con datos vacíos para no tener nulo
             this.usuarioActual = new CambiarContrasenaVM
             {
                 nombreDeUsuario = "",
@@ -62,6 +60,7 @@ namespace LoCoMPro.Pages.Cuenta
                         usuario.hashContrasena = this.hasheador.HashPassword(usuario, this.usuarioActual.contrasenaNueva);
                         this.contexto.SaveChanges();
 
+                        // Indicar que la transferencia fue exitosa
                         TempData["ExitoContrasena"] = "Contraseña cambiada exitosamente.";
                         
                     }

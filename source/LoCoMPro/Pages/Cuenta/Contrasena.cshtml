@@ -13,6 +13,7 @@
 
 <body>
     <form method="post">
+        <!-- Validación del lado del cliente:-->
         <div asp-validation-summary="ModelOnly" class="alert alert-danger" ></div>
         @if (!string.IsNullOrEmpty(TempData["ExitoContrasena"]?.ToString()))
         {
@@ -31,7 +32,7 @@
                 <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
                 <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.confirmarContrasena">
             </div>
-            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Cambiar Contraseña </button>
+            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Cambiar contraseña </button>
         </div>
     </form>
 
