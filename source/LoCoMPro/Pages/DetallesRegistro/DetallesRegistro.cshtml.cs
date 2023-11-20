@@ -100,7 +100,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
             int conteo = 0;
-            double promedio = 0.0;
+            string promedioStr = "";
 
             if (TempData.ContainsKey("RegistroCreacion")
                 && TempData["RegistroCreacion"] is DateTime creacion)
@@ -111,15 +111,21 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 IList<object[]> resultado = ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
 
-                // TODO(Angie): utilizar datos obtenidos correctamente
-                Console.WriteLine("conteo: " + (int)resultado[0][0]);
+                conteo = (int) resultado[0][0];
+                promedioStr = resultado[0][1].ToString();
+                if (!promedioStr.Contains("."))
+                {
+                    promedioStr += ",0";
+                } else
+                {
+                    int pos = promedioStr.IndexOf('.');
+                    promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
+                }
 
-                Console.WriteLine("calificacion: " + resultado[0][1].ToString());
-                float calificacionFloat = float.Parse(resultado[0][1].ToString());
-                Console.WriteLine(calificacionFloat);
+                Console.WriteLine(promedioStr);
             }
             
-            return new JsonResult(new { Conteo = conteo, Calificacion = promedio.ToString() });
+            return new JsonResult(new { Conteo = conteo, Calificacion = promedioStr });
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)

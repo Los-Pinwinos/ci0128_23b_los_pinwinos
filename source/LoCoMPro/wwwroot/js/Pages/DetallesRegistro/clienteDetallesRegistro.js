@@ -18,14 +18,8 @@ async function calificarRegistro(calificacion) {
         if (response.ok) {
 
             var resultado = await response.json();
-
-
-            // TODO(Angie): cambiar
             const conteoNuevo = resultado.conteo;
-            const calificacionNueva = resultado.calificacion;
-
-            alert("Conteo: " + conteoNuevo);
-            alert("Calif: " + calificacionNueva);
+            const calificacionNueva = resultado.calificacion;s
 
             // TODO(Angie): actualizar labels
 
