@@ -62,7 +62,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
-                ActualizarCantidadCalificaciones(fecha, usuario);
+                this.registro.cantidadCalificaciones = ActualizarCantidadCalificaciones(fecha, usuario);
 
                 ActualizarUltimaCalificacion(fecha, usuario);
 
@@ -108,12 +108,15 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
                 ActualizarCalificacionUsuario(usuarioCreador);
-                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
+                IList<object[]> resultado = ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
 
-                // TODO(Angie): obtener los datos reales
-                conteo = 1;
-                promedio = 2.3;
+                // TODO(Angie): utilizar datos obtenidos correctamente
+                Console.WriteLine("conteo: " + (int)resultado[0][0]);
+
+                Console.WriteLine("calificacion: " + resultado[0][1].ToString());
+                float calificacionFloat = float.Parse(resultado[0][1].ToString());
+                Console.WriteLine(calificacionFloat);
             }
             
             return new JsonResult(new { Conteo = conteo, Calificacion = promedio.ToString() });
@@ -139,11 +142,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return detallesIQ.FirstOrDefault();
         }
 
-        private void ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
+        private int ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
         {
-            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).Count();
+            return this.contexto.Calificaciones
+                        .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                        .Equals(usuario) && r.calificacion != 0)
+                        .Count();
         }
 
         private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
@@ -187,14 +191,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoActualizarUsuario.EjecutarProcedimiento();
         }
 
-        private static void ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
+        private static IList<object[]> ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
         {
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
             comandoActualizarRegistro.ConfigurarParametroDateTimeComando("creacionDeRegistro", creacion);
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
-            comandoActualizarRegistro.EjecutarProcedimiento();
+            return comandoActualizarRegistro.EjecutarProcedimiento();
         }
 
         private static void ActualizarModeracionUsuario(string usuario)
