@@ -62,7 +62,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
-                ActualizarCantidadCalificaciones(fecha, usuario);
+                this.registro.cantidadCalificaciones = ActualizarCantidadCalificaciones(fecha, usuario);
 
                 ActualizarUltimaCalificacion(fecha, usuario);
 
@@ -99,16 +99,33 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            int conteo = 0;
+            string promedioStr = "";
+
             if (TempData.ContainsKey("RegistroCreacion")
                 && TempData["RegistroCreacion"] is DateTime creacion)
             {
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
                 ActualizarCalificacionUsuario(usuarioCreador);
-                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
+                IList<object[]> resultado = ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
+
+                conteo = (int) resultado[0][0];
+                promedioStr = resultado[0][1].ToString();
+                if (!promedioStr.Contains("."))
+                {
+                    promedioStr += ",0";
+                } else
+                {
+                    int pos = promedioStr.IndexOf('.');
+                    promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
+                }
+
+                Console.WriteLine(promedioStr);
             }
-            return Page();
+            
+            return new JsonResult(new { Conteo = conteo, Calificacion = promedioStr });
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
@@ -131,11 +148,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return detallesIQ.FirstOrDefault();
         }
 
-        private void ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
+        private int ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
         {
-            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).Count();
+            return this.contexto.Calificaciones
+                        .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                        .Equals(usuario) && r.calificacion != 0)
+                        .Count();
         }
 
         private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
@@ -179,14 +197,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoActualizarUsuario.EjecutarProcedimiento();
         }
 
-        private static void ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
+        private static IList<object[]> ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
         {
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
             comandoActualizarRegistro.ConfigurarParametroDateTimeComando("creacionDeRegistro", creacion);
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
-            comandoActualizarRegistro.EjecutarProcedimiento();
+            return comandoActualizarRegistro.EjecutarProcedimiento();
         }
 
         private static void ActualizarModeracionUsuario(string usuario)
@@ -207,14 +225,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 if (reportePopup != "" && reportePopup != null)
                 {
-                    crearReporte(usuarioCreador, creacion);
+                    CrearReporte(usuarioCreador, creacion);
                 }
                 return OnGet(creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"), usuarioCreador);
             }
             return RedirectToPage("/Home/Index");
         }
 
-        private void crearReporte(string usuarioCreador, DateTime creacion)
+        private void CrearReporte(string usuarioCreador, DateTime creacion)
         {
             if (User.Identity != null && User.Identity.Name != null)
             {
