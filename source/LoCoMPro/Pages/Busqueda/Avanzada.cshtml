@@ -42,6 +42,7 @@
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
         var filtrosDesplegados = Array(5).fill(0);
+        var filtroAplicado = false;
     </script>
     <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
@@ -336,29 +337,29 @@
     </div>
 </div>
 
-    <!-- Paginación -->
-    <div class="BusquedaIndice-contenedor-paginacion">
-        <div class="BusquedaIndice-contenedor-caja-paginacion">
-            <!-- Botón anterior -->
-            <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
-                Anterior
-            </div>
-            <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Anterior
-            </div>
+<!-- Paginación -->
+<div class="BusquedaIndice-contenedor-paginacion">
+    <div class="BusquedaIndice-contenedor-caja-paginacion">
+        <!-- Botón anterior -->
+        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
 
-            <!-- Botones de número de página -->
-            <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
+        <!-- Botones de número de página -->
+        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
 
-            <!-- botón siguiente -->
-            <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
-                Siguiente
-            </div>
-            <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Siguiente
-            </div>
+        <!-- botón siguiente -->
+        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Siguiente
         </div>
     </div>
+</div>
 
 <!-- Función para autocompletar -->
 <script type="text/javascript">
@@ -382,6 +383,8 @@
     formatoPrecioFiltro();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
+    establecerFechaMaxima();
+    establecerFechaDinamica();
 </script>
 
 <script>
@@ -478,11 +481,16 @@
     function aplicarFiltrosFuncion() {
         cerrarDesplegados();
         filtrar();
+        filtroAplicado = true;
     }
 
     function limpiarFiltrosFuncion() {
         cerrarDesplegados();
         limpiarFiltros();
+        if (filtroAplicado) {
+            ordenador.esconderFlechas();
+            filtroAplicado = false;
+        }
     }
 
     function toggleDesplegable(index) {
@@ -504,7 +512,6 @@
     function cerrarDesplegados() {
         for (var i = 0; i < 5; i++) {
             if (filtrosDesplegados[i] === 1) {
-                console.log("Voy a borrar");
                 toggleDesplegable(i + 1);
             }
         }
@@ -519,7 +526,6 @@
         var dropdownContent = document.getElementById('ContenidoFiltro' + index);
         dropdownContent.style.display = 'none';
     }
-
 </script>
 
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

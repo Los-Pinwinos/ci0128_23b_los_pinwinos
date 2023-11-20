@@ -6,20 +6,12 @@
 
 <!-- Metadatos -->
 <head>
-
-
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true" ></script>
     <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true" ></script>
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true" ></script>
-
-    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
-    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
-    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
-
     <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
@@ -44,6 +36,7 @@
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
         var filtrosDesplegados = Array(5).fill(0);
+        var filtroAplicado = false;
     </script>
     <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
@@ -87,9 +80,9 @@
                         @{
                             foreach (var provincia in Model.provinciasV)
                             {
-                                                                            <label>
-                                                                                <input type="checkbox" name="provincia" value="@provincia" /> @provincia
-                                                                            </label>
+                                    <label>
+                                        <input type="checkbox" name="provincia" value="@provincia" /> @provincia
+                                    </label>
                             }
                         }
                     </div>
@@ -101,9 +94,9 @@
                         @{
                             foreach (var canton in Model.cantonesV)
                             {
-                                                                            <label>
-                                                                                <input type="checkbox" name="canton" value="@canton" /> @canton
-                                                                            </label>
+                                    <label>
+                                        <input type="checkbox" name="canton" value="@canton" /> @canton
+                                    </label>
                             }
                         }
                     </div>
@@ -115,9 +108,9 @@
                         @{
                             foreach (var tienda in Model.tiendasV)
                             {
-                                                                            <label>
-                                                                                <input type="checkbox" name="tienda" value="@tienda" /> @tienda
-                                                                            </label>
+                                    <label>
+                                        <input type="checkbox" name="tienda" value="@tienda" /> @tienda
+                                    </label>
                             }
                         }
                     </div>
@@ -129,9 +122,9 @@
                         @{
                             foreach (var marca in Model.marcasV)
                             {
-                                                                            <label>
-                                                                                <input type="checkbox" name="marca" value="@marca" /> @marca
-                                                                            </label>
+                                    <label>
+                                        <input type="checkbox" name="marca" value="@marca" /> @marca
+                                    </label>
                             }
                         }
                     </div>
@@ -143,9 +136,9 @@
                         @{
                             foreach (var categoria in Model.categoriasV)
                             {
-                                                                            <label>
-                                                                                <input type="checkbox" name="categoria" value="@categoria" /> @categoria
-                                                                            </label>
+                                    <label>
+                                        <input type="checkbox" name="categoria" value="@categoria" /> @categoria
+                                    </label>
                             }
                         }
                     </div>
@@ -306,8 +299,7 @@
     </div>
 </div>
 
-
-    <!-- Paginación -->
+<!-- Paginación -->
 <div class="BusquedaIndice-contenedor-paginacion">
     <div class="BusquedaIndice-contenedor-caja-paginacion">
         <!-- Botón anterior -->
@@ -336,6 +328,8 @@
     formatoPrecioFiltro();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
+    establecerFechaMaxima();
+    establecerFechaDinamica();
 </script>
 
 <script>
@@ -362,11 +356,16 @@
     function aplicarFiltrosFuncion() {
         cerrarDesplegados();
         filtrar();
+        filtroAplicado = true;
     }
 
     function limpiarFiltrosFuncion() {
         cerrarDesplegados();
         limpiarFiltros();
+        if (filtroAplicado) {
+            ordenador.esconderFlechas();
+            filtroAplicado = false;
+        }
     }
 
     function toggleDesplegable(index) {
@@ -388,7 +387,6 @@
     function cerrarDesplegados() {
         for (var i = 0; i < 5; i++) {
             if (filtrosDesplegados[i] === 1) {
-                console.log("Voy a borrar");
                 toggleDesplegable(i + 1);
             }
         }
