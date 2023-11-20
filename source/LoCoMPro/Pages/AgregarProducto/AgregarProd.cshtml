@@ -57,6 +57,11 @@
 </head>
 
 <body>
+
+    <span class="material-symbols-outlined">
+        close
+    </span>
+
     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
     <form method="post" asp-page-handler="Aceptar" enctype="multipart/form-data">
         <!-- Contenedor para el formulario -->
@@ -198,9 +203,7 @@
         }
     </script>
     <script>
-        // Script para rellenar elementos de popup de manera dinámica y permitir
-        // borrarlos con un click
-        // Variables requeridas
+        // Script para rellenar elementos de popup de manera dinámica
         const inputArchivos = document.getElementById('subida_imagen');
         const listaOrdenada = document.getElementById('lista_archivos');
         // Script para rellenar lista con nombres de archivo
@@ -230,10 +233,13 @@
                 const elementoLista = document.createElement('li');
                 // Establecer nombre del archivo como elemento de la lista
                 elementoLista.textContent = archivos[i].name;
-                // Establecer evento con click para eliminarlo cuando se le hace click
-                elementoLista.addEventListener('click', function () {
-                    borrarArchivo(elementoLista, archivos[i]);
-                });
+
+                const spanEliminar = document.createElement('span');
+                spanEliminar.innerHTML = "close";
+                spanEliminar.classList.add("material-symbols-outlined");
+
+                elementoLista.appendChild(spanEliminar);
+
                 // Agregar a lista ordenada
                 listaOrdenada.appendChild(elementoLista);
             }
