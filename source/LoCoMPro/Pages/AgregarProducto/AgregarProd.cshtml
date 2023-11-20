@@ -91,7 +91,7 @@
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
                 <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
-                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
+                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="conteoArchivos(this)" style="display: none;"/>
                 <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
                     <label class="eliminar_imagenes">Eliminar imágenes</label>
@@ -153,7 +153,8 @@
                 // No entregar el formulario
                 return false;
             }
-            return true; // Enviar el formulario para procesarse
+            // Enviar el formulario para procesarse
+            return true; 
         }
     </script>
     <script>
@@ -178,7 +179,7 @@
     </script>
     <script>
         // Se encarga de no permitir más de 5 imágenes
-        function checkFileCount(input) {
+        function conteoArchivos(input) {
             if (input.files.length > 5) {
                 alert("Más de 5 imágenes seleccionadas");
                 input.value = '';
@@ -211,13 +212,15 @@
             listaOrdenada.removeChild(elementoLista);
         }
 
-        function crearElementoLista(archivo) {
+        function crearListaVisual(archivo) {
             // Preparar elementos a ser agregados
             const elementoLista = document.createElement('li');
             const spanEliminar = document.createElement('span');
             elementoLista.textContent = archivo.name;
             spanEliminar.innerHTML = "close";
+            // Estilo para que se muestre con el API de Google
             spanEliminar.classList.add("material-symbols-outlined");
+            spanEliminar.classList.add("eliminar_imagen_visual");
             elementoLista.appendChild(spanEliminar);
             
             // Agregar evento para borrar imágenes al darle click
@@ -228,11 +231,12 @@
             return elementoLista;
         }
 
-        function manejarInputArchivos() {
+        function prepararInputArchivos() {
             const archivos = inputArchivos.files;
             listaOrdenada.innerHTML = '';
             for (let i = 0; i < archivos.length; ++i) {
-                const elementoLista = crearElementoLista(archivos[i]);
+                // Crear un elemento visual para la lista
+                const elementoLista = crearListaVisual(archivos[i]);
                 listaOrdenada.appendChild(elementoLista);
             }
         }
@@ -242,7 +246,7 @@
         const listaOrdenada = document.getElementById('lista_archivos');
 
         // Establece evento para manejar el cambio de la lista de archivos
-        inputArchivos.addEventListener('change', manejarInputArchivos);
+        inputArchivos.addEventListener('change', prepararInputArchivos);
     </script>
     <script>
         // Función de alineado para las cajas de texto
