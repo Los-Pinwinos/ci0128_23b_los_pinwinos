@@ -49,7 +49,7 @@
         <form method="post">
             <div class="Popup-container" id="popup">
                 <label>Reportar registro</label>
-                <textarea class="Popup-input" id="reportePopup" asp-for="reportePopup"></textarea>
+                <textarea class="Popup-input" maxlength="256" id="reportePopup" asp-for="reportePopup"></textarea>
                 <button type="button" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
                 <button id="botonPopup" style="visibility: hidden;" type="submit" asp-page-handler="Reportar" />
             </div>
