@@ -45,8 +45,12 @@ function formatoPrecioFiltro() {
     });
 }
 
-function revisarPrecioMinimo(precioMin, precioMax) {
-    return precioMin <= precioMax;
+function revisarPrecios(precioMin, precioMax) {
+    if (precioMin == '' || precioMax == '') {
+        return true;
+    }
+
+    return parseInt(precioMin) <= parseInt(precioMax);
 }
 
 // Filtrar
@@ -61,8 +65,8 @@ function filtrar() {
     var fechaMin = document.getElementById("fechaMin").value;
     var fechaMax = document.getElementById("fechaMax").value;
 
-    if (!revisarPrecioMinimo(precioMin, precioMax)) {
-        alert("El precio mínimo no puede ser mayor al máximo.");
+    if (!revisarPrecios(precioMin, precioMax)) {
+        alert("Por favor inserte el precio mínimo en el campo indicado.");
     } else {
         // Configurar filtrador
         filtrador.setFiltroProvincias(provincias);
@@ -78,7 +82,6 @@ function filtrar() {
     }
 
     productosVM = paginar(paginaDefault);
-
     renderizarFiltros();
     renderizarPaginacion();
     renderizarTabla(productosVM);
