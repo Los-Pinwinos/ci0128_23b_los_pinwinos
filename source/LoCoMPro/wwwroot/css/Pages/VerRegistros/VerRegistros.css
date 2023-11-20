@@ -30,7 +30,7 @@
 }
 
 .InfoColumnas {
-    width: calc(50vw - 100px);
+    width: calc(50vw-100px);
     margin-right: 20px;
     margin-left: 70px;
     text-align: left;
@@ -360,6 +360,10 @@ table {
 
 .GaleriaImagenes {
     display: flex;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 130px;
+    min-height: 130px;
     justify-content: center;
     align-items: center;
 }
@@ -373,11 +377,11 @@ table {
 }
 
 .NavegacionImagen-Anterior {
-    margin-right: 0px;
+    margin-right: 5px;
 }
 
 .NavegacionImagen-Siguiente {
-    margin-left: 0px;
+    margin-left: 5px;
 }
 
 .ImagenActual {
@@ -407,7 +411,4 @@ table {
 
 .checkbox-circular:checked + .circular-label {
     background-color: #1A7254;
-}
-
-.Estilo-Agrupado {
 }
