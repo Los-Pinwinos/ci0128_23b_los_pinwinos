@@ -57,11 +57,6 @@
 </head>
 
 <body>
-
-    <span class="material-symbols-outlined">
-        close
-    </span>
-
     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
     <form method="post" asp-page-handler="Aceptar" enctype="multipart/form-data">
         <!-- Contenedor para el formulario -->
@@ -203,47 +198,51 @@
         }
     </script>
     <script>
-        // Script para rellenar elementos de popup de manera dinámica
-        const inputArchivos = document.getElementById('subida_imagen');
-        const listaOrdenada = document.getElementById('lista_archivos');
-        // Script para rellenar lista con nombres de archivo
-        inputArchivos.addEventListener('change', function () {
+        function borrarArchivo(elementoLista, archivo) {
+            // Crear arreglo para reemplazar en el input
+            const archivosNuevos = Array.from(inputArchivos.files).filter(archivoActual => archivoActual !== archivo);
+
+            // Utilizar un data transfer para reemplazar el input
+            const datosTemporales = new DataTransfer();
+            archivosNuevos.forEach(archivoTemporal => datosTemporales.items.add(archivoTemporal));
+            inputArchivos.files = datosTemporales.files;
+
+            // Borrar el elemento visual de la lista
+            listaOrdenada.removeChild(elementoLista);
+        }
+
+        function crearElementoLista(archivo) {
+            // Preparar elementos a ser agregados
+            const elementoLista = document.createElement('li');
+            const spanEliminar = document.createElement('span');
+            elementoLista.textContent = archivo.name;
+            spanEliminar.innerHTML = "close";
+            spanEliminar.classList.add("material-symbols-outlined");
+            elementoLista.appendChild(spanEliminar);
+            
+            // Agregar evento para borrar imágenes al darle click
+            spanEliminar.addEventListener('click', function () {
+                borrarArchivo(elementoLista, archivo);
+            });
+
+            return elementoLista;
+        }
+
+        function manejarInputArchivos() {
             const archivos = inputArchivos.files;
-            // Limpiar lista previa
             listaOrdenada.innerHTML = '';
-            // Script para eliminar elementos al darle click
-            function borrarArchivo(elementoLista, archivo) {
-                // Arreglo de archivos
-                var nuevosArchivos = Array.from(inputArchivos.files);
-                // Borrar elemento de la lista nueva
-                const indice = nuevosArchivos.indexOf(archivo);
-                nuevosArchivos.splice(indice, 1);
-                // Establecer la nueva lista de archivos sin el elemento borrado
-                const datosTemporales = new DataTransfer();
-                for (const archivoTemporal of nuevosArchivos) {
-                    datosTemporales.items.add(archivoTemporal);
-                }
-                inputArchivos.files = datosTemporales.files;
-                // Remover de lista visual
-                listaOrdenada.removeChild(elementoLista);
-            }
-            // Iterar por archivos agregados
             for (let i = 0; i < archivos.length; ++i) {
-                // Crear un elemento de la lista para ser agregado
-                const elementoLista = document.createElement('li');
-                // Establecer nombre del archivo como elemento de la lista
-                elementoLista.textContent = archivos[i].name;
-
-                const spanEliminar = document.createElement('span');
-                spanEliminar.innerHTML = "close";
-                spanEliminar.classList.add("material-symbols-outlined");
-
-                elementoLista.appendChild(spanEliminar);
-
-                // Agregar a lista ordenada
+                const elementoLista = crearElementoLista(archivos[i]);
                 listaOrdenada.appendChild(elementoLista);
             }
-        });
+        }
+
+        // Conseguir elementos de la página
+        const inputArchivos = document.getElementById('subida_imagen');
+        const listaOrdenada = document.getElementById('lista_archivos');
+
+        // Establece evento para manejar el cambio de la lista de archivos
+        inputArchivos.addEventListener('change', manejarInputArchivos);
     </script>
     <script>
         // Función de alineado para las cajas de texto
