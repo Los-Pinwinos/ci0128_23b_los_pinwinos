@@ -45,6 +45,10 @@ function formatoPrecioFiltro() {
     });
 }
 
+function revisarPrecioMinimo(precioMin, precioMax) {
+    return precioMin <= precioMax;
+}
+
 // Filtrar
 function filtrar() {
     var provincias = obtenerCheckboxesSeleccionadas("provincia");
@@ -57,18 +61,21 @@ function filtrar() {
     var fechaMin = document.getElementById("fechaMin").value;
     var fechaMax = document.getElementById("fechaMax").value;
 
-    // Configurar filtrador
-    filtrador.setFiltroProvincias(provincias);
-    filtrador.setFiltroCantones(cantones);
-    filtrador.setFiltroTiendas(tiendas);
-    filtrador.setFiltroMarcas(marcas);
-    filtrador.setFiltroCategorias(categorias);
-    filtrador.setPrecioMinimo(precioMin);
-    filtrador.setPrecioMaximo(precioMax);
-    filtrador.setFechaMinimo(fechaMin);
-    filtrador.setFechaMaxima(fechaMax);
-
-    resultados = filtrador.filtrar(resultados);
+    if (!revisarPrecioMinimo(precioMin, precioMax)) {
+        alert("El precio mínimo no puede ser mayor al máximo.");
+    } else {
+        // Configurar filtrador
+        filtrador.setFiltroProvincias(provincias);
+        filtrador.setFiltroCantones(cantones);
+        filtrador.setFiltroTiendas(tiendas);
+        filtrador.setFiltroMarcas(marcas);
+        filtrador.setFiltroCategorias(categorias);
+        filtrador.setPrecioMinimo(precioMin);
+        filtrador.setPrecioMaximo(precioMax);
+        filtrador.setFechaMinimo(fechaMin);
+        filtrador.setFechaMaxima(fechaMax);
+        resultados = filtrador.filtrar(resultados);
+    }
 
     productosVM = paginar(paginaDefault);
 
