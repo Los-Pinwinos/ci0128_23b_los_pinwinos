@@ -9,6 +9,16 @@ function actualizarUltimaCalificacion(calificacion) {
     labelUltimaCalificacion.innerHTML = "Ha calificado con: " + calificacion;
 }
 
+function actualizarPromedioCalificacion(promedio) {
+    var labelCalificacion = document.getElementById("CalificacionTotal");
+    labelCalificacion.innerHTML = promedio + " de 5,0";
+}
+
+function actualizarConteo(conteo) {
+    var labelConteo = document.getElementById("CantidadCalificacionesTotal");
+    labelConteo.innerHTML = "(" + conteo + ")";
+}
+
 async function calificarRegistro(calificacion) {
     actualizarNoCalificaciones(false);
 
@@ -16,15 +26,13 @@ async function calificarRegistro(calificacion) {
         const response = await fetch(`/DetallesRegistro/DetallesRegistro?handler=Calificar&calificacion=${calificacion}`);
 
         if (response.ok) {
-
             var resultado = await response.json();
             const conteoNuevo = resultado.conteo;
-            const calificacionNueva = resultado.calificacion;s
-
-            // TODO(Angie): actualizar labels
-
+            const calificacionNueva = resultado.calificacion;
 
             actualizarUltimaCalificacion(calificacion);
+            actualizarPromedioCalificacion(calificacionNueva);
+            actualizarConteo(conteoNuevo);
         } else {
             console.error("Error: ", response.status);
         }
