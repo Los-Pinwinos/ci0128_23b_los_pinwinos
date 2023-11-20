@@ -45,6 +45,14 @@ function formatoPrecioFiltro() {
     });
 }
 
+function revisarPrecios(precioMin, precioMax) {
+    if (precioMin == '' || precioMax == '') {
+        return true;
+    }
+
+    return parseInt(precioMin) <= parseInt(precioMax);
+}
+
 // Filtrar
 function filtrar() {
     var provincias = obtenerCheckboxesSeleccionadas("provincia");
@@ -57,21 +65,23 @@ function filtrar() {
     var fechaMin = document.getElementById("fechaMin").value;
     var fechaMax = document.getElementById("fechaMax").value;
 
-    // Configurar filtrador
-    filtrador.setFiltroProvincias(provincias);
-    filtrador.setFiltroCantones(cantones);
-    filtrador.setFiltroTiendas(tiendas);
-    filtrador.setFiltroMarcas(marcas);
-    filtrador.setFiltroCategorias(categorias);
-    filtrador.setPrecioMinimo(precioMin);
-    filtrador.setPrecioMaximo(precioMax);
-    filtrador.setFechaMinimo(fechaMin);
-    filtrador.setFechaMaxima(fechaMax);
-
-    resultados = filtrador.filtrar(resultados);
+    if (!revisarPrecios(precioMin, precioMax)) {
+        alert("Por favor inserte el precio mínimo en el campo indicado.");
+    } else {
+        // Configurar filtrador
+        filtrador.setFiltroProvincias(provincias);
+        filtrador.setFiltroCantones(cantones);
+        filtrador.setFiltroTiendas(tiendas);
+        filtrador.setFiltroMarcas(marcas);
+        filtrador.setFiltroCategorias(categorias);
+        filtrador.setPrecioMinimo(precioMin);
+        filtrador.setPrecioMaximo(precioMax);
+        filtrador.setFechaMinimo(fechaMin);
+        filtrador.setFechaMaxima(fechaMax);
+        resultados = filtrador.filtrar(resultados);
+    }
 
     productosVM = paginar(paginaDefault);
-
     renderizarFiltros();
     renderizarPaginacion();
     renderizarTabla(productosVM);
@@ -532,12 +542,18 @@ function limpiarInput(primerValor, segundoValor) {
     inputMaximo.value = "";
 }
 
+function reiniciarFechas() {
+    establecerFechaMaxima();
+    establecerFechaMinima();
+}
+
 function limpiarFiltros() {
     limpiarCheckboxes("provincia");
     limpiarCheckboxes("canton");
     limpiarCheckboxes("tienda");
     limpiarCheckboxes("marca");
     limpiarCheckboxes("categoria");
+    reiniciarFechas();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
 
@@ -565,4 +581,48 @@ function obtenerCheckboxesSeleccionadas(nombreDeCheckboxes) {
     }
 
     return valores;
+}
+
+function establecerFechaMaxima() {
+    var fechaActual = new Date();
+    var dia = fechaActual.getDate();
+    // Enero se maneja como 0
+    var mes = fechaActual.getMonth() + 1;
+    var anno = fechaActual.getFullYear();
+    if (dia < 10) {
+        dia = '0' + dia
+    }
+    if (mes < 10) {
+        mes = '0' + mes
+    }
+    fechaActual = anno + '-' + mes + '-' + dia;
+    document.getElementById("fechaMin").setAttribute("max", fechaActual);
+    document.getElementById("fechaMax").setAttribute("max", fechaActual);
+}
+
+function establecerFechaMinima() {
+    document.getElementById("fechaMax").removeAttribute("min");;
+}
+
+function establecerFechaDinamica() {
+    fechaMin = document.getElementById("fechaMin");
+    fechaMax = document.getElementById("fechaMax");
+
+    fechaMin.addEventListener('change', function () {
+        fechaInsertada = fechaMin.value;
+        if (fechaInsertada === "" || fechaInsertada === null) {
+            establecerFechaMinima();
+        } else {
+            fechaMax.setAttribute("min", fechaInsertada);
+        }
+    });
+
+    fechaMax.addEventListener('change', function () {
+        fechaInsertada = fechaMax.value;
+        if (fechaInsertada === "" || fechaInsertada === null) {
+            establecerFechaMaxima();
+        } else {
+            fechaMin.setAttribute("max", fechaInsertada);
+        }
+    });
 }

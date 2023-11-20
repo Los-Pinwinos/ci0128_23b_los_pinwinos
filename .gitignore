@@ -6,6 +6,10 @@
 # unwanted Files
 *.zip
 
+# SonarQube files
+*.sonarqube
+dotCover.*
+
 # User-specific files
 *.rsuser
 *.suo
