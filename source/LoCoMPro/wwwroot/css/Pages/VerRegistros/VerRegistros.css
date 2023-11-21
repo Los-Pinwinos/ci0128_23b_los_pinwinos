@@ -221,9 +221,11 @@ table {
 
 .contenidoCeldaPrecio {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 100px;
+    max-width: 100px;
     direction: rtl;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .contenidoCeldaCalificacion {
