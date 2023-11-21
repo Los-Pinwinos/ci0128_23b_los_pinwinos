@@ -109,7 +109,7 @@ function renderizarTabla(datos) {
 
             var divDescripcion = document.createElement("div");
             divDescripcion.className = "contenidoCeldaDescripcion";
-            divDescripcion.textContent = datos[dato].descripcion;
+            divDescripcion.textContent = !datos[dato].descripcion? "Sin descripción" : datos[dato].descripcion;
             var descripcionCelda = document.createElement("td");
             descripcionCelda.appendChild(divDescripcion);
 
