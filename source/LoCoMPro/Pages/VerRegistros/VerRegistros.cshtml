@@ -224,7 +224,26 @@
             return;
         }
         if (!estaLleno) {
-            
+            // Deshabilitar el ícono de corazón mientras la caja de mensaje está visible
+            iconoCorazon.classList.add('corazon-deshabilitado');
+            iconoCorazon.classList.add('corazon-lleno');
+            estaLleno = true;
+
+            // Mostrar mensaje
+            cajaMensaje.textContent = `¡Has añadido ${producto} a favoritos!`;;
+            cajaMensaje.style.display = 'block';
+
+            // Ocultar mensaje después de 2 segundos
+            setTimeout(function () {
+                cajaMensaje.style.opacity = '0';
+                setTimeout(function () {
+                    cajaMensaje.style.display = 'none';
+                    cajaMensaje.style.opacity = '1';
+                    // Habilitar el ícono de corazón después de que la caja de mensaje se oculta
+                    iconoCorazon.classList.remove('corazon-deshabilitado');
+                }, 500); // Después de desvanecerse, reiniciar la caja
+            }, 1000);
+            fetch(`/VerRegistros/VerRegistros?handler=AgregarAFavoritos&nombreProducto=${producto}`);
         } else {
             iconoCorazon.classList.remove('corazon-lleno');
             estaLleno = false;
@@ -232,7 +251,7 @@
         }
     }
 
-    // Agregar evento de click
+    // Agregar evento de clic
     iconoCorazon.addEventListener('click', alternarCorazon);
 </script>
 
