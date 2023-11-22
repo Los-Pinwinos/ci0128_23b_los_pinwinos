@@ -1,15 +1,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
-using LoCoMPro.ViewModels.Busqueda;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -36,6 +29,8 @@ namespace LoCoMPro.Pages.VerRegistros
         public string? NombreCanton { get; set; }
         public string? NombreUsuario { get; set; }
 
+        public int? EsFavorito { get; set; }
+
         public string? resultadoRegistros { get; set; }
 
         public ICollection<Fotografia>? fotografias { get; set; }
@@ -48,6 +43,19 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreTienda = tiendaNombre;
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
+            EsFavorito = 0;
+        }
+
+        public int EsProductoFavorito(string productoNombre)
+        {
+            bool productoEncontrado = false;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Usuario? usuario = contexto.Usuarios.Include(u => u.favoritos).FirstOrDefault(u => u.nombreDeUsuario == User.Identity.Name);
+                productoEncontrado = usuario?.favoritos.Any(producto => producto.nombre == productoNombre) ?? false;
+            }
+
+            return productoEncontrado ? 1 : 0;
         }
 
         public IQueryable<VerRegistrosVM> ObtenerRegistros()
@@ -92,6 +100,7 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreTienda = tiendaNombre;
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
+            EsFavorito = EsProductoFavorito(productoNombre);
 
             IQueryable<VerRegistrosVM> registrosIQ = this.ObtenerRegistros();
 
