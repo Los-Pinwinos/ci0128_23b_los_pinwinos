@@ -1,0 +1,127 @@
+﻿@page
+@model LoCoMPro.Pages.Moderacion.EstadisticasUsuariosReportesModel
+@{
+    ViewData["Title"] = "Aportes";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Moderacion/EstadisticasUsuarios.css" asp-append-version="true" />
+    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
+    <script>
+        /*
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('Model.aportes');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('Model.aportes' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(Model.resultadosPorPagina);
+            var paginaDefault = Model.paginaDefault;
+        }
+        */
+    </script>
+    <script src="~/js/Pages/Cuenta/cliente.js" asp-append-version="true"></script>
+</head>
+<div>
+    <div class="Estadisticas-titulo">
+        <h2 id="contenidoTitulo">Usuarios que más reportan</h2>
+    </div>
+    <div class="Estadisticas-contenedor-fila">
+        <!--  if (Model.aportes != "Sin resultados") -->
+            <!-- { -->
+
+            <!-- Tabla de resultados -->
+            <div class="Estadisticas-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-left:10px;" id="tituloUsuario">
+                                Nombre de usuario
+                            </th>
+                            <th style="padding-left:10px;" id="tituloCalificacion">
+                                Calificación
+                            </th>
+                            <th style="padding-left:30px;" id="tituloContribuciones">
+                                Contribuciones
+                            </th>
+                            <th style="padding-left:24px;" id="tituloReportes">
+                                Reportes Realizados
+                            </th>
+                             <th id="tituloAceptados">
+                                Reportes aceptados
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Estadisticas-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+            <!--} -->
+            <!--else -->
+            <!-- { -->
+        <!--  <div class="Estadisticas-contenedor-gif">  -->
+           <!-- Logotipo de Penguin -->
+        <!--  <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Estadisticas-gif" id="PinwinoTriste">  -->
+        <!--   <p class="Estadisticas-texto">Ningún usuario califica para la estadística</p> -->
+        <!--  </div> -->
+        <!--  }  -->
+    </div>
+</div>
+
+<!-- if (Model.aportes != "Sin resultados") -->
+<!--{ -->
+    <!-- Paginación -->
+    <div class="Estadisticas-contenedor-paginacion">
+        <div class="Estadisticas-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="Estadisticas-boton-paginacion" onclick="pasarPagina(aportesVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="Estadisticas-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="Estadisticas-texto-paginacion">  </span>
+
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="Estadisticas-boton-paginacion" onclick="pasarPagina(aportesVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="Estadisticas-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+<!-- } -->
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
+    if (mensajeRedirect) {
+        alert(mensajeRedirect);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
+<script>
+    /* var aportesVM = paginar(paginaDefault);
+
+    // Renderizar
+    renderizarPaginacion();
+    renderizarTabla(aportesVM); */
+    
+</script>
