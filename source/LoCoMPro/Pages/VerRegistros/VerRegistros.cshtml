@@ -5,6 +5,8 @@
 }
 
 <head>
+    <!-- Enlace a Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
     <script>
@@ -31,6 +33,12 @@
 <div>
     <div class="InfoProducto">
         <div class="Contenedor">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <!-- Icono de corazón utilizando Font Awesome -->
+                <i id="iconoCorazon" class="corazon fas fa-heart"></i>
+                <div id="cajaMensaje" class="mensaje-favoritos"></div>
+            }
             <div class="Contenedor-fila" style="align-items: center;">
                 <div id="galeriaImagenes" class="GaleriaImagenes">
                     <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
