@@ -78,6 +78,26 @@ namespace LoCoMPro.Pages.VerRegistros
             }
         }
 
+        public void OnGetRemoverDeFavoritos(string nombreProducto)
+        {
+
+            // Revisar que el usuario esté loggeado
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Usuario? usuario = contexto.Usuarios.Include(u => u.favoritos).FirstOrDefault(u => u.nombreDeUsuario == User.Identity.Name);
+                if (usuario != null)
+                {
+                    // Obtener el producto de la base de datos
+                    Producto? producto = contexto.Productos.FirstOrDefault(p => p.nombre == nombreProducto);
+                    if (producto != null)
+                    {
+                        usuario.favoritos.Remove(producto);
+                        contexto.SaveChanges();
+                    }
+                }
+            }
+        }
+
         public IQueryable<VerRegistrosVM> ObtenerRegistros()
         {
             IQueryable<VerRegistrosVM> registrosIQ = contexto.Registros
