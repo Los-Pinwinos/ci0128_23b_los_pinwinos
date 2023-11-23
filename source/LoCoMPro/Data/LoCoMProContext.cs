@@ -55,6 +55,14 @@ namespace LoCoMPro.Data
                 .WithMany()
                 .HasForeignKey(c => new { c.usuarioCalificador })
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(s => s.favoritos)
+                .WithMany(c => c.usuariosInteresados)
+                .UsingEntity(j =>
+                {
+                    j.ToTable("Favoritos");
+                });
         }
     }
 }

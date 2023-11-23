@@ -5,6 +5,8 @@
 }
 
 <head>
+    <!-- Enlace a Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="~/css/Pages/VerRegistros/VerRegistros.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
     <script>
@@ -31,6 +33,12 @@
 <div>
     <div class="InfoProducto">
         <div class="Contenedor">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <!-- Icono de corazón utilizando Font Awesome -->
+                <i id="iconoCorazon" class="corazon fas fa-heart"></i>
+                <div id="cajaMensaje" class="mensaje-favoritos"></div>
+            }
             <div class="Contenedor-fila" style="align-items: center;">
                 <div id="galeriaImagenes" class="GaleriaImagenes">
                     <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
@@ -195,7 +203,57 @@
     });
 </script>
 
+<script>
+    // Obtener el elemento del ícono de corazón y la caja de mensaje
+    var iconoCorazon = document.getElementById('iconoCorazon');
+    var cajaMensaje = document.getElementById('cajaMensaje');
+    var estaLleno = false;
+    var producto = adaptarCaracteresEspeciales("@Model.NombreProducto");
 
+    var esProductoFavorito = @Model.EsFavorito;
+
+    if (esProductoFavorito) {
+        estaLleno = true;
+        iconoCorazon.classList.add('corazon-lleno');
+    }
+
+    // Función para alternar la animación al hacer clic
+    function alternarCorazon() {
+        // Verificar si la caja de mensaje es visible, si es así, salir temprano
+        if (cajaMensaje.style.display === 'block') {
+            return;
+        }
+        if (!estaLleno) {
+            // Deshabilitar el ícono de corazón mientras la caja de mensaje está visible
+            iconoCorazon.classList.add('corazon-deshabilitado');
+            iconoCorazon.classList.add('corazon-lleno');
+            estaLleno = true;
+
+            // Mostrar mensaje
+            cajaMensaje.textContent = `¡Has añadido ${producto} a favoritos!`;;
+            cajaMensaje.style.display = 'block';
+
+            // Ocultar mensaje después de 2 segundos
+            setTimeout(function () {
+                cajaMensaje.style.opacity = '0';
+                setTimeout(function () {
+                    cajaMensaje.style.display = 'none';
+                    cajaMensaje.style.opacity = '1';
+                    // Habilitar el ícono de corazón después de que la caja de mensaje se oculta
+                    iconoCorazon.classList.remove('corazon-deshabilitado');
+                }, 500); // Después de desvanecerse, reiniciar la caja
+            }, 1000);
+            fetch(`/VerRegistros/VerRegistros?handler=AgregarAFavoritos&nombreProducto=${producto}`);
+        } else {
+            iconoCorazon.classList.remove('corazon-lleno');
+            estaLleno = false;
+            fetch(`/VerRegistros/VerRegistros?handler=RemoverDeFavoritos&nombreProducto=${producto}`);
+        }
+    }
+
+    // Agregar evento de clic
+    iconoCorazon.addEventListener('click', alternarCorazon);
+</script>
 
 <script>
     // Inicializar la galería de imágenes
