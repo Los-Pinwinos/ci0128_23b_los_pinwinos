@@ -44,7 +44,7 @@ namespace LoCoMPro.Utils.Buscadores
                         { 
                             nombreProducto = f.nombre,
                             nombreCategoria = f.nombreCategoria,
-                            nombreMarca = f.marca == null ? f.marca : "Sin marca"
+                            nombreMarca = f.marca == null ? "Sin marca" : f.marca
                         }).AsQueryable();
                 } else
                 {

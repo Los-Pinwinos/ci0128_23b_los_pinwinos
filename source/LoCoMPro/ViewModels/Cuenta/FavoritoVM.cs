@@ -6,7 +6,7 @@ namespace LoCoMPro.ViewModels.Cuenta
     {
         // Nombre
         [StringLength(256, MinimumLength = 1)]
-        [Display(Name = "Nombre del producto")]
+        [Display(Name = "Producto")]
         public required string nombreProducto { get; set; }
 
         // Nombre de la categoría
@@ -17,7 +17,7 @@ namespace LoCoMPro.ViewModels.Cuenta
 
         // Marca
         [StringLength(256, MinimumLength = 1)]
-        [Display(Name = "Marca del producto")]
+        [Display(Name = "Marca")]
         public string? nombreMarca { get; set; }
     }
 }

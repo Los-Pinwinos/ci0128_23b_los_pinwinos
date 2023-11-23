@@ -42,7 +42,7 @@ namespace LoCoMPro.Pages.Cuenta
                 nombreMarca = ""
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 10);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);
         }
 
         public void OnGetRemoverDeFavoritos(string nombreProducto)
