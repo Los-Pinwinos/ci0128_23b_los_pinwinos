@@ -46,7 +46,7 @@ namespace LoCoMPro.Pages.Cuenta
                 calificacion = 0
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 10);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);
         }
 
         // Método On get para cargar los resultados o redireccionar
