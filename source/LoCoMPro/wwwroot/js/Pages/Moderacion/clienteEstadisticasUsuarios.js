@@ -13,18 +13,18 @@ function renderizarTabla(datos) {
 
     for (var dato in datos) {
         var fila = document.createElement("tr");
-        if (typeof datos[dato].creacion !== 'undefined' && datos[dato].creacion !== "") {
+        if (typeof datos[dato].NombreUsuario !== 'undefined' && datos[dato].NombreUsuario !== "") {
 
             var divUsuario = document.createElement("div");
             divUsuario.className = "contenidoCeldaUsuario";
-            divUsuario.textContent = formatearFecha(datos[dato]);
+            divUsuario.textContent = datos[dato].NombreUsuario;
             var usuarioCelda = document.createElement("td");
             usuarioCelda.setAttribute('data-tooltip', divUsuario.textContent);
             usuarioCelda.appendChild(divUsuario);
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaNumero";
-            divCalificacion.textContent = datos[dato].calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].calificacion);
+            divCalificacion.textContent = datos[dato].Calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].Calificacion);
             divCalificacion.style.marginLeft = "60px";
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
@@ -32,21 +32,21 @@ function renderizarTabla(datos) {
 
             var divContribuciones = document.createElement("div");
             divContribuciones.className = "contenidoCeldaNumero";
-            divContribuciones.textContent = formatearFecha(datos[dato]);
+            divContribuciones.textContent = datos[dato].CantidadContribuciones;
             var contribucionesCelda = document.createElement("td");
             contribucionesCelda.setAttribute('data-tooltip', divContribuciones.textContent);
             contribucionesCelda.appendChild(divContribuciones);
 
             var divRealizados = document.createElement("div");
             divRealizados.className = "contenidoCeldaNumero";
-            divRealizados.textContent = formatearFecha(datos[dato]);
+            divRealizados.textContent = datos[dato].CantidadReportes;
             var realizadosCelda = document.createElement("td");
             realizadosCelda.setAttribute('data-tooltip', divRealizados.textContent);
             realizadosCelda.appendChild(divRealizados);
 
             var divAceptados = document.createElement("div");
             divAceptados.className = "contenidoCeldaNumero";
-            divAceptados.textContent = formatearFecha(datos[dato]);
+            divAceptados.textContent = datos[dato].CantidadVerificados;
             var aceptadosCelda = document.createElement("td");
             aceptadosCelda.setAttribute('data-tooltip', divAceptados.textContent);
             aceptadosCelda.appendChild(divAceptados);

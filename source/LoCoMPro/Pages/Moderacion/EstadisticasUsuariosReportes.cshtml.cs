@@ -48,7 +48,6 @@ namespace LoCoMPro.Pages.Moderacion
                         CantidadReportes = report.CountReports,
                         CantidadVerificados = report.CountVerifiedReports,
                     });
-            Console.WriteLine("Ya tengo mis usuarios");
            
             return topUsers;
         }
@@ -59,7 +58,6 @@ namespace LoCoMPro.Pages.Moderacion
             IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
             this.Usuarios = await topUsers.ToListAsync();
             this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
-            Console.WriteLine(resultadosEstadisticas);
             return Page();
         }
     }
