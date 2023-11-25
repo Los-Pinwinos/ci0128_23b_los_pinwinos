@@ -25,17 +25,17 @@ namespace LoCoMPro.Pages.Moderacion
         }
         public IQueryable<UsuarioEstadisticasVM> buscarUsuariosReportadores()
         {
-            IQueryable<UsuarioEstadisticasVM> topUsers = contexto.Reportes
+            IQueryable<UsuarioEstadisticasVM> topUsuarios = contexto.Reportes
                 .Where(r => r.usuarioCreadorReporte != null)
                 .GroupBy(r => r.usuarioCreadorReporte)
                 .Select(g => new
                 {
                     UsuarioCreadorReporte = g.Key,
-                    CountReports = g.Count(),
-                    CountVerifiedReports = g.Count(report => report.registro.visible == false && report.verificado),
-                    CountContributions = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key)
+                    CantidadReportes = g.Count(),
+                    CantidadAprobados = g.Count(report => report.registro.visible == false && report.verificado),
+                    CantidadAportes = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key)
                 })
-                .OrderByDescending(x => x.CountReports)
+                .OrderByDescending(x => x.CantidadReportes)
                 .Take(10)
                 .Join(contexto.Usuarios,
                     report => report.UsuarioCreadorReporte,
@@ -44,27 +44,56 @@ namespace LoCoMPro.Pages.Moderacion
                     {
                         NombreUsuario = usuario.nombreDeUsuario,
                         Calificacion = usuario.calificacion,
-                        CantidadContribuciones = report.CountContributions,
-                        CantidadReportes = report.CountReports,
-                        CantidadVerificados = report.CountVerifiedReports,
+                        CantidadContribuciones = report.CantidadAportes,
+                        CantidadReportes = report.CantidadReportes,
+                        CantidadVerificados = report.CantidadAprobados,
                     });
 
-            return topUsers;
+            return topUsuarios;
+        }
+
+        public IQueryable<UsuarioEstadisticasVM> buscarUsuariosReportados()
+        {
+            IQueryable<UsuarioEstadisticasVM> topUsuarios = contexto.Reportes
+                .Where(r => r.usuarioCreadorRegistro != null)
+                .GroupBy(r => r.usuarioCreadorRegistro)
+                .Select(g => new
+                {
+                    UsuarioCreadorReporte = g.Key,
+                    CantidadReportes = g.Count(),
+                    CantidadAprobados = g.Count(report => report.registro.visible == false && report.verificado),
+                    CantidadAportes = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key)
+                })
+                .OrderByDescending(x => x.CantidadReportes)
+                .Take(10)
+                .Join(contexto.Usuarios,
+                    report => report.UsuarioCreadorReporte,
+                    usuario => usuario.nombreDeUsuario,
+                    (report, usuario) => new UsuarioEstadisticasVM
+                    {
+                        NombreUsuario = usuario.nombreDeUsuario,
+                        Calificacion = usuario.calificacion,
+                        CantidadContribuciones = report.CantidadAportes,
+                        CantidadReportes = report.CantidadReportes,
+                        CantidadVerificados = report.CantidadAprobados,
+                    });
+
+            return topUsuarios;
         }
 
         public async Task<IActionResult> OnGetAsync(string tipo)
         {
             if (tipo == "reportadores")
             {
-                IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
-                this.Usuarios = await topUsers.ToListAsync();
+                IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportadores();
+                this.Usuarios = await topUsuarios.ToListAsync();
                 this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
             } else
             {
                 // Se asume que tipo == reportados. Si se desea agregar estadísticas nuevas, se puede
                 // agregar otro if/else acá.
-                IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
-                this.Usuarios = await topUsers.ToListAsync();
+                IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportados();
+                this.Usuarios = await topUsuarios.ToListAsync();
                 this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
             }
             return Page();
