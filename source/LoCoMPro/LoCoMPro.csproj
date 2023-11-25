@@ -33,6 +33,7 @@
     <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
+    <Folder Include="wwwroot\js\Pages\Moderacion\" />
   </ItemGroup>
 
 </Project>

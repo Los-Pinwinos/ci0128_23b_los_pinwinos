@@ -101,7 +101,7 @@ table {
     }
 
 /* Contenido de la celda de Fecha */
-.contenidoCeldaFecha {
+.contenidoCeldaUsuario {
     min-width: 78px;
     max-width: 78px;
     margin-left: 10px;
@@ -110,76 +110,9 @@ table {
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Producto */
-.contenidoCeldaProducto {
-    max-width: 150px;
-    min-width: 150px;
-    margin-left: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Precio */
-.contenidoCeldaPrecio {
-    text-align: right;
-    min-width: 70px;
-    max-width: 70px;
-    direction: rtl;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Unidad */
-.contenidoCeldaUnidad {
-    min-width: 75px;
-    max-width: 75px;
-    margin-left: 25px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Categoria */
-.contenidoCeldaCategoria {
-    min-width: 108px;
-    max-width: 108px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Tienda */
-.contenidoCeldaTienda {
-    min-width: 150px;
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Tienda */
-.contenidoCeldaProvincia {
-    min-width: 80px;
-    max-width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Tienda */
-.contenidoCeldaCanton {
-    min-width: 90px;
-    max-width: 90px;
-    margin-left: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 /* Contenido de la celda de Calificacion */
-.contenidoCeldaCalificacion {
+.contenidoCeldaNumero {
     text-align: right;
     min-width: 75px;
     max-width: 75px;
