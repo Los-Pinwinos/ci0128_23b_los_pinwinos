@@ -35,4 +35,8 @@
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\js\Pages\Cuenta\Favoritos\cliente.js" />
+  </ItemGroup>
+
 </Project>
