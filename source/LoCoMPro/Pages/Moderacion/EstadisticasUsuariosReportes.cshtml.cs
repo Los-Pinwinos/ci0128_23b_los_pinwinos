@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks; // Import the necessary namespace for Task
+using LoCoMPro.ViewModels.VerRegistros;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -14,7 +15,7 @@ namespace LoCoMPro.Pages.Moderacion
     {
         private readonly LoCoMProContext contexto;
 
-        public string resultadosEstadisticas { get; set; }
+        public string? resultadosEstadisticas { get; set; }
 
         public IList<UsuarioEstadisticasVM> Usuarios { get; set; } = new List<UsuarioEstadisticasVM>();
 
@@ -22,17 +23,17 @@ namespace LoCoMPro.Pages.Moderacion
         {
             contexto = context;
         }
-
         public IQueryable<UsuarioEstadisticasVM> buscarUsuariosReportadores()
         {
-            var topUsers = contexto.Reportes
+            IQueryable<UsuarioEstadisticasVM> topUsers = contexto.Reportes
                 .Where(r => r.usuarioCreadorReporte != null)
                 .GroupBy(r => r.usuarioCreadorReporte)
                 .Select(g => new
                 {
                     UsuarioCreadorReporte = g.Key,
                     CountReports = g.Count(),
-                    CountVerifiedReports = g.Count(r => r.verificado),
+                    CountVerifiedReports = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key && registro.visible == false),
+                    CountContributions = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key)
                 })
                 .OrderByDescending(x => x.CountReports)
                 .Take(10)
@@ -43,19 +44,22 @@ namespace LoCoMPro.Pages.Moderacion
                     {
                         NombreUsuario = usuario.nombreDeUsuario,
                         Calificacion = usuario.calificacion,
+                        CantidadContribuciones = report.CountContributions,
                         CantidadReportes = report.CountReports,
                         CantidadVerificados = report.CountVerifiedReports,
                     });
-
+            Console.WriteLine("Ya tengo mis usuarios");
+           
             return topUsers;
         }
 
+
         public async Task<IActionResult> OnGetAsync()
         {
-            var topUsers = buscarUsuariosReportadores();
+            IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
             this.Usuarios = await topUsers.ToListAsync();
             this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
-
+            Console.WriteLine(resultadosEstadisticas);
             return Page();
         }
     }
