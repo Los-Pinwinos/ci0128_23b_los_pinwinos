@@ -32,7 +32,7 @@ namespace LoCoMPro.Pages.Moderacion
                 {
                     UsuarioCreadorReporte = g.Key,
                     CountReports = g.Count(),
-                    CountVerifiedReports = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key && registro.visible == false),
+                    CountVerifiedReports = g.Count(report => report.registro.visible == false && report.verificado),
                     CountContributions = contexto.Registros.Count(registro => registro.usuarioCreador == g.Key)
                 })
                 .OrderByDescending(x => x.CountReports)
@@ -48,16 +48,25 @@ namespace LoCoMPro.Pages.Moderacion
                         CantidadReportes = report.CountReports,
                         CantidadVerificados = report.CountVerifiedReports,
                     });
-           
+
             return topUsers;
         }
 
-
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string tipo)
         {
-            IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
-            this.Usuarios = await topUsers.ToListAsync();
-            this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+            if (tipo == "reportadores")
+            {
+                IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
+                this.Usuarios = await topUsers.ToListAsync();
+                this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+            } else
+            {
+                // Se asume que tipo == reportados. Si se desea agregar estadísticas nuevas, se puede
+                // agregar otro if/else acá.
+                IQueryable<UsuarioEstadisticasVM> topUsers = buscarUsuariosReportadores();
+                this.Usuarios = await topUsers.ToListAsync();
+                this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+            }
             return Page();
         }
     }
