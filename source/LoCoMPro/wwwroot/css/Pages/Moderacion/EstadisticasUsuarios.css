@@ -111,7 +111,17 @@ table {
 }
 
 
-/* Contenido de la celda de Calificacion */
+/* Contenido de la celda de Calificación */
+.contenidoCeldaCalificacion {
+    text-align: right;
+    min-width: 75px;
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de otros números */
 .contenidoCeldaNumero {
     text-align: right;
     min-width: 75px;
@@ -120,6 +130,7 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 
 /* Paginacion */
 

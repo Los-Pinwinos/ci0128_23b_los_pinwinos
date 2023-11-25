@@ -23,7 +23,7 @@ function renderizarTabla(datos) {
             usuarioCelda.appendChild(divUsuario);
 
             var divCalificacion = document.createElement("div");
-            divCalificacion.className = "contenidoCeldaNumero";
+            divCalificacion.className = "contenidoCeldaCalificacion";
             divCalificacion.textContent = datos[dato].Calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].Calificacion);
             divCalificacion.style.marginLeft = "60px";
             var calificacionCelda = document.createElement("td");
@@ -33,6 +33,7 @@ function renderizarTabla(datos) {
             var divContribuciones = document.createElement("div");
             divContribuciones.className = "contenidoCeldaNumero";
             divContribuciones.textContent = datos[dato].CantidadContribuciones;
+            divContribuciones.style.marginLeft = "60px";
             var contribucionesCelda = document.createElement("td");
             contribucionesCelda.setAttribute('data-tooltip', divContribuciones.textContent);
             contribucionesCelda.appendChild(divContribuciones);
@@ -40,12 +41,14 @@ function renderizarTabla(datos) {
             var divRealizados = document.createElement("div");
             divRealizados.className = "contenidoCeldaNumero";
             divRealizados.textContent = datos[dato].CantidadReportes;
+            divRealizados.style.marginLeft = "60px";
             var realizadosCelda = document.createElement("td");
             realizadosCelda.setAttribute('data-tooltip', divRealizados.textContent);
             realizadosCelda.appendChild(divRealizados);
 
             var divAceptados = document.createElement("div");
             divAceptados.className = "contenidoCeldaNumero";
+            divAceptados.style.marginLeft = "60px";
             divAceptados.textContent = datos[dato].CantidadVerificados;
             var aceptadosCelda = document.createElement("td");
             aceptadosCelda.setAttribute('data-tooltip', divAceptados.textContent);
