@@ -34,9 +34,8 @@
         <h2 id="contenidoTitulo">Usuarios que más reportan</h2>
     </div>
     <div class="Estadisticas-contenedor-fila">
-        <!--  if (Model.aportes != "Sin resultados") -->
-            <!-- { -->
-
+        @if (@Model.cantidadValidos != 0)
+        {
             <!-- Tabla de resultados -->
             <div class="Estadisticas-tabla">
                 <table>
@@ -54,7 +53,7 @@
                             <th style="padding-left:24px;" id="tituloReportes">
                                 Reportes Realizados
                             </th>
-                             <th id="tituloAceptados">
+                            <th id="tituloAceptados">
                                 Reportes aceptados
                             </th>
                         </tr>
@@ -62,45 +61,52 @@
                     <tbody class="Estadisticas-tabla-resultados" id="cuerpoResultados"></tbody>
                 </table>
             </div>
-            <!--} -->
-            <!--else -->
-            <!-- { -->
-        <!--  <div class="Estadisticas-contenedor-gif">  -->
-           <!-- Logotipo de Penguin -->
-        <!--  <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Estadisticas-gif" id="PinwinoTriste">  -->
-        <!--   <p class="Estadisticas-texto">Ningún usuario califica para la estadística</p> -->
-        <!--  </div> -->
-        <!--  }  -->
+        }
+        else
+        {
+            <!-- Contenedor para cuando no hay resultados -->
+            <div class="Estadisticas-contenedor-gif">
+                <!-- Logotipo de Pinwino -->
+                <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Estadisticas-gif" id="PinwinoTriste">
+                <p class="Estadisticas-texto">Ningún usuario califica para la estadística</p>
+            </div>
+        }
+
     </div>
 </div>
 
-<!-- Paginación -->
-<div class="Estadisticas-contenedor-paginacion">
-    <div class="Estadisticas-contenedor-caja-paginacion">
-        <div id="paginaPrevia" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1)">
-            Anterior
-        </div>
-        <div id="sinPaginaPrevia" class="Estadisticas-boton-paginacion-deshabilitado">
-            Anterior
-        </div>
+@if (@Model.cantidadValidos != 0)
+{
+    <!-- Paginación -->
+    <div class="Estadisticas-contenedor-paginacion">
+        <div class="Estadisticas-contenedor-caja-paginacion">
+            <div id="paginaPrevia" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="sinPaginaPrevia" class="Estadisticas-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
 
-        <span id="textoPaginacion" class="Estadisticas-texto-paginacion">  </span>
+            <span id="textoPaginacion" class="Estadisticas-texto-paginacion">  </span>
 
-        <div id="paginaSiguiente" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1)">
-            Siguiente
-        </div>
-        <div id="sinPaginaSiguiente" class="Estadisticas-boton-paginacion-deshabilitado">
-            Siguiente
+            <div id="paginaSiguiente" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="sinPaginaSiguiente" class="Estadisticas-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
         </div>
     </div>
-</div>
-
+}
 
 
 <script>
+    
     var resultadosPaginados = paginar(paginaDefault);
 
     // Reenderizar las diferentes páginas necesarias
     renderizarPaginacion();
     renderizarTabla(resultadosPaginados);
+    console.log("aca");
+    console.log("estoy");
 </script>

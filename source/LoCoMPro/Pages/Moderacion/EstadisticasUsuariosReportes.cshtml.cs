@@ -17,12 +17,22 @@ namespace LoCoMPro.Pages.Moderacion
 
         public string? resultadosEstadisticas { get; set; }
 
+        public int cantidadValidos { get; set; }
+
         public IList<UsuarioEstadisticasVM> Usuarios { get; set; } = new List<UsuarioEstadisticasVM>();
 
         public EstadisticasUsuariosReportesModel(LoCoMProContext context)
         {
             contexto = context;
+            cantidadValidos = 0;
         }
+
+        public int contarUsuariosValidos()
+        {
+            return this.Usuarios.Count(user =>
+                user.NombreUsuario != null);
+        }
+
         public IQueryable<UsuarioEstadisticasVM> buscarUsuariosReportadores()
         {
             IQueryable<UsuarioEstadisticasVM> topUsuarios = contexto.Reportes
@@ -96,6 +106,7 @@ namespace LoCoMPro.Pages.Moderacion
                 this.Usuarios = await topUsuarios.ToListAsync();
                 this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
             }
+            this.cantidadValidos = contarUsuariosValidos();
             return Page();
         }
     }
