@@ -239,8 +239,8 @@ table {
 }
 
 .contenidoCeldaDescripcion {
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 100px;
+    max-width: 20vw;
     margin-left: 30%;
     overflow-x: hidden;
     text-overflow: ellipsis;
