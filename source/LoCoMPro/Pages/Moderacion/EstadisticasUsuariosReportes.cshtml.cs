@@ -6,7 +6,7 @@ using LoCoMPro.ViewModels.Moderacion;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks; // Import the necessary namespace for Task
+using System.Threading.Tasks;
 using LoCoMPro.ViewModels.VerRegistros;
 
 namespace LoCoMPro.Pages.Moderacion
@@ -27,12 +27,14 @@ namespace LoCoMPro.Pages.Moderacion
         {
             contexto = context;
             cantidadValidos = 0;
+            tipoPagina = "reportadores";
         }
 
         public int contarUsuariosValidos()
         {
-            return this.Usuarios.Count(user =>
+            int cantidad = this.Usuarios.Count(user =>
                 user.NombreUsuario != null);
+            return cantidad;
         }
 
         public IQueryable<UsuarioEstadisticasVM> buscarUsuariosReportadores()
@@ -109,6 +111,10 @@ namespace LoCoMPro.Pages.Moderacion
                 this.Usuarios = await topUsuarios.ToListAsync();
                 this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
             }
+            // En caso de que las búsquedas retornen Usuarios inválidos para cumplir
+            // con los 10 usuarios en total, se realiza un conteo para
+            // verificar si se debe o no mostrar la imagen del pinwino que indica
+            // que no hay usuarios que califiquen para la estadística.
             this.cantidadValidos = contarUsuariosValidos();
             return Page();
         }

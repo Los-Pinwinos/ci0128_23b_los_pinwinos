@@ -1,13 +1,11 @@
 ﻿@page
 @model LoCoMPro.Pages.Moderacion.EstadisticasUsuariosReportesModel
 @{
-    ViewData["Title"] = "Aportes";
+    ViewData["Title"] = "EstadisticasUsuarios";
 }
 
-<!-- Metadatos -->
 <head>
-    <!-- Enlace al archivo CSS con los estilos de la página -->
-    <!-- El valor true hace que la versión se agregue a la URL -->
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Pages/Moderacion/EstadisticasUsuarios.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
     <script>
@@ -45,7 +43,6 @@
     <div class="Estadisticas-contenedor-fila">
         @if (@Model.cantidadValidos != 0)
         {
-            <!-- Tabla de resultados -->
             <div class="Estadisticas-tabla">
                 <table>
                     <thead>
@@ -53,14 +50,21 @@
                             <th style="padding-left:10px;" id="tituloUsuario">
                                 Nombre de usuario
                             </th>
-                            <th style="padding-left:10px;" id="tituloCalificacion">
+                            <th style="padding-left:45px;" id="tituloCalificacion">
                                 Calificación
                             </th>
                             <th style="padding-left:30px;" id="tituloContribuciones">
                                 Contribuciones
                             </th>
                             <th style="padding-left:24px;" id="tituloReportes">
-                                Reportes Realizados
+                                @if (Model.tipoPagina == "reportadores")
+                                {
+                                    <text>Reportes Realizados</text>
+                                }
+                                else if (Model.tipoPagina == "reportados")
+                                {
+                                    <text>Reportes Recibidos</text>
+                                }
                             </th>
                             <th id="tituloAceptados">
                                 Reportes aceptados
@@ -73,7 +77,6 @@
         }
         else
         {
-            <!-- Contenedor para cuando no hay resultados -->
             <div class="Estadisticas-contenedor-gif">
                 <!-- Logotipo de Pinwino -->
                 <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Estadisticas-gif" id="PinwinoTriste">
@@ -86,7 +89,6 @@
 
 @if (@Model.cantidadValidos != 0)
 {
-    <!-- Paginación -->
     <div class="Estadisticas-contenedor-paginacion">
         <div class="Estadisticas-contenedor-caja-paginacion">
             <div id="paginaPrevia" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1)">
@@ -110,11 +112,7 @@
 
 
 <script>
-    
     var resultadosPaginados = paginar(paginaDefault);
-
-    // Reenderizar las diferentes páginas necesarias
     renderizarPaginacion();
     renderizarTabla(resultadosPaginados);
-
 </script>

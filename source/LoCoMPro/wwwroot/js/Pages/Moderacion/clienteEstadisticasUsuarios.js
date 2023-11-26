@@ -24,8 +24,8 @@ function renderizarTabla(datos) {
 
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaCalificacion";
-            divCalificacion.textContent = datos[dato].Calificacion == 0 ? "Sin calificar" : formatearCalificacion(datos[dato].Calificacion);
-            divCalificacion.style.marginLeft = "60px";
+            divCalificacion.textContent = datos[dato].Calificacion == 0 ? "Sin calificación" : formatearCalificacion(datos[dato].Calificacion);
+            divCalificacion.style.marginLeft = "40px";
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
             calificacionCelda.appendChild(divCalificacion);
