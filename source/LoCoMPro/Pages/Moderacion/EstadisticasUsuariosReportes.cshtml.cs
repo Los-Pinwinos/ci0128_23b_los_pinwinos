@@ -19,6 +19,8 @@ namespace LoCoMPro.Pages.Moderacion
 
         public int cantidadValidos { get; set; }
 
+        public string tipoPagina { get; set; }
+
         public IList<UsuarioEstadisticasVM> Usuarios { get; set; } = new List<UsuarioEstadisticasVM>();
 
         public EstadisticasUsuariosReportesModel(LoCoMProContext context)
@@ -93,7 +95,8 @@ namespace LoCoMPro.Pages.Moderacion
 
         public async Task<IActionResult> OnGetAsync(string tipo)
         {
-            if (tipo == "reportadores")
+            this.tipoPagina = tipo;
+            if (this.tipoPagina == "reportadores")
             {
                 IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportadores();
                 this.Usuarios = await topUsuarios.ToListAsync();

@@ -31,7 +31,16 @@
 </head>
 <div>
     <div class="Estadisticas-titulo">
-        <h2 id="contenidoTitulo">Usuarios que más reportan</h2>
+        <h2 id="contenidoTitulo">
+            @if (Model.tipoPagina == "reportadores")
+            {
+                <text>Usuarios que más reportan</text>
+            }
+            else if (Model.tipoPagina == "reportados")
+            {
+                <text>Usuarios más reportados</text>
+            }
+        </h2>
     </div>
     <div class="Estadisticas-contenedor-fila">
         @if (@Model.cantidadValidos != 0)
@@ -107,6 +116,5 @@
     // Reenderizar las diferentes páginas necesarias
     renderizarPaginacion();
     renderizarTabla(resultadosPaginados);
-    console.log("aca");
-    console.log("estoy");
+
 </script>
