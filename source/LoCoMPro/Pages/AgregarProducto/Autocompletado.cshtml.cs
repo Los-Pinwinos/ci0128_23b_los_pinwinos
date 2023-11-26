@@ -20,7 +20,7 @@ namespace LoCoMPro.Pages.AgregarProducto
             {
                 resultados = contexto.Productos
                     .Where(p => p.nombre.StartsWith(term))
-                    .Select(p => p.nombre)
+                    .Select(p => p.nombre!)
                     .Distinct()
                     .OrderBy(p => p)
                     .ToList();
@@ -28,8 +28,8 @@ namespace LoCoMPro.Pages.AgregarProducto
             else if (attribute == "Marca")
             {
                 resultados = contexto.Productos
-                    .Where(p => p.marca.StartsWith(term))
-                    .Select(p => p.marca)
+                    .Where(p => p.marca!.StartsWith(term))
+                    .Select(p => p.marca!)
                     .Distinct()
                     .OrderBy(p => p)
                     .ToList();

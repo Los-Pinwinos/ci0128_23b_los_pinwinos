@@ -74,7 +74,7 @@ namespace LoCoMPro.Pages.VerRegistros
                     precio = group.Key.precio,
                     calificacion = group.Key.calificacion,
                     descripcion = group.Key.descripcion,
-                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
+                    fotografias = group.SelectMany(registro => registro.fotografias!).ToList()
                 })
              .OrderByDescending(r => r.creacion);
 
@@ -101,7 +101,7 @@ namespace LoCoMPro.Pages.VerRegistros
             // Actualizar el atributo de fotografías para poder trabajar con todas las imagenes asociadas al registro
             var fotografiasEnlazadas = contexto.Fotografias
                 .AsEnumerable()
-                .Where(f => Registros.Any(r => r.fotografias.Contains(f)))
+                .Where(f => Registros.Any(r => r.fotografias!.Contains(f)))
                 .ToList();
 
             fotografias = fotografiasEnlazadas;
