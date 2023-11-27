@@ -93,7 +93,7 @@ function renderizarTabla(datos) {
             var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
             divPrecio.textContent = precioArreglado;
             divPrecio.classList.add("precio");
-            divPrecio.style.marginLeft = "60px";
+            divPrecio.style.marginLeft = "40px";
             var precioCelda = document.createElement("td");
             precioCelda.classList.add("precio");
             precioCelda.setAttribute('data-tooltip', precioArreglado);
@@ -109,7 +109,7 @@ function renderizarTabla(datos) {
 
             var divDescripcion = document.createElement("div");
             divDescripcion.className = "contenidoCeldaDescripcion";
-            divDescripcion.textContent = datos[dato].descripcion;
+            divDescripcion.textContent = !datos[dato].descripcion? "Sin descripción" : datos[dato].descripcion;
             var descripcionCelda = document.createElement("td");
             descripcionCelda.appendChild(divDescripcion);
 

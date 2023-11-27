@@ -70,7 +70,7 @@
 
                         <!-- Quinta fila -->
                         <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
-                            <label class="VerReportes-label-largo"> <span class="subtitulo">Descripción:</span> @Model.registro.descripcion.</label>
+                            <label class="VerReportes-label-largo"> <span class="subtitulo">Descripción:</span> @(String.IsNullOrEmpty(Model.registro.descripcion) ? "Sin descripción" : Model.registro.descripcion)</label>
                         </div>
 
                         <!-- Sexta fila -->
