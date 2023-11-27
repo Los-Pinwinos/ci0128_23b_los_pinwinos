@@ -10,6 +10,7 @@ using System.Web;
 using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.ViewModels.DetallesRegistro;
 using LoCoMPro.Utils.SQL;
+using Humanizer;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -117,7 +118,7 @@ namespace LoCoMPro.Pages.Moderacion
                     comentario = this.reporteActual.comentario,
                     fecha = this.reporteActual.creacion,
                     creador = this.reporteActual.usuarioCreadorReporte,
-                    calificacionCreador = this.reporteActual.creadorReporte.calificacion
+                    calificacionCreador = this.reporteActual.creadorReporte!.calificacion
                 };
 
                 // Obtiene el string de la fecha
@@ -147,12 +148,12 @@ namespace LoCoMPro.Pages.Moderacion
                    precio = r.precio,
                    tienda = r.nombreTienda,
                    fecha = r.creacion,
-                   unidad = r.producto.nombreUnidad,
+                   unidad = r.producto!.nombreUnidad,
                    provincia = r.nombreProvincia,
                    usuario = r.usuarioCreador,
                    marca = r.producto.marca,
                    canton = r.nombreCanton,
-                   calificacionCreador = r.creador.calificacion,
+                   calificacionCreador = r.creador!.calificacion,
                    categoria = r.producto.nombreCategoria,
                    descripcion = r.descripcion,
                    calificacionRegistro = r.calificacion
@@ -160,7 +161,7 @@ namespace LoCoMPro.Pages.Moderacion
                .FirstOrDefault();
 
                 // Redondear la calificación del usuario creador del registro
-                this.registro.calificacionCreador = (Math.Floor(this.registro.calificacionCreador * 10) / 10);
+                this.registro!.calificacionCreador = (Math.Floor(this.registro.calificacionCreador * 10) / 10);
 
                 // Obtener la cantidad de registros calificados del creador del registro
                 this.registro.cantidadCalificacionesCreador = this.contexto.Registros
@@ -203,9 +204,9 @@ namespace LoCoMPro.Pages.Moderacion
                 .Include(r => r.creadorReporte)
                 .Where(r =>
                       !r.verificado &&
-                       r.usuarioCreadorReporte == this.reporte.creador &&
+                       r.usuarioCreadorReporte == this.reporte!.creador &&
                        r.creacionRegistro == fecha &&
-                       r.usuarioCreadorRegistro == this.registro.usuario)
+                       r.usuarioCreadorRegistro == this.registro!.usuario)
                 .FirstOrDefault();
 
             // Si el reporte todavía existe
@@ -241,9 +242,9 @@ namespace LoCoMPro.Pages.Moderacion
                 .Include(r => r.creadorReporte)
                 .Where(r =>
                       !r.verificado &&
-                       r.usuarioCreadorReporte == this.reporte.creador &&
+                       r.usuarioCreadorReporte == this.reporte!.creador &&
                        r.creacionRegistro == fecha &&
-                       r.usuarioCreadorRegistro == this.registro.usuario)
+                       r.usuarioCreadorRegistro == this.registro!.usuario)
                 .FirstOrDefault();
 
             // Si el reporte todavía existe
@@ -252,7 +253,7 @@ namespace LoCoMPro.Pages.Moderacion
                 // Obtener el registro reportado
                 Registro? registroReportado = this.contexto.Registros
                 .Where(r =>
-                       r.usuarioCreador == this.registro.usuario &&
+                       r.usuarioCreador == this.registro!.usuario &&
                        r.creacion == fecha)
                 .FirstOrDefault();
 
@@ -271,7 +272,7 @@ namespace LoCoMPro.Pages.Moderacion
                 // Actualizar la calificación y cuenta del usuario
                 ControladorComandosSql comandoActualizarUsuario = new ControladorComandosSql();
                 comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
-                comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", this.registro.usuario);
+                comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", this.registro!.usuario);
                 comandoActualizarUsuario.EjecutarProcedimiento();
 
                 ControladorComandosSql controlador = new ControladorComandosSql();
@@ -294,7 +295,7 @@ namespace LoCoMPro.Pages.Moderacion
         public IActionResult OnPostPasar(string fechaRegistro, int indiceReporteActual)
         {
             // Llamado para prevenir warning de no utilización
-            fechaRegistro.ToUpper();
+            fechaRegistro.Hyphenate();
             // Propagar el índice siguiente
             this.indiceReporteActual = indiceReporteActual + 1;
 
