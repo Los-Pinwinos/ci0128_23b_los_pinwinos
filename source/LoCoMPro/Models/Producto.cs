@@ -39,5 +39,9 @@ namespace LoCoMPro.Models
 
         // Colección
         public ICollection<Registro>? registros { get; set; }
+
+        [ForeignKey("nombreProducto")]
+        [InverseProperty("favoritos")]
+        public ICollection<Usuario> usuariosInteresados { get; set; } = new List<Usuario>();
     }
 }
