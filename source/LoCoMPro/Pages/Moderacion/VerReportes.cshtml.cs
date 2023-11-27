@@ -34,7 +34,7 @@ namespace LoCoMPro.Pages.Moderacion
         private Reporte? reporteActual;
 
         // Indice del reporte revisado actualmente
-        public int indiceReporteActual = 0;
+        public int indiceReporteActual { get; set; } = 0;
 
         // Bind properties para mostrar en la página
         [BindProperty]
@@ -293,7 +293,8 @@ namespace LoCoMPro.Pages.Moderacion
 
         public IActionResult OnPostPasar(string fechaRegistro, int indiceReporteActual)
         {
-            fechaRegistro = "";
+            // Llamado para prevenir warning de no utilización
+            fechaRegistro.ToUpper();
             // Propagar el índice siguiente
             this.indiceReporteActual = indiceReporteActual + 1;
 

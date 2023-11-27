@@ -95,7 +95,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public async Task<IActionResult> OnGetCalificar(int calificacion)
+        public IActionResult OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
@@ -121,8 +121,6 @@ namespace LoCoMPro.Pages.DetallesRegistro
                     int pos = promedioStr.IndexOf('.');
                     promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
                 }
-
-                Console.WriteLine(promedioStr);
             }
             
             return new JsonResult(new { Conteo = conteo, Calificacion = promedioStr });
