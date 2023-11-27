@@ -24,30 +24,37 @@ namespace LoCoMProTests.Utils.Clustering
             }
 
             bool guardado = false;
+            bool[] agrupado = new bool[totalCadenas];
             for (int i = 0; i < totalCadenas; ++i)
             {
-                List<string> guardados = new List<string>();
-                foreach (String cadena in rangoPalabras(cadenas, i))
+                if (!agrupado[i])
                 {
-                    double distancia = comparador.comparacion(cadenas[i], cadena);
-                    if (distancia >= VALOR_MINIMO)
+                    List<string> guardados = new List<string>();
+                    foreach (string cadena in rangoPalabras(cadenas, i + 1, agrupado))
                     {
-                        guardados.Add(cadena);
-                        guardado = true;
-                        cadenas.Remove(cadena);
+                        double distancia = comparador.comparacion(cadenas[i], cadena);
+                        if (distancia >= VALOR_MINIMO)
+                        {
+                            guardados.Add(cadena);
+                            guardado = true;
+                            var indice = cadenas.FindIndex(x => x.Equals(cadena));
+                            agrupado[indice] = true;
+                            totalCadenas = cadenas.Count;
+                        }
                     }
+                    if (guardado)
+                    {
+                        resultado.Add(cadenas[i], guardados);
+                    }
+                    guardado = false;
                 }
-                if (guardado)
-                {
-                    resultado.Add(cadenas[i], guardados);
-                }
-                guardado = false;
             }
 
             return resultado;
         }
 
-        private IEnumerable<string> rangoPalabras(List<string> cadenas, int indiceInicial) {
+        private IEnumerable<string> rangoPalabras(List<string> cadenas, int indiceInicial, bool[] agrupado)
+        {
             int totalCadenas = cadenas.Count;
             if (indiceInicial > totalCadenas)
             {
@@ -55,7 +62,10 @@ namespace LoCoMProTests.Utils.Clustering
             }
             for (int i = indiceInicial; i < totalCadenas; i++)
             {
-                yield return cadenas[i];
+                if (!agrupado[i])
+                {
+                    yield return cadenas[i];
+                }
             }
 
         }
