@@ -2,3 +2,14 @@
 @model LoCoMPro.Pages.Moderacion.OutliersPrecioModel
 @{
 }
+
+<!-- TODO(Angie): hacer página -->
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var redireccionar = "@ViewData["MensajeRedireccion"]";
+    if (redireccionar) {
+        alert("Debe presentar permisos de moderador para acceder a esta página");
+        window.location.href = "/Home/Index";
+    }
+</script>

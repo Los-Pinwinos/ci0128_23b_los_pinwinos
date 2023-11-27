@@ -1,4 +1,5 @@
 using LoCoMPro.Data;
+using LoCoMPro.Models;
 using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -34,6 +35,13 @@ namespace LoCoMPro.Pages.Moderacion
 
         public void OnGet()
         {
+            if (User.Identity == null || !User.Identity.IsAuthenticated || !User.IsInRole("moderador"))
+            {
+                // Se redirige al usuario porque debe estar ingresado para esta funcionalidad
+                ViewData["RedirectMessage"] = "moderador";
+            }
+
+            // TODO(Angie): seguir
         }
 
         public void OnGetEliminarRegistro(string fechaHora, string usuario)
@@ -56,7 +64,14 @@ namespace LoCoMPro.Pages.Moderacion
                 }
                 DateTime fecha = DateTime.ParseExact(fechaHora, "yyyy-MM-ddTHH:mm:ss.fffffff", System.Globalization.CultureInfo.InvariantCulture);
 
-                // TODO(Angie): seguir
+                // Obtener el registro de la base de datos
+                Registro? registro = contexto.Registros.FirstOrDefault(r => r.creacion == fecha && r.usuarioCreador == usuario);
+                if (registro != null)
+                {
+                    // Ocultar el registro
+                    registro.visible = false;
+                    contexto.SaveChanges();
+                }
             }
         }
     }
