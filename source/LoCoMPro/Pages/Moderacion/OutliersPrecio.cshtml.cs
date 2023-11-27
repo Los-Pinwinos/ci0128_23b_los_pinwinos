@@ -1,8 +1,11 @@
 using LoCoMPro.Data;
 using LoCoMPro.Models;
+using LoCoMPro.Utils.Buscadores;
+using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -33,7 +36,7 @@ namespace LoCoMPro.Pages.Moderacion
             this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             if (User.Identity == null || !User.Identity.IsAuthenticated || !User.IsInRole("moderador"))
             {
@@ -41,7 +44,23 @@ namespace LoCoMPro.Pages.Moderacion
                 ViewData["RedirectMessage"] = "moderador";
             }
 
-            // TODO(Angie): seguir
+            // Configurar buscador
+            IBuscador<RegistroOutlierPrecioVM> buscador = new BuscadorDeOutliersPrecio(this.contexto);
+            // Consultar la base de datos
+            IQueryable<RegistroOutlierPrecioVM> busqueda = buscador.buscar();
+
+            // Si la busqueda tuvo resultados
+            List<RegistroOutlierPrecioVM> resultados = busqueda.ToList();
+            if (resultados.Count != 0)
+            {
+                // Asignar data de JSON
+                this.outliers = JsonConvert.SerializeObject(resultados);
+            }
+            else
+            {
+                this.outliers = "Sin resultados";
+            }
+            return Page();
         }
 
         public void OnGetEliminarRegistro(string fechaHora, string usuario)
