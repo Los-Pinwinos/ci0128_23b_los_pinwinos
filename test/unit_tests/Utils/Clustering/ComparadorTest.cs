@@ -41,5 +41,22 @@ namespace LoCoMProTests.Utils.Clustering
             // Verificación
             Assert.AreEqual(0.9809523820877075, resultado);
         }
+
+        // Hecho por: Luis David Solano Santamaría - C17634 - Sprint 3
+        [TestMethod]
+        public void comparador_ValidacionComparacionPrimeroVacio_DeberiaDevolverMenosUno()
+        {
+            string primerParametro = "";
+            string segundoParametro = "pruebaNulo";
+            Comparador comparador = new Comparador();
+            // El rango de resultados es de [0,1], como se busca un -1 se establece 1
+            double resultado = 1;
+
+            // Acción
+            resultado = comparador.comparacion(primerParametro, segundoParametro);
+
+            // Verificación
+            Assert.AreEqual(-1.0, resultado);
+        }
     }
 }
