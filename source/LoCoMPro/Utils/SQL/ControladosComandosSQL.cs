@@ -39,6 +39,17 @@ namespace LoCoMPro.Utils.SQL
             this.conexion.Close();
         }
 
+        public void reiniciarControlador()
+        {
+            this.nombreComando = null;
+            this.limpiarParametros();
+        }
+
+        public void limpiarParametros()
+        {
+            this.parametros.Clear();
+        }
+
         public void ConfigurarNombreComando(string nombreComando)
         {
             this.nombreComando = nombreComando;

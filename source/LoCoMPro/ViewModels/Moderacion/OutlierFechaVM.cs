@@ -29,6 +29,12 @@ namespace LoCoMPro.ViewModels.Moderacion
         [Display(Name = "Cantón")]
         public required string canton { get; set; }
 
+        // Nombre del distrito
+        [StringLength(30, MinimumLength = 3)]
+        [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
+        [Display(Name = "Distrito")]
+        public required string distrito { get; set; }
+
         // Cantidad de registros outliers
         [Display(Name = "Cantidad de registros viejos")]
         public required int cantidadRegistros { get; set; }
@@ -37,6 +43,6 @@ namespace LoCoMPro.ViewModels.Moderacion
         [DataType(DataType.DateTime)]
         [Range(typeof(DateTime), "1/2/2000", "1/1/2200")]
         [Display(Name = "Fecha de corte")]
-        public required DateTime fechaCorte { get; set; }
+        public DateTime? fechaCorte { get; set; }
     }
 }
