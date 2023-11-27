@@ -13,9 +13,9 @@ namespace LoCoMPro.Utils.Clustering
 
         public double comparacion(string primeraCadena, string segundaCadena)
         {
-            if (this.algoritmo == null || primeraCadena == null || segundaCadena == null)
+            if (this.algoritmo == null || primeraCadena == null || segundaCadena == null || primeraCadena == "" || segundaCadena == "")
             {
-                return -1;
+                return -1.0;
             }
 
             double distancia = algoritmo.Similarity(primeraCadena, segundaCadena);
