@@ -14,7 +14,7 @@ namespace LoCoMPro.Pages.Moderacion
         protected readonly LoCoMProContext contexto;
         protected readonly IConfiguration configuracion;
         public string? outliers { get; set; }
-        public RegistroOutlierPrecioVM registrosVM { get; set; };
+        public RegistroOutlierPrecioVM registrosVM { get; set; }
         public int paginaDefault { get; set; }
         public int resultadosPorPagina { get; set; }
 
