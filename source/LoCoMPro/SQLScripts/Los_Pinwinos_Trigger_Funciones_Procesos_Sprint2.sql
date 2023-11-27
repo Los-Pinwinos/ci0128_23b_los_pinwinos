@@ -272,6 +272,55 @@ begin
 end;
 
 
+-- Función creada por Kenneth Daniel Villalobos Solís - C18548
+go
+create function [dbo].[encontrarFechaCorte]
+	(@producto nvarchar(256),
+	 @tienda nvarchar(256),
+	 @distrito nvarchar(30),
+	 @canton nvarchar(20),
+	 @provincia nvarchar(10)) 
+returns datetime2(7)
+as
+begin
+	-- Declara las variables necesarias
+	declare @delta int = 0, @numRegistros int = 0;
+	declare @fechaReciente datetime2(7) = null, @fechaDelta datetime2(7) = null, @fechaCorte datetime2(7) = null;
+
+	-- Guarda la fecha más reciente y el número de registros que existe
+	select @fechaReciente = max(creacion), @numRegistros = count(*)
+	from Registros
+	where productoAsociado = @producto and
+		  nombretienda = @tienda and
+		  nombreDistrito = @distrito and
+		  nombreCanton = @canton and
+		  nombreProvincia = @provincia and
+		  visible = 1;
+
+	-- Guarda la fecha en la posición del 80%
+	select @fechaDelta = creacion
+	from Registros
+	where productoAsociado = @producto and
+		  nombretienda = @tienda and
+		  nombreDistrito = @distrito and
+		  nombreCanton = @canton and
+		  nombreProvincia = @provincia and
+		  visible = 1
+	order by creacion desc
+	offset cast(0.8 * @numRegistros as int) rows
+	fetch first 1 row only;
+
+	-- Si logró encontrar la fecha en el 80% y la fecha inicial
+    if @fechaDelta is not null and @fechaReciente is not null begin
+		-- Calcula delta
+		set @delta = datediff(second, @fechaReciente, @fechaDelta);
+		-- Calcula la fecha de corte
+		set @fechaCorte = dateadd(second, -@delta, @fechaDelta);
+    end
+	
+	-- Retorna la fecha de corte (si no hay es nula)
+    return @fechaCorte;
+end;
 
 ------------------------------- Triggers --------------------------------
 -- Trigger realizado por todos los integrantes del equipo
