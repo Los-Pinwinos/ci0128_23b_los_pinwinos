@@ -30,7 +30,7 @@
 }
 
 .InfoColumnas {
-    width: calc(50vw - 100px);
+    width: calc(50vw-100px);
     margin-right: 20px;
     margin-left: 70px;
     text-align: left;
@@ -222,9 +222,11 @@ table {
 
 .contenidoCeldaPrecio {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 100px;
+    max-width: 100px;
     direction: rtl;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .contenidoCeldaCalificacion {
@@ -237,8 +239,8 @@ table {
 }
 
 .contenidoCeldaDescripcion {
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 100px;
+    max-width: 20vw;
     margin-left: 30%;
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -361,6 +363,10 @@ table {
 
 .GaleriaImagenes {
     display: flex;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 130px;
+    min-height: 130px;
     justify-content: center;
     align-items: center;
 }
@@ -374,11 +380,11 @@ table {
 }
 
 .NavegacionImagen-Anterior {
-    margin-right: 0px;
+    margin-right: 5px;
 }
 
 .NavegacionImagen-Siguiente {
-    margin-left: 0px;
+    margin-left: 5px;
 }
 
 .ImagenActual {
@@ -463,4 +469,5 @@ table {
     width: 200px;
     white-space: normal;
     word-wrap: break-word;
+}
 }
