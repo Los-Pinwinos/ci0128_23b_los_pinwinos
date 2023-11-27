@@ -4,6 +4,7 @@ use Equipo2
 
 ------------------------------- Procedimientos --------------------------------
 -- Procedimiento creado por Enrique Guillermo Vílchez Lizano - C18477
+-- Modificado por Angie Sofía Solís Manzano - C17686
 go
 create procedure [dbo].[actualizarCalificacionDeRegistro]
     (@creacionDeRegistro datetime2(7),
@@ -11,7 +12,7 @@ create procedure [dbo].[actualizarCalificacionDeRegistro]
      @nuevaCalificacion decimal(18,2)) 
 as
 begin
-	declare @calificacionExistente decimal(18,2);
+	declare @calificacionExistente decimal(18,2), @cantidadCalificaciones int, @sumaCalificaciones int, @nuevoPromedio float;
 
 	-- Obtener la calificación existente para el registro
 	select @calificacionExistente = calificacion
@@ -21,8 +22,6 @@ begin
    -- Verificar si se encontró una calificación existente
    if @calificacionExistente is not null and @calificacionExistente > 0 begin
 	-- Obtener la cantidad de usuarios que han calificado al registro
-       declare @nuevoPromedio float, @cantidadCalificaciones int, @sumaCalificaciones int;
-
 	   select @cantidadCalificaciones = count(calificacion), @sumaCalificaciones = sum(calificacion)
 	   from Calificaciones
 	   where creacionRegistro = @creacionDeRegistro and usuarioCreadorRegistro = @usuarioCreadorDeRegistro;
@@ -33,14 +32,18 @@ begin
        update Registros
        set calificacion = @nuevoPromedio
        where creacion = @creacionDeRegistro and usuarioCreador = @usuarioCreadorDeRegistro;
-
    end
    else begin
        -- No se encontró una calificación existente, solo hay que establecer la nueva calificación.
        update Registros
        set calificacion = @nuevaCalificacion
        where creacion = @creacionDeRegistro and usuarioCreador = @usuarioCreadorDeRegistro;
+
+	   set @cantidadCalificaciones = 1;
+	   set @nuevoPromedio = @nuevaCalificacion * 1.0;
    end
+
+   select @cantidadCalificaciones, @nuevoPromedio;
 end;
 
 

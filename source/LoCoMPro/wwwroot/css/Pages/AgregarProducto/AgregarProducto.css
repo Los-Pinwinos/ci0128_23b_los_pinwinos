@@ -155,7 +155,7 @@
 /* Limpia el botón del ojo */
 .boton-ojo {
     border: none;
-    background-color: white;   
+    background-color: white;
 }
 
 /*Popup para ver imágenes agregadas*/
@@ -209,4 +209,11 @@
 .eliminar_imagenes {
     color: #033F63;
     font-weight: bold;
+}
+
+/* Eliminar imagen indicador visual */
+.eliminar_imagen_visual {
+    color: #AC1212;
+    cursor: pointer;
+    vertical-align: middle;
 }

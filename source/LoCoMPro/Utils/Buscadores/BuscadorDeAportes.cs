@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Utils.Buscadores
 {
-    // Buscador especializado para la pagina de busqueda
+    // Buscador especializado para la pagina de aportes
     public class BuscadorDeAportes : IBuscador<AporteVM>
     {
         // Contexto
