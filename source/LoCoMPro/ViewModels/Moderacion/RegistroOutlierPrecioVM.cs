@@ -24,5 +24,17 @@ namespace LoCoMPro.ViewModels.Moderacion
 
         [Display(Name = "Cantón")]
         public required string canton { get; set; }
+
+        [Display(Name = "Promedio")]
+        public double? promedio { get; set; } = 0.0;
+
+        [Display(Name = "Mínimo")]
+        public decimal? minimo { get; set; } = 0;
+
+        [Display(Name = "Máximo")]
+        public decimal? maximo { get; set; } = 0;
+
+        [Display(Name = "Desviación Estándar")]
+        public double? desviacionEstandar { get; set; } = 0.0;
     }
 }
