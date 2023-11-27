@@ -11,7 +11,7 @@
     <!-- Incluye su archivo de cliente -->
     <script src="~/js/Pages/Moderacion/OutliersPrecio/cliente.js" asp-append-version="true"></script>
     <!-- Incluye la paginación -->
-    <script src="~/js/Pages/Moderacion/OutliersPrecio/paginador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Moderacion/paginador.js" asp-append-version="true"></script>
     <script>
         // Habilitar paginacion
         paginacionHabilitada = true;
@@ -50,9 +50,7 @@
                         <thead>
                             <tr>
                                 <!-- Columna para el checkbox -->
-                                <th>
-                                    <input type="checkbox" name="provincia"/>
-                                <th>
+                                <th><th>
                                 <th>
                                     <!-- Columna con el nombre -->
                                     @Html.DisplayNameFor(model => model.registrosVM.producto)
@@ -99,8 +97,8 @@
             else
             {
                 <div class="Contenedor-gif">
-                    <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Favoritos-gif" id="PinwinoTriste">
-                    <p class="Texto">No se han agregado favoritos</p>
+                    <img src="~/img/Pinwino_feliz.gif" alt="Pinwino feliz" class="Gif" id="PinwinoFeliz">
+                    <p class="Texto">No hay precios anómalos</p>
                 </div>
             }
         </div>
@@ -116,7 +114,7 @@
                 <div id="SinPaginaPrevia" class="Boton-paginacion-deshabilitado"> Anterior </div>
 
                 <!-- Botones de número de página -->
-                <span id="TextoPaginacion" class="Numeros-paginacion"></span>
+                <span id="NumerosPaginacion" class="Numeros-paginacion"></span>
 
                 <!-- Botón siguiente -->
                 <div id="PaginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(registrosVM.IndicePagina + 1)">Siguiente</div>
