@@ -54,14 +54,14 @@ namespace LoCoMPro.Utils.Buscadores
                 {
                     nombre = group.Key.productoAsociado,
                     precio = group.OrderByDescending(item => item.creacion).First().precio,
-                    unidad = group.First().producto.nombreUnidad,
+                    unidad = group.First().producto!.nombreUnidad,
                     fecha = group.OrderByDescending(item => item.creacion).First().creacion,
                     tienda = group.Key.nombreTienda,
                     provincia = group.Key.nombreProvincia,
                     canton = group.Key.nombreCanton,
-                    marca = !string.IsNullOrEmpty(group.First().producto.marca) ?
-                        group.First().producto.marca : "Sin marca",
-                    categoria = group.First().producto.nombreCategoria
+                    marca = !string.IsNullOrEmpty(group.First().producto!.marca) ?
+                        group.First().producto!.marca : "Sin marca",
+                    categoria = group.First().producto!.nombreCategoria
                 });
             return resultadosIQ;
         }

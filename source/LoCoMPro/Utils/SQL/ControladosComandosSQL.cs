@@ -98,7 +98,7 @@ namespace LoCoMPro.Utils.SQL
                 comando.Parameters.Add(parametro);
             }
 
-            return this.LlenarResultados(comando.ExecuteReader());
+            return LlenarResultados(comando.ExecuteReader());
         }
 
         public IList<object[]> EjecutarProcedimiento()
@@ -117,10 +117,10 @@ namespace LoCoMPro.Utils.SQL
                 comando.Parameters.Add(parametro);
             }
 
-            return this.LlenarResultados(comando.ExecuteReader());
+            return LlenarResultados(comando.ExecuteReader());
         }
 
-        private IList<object[]> LlenarResultados(SqlDataReader lector)
+        private static IList<object[]> LlenarResultados(SqlDataReader lector)
         {
             IList<object[]> resultados = new List<object[]>();
 
