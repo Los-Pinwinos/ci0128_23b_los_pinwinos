@@ -4,6 +4,7 @@ using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -22,8 +23,18 @@ namespace LoCoMPro.Utils.Buscadores
         // Buscar favoritos del usuario
         public IQueryable<RegistroOutlierPrecioVM> buscar()
         {
-            // Paso 1: se obtienen los registros
-            IQueryable<RegistroOutlierPrecioVM> registros = this.contexto.Registros
+            // Variables
+            List<RegistroOutlierPrecioVM> registrosOutliers = new List<RegistroOutlierPrecioVM>();
+            decimal promedio = 0;
+            decimal minimo = 0;
+            decimal maximo = 0;
+            double desviacionEstandar = 0.0;
+            decimal q1 = 0;
+            decimal q3 = 0;
+            decimal iqr = 0;
+
+        // Paso 1: se obtienen los registros
+        IQueryable<RegistroOutlierPrecioVM> registros = this.contexto.Registros
                 .Include(r => r.producto)
                 .Where(r => r.visible)
                 .Select(r => new RegistroOutlierPrecioVM
@@ -38,21 +49,14 @@ namespace LoCoMPro.Utils.Buscadores
                 });
 
             // Paso 2: se obtienen los productos
-            List<ProductoPrecioOutlierVM> productos = registros.Select(p => new ProductoPrecioOutlierVM { nombre = p.producto })
-                                                               .Distinct()
-                                                               .ToList();
-
-            List<RegistroOutlierPrecioVM> registrosOutliers = new List<RegistroOutlierPrecioVM> ();
+            List<string> productos = registros.Select(p => p.producto).Distinct().ToList();
 
             // Paso 3: para cada producto, realizar los cálculos
-
-            // TODO(Angie): verificar si se tienen al menos 4 para que todo esto tenga sentido
-
             for (int i = 0; i < productos.Count; ++i)
             {
                 // Se obtienen los registros de ese producto
                 List<RegistroOutlierPrecioVM> registrosProducto = registros
-                    .Where(r => r.producto == productos[i].nombre)
+                    .Where(r => r.producto == productos[i])
                     .Select(r => new RegistroOutlierPrecioVM
                     {
                         fecha = r.fecha,
@@ -66,34 +70,44 @@ namespace LoCoMPro.Utils.Buscadores
                     .OrderBy(r => r.precio)
                     .ToList();
 
-                // Guardar los datos
-                productos[i].minimo = registrosProducto.Min(r => r.precio);
-                productos[i].maximo = registrosProducto.Max(r => r.precio);
-                productos[i].promedio = registrosProducto.Average(r => r.precio);
-                productos[i].desviacionEstandar = calcularDesviacionEstandar(registrosProducto, productos[i].promedio);
-                productos[i].q1 = calcularCuartil(registrosProducto, 1);
-                productos[i].q3 = calcularCuartil(registrosProducto, 3);
-                productos[i].iqr = productos[i].q3 - productos[i].q1;
+                // Si es menor a 4, no se puede realizar el cálculo para saber si es outlier
+                if (registrosProducto.Count > 4)
+                {
+                    // Guardar los datos
+                    minimo = registrosProducto.Min(r => r.precio);
+                    maximo = registrosProducto.Max(r => r.precio);
+                    promedio = registrosProducto.Average(r => r.precio);
+                    desviacionEstandar = calcularDesviacionEstandar(registrosProducto, promedio);
+                    q1 = calcularCuartil(registrosProducto, 1);
+                    q3 = calcularCuartil(registrosProducto, 3);
+                    iqr = q3 - q1;
+
+                    // Paso 4: encontrar si hay registros outliers
+                    for (int j = 0; j < registrosProducto.Count; ++j)
+                    {
+                        // Si el precio es menor que el cuatil 1 menos el rango intercuatílico se considera outlier
+                        // Si el precio es mayor que el cuatil 3 más el rango intercuatílico se considera outlier
+                        if (registrosProducto[j].precio < q1 - iqr || registrosProducto[j].precio > q3 + iqr)
+                        {
+                            registrosProducto[j].minimo = minimo;
+                            registrosProducto[j].maximo = maximo;
+                            registrosProducto[j].promedio = promedio;
+                            registrosProducto[j].desviacionEstandar = desviacionEstandar;
+
+                            registrosOutliers.Add(registrosProducto[j]);
+                        }
+                    }
+                }
             }
 
-
-            // Paso 4: encontrar los registros outliers
-            // TODO(Angie): seguir
-
-            // TODO(Angie): cambiar
-            return Enumerable.Empty<RegistroOutlierPrecioVM>().AsQueryable();
+            return registrosOutliers.AsQueryable();
         }
 
         private double calcularDesviacionEstandar(List<RegistroOutlierPrecioVM> registrosProducto, decimal promedio)
         {
             double desviacionEstandar = -1;
-
-            // El cálculo de la desviación estándar requiere al menos 2 registros
-            if (registrosProducto.Count >= 2)
-            {
-                double sumaDeCuadrados = registrosProducto.Sum(v => Math.Pow((double) v.precio - (double) promedio, 2));
-                desviacionEstandar = Math.Sqrt(sumaDeCuadrados / (registrosProducto.Count - 1));
-            }
+            double sumaDeCuadrados = registrosProducto.Sum(v => Math.Pow((double) v.precio - (double) promedio, 2));
+            desviacionEstandar = Math.Sqrt(sumaDeCuadrados / (registrosProducto.Count - 1));
 
             return desviacionEstandar;
         }
