@@ -11,7 +11,7 @@
     <!-- Incluye su archivo de cliente -->
     <script src="~/js/Pages/Moderacion/OutliersPrecio/cliente.js" asp-append-version="true"></script>
     <!-- Incluye la paginación -->
-    <script src="~/js/Pages/Moderacion/paginador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
     <script>
         // Habilitar paginacion
         paginacionHabilitada = true;
@@ -49,8 +49,7 @@
                         <caption style="display:none;">Tabla de registros con precios anómalos</caption>
                         <thead>
                             <tr>
-                                <!-- Columna para el checkbox -->
-                                <th><th>
+                                <th></th>
                                 <th>
                                     <!-- Columna con el nombre -->
                                     @Html.DisplayNameFor(model => model.registrosVM.producto)
@@ -87,12 +86,13 @@
                                     <!-- Columna con el cantón -->
                                     @Html.DisplayNameFor(model => model.registrosVM.canton)
                                 </th>
-
                             </tr>
                         </thead>
                         <tbody class="Tabla-resultados" id="CuerpoResultados"></tbody>
                     </table>
                 </div>
+                // TODO(Angie): boton eliminar
+                // TODO(Angie): boton saltar
             }
             else
             {
@@ -110,14 +110,14 @@
         <div class="Contenedor-paginacion">
             <div class="Contenedor-caja-paginacion">
                 <!-- Botón anterior -->
-                <div id="PaginaPrevia" class="Boton-paginacion" onclick="pasarPagina(registrosVM.IndicePagina - 1)">Anterior</div>
+                <div id="PaginaPrevia" class="Boton-paginacion" onclick="pasarPagina(registrosPag.IndicePagina - 1)">Anterior</div>
                 <div id="SinPaginaPrevia" class="Boton-paginacion-deshabilitado"> Anterior </div>
 
                 <!-- Botones de número de página -->
                 <span id="NumerosPaginacion" class="Numeros-paginacion"></span>
 
                 <!-- Botón siguiente -->
-                <div id="PaginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(registrosVM.IndicePagina + 1)">Siguiente</div>
+                <div id="PaginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(registrosPag.IndicePagina + 1)">Siguiente</div>
                 <div id="SinPaginaSiguiente" class="Boton-paginacion-deshabilitado">Siguiente</div>
             </div>
         </div>
@@ -136,10 +136,10 @@
 <!-- Script para renderizar los resultados de la tabla inicialmente -->
 <script>
     if ('@Model.outliers' != "Sin resultados") {
-        var registrosVM = paginar(paginaDefault);
+        var registrosPag = paginar(paginaDefault);
 
         // Renderizar
         renderizarPaginacion();
-        renderizarTabla(registrosVM);
+        renderizarTabla(registrosPag);
     }
 </script>

@@ -38,7 +38,6 @@ table {
 
     table tbody td {
         background-color: #1A7254;
-        cursor: pointer;
         text-align: left;
         padding-top: 1px;
         padding-bottom: 1px;
@@ -79,41 +78,36 @@ table {
     }
 
 .contenidoCeldaCheckbox {
-    min-width: 50px;
-    max-width: 50px;
+    width: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-left: 30%;
 }
 
 .contenidoCeldaProducto {
-    max-width: 150px;
-    min-width: 150px;
+    width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .contenidoCeldaTienda {
-    min-width: 100px;
-    max-width: 100px;
-    margin-left: 20px;
+    width: 100px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .contenidoCeldaProvincia {
-    min-width: 80px;
-    max-width: 80px;
+    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .contenidoCeldaCanton {
-    min-width: 100px;
-    max-width: 100px;
+    width: 100px;
     margin-left: 10px;
     overflow-wrap: normal;
     overflow: hidden;
@@ -122,8 +116,7 @@ table {
 
 .contenidoCeldaPrecio {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -132,8 +125,7 @@ table {
 
 .contenidoCeldaMinimo {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -142,8 +134,7 @@ table {
 
 .contenidoCeldaMaximo {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -152,8 +143,7 @@ table {
 
 .contenidoCeldaDesviacion {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    width: 140px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -162,8 +152,7 @@ table {
 
 .contenidoCeldaPromedio {
     text-align: right;
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;

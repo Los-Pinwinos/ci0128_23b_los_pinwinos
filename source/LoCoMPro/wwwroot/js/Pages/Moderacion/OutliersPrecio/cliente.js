@@ -1,5 +1,6 @@
 ﻿function agregarSeparador(numero) {
     var textoNum = numero.toString();
+    textoNum = textoNum.replace('.', ',');
     // Expresión regular para agregar un separador cada 3 dígitos
     textoNum = textoNum.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return textoNum;
@@ -22,20 +23,20 @@ function renderizarPaginacion() {
 }
 
 function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
-    if (paginaFinal < favoritosVM.PaginasTotales) {
+    if (paginaFinal < registrosPag.PaginasTotales) {
         const finalElipsis = document.createElement("span");
         // Agregar ... a la ultima pagina si fuera necesario
 
-        if (paginaFinal !== favoritosVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        if (paginaFinal !== registrosPag.PaginasTotales - 1) finalElipsis.textContent = " ... ";
         else finalElipsis.textContent = " ";
         paginacionContenedor.appendChild(finalElipsis);
 
         const linkUltimaPagina = document.createElement("span");
-        linkUltimaPagina.textContent = favoritosVM.PaginasTotales;
+        linkUltimaPagina.textContent = registrosPag.PaginasTotales;
         linkUltimaPagina.classList.add("pagina-seleccionable");
 
         linkUltimaPagina.addEventListener("click", function () {
-            pasarPagina(favoritosVM.PaginasTotales);
+            pasarPagina(registrosPag.PaginasTotales);
         });
         paginacionContenedor.appendChild(linkUltimaPagina);
     }
@@ -68,8 +69,8 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
 
     const numeroDeLinksDePaginas = 5;
 
-    let paginaInicial = Math.max(1, favoritosVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
-    let paginaFinal = Math.min(favoritosVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+    let paginaInicial = Math.max(1, registrosPag.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(registrosPag.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
 
     if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
         paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
@@ -79,7 +80,7 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
         const paginaLink = document.createElement("span");
         paginaLink.textContent = pagina;
 
-        if (pagina === favoritosVM.IndicePagina) {
+        if (pagina === registrosPag.IndicePagina) {
             paginaLink.classList.add("pagina");
         } else {
             paginaLink.classList.add("pagina-seleccionable");
@@ -105,7 +106,7 @@ function renderizarBotonesSiguienteAnterior() {
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
 
-    if (favoritosVM.TienePaginaPrevia) {
+    if (registrosPag.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
     } else {
@@ -113,7 +114,7 @@ function renderizarBotonesSiguienteAnterior() {
         botonSinPaginaPrevia.style.display = "block";
     }
 
-    if (favoritosVM.TieneProximaPagina) {
+    if (registrosPag.TieneProximaPagina) {
         botonPaginaSiguiente.style.display = "block";
         botonSinPaginaSiguiente.style.display = "none";
     } else {
@@ -144,47 +145,57 @@ function renderizarTabla(datos) {
 
     // Iterar
     for (var dato in datos) {
-        var row = document.createElement("tr");
-
         if (datos[dato] != null && typeof datos[dato].producto !== 'undefined' && datos[dato].producto !== "") {
-            /*
-            // Checkbox
+            var row = document.createElement("tr");
+
+            const valorPrecio = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
+            const valorMinimo = "₡" + agregarSeparador(parseFloat(datos[dato].minimo));
+            const valorMaximo = "₡" + agregarSeparador(parseFloat(datos[dato].maximo));
+            const valorDesviacion = "₡" + agregarSeparador(parseFloat(datos[dato].desviacionEstandar.toFixed(2)));
+            const valorPromedio = "₡" + agregarSeparador(parseFloat(datos[dato].promedio.toFixed(2)));
+
+            // Checkbox de la fila
             var checkboxDiv = document.createElement("div");
             checkboxDiv.className = "contenidoCeldaCheckbox";
 
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = 'checkbox_' + dato;
+            checkbox.value = dato;
 
+            // TODO(Angie): cambiar
+            /*
             checkbox.addEventListener('change', function (evento) {
                 var checkboxCambiado = evento.target;
                 var filaAEliminar = checkboxCambiado.closest("tr");
                 eliminarRegistro(filaAEliminar);
             });
+            */
 
             var checkboxCelda = document.createElement("td");
             checkboxCelda.classList.add('no-hover');
             checkboxDiv.appendChild(checkbox);
             checkboxCelda.appendChild(checkboxDiv);
-            */
 
             // Contenido de las celdas
             var productoCelda = crearCeldaContenido(datos[dato].producto, "contenidoCeldaProducto");
-            var precioCelda = crearCeldaContenido(datos[dato].precio, "contenidoCeldaPrecio");
-            var minimoCelda = crearCeldaContenido(datos[dato].minimo, "contenidoCeldaMinimo");
-            var maximoCelda = crearCeldaContenido(datos[dato].maximo, "contenidoCeldaMaximo");
-            var desviacionCelda = crearCeldaContenido(datos[dato].desviacionEstandar, "contenidoCeldaDesviacion");
-            var promedioCelda = crearCeldaContenido(datos[dato].promedio, "contenidoCeldaPromedio");
-            var tiendaCelda = crearCeldaContenido(datos[dato].minimo, "contenidoCeldaTienda");
+            var precioCelda = crearCeldaContenido(valorPrecio, "contenidoCeldaPrecio");
+            var minimoCelda = crearCeldaContenido(valorMinimo, "contenidoCeldaMinimo");
+            var maximoCelda = crearCeldaContenido(valorMaximo, "contenidoCeldaMaximo");
+            var desviacionCelda = crearCeldaContenido(valorDesviacion, "contenidoCeldaDesviacion");
+            var promedioCelda = crearCeldaContenido(valorPromedio, "contenidoCeldaPromedio");
+            var tiendaCelda = crearCeldaContenido(datos[dato].tienda, "contenidoCeldaTienda");
             var provinciaCelda = crearCeldaContenido(datos[dato].provincia, "contenidoCeldaPronvincia");
             var cantonCelda = crearCeldaContenido(datos[dato].canton, "contenidoCeldaCanton");
 
             // Agregar celdas a fila
+            row.appendChild(checkboxCelda);
             row.appendChild(productoCelda);
             row.appendChild(precioCelda);
             row.appendChild(minimoCelda);
             row.appendChild(maximoCelda);
             row.appendChild(desviacionCelda);
+            row.appendChild(promedioCelda);
             row.appendChild(tiendaCelda);
             row.appendChild(provinciaCelda);
             row.appendChild(cantonCelda);
@@ -220,7 +231,7 @@ function eliminarRegistro(filaEliminar) {
     // Agrega la clase para la transición suave y eliminación
     filaEliminar.classList.add('eliminacion-suave', 'eliminando');
     setTimeout(function () {
-        numeroPagina = favoritosVM.IndicePagina;
+        numeroPagina = registrosPag.IndicePagina;
         // Remover la fila
         filaEliminar.remove();
         // Remover el producto de los resultados
@@ -228,12 +239,12 @@ function eliminarRegistro(filaEliminar) {
         // Verificar si quedan productos
         if (resultados.length > 0) {
             // Remover el producto de los resultados paginados
-            favoritosVM = removerElementoDeResultados(favoritosVM, producto);
+            registrosPag = removerElementoDeResultados(registrosPag, producto);
             // Paginar la pagina actual o la anterior si ya no quedan resultados en la actual
-            favoritosVM = favoritosVM.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
+            registrosPag = registrosPag.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
             // Renderizar
             renderizarPaginacion();
-            renderizarTabla(favoritosVM);
+            renderizarTabla(registrosPag);
         } else {
             renderizarPinwinoTriste();
         }
@@ -280,10 +291,10 @@ function renderizarPinwinoFeliz() {
 function pasarPagina(numeroPagina) {
     if (paginacionHabilitada) {
         // Paginar
-        registrosVM = paginar(numeroPagina);
+        registrosPag = paginar(numeroPagina);
         // Renderizar
         renderizarPaginacion();
-        renderizarTabla(registrosVM);
+        renderizarTabla(registrosPag);
         window.scrollTo(0, 0);
     }
 }

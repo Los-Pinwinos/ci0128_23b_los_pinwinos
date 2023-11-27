@@ -66,31 +66,31 @@ namespace LoCoMPro.Utils.Buscadores
                 if (registrosProducto.Count > 4)
                 {
                     // Paso 4: encontrar si hay registros outliers
-                    registrosOutliers = encontrarOutliers(registrosProducto);
+                    encontrarOutliers(registrosProducto, registrosOutliers);
                 }
             }
 
             return registrosOutliers.AsQueryable();
         }
 
-        private List<RegistroOutlierPrecioVM> encontrarOutliers(List<RegistroOutlierPrecioVM> registrosProducto)
+        private void encontrarOutliers(List<RegistroOutlierPrecioVM> registrosProducto, List<RegistroOutlierPrecioVM> registrosOutliers)
         {
             // Variables
-            List<RegistroOutlierPrecioVM> registrosOutliers = new List<RegistroOutlierPrecioVM>();
-            decimal promedio = registrosProducto.Min(r => r.precio);
-            decimal minimo = registrosProducto.Max(r => r.precio);
-            decimal maximo = registrosProducto.Average(r => r.precio);
+            decimal minimo = registrosProducto.Min(r => r.precio);
+            decimal maximo = registrosProducto.Max(r => r.precio);
+            decimal promedio = registrosProducto.Average(r => r.precio);
             double desviacionEstandar = calcularDesviacionEstandar(registrosProducto, promedio);
             decimal q1 = calcularCuartil(registrosProducto, 1);
             decimal q3 = calcularCuartil(registrosProducto, 3);
             decimal iqr = q3 - q1;
+            decimal distanciaOutlier = 1.5m * iqr;  // Distancia necesaria para ser considerado un outlier
 
             // Recorrer los registros verificando si son outliers
             for (int j = 0; j < registrosProducto.Count; ++j)
             {
                 // Si el precio es menor que el cuatil 1 menos el rango intercuatílico se considera outlier
                 // Si el precio es mayor que el cuatil 3 más el rango intercuatílico se considera outlier
-                if (registrosProducto[j].precio < q1 - iqr || registrosProducto[j].precio > q3 + iqr)
+                if (registrosProducto[j].precio < q1 - distanciaOutlier || registrosProducto[j].precio > q3 + distanciaOutlier)
                 {
                     registrosProducto[j].minimo = minimo;
                     registrosProducto[j].maximo = maximo;
@@ -100,8 +100,6 @@ namespace LoCoMPro.Utils.Buscadores
                     registrosOutliers.Add(registrosProducto[j]);
                 }
             }
-
-            return registrosOutliers;
         }
 
         private double calcularDesviacionEstandar(List<RegistroOutlierPrecioVM> registrosProducto, decimal promedio)
@@ -120,6 +118,7 @@ namespace LoCoMPro.Utils.Buscadores
             double percentil = (cuartil == 1) ? 0.25 : 0.75;
 
             int termino = (int) (registrosProducto.Count * percentil);
+            --termino;  // La lista comienza en el termino 0
             decimal resultadoCuartil = (registrosProducto[termino].precio + registrosProducto[termino+1].precio) / 2;
 
             return resultadoCuartil;
