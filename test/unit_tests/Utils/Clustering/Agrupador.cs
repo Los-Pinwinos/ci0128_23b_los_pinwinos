@@ -1,40 +1,53 @@
 ﻿using LoCoMPro.Utils.Clustering;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace LoCoMProTests.Utils.Clustering
 {
     public class Agrupador
     {
         private Comparador comparador;
+
+        public const double VALOR_MINIMO = 0.7;
         public Agrupador()
         {
             comparador = new Comparador();
         }
 
-        public List<String> agrupar(List<String> cadenas)
+        public Dictionary<string, List<string>> agrupar(List<string> cadenas)
         {
-            List<String> resultado = new List<String>();
+            Dictionary<string, List<string>> resultado = new Dictionary<string, List<string>>();
             int totalCadenas = cadenas.Count;
             if (cadenas == null || totalCadenas <= 1)
             {
                 return resultado;
             }
 
+            bool guardado = false;
             for (int i = 0; i < totalCadenas; ++i)
             {
+                List<string> guardados = new List<string>();
                 foreach (String cadena in rangoPalabras(cadenas, i))
                 {
                     double distancia = comparador.comparacion(cadenas[i], cadena);
-                    if (distancia >= 0.7)
+                    if (distancia >= VALOR_MINIMO)
                     {
-                        // Insertar en lista de cadenas[i]
+                        guardados.Add(cadena);
+                        guardado = true;
+                        cadenas.Remove(cadena);
                     }
                 }
+                if (guardado)
+                {
+                    resultado.Add(cadenas[i], guardados);
+                }
+                guardado = false;
             }
 
             return resultado;
         }
 
-        private IEnumerable<String> rangoPalabras(List<String> cadenas, int indiceInicial) {
+        private IEnumerable<string> rangoPalabras(List<string> cadenas, int indiceInicial) {
             int totalCadenas = cadenas.Count;
             if (indiceInicial > totalCadenas)
             {
