@@ -284,7 +284,7 @@ returns datetime2(7)
 as
 begin
 	-- Declara las variables necesarias
-	declare @delta int = 0, @numRegistros int = 0;
+	declare @delta int = 0, @numRegistros int = 0, @offset int;
 	declare @fechaReciente datetime2(7) = null, @fechaDelta datetime2(7) = null, @fechaCorte datetime2(7) = null;
 
 	-- Guarda la fecha más reciente y el número de registros que existe
@@ -297,6 +297,12 @@ begin
 		  nombreProvincia = @provincia and
 		  visible = 1;
 
+	-- Calcula la cantidad de filas a saltar
+	set @offset = cast(0.8 * @numRegistros as int)-1;
+	if @offset < 0 begin
+		set @offset = 0;
+	end
+
 	-- Guarda la fecha en la posición del 80%
 	select @fechaDelta = creacion
 	from Registros
@@ -307,13 +313,13 @@ begin
 		  nombreProvincia = @provincia and
 		  visible = 1
 	order by creacion desc
-	offset cast(0.8 * @numRegistros as int) rows
+	offset @offset rows
 	fetch first 1 row only;
 
 	-- Si logró encontrar la fecha en el 80% y la fecha inicial
     if @fechaDelta is not null and @fechaReciente is not null begin
 		-- Calcula delta
-		set @delta = datediff(second, @fechaReciente, @fechaDelta);
+		set @delta = datediff(second, @fechaDelta, @fechaReciente);
 		-- Calcula la fecha de corte
 		set @fechaCorte = dateadd(second, -@delta, @fechaDelta);
     end
