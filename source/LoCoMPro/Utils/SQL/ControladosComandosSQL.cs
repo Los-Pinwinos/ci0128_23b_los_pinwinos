@@ -20,8 +20,8 @@ namespace LoCoMPro.Utils.SQL
             // Crea un encriptador para desencriptar el connection string
             Encriptador encriptador = new Encriptador();
             // Crea una constante para el connection string
-            // TODO(Pinwinos): Sincronizar con la de program.cs
-            const string connectionString = "LoCoMProContextRemote";
+            string connectionString = configuracion.GetValue<string>("ConnectionStringSeleccionado") ??
+                throw new InvalidOperationException("No se ha seleccionado un Connection string");
 
             // Abrir una conexion
             this.conexion = new SqlConnection(
