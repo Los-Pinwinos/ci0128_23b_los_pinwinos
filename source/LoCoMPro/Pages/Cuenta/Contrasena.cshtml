@@ -20,6 +20,8 @@
             <div class="alert alert-success">@TempData["ExitoContrasena"]</div>
         }
         <div class="Contrasena-contenedor-centrado-primario">
+            <!-- Titulo de la página -->
+            <p class="Contrasena-titulo">Cambiar contraseña</p>
             <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
                 <label for="CajaDeTextoActual">Contraseña actual:</label>
                 <input type="password" id="CajaDeTextoActual" asp-for="usuarioActual.contrasenaActual">
@@ -32,13 +34,13 @@
                 <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
                 <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.confirmarContrasena">
             </div>
-            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Cambiar contraseña </button>
+            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Aceptar cambio </button>
         </div>
     </form>
 
 
     <script>
-        alinearContenedoresDeBarrasDeTexto(".Contrasena-contenedor-caja-de-texto", 98);
+        alinearContenedoresDeBarrasDeTexto(".Contrasena-contenedor-caja-de-texto", 185);
     </script>
 
     <script>
