@@ -65,6 +65,8 @@ namespace LoCoMPro.Utils.Buscadores
                 .Where(r => r.visible)
                 .ToList();
 
+            List<OutlierFechaVM> resultadosModificados = new List<OutlierFechaVM>();
+
             foreach (OutlierFechaVM grupo in resultados)
             {
                 ControladorComandosSql calculadorFechasCorte = new ControladorComandosSql();
@@ -90,8 +92,11 @@ namespace LoCoMPro.Utils.Buscadores
                            r.nombreProvincia == grupo.provincia &&
                            r.creacion <= grupo.fechaCorte);
                 }
+
+                resultadosModificados.Add(grupo);
             }
-            return resultados;
+
+            return resultadosModificados.AsQueryable();
         }
 
         protected IQueryable<OutlierFechaVM> limpiarNoOutliers(IQueryable<OutlierFechaVM> resultados)

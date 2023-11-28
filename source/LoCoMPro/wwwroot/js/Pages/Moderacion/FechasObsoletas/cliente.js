@@ -12,7 +12,7 @@ function formatearFecha(fecha) {
 }
 
 // Paginar
-function paginar(numeroPagina = favoritosVM.IndicePagina) {
+function paginar(numeroPagina = outliersVM.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
 
@@ -29,20 +29,20 @@ function renderizarPaginacion() {
 }
 
 function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
-    if (paginaFinal < favoritosVM.PaginasTotales) {
+    if (paginaFinal < outliersVM.PaginasTotales) {
         const finalElipsis = document.createElement("span");
         // Agregar ... a la ultima pagina si fuera necesario
 
-        if (paginaFinal !== favoritosVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        if (paginaFinal !== outliersVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
         else finalElipsis.textContent = " ";
         paginacionContenedor.appendChild(finalElipsis);
 
         const linkUltimaPagina = document.createElement("span");
-        linkUltimaPagina.textContent = favoritosVM.PaginasTotales;
+        linkUltimaPagina.textContent = outliersVM.PaginasTotales;
         linkUltimaPagina.classList.add("pagina-seleccionable");
 
         linkUltimaPagina.addEventListener("click", function () {
-            pasarPagina(favoritosVM.PaginasTotales);
+            pasarPagina(outliersVM.PaginasTotales);
         });
         paginacionContenedor.appendChild(linkUltimaPagina);
     }
@@ -75,8 +75,8 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
 
     const numeroDeLinksDePaginas = 5;
 
-    let paginaInicial = Math.max(1, favoritosVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
-    let paginaFinal = Math.min(favoritosVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+    let paginaInicial = Math.max(1, outliersVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(outliersVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
 
     if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
         paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
@@ -86,7 +86,7 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
         const paginaLink = document.createElement("span");
         paginaLink.textContent = pagina;
 
-        if (pagina === favoritosVM.IndicePagina) {
+        if (pagina === outliersVM.IndicePagina) {
             paginaLink.classList.add("pagina");
         } else {
             paginaLink.classList.add("pagina-seleccionable");
@@ -112,7 +112,7 @@ function renderizarBotonesSiguienteAnterior() {
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
 
-    if (favoritosVM.TienePaginaPrevia) {
+    if (outliersVM.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
     } else {
@@ -120,7 +120,7 @@ function renderizarBotonesSiguienteAnterior() {
         botonSinPaginaPrevia.style.display = "block";
     }
 
-    if (favoritosVM.TieneProximaPagina) {
+    if (outliersVM.TieneProximaPagina) {
         botonPaginaSiguiente.style.display = "block";
         botonSinPaginaSiguiente.style.display = "none";
     } else {
@@ -153,9 +153,9 @@ function renderizarTabla(datos) {
             checkbox.value = "";
             checkbox.checked = false;
             checkbox.id = 'checkbox_' + datos[dato].producto + '_' + datos[dato].tienda + '_' + datos[dato].provincia + '_' + datos[dato].canton;
+            checkbox.style.cursor = "pointer";
 
             var checkboxCelda = document.createElement("td");
-            /*checkboxCelda.classList.add('no-hover');*/
             checkboxDiv.appendChild(checkbox);
             checkboxCelda.appendChild(checkboxDiv);
 
@@ -163,6 +163,7 @@ function renderizarTabla(datos) {
             divProducto.className = "contenidoCeldaProducto";
             divProducto.textContent = datos[dato].producto;
             var productoCelda = document.createElement("td");
+            productoCelda.classList.add("tener_Tooltip");
             productoCelda.setAttribute('data-tooltip', datos[dato].producto);
             productoCelda.appendChild(divProducto);
 
@@ -170,6 +171,7 @@ function renderizarTabla(datos) {
             divTienda.className = "contenidoCeldaTienda";
             divTienda.textContent = datos[dato].tienda;
             var tiendaCelda = document.createElement("td");
+            tiendaCelda.classList.add("tener_Tooltip");
             tiendaCelda.setAttribute('data-tooltip', datos[dato].tienda);
             tiendaCelda.appendChild(divTienda);
 
@@ -177,6 +179,7 @@ function renderizarTabla(datos) {
             divProvincia.className = "contenidoCeldaProvincia";
             divProvincia.textContent = datos[dato].provincia;
             var provinciaCelda = document.createElement("td");
+            provinciaCelda.classList.add("tener_Tooltip");
             provinciaCelda.setAttribute('data-tooltip', datos[dato].provincia);
             provinciaCelda.appendChild(divProvincia);
 
@@ -184,6 +187,7 @@ function renderizarTabla(datos) {
             divCanton.className = "contenidoCeldaCanton";
             divCanton.textContent = datos[dato].canton;
             var cantonCelda = document.createElement("td");
+            cantonCelda.classList.add("tener_Tooltip");
             cantonCelda.setAttribute('data-tooltip', datos[dato].canton);
             cantonCelda.appendChild(divCanton);
 
@@ -191,14 +195,12 @@ function renderizarTabla(datos) {
             divCantidadRegistros.className = "contenidoCeldaCantidadRegistros";
             divCantidadRegistros.textContent = agregarSeparador(parseFloat(datos[dato].cantidadRegistros));
             var cantidadRegistrosCelda = document.createElement("td");
-            cantidadRegistrosCelda.setAttribute('data-tooltip', divCantidadRegistros.textContent);
             cantidadRegistrosCelda.appendChild(divCantidadRegistros);
 
             var divFechaCorte = document.createElement("div");
             divFechaCorte.className = "contenidoCeldaFechaCorte";
-            divFechaCorte.textContent = datos[dato].fechaCorte;
+            divFechaCorte.textContent = formatearFecha(new Date(datos[dato].fechaCorte));
             var fechaCorteCelda = document.createElement("td");
-            fechaCorteCelda.setAttribute('data-tooltip', datos[dato].fechaCorte);
             fechaCorteCelda.appendChild(divFechaCorte);
 
             // Agregar celdas a fila
@@ -220,10 +222,10 @@ function renderizarTabla(datos) {
 function pasarPagina(numeroPagina) {
     if (paginacionHabilitada) {
         // Paginar
-        favoritosVM = paginar(numeroPagina);
+        outliersVM = paginar(numeroPagina);
         // Renderizar
         renderizarPaginacion();
-        renderizarTabla(favoritosVM);
+        renderizarTabla(outliersVM);
         window.scrollTo(0, 0);
     }
 }
