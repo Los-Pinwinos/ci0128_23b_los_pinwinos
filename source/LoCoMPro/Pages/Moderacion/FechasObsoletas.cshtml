@@ -1,0 +1,140 @@
+﻿@page
+@model ModeloFechasObsoletas
+@{
+    ViewData["Title"] = "Fechas obsoletas";
+}
+
+<!-- Metadatos -->
+<head>
+    <title>Fechas obsoletas</title>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Moderacion/FechasObsoletas.css" asp-append-version="true" />
+    <!-- Enlace a Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="~/js/Pages/Moderacion/FechasObsoletas/paginador.js" asp-append-version="true"></script>
+    <script>
+        // Habilitar paginacion
+        paginacionHabilitada = true;
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.outliers');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.outliers' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
+    <script src="~/js/Pages/Moderacion/FechasObsoletas/cliente.js" asp-append-version="true"></script>
+</head>
+<div>
+    <div class="FechasObsoletas-contenedor-fila" id="ContenedorPrincipal" style="display: flex; justify-content: center;">
+        @if (Model.outliers != "Sin resultados")
+        {
+            <!-- Tabla de resultados -->
+            <div class="FechasObsoletas-tabla">
+                <table>
+                    <caption style="display:none;">Tabla de favoritos</caption>
+                    <thead>
+                        <tr>
+                            <!-- Columna vacía para el checkbox -->
+                            <th></th>
+                            <th>
+                                <!-- Columna con el nombre del producto -->
+                                @Html.DisplayNameFor(model => model.outlierVM.producto)
+                            </th>
+                            <th>
+                                <!-- Columna con el nombre de la tienda -->
+                                @Html.DisplayNameFor(model => model.outlierVM.tienda)
+                            </th>
+                            <th>
+                                <!-- Columna con el nombre de la provincia -->
+                                @Html.DisplayNameFor(model => model.outlierVM.provincia)
+                            </th>
+                            <th>
+                                <!-- Columna con el nombre del canton -->
+                                @Html.DisplayNameFor(model => model.outlierVM.canton)
+                            </th>
+                            <th>
+                                <!-- Columna con la cantidad de registros outliers -->
+                                @Html.DisplayNameFor(model => model.outlierVM.cantidadRegistros)
+                            </th>
+                            <th>
+                                <!-- Columna con la fecha de corte -->
+                                @Html.DisplayNameFor(model => model.outlierVM.fechaCorte)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="FechasObsoletas-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="FechasObsoletas-contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino Felíz" class="FechasObsoletas-gif" id="PinwinoTriste">
+                <p class="FechasObsoletas-texto">No existen registros obsoletos</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.outliers != "Sin resultados")
+{
+    <!-- Paginación -->
+    <div class="FechasObsoletas-contenedor-paginacion">
+        <div class="FechasObsoletas-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="FechasObsoletas-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="FechasObsoletas-texto-paginacion">  </span>
+
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="FechasObsoletas-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var redireccionar = "@ViewData["redireccion"]";
+    if (redireccionar) {
+        alert("Debe presentar permisos de moderador para acceder a esta página");
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
+<script>
+    if ('@Model.outliers' != "Sin resultados") {
+        var outliersVM = paginar(paginaDefault);
+
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(outliersVM);
+    }
+</script>

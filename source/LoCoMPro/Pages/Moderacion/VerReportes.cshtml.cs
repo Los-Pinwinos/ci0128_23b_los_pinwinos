@@ -58,8 +58,7 @@ namespace LoCoMPro.Pages.Moderacion
                 !User.IsInRole("moderador"))
             {
                 // Establece mensaje para redireccionar
-                // (Utiliza unidoce para renderizar a con tilde)
-                ViewData["MensajeRedireccion"] = "redireccionar";
+                ViewData["redireccion"] = "redireccionar";
             }
             else
             {   // Si se indicó un indice
