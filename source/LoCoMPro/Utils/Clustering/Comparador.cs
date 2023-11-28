@@ -1,26 +1,24 @@
 ﻿using F23.StringSimilarity;
 
-namespace LoCoMPro.Utils.Clustering
+namespace LoCoMPro.Utils.Clustering;
+public class Comparador
 {
-    public class Comparador
+    private JaroWinkler algoritmo;
+
+    public Comparador()
     {
-        private JaroWinkler algoritmo;
+        this.algoritmo = new JaroWinkler();
+    }
 
-        public Comparador()
+    public double comparacion(string primeraCadena, string segundaCadena)
+    {
+        if (this.algoritmo == null || primeraCadena == null || segundaCadena == null || primeraCadena == "" || segundaCadena == "")
         {
-            this.algoritmo = new JaroWinkler();
+            return -1.0;
         }
 
-        public double comparacion(string primeraCadena, string segundaCadena)
-        {
-            if (this.algoritmo == null || primeraCadena == null || segundaCadena == null || primeraCadena == "" || segundaCadena == "")
-            {
-                return -1.0;
-            }
+        double distancia = algoritmo.Similarity(primeraCadena, segundaCadena);
 
-            double distancia = algoritmo.Similarity(primeraCadena, segundaCadena);
-
-            return distancia;
-        }
+        return distancia;
     }
 }
