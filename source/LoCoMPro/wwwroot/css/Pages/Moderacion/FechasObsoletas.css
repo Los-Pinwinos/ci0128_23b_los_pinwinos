@@ -44,7 +44,7 @@ table {
     /* Tbody td */
     table tbody td {
         background-color: #1A7254;
-        cursor: pointer;
+        cursor: default;
         text-align: left;
         padding-top: 1px;
         padding-bottom: 1px;
@@ -67,17 +67,34 @@ table {
         height: 30px;
     }
 
-table td::before {
-    content: "";
-}
+    /* Características de hover */
+    .tener_Tooltip:hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -30%;
+        left: 70%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    .tener_Tooltip::before {
+        content: "";
+    }
 
 /* Contenido de la celda del checkbox */
 .contenidoCeldaCheckbox {
-    max-width: 70px;
-    min-width: 70px;
+    max-width: 20px;
+    min-width: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-left: 10px;
 }
 
 /* Contenido de la celda de Producto */
@@ -109,8 +126,8 @@ table td::before {
 
 /* Contenido de la celda de Cantón */
 .contenidoCeldaCanton {
-    min-width: 90px;
-    max-width: 90px;
+    min-width: 120px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -118,17 +135,19 @@ table td::before {
 
 /* Contenido de la celda de Cantidad de registros obsoletos */
 .contenidoCeldaCantidadRegistros {
-    max-width: 150px;
-    min-width: 150px;
+    max-width: 20px;
+    min-width: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: right;
+    margin-left: 60%;
 }
 
 /* Contenido de la celda de Fecha de corte */
 .contenidoCeldaFecha {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 80px;
+    max-width: 80px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

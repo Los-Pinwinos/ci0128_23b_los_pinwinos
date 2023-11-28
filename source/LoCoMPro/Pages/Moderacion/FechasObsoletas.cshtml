@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/Pages/Moderacion/FechasObsoletas.css" asp-append-version="true" />
     <!-- Enlace a Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Moderacion/FechasObsoletas/paginador.js" asp-append-version="true"></script>
     <script>
         // Habilitar paginacion
@@ -46,7 +47,7 @@
             <!-- Tabla de resultados -->
             <div class="FechasObsoletas-tabla">
                 <table>
-                    <caption style="display:none;">Tabla de favoritos</caption>
+                    <caption style="display:none;">Tabla de registros con fechas obsoletas</caption>
                     <thead>
                         <tr>
                             <!-- Columna vacía para el checkbox -->
@@ -85,7 +86,7 @@
         {
             <div class="FechasObsoletas-contenedor-gif">
                 <!-- Logotipo de Penguin -->
-                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino Felíz" class="FechasObsoletas-gif" id="PinwinoTriste">
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino Felíz" class="FechasObsoletas-gif" id="PinwinoFeliz">
                 <p class="FechasObsoletas-texto">No existen registros obsoletos</p>
             </div>
         }
@@ -98,7 +99,7 @@
     <div class="FechasObsoletas-contenedor-paginacion">
         <div class="FechasObsoletas-contenedor-caja-paginacion">
             <!-- Botón anterior -->
-            <div id="PaginaPrevia" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina - 1)">
+            <div id="PaginaPrevia" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(outliersVM.IndicePagina - 1)">
                 Anterior
             </div>
             <div id="SinPaginaPrevia" class="FechasObsoletas-boton-paginacion-deshabilitado">
@@ -109,7 +110,7 @@
             <span id="TextoPaginacion" class="FechasObsoletas-texto-paginacion">  </span>
 
             <!-- botón siguiente -->
-            <div id="PaginaSiguiente" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina + 1)">
+            <div id="PaginaSiguiente" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(outliersVM.IndicePagina + 1)">
                 Siguiente
             </div>
             <div id="SinPaginaSiguiente" class="FechasObsoletas-boton-paginacion-deshabilitado">
