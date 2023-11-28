@@ -36,6 +36,11 @@ namespace LoCoMPro.Utils.SQL
 
         ~ControladorComandosSql()
         {
+            this.cerrar();
+        }
+
+        public void cerrar()
+        {
             this.conexion.Close();
         }
 
