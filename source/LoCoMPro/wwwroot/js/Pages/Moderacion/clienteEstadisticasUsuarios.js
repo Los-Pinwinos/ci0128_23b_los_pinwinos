@@ -1,5 +1,5 @@
-﻿// Formatear la calificación para redondear, usar comas y tener solo un decimal
-function formatearCalificacion(calificacion) {
+﻿// Formatear números para redondear, usar comas y tener solo un decimal
+function formatearNumeros(calificacion) {
     var redondeado = Math.floor(calificacion * 10) / 10;
     return redondeado.toLocaleString("es", { minimumFractionDigits: 1 });
 }
@@ -22,9 +22,10 @@ function renderizarTabla(datos) {
             usuarioCelda.setAttribute('data-tooltip', divUsuario.textContent);
             usuarioCelda.appendChild(divUsuario);
 
+            // Calificación debe estar redondeada a un decimal (truncada para que coincida con la base de datos)
             var divCalificacion = document.createElement("div");
             divCalificacion.className = "contenidoCeldaCalificacion";
-            divCalificacion.textContent = datos[dato].Calificacion == 0 ? "Sin calificación" : formatearCalificacion(datos[dato].Calificacion);
+            divCalificacion.textContent = datos[dato].Calificacion == 0 ? "-" : formatearNumeros(datos[dato].Calificacion);
             divCalificacion.style.marginLeft = "40px";
             var calificacionCelda = document.createElement("td");
             calificacionCelda.setAttribute('data-tooltip', divCalificacion.textContent);
@@ -46,10 +47,11 @@ function renderizarTabla(datos) {
             realizadosCelda.setAttribute('data-tooltip', divRealizados.textContent);
             realizadosCelda.appendChild(divRealizados);
 
+            // La cantidad de reportes aprobados debe contener un porcentaje entre paréntesis (debe ser formateado al igual que la calificación)
             var divAceptados = document.createElement("div");
             divAceptados.className = "contenidoCeldaNumero";
             divAceptados.style.marginLeft = "60px";
-            divAceptados.textContent = datos[dato].CantidadVerificados;
+            divAceptados.textContent = datos[dato].CantidadVerificados + " (" + formatearNumeros(datos[dato].CantidadVerificados*100 / datos[dato].CantidadReportes) + "%)";
             var aceptadosCelda = document.createElement("td");
             aceptadosCelda.setAttribute('data-tooltip', divAceptados.textContent);
             aceptadosCelda.appendChild(divAceptados);
@@ -65,8 +67,6 @@ function renderizarTabla(datos) {
         }
     }
 }
-
-
 
 
 

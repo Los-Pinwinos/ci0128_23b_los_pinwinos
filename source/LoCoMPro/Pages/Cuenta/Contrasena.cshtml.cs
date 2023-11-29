@@ -45,14 +45,15 @@ namespace LoCoMPro.Pages.Cuenta
                 var usuario = this.contexto.Usuarios.FirstOrDefault(
                 u => u.nombreDeUsuario == usuarioActual.nombreDeUsuario);
 
-                // Verificar la contraseña
+                // Verificar si el usuario existe o si hubo un error del sistema
                 if (usuario != null && usuario.estado == 'A' && usuario.nombreDeUsuario != "")
                 {
-
+                    // Verificar si la contraseña actual es correcta
                     if (this.hasheador.VerifyHashedPassword(
                        usuario, usuario.hashContrasena, this.usuarioActual.contrasenaActual) ==
                        PasswordVerificationResult.Success)
                     {
+                        // Verificar si la contraseña nueva es igual a la actual
                         if (this.usuarioActual.contrasenaNueva == this.usuarioActual.confirmarContrasena)
                         {
                             // Cambiar la contraseña del usuario por la indicada
