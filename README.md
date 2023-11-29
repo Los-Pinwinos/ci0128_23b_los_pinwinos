@@ -57,6 +57,8 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Ingresar al sistema con un usuario válido
 
++ Cambiar contraseña
+
 + Búsqueda simple
 
 + Búsqueda avanzada
@@ -89,6 +91,20 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Aceptar o rechazar reportes para los registros
 
++ Agregar productos a la lista de favoritos
+
++ Búsqueda por favoritos
+
++ Lista de los 10 usuarios que más reportan
+
++ Lista de los 10 usuarios más reportados
+
++ Mecanismo de identificaicón de outliers de registros según su precio
+
++ Mecanismo de identificación de outliers de registros según su fecha de creación
+
++ Mecanismo de identificación de productos con nombres similares
+
 Se debe tomar en cuenta que no todas las funcionalidades requieren estar loggeado al sistema como un usuario. Las funcionalidades que lo requieren son: ver los aportes realizados, agregar un registro de un producto, reportar un registro y calificar un registro. Además, solo los usuarios loggeados que son moderadores pueden visualizar, aceptar o rechazar los reportes realizados.
 
 
@@ -104,6 +120,10 @@ Una vez encontrado en esa página, debe darle click al botón de `Registrase` e 
 Para ingresar al sistema como un usuario válido, debe haber pasado previamente por el proceso de registrarse como usuario al sistema y debe haber validado su cuenta con el botón de confirmación que se muestra en el correo electrónico. 
 
 Posteriormente, debe ingresar los datos solicitados de su respectivo usuario.
+
+#### **Cambiar contraseña**
+
+Para cambiar la contraseña, un usuario puede ingresar a la ventana de `Mi perfil` en donde encontrará la opción de cambiar su contraseña ingresando su contraseña actual, la contraseña nueva y la confirmación de la contraseña nueva. Cabe resaltar que la contraseña nueva y la confirmación deben ser iguales y cumplir con los requerimientos establecidos para que una contraseña sea válida (tener entre 8 y 20 caracteres, tener al menos una letra en minúscula, en mayúscula, al menos un caracter numérico y al menos un caracter especial.)
 
 
 #### **Búsqueda simple**
@@ -136,6 +156,8 @@ Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede 
 + Tienda
 
 + Marca
+
++ Categoría
 
 + Precio
 
@@ -213,6 +235,30 @@ En la página principal, los usuarios con permisos de moderador pueden ver la op
 
 3. Saltar un reporte: esto significa que el moderador no quiere tomar ninguna decisión sobre dicho reporte.
 
+#### **Agregar productos a la lista de favoritos**
+
+Dentro de la ventana de `Ver Registros`, se encontrará, dentro de la información del producto, un corazón gris, el cual se puede seleccionar para agregar el producto a la lista de productos favoritos del usuario. Una vez agregado, se puede volver a seleccionar el corazón para que dicho producto sea eliminado de la lista. Si se desea observar la lista de favoritos, se puede acceder al menú de `Mi perfil`, en donde encontrará la opción de `Favoritos` y podrá desplegar la lista de productos favoritos (y eliminar dicho producto de la lista seleccionando el corazón si así lo desea).
+
+Cabe resaltar que esta funcionalidad solo es accesible cuando el usuario está ingresado en el sistema, de lo contrario, no se le desplegarán dichas opciones.
+
+#### **Búsqueda por favoritos**
+
+Dentro de la ventana que muestra la lista de favoritos, es posible seleccionar la opción de `Ubicar productos`, la cual lo redireccionará a una ventana en donde se mostrarán los resultados de la búsqueda con los múltiples productos presentes en la lista. Cada uno de estos resultados es seleccionable y permite desplegar qué productos se encuentran en la tienda indicada y el precio de cada uno de estos. 
+
+#### **Lista de los 10 usuarios que más reportan**
+TODO(Emilia): Hacer
+
+#### **Lista de los 10 usuarios más reportados**
+TODO(Emilia): Hacer
+
+#### **Mecanismo de identificaicón de outliers de registros según su precio**
+TODO(Emilia): Hacer
+
+#### **Mecanismo de identificación de outliers de registros según su fecha de creación**
+TODO(Emilia): Hacer
+
+#### **Mecanismo de identificación de productos con nombres similares**
+TODO(Emilia): Hacer
 
 ## **Manual técnico de la aplicación**
 
