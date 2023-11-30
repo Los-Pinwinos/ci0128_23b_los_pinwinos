@@ -57,7 +57,7 @@ begin
 
 	BEGIN TRY
         BEGIN TRANSACTION tActualizarModeracion;
-			SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+			SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
 			-- Obtener cantidad de registros realizados
 			select @cantidadRegistros = count(r.usuarioCreador)
@@ -65,13 +65,13 @@ begin
 				where r.usuarioCreador = @nombreUsuario and
 						r.visible = 1;
 
-			if (@cantidadRegistros > 0) begin
+			if (@cantidadRegistros >= 10) begin
 					-- Obtener calificación promedio del usuario basada en sus registros
 					select @calificacionUsuario = u.calificacion
 					from Usuario AS u
 					where u.nombreDeUsuario = @nombreUsuario
 
-					if (@cantidadRegistros >= 10 and @calificacionUsuario >= 4.9) begin
+					if (@calificacionUsuario >= 4.9) begin
 						-- Cumple con los requisitos para ser moderador
 						set @esModerador = 1
 					end
@@ -93,6 +93,7 @@ begin
         THROW;
     END CATCH;
 end;
+
 
 -- Procedimiento creado por Angie Sofía Solís Manzano - C17686
 go

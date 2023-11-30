@@ -246,19 +246,29 @@ Cabe resaltar que esta funcionalidad solo es accesible cuando el usuario está i
 Dentro de la ventana que muestra la lista de favoritos, es posible seleccionar la opción de `Ubicar productos`, la cual lo redireccionará a una ventana en donde se mostrarán los resultados de la búsqueda con los múltiples productos presentes en la lista. Cada uno de estos resultados es seleccionable y permite desplegar qué productos se encuentran en la tienda indicada y el precio de cada uno de estos. 
 
 #### **Lista de los 10 usuarios que más reportan**
-TODO(Emilia): Hacer
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios que más reportan`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más productos reportan junto con la cantidad de reportes que hizo cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponible para usuarios moderadores.
 
 #### **Lista de los 10 usuarios más reportados**
-TODO(Emilia): Hacer
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios más reportados`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más reportes reciben junto con la cantidad de reportes que recibió cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 #### **Mecanismo de identificaicón de outliers de registros según su precio**
-TODO(Emilia): Hacer
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Precios anómalos`. Dicha función despliega una lista de los registros cuyo precio indica que puede estar obsoleto. El usuario puede seleccionar los registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 #### **Mecanismo de identificación de outliers de registros según su fecha de creación**
-TODO(Emilia): Hacer
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Fechas obsoletas`. Dicha función despliega una lista de los registros cuya fecha indica que pueden estar obsoletos. El usuario puede seleccionar los grupos de registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 #### **Mecanismo de identificación de productos con nombres similares**
-TODO(Emilia): Hacer
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Productos similares`. Dicha función despliega una lista de productos cuyo nombre indica que podría ser el mismo producto. Al seleccioanr una opción de la lista, se despliega la lista de productos cuyo nombre es similar y se permite que el usuario los seleccione y una en un solo producto. De esta forma se evita la existencia de productos duplicados en el sistema.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 ## **Manual técnico de la aplicación**
 
@@ -333,9 +343,11 @@ Para realizar esta prueba se debe contar con un usuario válido y autenticado en
 
 El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que el botón para guardar los cambios se vuelve disponible hasta que se seleccionen datos distintos a los que presentaba la cuenta originalmente, es imperativo que la vivienda del usuario no estuviese en Guancaste, Hojancha, Huacas, pues estos son los valores a los que la prueba intentará cambiar la vivienda. Cualquier otra vivienda será válida.
 
+
 ##### **Revisar ordenamiento de flechas**
 
 Para realizar esta prueba se requiere la conexión con la base de datos para realizar una búsqueda, pero no es dependiente de los resultados ya que solo se revisa la presencia de las flechas.
+
 
 ### **Manual de instalación o ejecución del sistema**
 
@@ -407,6 +419,25 @@ Dentro del Sprint 2 se entragaron tres avances, con sus respectivos archivos de 
 #### **Segundo avance**
 
 + [Diagramas UML de casos de uso, actividad y clases](https://app.diagrams.net/#G1qJkUy_LJMj5MtduuwwVkmtTsn6y5Bip9)
+
+
+#### **Tercer avance**
+
++ [Código fuente del proyecto](./source/LoCoMPro)
+
++ [Código fuente de las pruebas unitarias](./test/unit_tests/)
+
++ [Código fuente de las pruebas funcionales](./test/functional_tests/)
+
+
+
+### **Reporte del Sprint 3**
+
+Dentro del Sprint 3 se entragaron tres avances, con sus respectivos archivos de diseño y progreso (el primero de estos corresponde al grooming en el backlog, por lo que no se presenta en las secciones siguientes). Posteriormente, puede encontrar el acceso a ciertos de estos archivos según su respectivo avance:
+
+#### **Segundo avance**
+
++ [Diseño del *mockup*](./design/sprint3/mockups/Mockup_Sprint3_Avance2.pdf)
 
 
 #### **Tercer avance**
