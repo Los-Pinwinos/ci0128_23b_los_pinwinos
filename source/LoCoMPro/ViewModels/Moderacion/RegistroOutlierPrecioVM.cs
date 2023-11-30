@@ -25,6 +25,9 @@ namespace LoCoMPro.ViewModels.Moderacion
         [Display(Name = "Cantón")]
         public required string canton { get; set; }
 
+        [Display(Name = "Distrito")]
+        public required string distrito { get; set; }
+
         [Display(Name = "Promedio")]
         public decimal promedio { get; set; } = 0;
 

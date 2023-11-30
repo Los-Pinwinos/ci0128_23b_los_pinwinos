@@ -30,7 +30,8 @@ namespace LoCoMPro.Pages.Moderacion
                 producto = "",
                 tienda = "",
                 provincia = "",
-                canton = ""
+                canton = "",
+                distrito = ""
             };
             this.paginaDefault = 1;
             this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);

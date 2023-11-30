@@ -1,12 +1,7 @@
 ﻿using LoCoMPro.Data;
-using LoCoMPro.Models;
 using LoCoMPro.Utils.Interfaces;
 using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace LoCoMPro.Utils.Buscadores
 {
@@ -23,9 +18,20 @@ namespace LoCoMPro.Utils.Buscadores
         // Buscar favoritos del usuario
         public IQueryable<RegistroOutlierPrecioVM> buscar()
         {
-            List<RegistroOutlierPrecioVM> registrosOutliers = new List<RegistroOutlierPrecioVM>();
-
             // Paso 1: se obtienen los registros
+            IQueryable<RegistroOutlierPrecioVM> registros = obtenerRegistros();
+
+            // Paso 2: se encuentran los productos
+            List<string> productos = registros.Select(p => p.producto).Distinct().ToList();
+
+            // Paso 3: analizar productos
+            List<RegistroOutlierPrecioVM> registrosOutliers = analizarProductos(productos, registros);
+
+            return registrosOutliers.AsQueryable();
+        }
+
+        private IQueryable<RegistroOutlierPrecioVM> obtenerRegistros()
+        {
             IQueryable<RegistroOutlierPrecioVM> registros = this.contexto.Registros
                 .Include(r => r.producto)
                 .Where(r => r.visible)
@@ -37,13 +43,17 @@ namespace LoCoMPro.Utils.Buscadores
                     precio = r.precio,
                     tienda = r.nombreTienda,
                     provincia = r.nombreProvincia,
-                    canton = r.nombreCanton
+                    canton = r.nombreCanton,
+                    distrito = r.nombreDistrito
                 });
+            return registros;
+        }
 
-            // Paso 2: se obtienen los productos
-            List<string> productos = registros.Select(p => p.producto).Distinct().ToList();
+        private List<RegistroOutlierPrecioVM> analizarProductos(List<string> productos, 
+            IQueryable<RegistroOutlierPrecioVM> registros)
+        {
+            List<RegistroOutlierPrecioVM> registrosOutliers = new();
 
-            // Paso 3: para cada producto, realizar los cálculos
             for (int i = 0; i < productos.Count; ++i)
             {
                 // Se obtienen los registros de ese producto
@@ -57,20 +67,56 @@ namespace LoCoMPro.Utils.Buscadores
                         precio = r.precio,
                         tienda = r.tienda,
                         provincia = r.provincia,
-                        canton = r.canton
+                        canton = r.canton,
+                        distrito = r.distrito
                     })
-                    .OrderBy(r => r.precio)
+                    .OrderBy(r => r.tienda)
+                    .ThenBy(r => r.provincia)
+                    .ThenBy(r => r.canton)
+                    .ThenBy(r => r.distrito)
+                    .ThenBy(r => r.precio)
                     .ToList();
 
-                // Si es menor a 4, no se puede realizar el cálculo para saber si es outlier
+                // Se tiene la lista completa de los registros que se deben analizar
                 if (registrosProducto.Count > 4)
-                {
-                    // Paso 4: encontrar si hay registros outliers
-                    encontrarOutliers(registrosProducto, registrosOutliers);
+                {  // Se obtienen las tiendas de esos registros y se analiza si hay outliers
+                    analizarTiendas(registrosOutliers, registrosProducto);
                 }
             }
 
-            return registrosOutliers.AsQueryable();
+            return registrosOutliers;
+        }
+
+        private void analizarTiendas(List<RegistroOutlierPrecioVM> registrosOutliers,
+            List<RegistroOutlierPrecioVM> registrosProducto)
+        {
+            List<RegistroOutlierPrecioVM> registrosProdTienda = new();
+            registrosProdTienda.Add(registrosProducto[0]);
+            int posUltimo = registrosProdTienda.Count - 1;
+
+            // Se comienza en 1 porque ya se agregó el primero
+            for (int i = 1; i < registrosProducto.Count; ++i)
+            {
+                // La lista de registros productos está ordenada
+                if (registrosProducto[i].tienda != registrosProdTienda[posUltimo].tienda
+                    || registrosProducto[i].provincia != registrosProdTienda[posUltimo].provincia
+                    || registrosProducto[i].canton != registrosProdTienda[posUltimo].canton
+                    || registrosProducto[i].distrito != registrosProdTienda[posUltimo].distrito)
+                { // Se tiene la lista completa de los registros que se deben analizar
+                    if (registrosProdTienda.Count > 4)
+                    {  // Si es menor a 4, no se puede realizar el cálculo para saber si es outlier
+                        encontrarOutliers(registrosProdTienda, registrosOutliers);
+                    }
+
+                    // Se limpia la lista para analizar el siguiente bloque
+                    registrosProdTienda.Clear();
+                    posUltimo = -1;
+                }
+
+                // Se agrega a la lista para analizar
+                registrosProdTienda.Add(registrosProducto[i]);
+                ++posUltimo;
+            }
         }
 
         private void encontrarOutliers(List<RegistroOutlierPrecioVM> registrosProducto, List<RegistroOutlierPrecioVM> registrosOutliers)
@@ -102,7 +148,7 @@ namespace LoCoMPro.Utils.Buscadores
             }
         }
 
-        private double calcularDesviacionEstandar(List<RegistroOutlierPrecioVM> registrosProducto, decimal promedio)
+        private static double calcularDesviacionEstandar(List<RegistroOutlierPrecioVM> registrosProducto, decimal promedio)
         {
             double desviacionEstandar = -1;
             double sumaDeCuadrados = registrosProducto.Sum(v => Math.Pow((double) v.precio - (double) promedio, 2));
@@ -111,14 +157,13 @@ namespace LoCoMPro.Utils.Buscadores
             return desviacionEstandar;
         }
 
-        private decimal calcularCuartil(List<RegistroOutlierPrecioVM> registrosProducto, int cuartil)
+        private static decimal calcularCuartil(List<RegistroOutlierPrecioVM> registrosProducto, int cuartil)
         {
             // El primer cuartil es tal que el 25% de los datos son menores a él
-            // El tercer cuatil es tal qeu el 75% de los datos son menores a él
+            // El tercer cuatil es tal que el 75% de los datos son menores a él
             double percentil = (cuartil == 1) ? 0.25 : 0.75;
 
             int termino = (int) (registrosProducto.Count * percentil);
-            --termino;  // La lista comienza en el termino 0
             decimal resultadoCuartil = (registrosProducto[termino].precio + registrosProducto[termino+1].precio) / 2;
 
             return resultadoCuartil;
