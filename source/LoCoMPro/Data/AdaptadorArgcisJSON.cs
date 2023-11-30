@@ -56,7 +56,7 @@ namespace LoCoMPro.Data
         public Extensión? ExtensiónEspacial { get; set; }
     }
 
-    public class AdaptadorArgcisJSON
+    public class AdaptadorArgcisJson
     {
         [JsonProperty("spatialReference")]
         public ReferenciaEspacial? ReferenciaEspacial { get; set; }

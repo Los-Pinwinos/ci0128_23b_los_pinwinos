@@ -40,7 +40,7 @@
                     <span class="Caja-texto">@Model.registro.nombreUnidad</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <span class="Caja-texto-grande">@Model.registro.descripcion</span>
+                    <span class="Caja-texto-grande"> @(String.IsNullOrEmpty(Model.registro.descripcion) ? "Sin descripción" : Model.registro.descripcion)</span>
                 </div>
             </div>
         </div>

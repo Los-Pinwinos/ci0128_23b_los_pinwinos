@@ -57,6 +57,8 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Ingresar al sistema con un usuario válido
 
++ Cambiar contraseña
+
 + Búsqueda simple
 
 + Búsqueda avanzada
@@ -89,6 +91,20 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Aceptar o rechazar reportes para los registros
 
++ Agregar productos a la lista de favoritos
+
++ Búsqueda por favoritos
+
++ Lista de los 10 usuarios que más reportan
+
++ Lista de los 10 usuarios más reportados
+
++ Mecanismo de identificaicón de outliers de registros según su precio
+
++ Mecanismo de identificación de outliers de registros según su fecha de creación
+
++ Mecanismo de identificación de productos con nombres similares
+
 Se debe tomar en cuenta que no todas las funcionalidades requieren estar loggeado al sistema como un usuario. Las funcionalidades que lo requieren son: ver los aportes realizados, agregar un registro de un producto, reportar un registro y calificar un registro. Además, solo los usuarios loggeados que son moderadores pueden visualizar, aceptar o rechazar los reportes realizados.
 
 
@@ -104,6 +120,10 @@ Una vez encontrado en esa página, debe darle click al botón de `Registrase` e 
 Para ingresar al sistema como un usuario válido, debe haber pasado previamente por el proceso de registrarse como usuario al sistema y debe haber validado su cuenta con el botón de confirmación que se muestra en el correo electrónico. 
 
 Posteriormente, debe ingresar los datos solicitados de su respectivo usuario.
+
+#### **Cambiar contraseña**
+
+Para cambiar la contraseña, un usuario puede ingresar a la ventana de `Mi perfil` en donde encontrará la opción de cambiar su contraseña ingresando su contraseña actual, la contraseña nueva y la confirmación de la contraseña nueva. Cabe resaltar que la contraseña nueva y la confirmación deben ser iguales y cumplir con los requerimientos establecidos para que una contraseña sea válida (tener entre 8 y 20 caracteres, tener al menos una letra en minúscula, en mayúscula, al menos un caracter numérico y al menos un caracter especial.)
 
 
 #### **Búsqueda simple**
@@ -136,6 +156,8 @@ Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede 
 + Tienda
 
 + Marca
+
++ Categoría
 
 + Precio
 
@@ -213,6 +235,40 @@ En la página principal, los usuarios con permisos de moderador pueden ver la op
 
 3. Saltar un reporte: esto significa que el moderador no quiere tomar ninguna decisión sobre dicho reporte.
 
+#### **Agregar productos a la lista de favoritos**
+
+Dentro de la ventana de `Ver Registros`, se encontrará, dentro de la información del producto, un corazón gris, el cual se puede seleccionar para agregar el producto a la lista de productos favoritos del usuario. Una vez agregado, se puede volver a seleccionar el corazón para que dicho producto sea eliminado de la lista. Si se desea observar la lista de favoritos, se puede acceder al menú de `Mi perfil`, en donde encontrará la opción de `Favoritos` y podrá desplegar la lista de productos favoritos (y eliminar dicho producto de la lista seleccionando el corazón si así lo desea).
+
+Cabe resaltar que esta funcionalidad solo es accesible cuando el usuario está ingresado en el sistema, de lo contrario, no se le desplegarán dichas opciones.
+
+#### **Búsqueda por favoritos**
+
+Dentro de la ventana que muestra la lista de favoritos, es posible seleccionar la opción de `Ubicar productos`, la cual lo redireccionará a una ventana en donde se mostrarán los resultados de la búsqueda con los múltiples productos presentes en la lista. Cada uno de estos resultados es seleccionable y permite desplegar qué productos se encuentran en la tienda indicada y el precio de cada uno de estos. 
+
+#### **Lista de los 10 usuarios que más reportan**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios que más reportan`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más productos reportan junto con la cantidad de reportes que hizo cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponible para usuarios moderadores.
+
+#### **Lista de los 10 usuarios más reportados**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios más reportados`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más reportes reciben junto con la cantidad de reportes que recibió cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+#### **Mecanismo de identificaicón de outliers de registros según su precio**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Precios anómalos`. Dicha función despliega una lista de los registros cuyo precio indica que puede estar obsoleto. El usuario puede seleccionar los registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+#### **Mecanismo de identificación de outliers de registros según su fecha de creación**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Fechas obsoletas`. Dicha función despliega una lista de los registros cuya fecha indica que pueden estar obsoletos. El usuario puede seleccionar los grupos de registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+#### **Mecanismo de identificación de productos con nombres similares**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Productos similares`. Dicha función despliega una lista de productos cuyo nombre indica que podría ser el mismo producto. Al seleccioanr una opción de la lista, se despliega la lista de productos cuyo nombre es similar y se permite que el usuario los seleccione y una en un solo producto. De esta forma se evita la existencia de productos duplicados en el sistema.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 ## **Manual técnico de la aplicación**
 
@@ -287,9 +343,11 @@ Para realizar esta prueba se debe contar con un usuario válido y autenticado en
 
 El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que el botón para guardar los cambios se vuelve disponible hasta que se seleccionen datos distintos a los que presentaba la cuenta originalmente, es imperativo que la vivienda del usuario no estuviese en Guancaste, Hojancha, Huacas, pues estos son los valores a los que la prueba intentará cambiar la vivienda. Cualquier otra vivienda será válida.
 
+
 ##### **Revisar ordenamiento de flechas**
 
 Para realizar esta prueba se requiere la conexión con la base de datos para realizar una búsqueda, pero no es dependiente de los resultados ya que solo se revisa la presencia de las flechas.
+
 
 ### **Manual de instalación o ejecución del sistema**
 
@@ -361,6 +419,25 @@ Dentro del Sprint 2 se entragaron tres avances, con sus respectivos archivos de 
 #### **Segundo avance**
 
 + [Diagramas UML de casos de uso, actividad y clases](https://app.diagrams.net/#G1qJkUy_LJMj5MtduuwwVkmtTsn6y5Bip9)
+
+
+#### **Tercer avance**
+
++ [Código fuente del proyecto](./source/LoCoMPro)
+
++ [Código fuente de las pruebas unitarias](./test/unit_tests/)
+
++ [Código fuente de las pruebas funcionales](./test/functional_tests/)
+
+
+
+### **Reporte del Sprint 3**
+
+Dentro del Sprint 3 se entragaron tres avances, con sus respectivos archivos de diseño y progreso (el primero de estos corresponde al grooming en el backlog, por lo que no se presenta en las secciones siguientes). Posteriormente, puede encontrar el acceso a ciertos de estos archivos según su respectivo avance:
+
+#### **Segundo avance**
+
++ [Diseño del *mockup*](./design/sprint3/mockups/Mockup_Sprint3_Avance2.pdf)
 
 
 #### **Tercer avance**

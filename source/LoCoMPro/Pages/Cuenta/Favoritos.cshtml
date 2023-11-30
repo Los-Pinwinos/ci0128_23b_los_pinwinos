@@ -40,9 +40,13 @@
     <script src="~/js/Pages/Cuenta/Favoritos/cliente.js" asp-append-version="true"></script>
 </head>
 <div>
-    <div class="Favoritos-contenedor-fila" id="ContenedorPrincipal" style="display: flex; justify-content: center;">
-        @if (Model.favoritos != "Sin resultados")
+    <div id="ContenedorPrincipal" style="display: flex;flex-direction: column;">
+        @if (Model.favoritos != "Sin resultados" && !(User.Identity == null || !User.Identity.IsAuthenticated))
         {
+            <!-- Botón de búsqueda -->
+            <a asp-page="/Busqueda/Favoritos" id="BotonBusqueda" class="Favoritos-boton" style="display: inline-flex; text-align: center; text-decoration: none; color: white; align-items: center;justify-content: center;">
+                Ubicar productos
+            </a>
             <!-- Tabla de resultados -->
             <div class="Favoritos-tabla">
                 <table>
@@ -51,7 +55,7 @@
                         <tr>
                             <!-- Columna vacía para el corazón de favoritos -->
                             <th></th>
-                            <th>
+                            <th style="padding-left:10px;">
                                 <!-- Columna con el nombre del producto -->
                                 @Html.DisplayNameFor(model => model.favoritoVM.nombreProducto)
                             </th>
@@ -80,7 +84,7 @@
     </div>
 </div>
 
-@if (Model.favoritos != "Sin resultados")
+@if (Model.favoritos != "Sin resultados" && !(User.Identity == null || !User.Identity.IsAuthenticated))
 {
     <!-- Paginación -->
     <div class="Favoritos-contenedor-paginacion">

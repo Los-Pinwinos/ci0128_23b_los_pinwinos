@@ -1,0 +1,168 @@
+﻿@page
+@model LoCoMPro.Pages.Busqueda.FavoritosModel
+@{
+    ViewData["Title"] = "Productos favoritos";
+}
+
+<!-- Metadatos -->
+<head>
+    <title>Productos favoritos</title>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Favoritos.css" asp-append-version="true" />
+    <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="~/js/Pages/Busqueda/Favoritos/paginador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Busqueda/Favoritos/ordenador.js" asp-append-version="true"></script>
+    <script>
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.favoritos');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.favoritos' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var ordenador = new OrdenadorDeBusqueda();;
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
+    <script src="~/js/Pages/Busqueda/Favoritos/cliente.js" asp-append-version="true"></script>
+</head>
+<div>
+    <div class="Favoritos-contenedor-fila" id="ContenedorPrincipal" style="display: flex; justify-content: center;">
+        @if (Model.favoritos != "Sin resultados" && !(User.Identity == null || !User.Identity.IsAuthenticated))
+        {
+            <!-- Tabla de resultados -->
+            <div class="Favoritos-tabla">
+                <table>
+                    <caption style="display:none;">Tabla de favoritos</caption>
+                    <thead>
+                        <tr>
+                            <th style="padding-left:10px">
+                                <!-- Columna con el nombre de la tienda -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreTienda)
+                            </th>
+                            <th style="padding-left:20px">
+                                <!-- Columna con el nombre de la provincia -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreProvincia)
+                            </th>
+                            <th style="padding-left:30px">
+                                <!-- Columna con el nombre del cantón -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreCanton)
+                            </th>
+                            <th style="padding-left:20px">
+                                <!-- Columna con la cantidad de productos encontrados -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('cantidad')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.cantidadEncontrada)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendenteCantidad" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('cantidad')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendenteCantidad" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('cantidad')">
+                                    expand_more
+                                </span>
+                            </th>
+                            <th>
+                                <!-- Columna con el precio total -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('precio')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.precioTotal)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendentePrecio" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('precio')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendentePrecio" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('precio')">
+                                    expand_more
+                                </span>
+                            </th>
+                            <th>
+                                <!-- Columna con la distancia total -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('distancia')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.distanciaTotal)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendenteDistancia" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('distancia')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendenteDistancia" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('distancia')">
+                                    expand_more
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="Favoritos-contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Favoritos-gif" id="PinwinoTriste">
+                <p class="Favoritos-texto">No hay resultados para su búsqueda</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.favoritos != "Sin resultados" && !(User.Identity == null || !User.Identity.IsAuthenticated))
+{
+    <!-- Paginación -->
+    <div class="Favoritos-contenedor-paginacion">
+        <div class="Favoritos-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="Favoritos-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="Favoritos-texto-paginacion">  </span>
+
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="Favoritos-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
+    if (mensajeRedirect) {
+        alert(mensajeRedirect);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
+<script>
+    if ('@Model.favoritos' != "Sin resultados") {
+        ordenador.esconderFlechas();
+        var favoritosVM = paginar(paginaDefault);
+
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(favoritosVM);
+    }
+</script>

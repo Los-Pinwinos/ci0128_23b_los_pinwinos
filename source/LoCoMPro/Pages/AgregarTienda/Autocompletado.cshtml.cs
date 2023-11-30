@@ -41,7 +41,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             TempData["provinciaAutocompletado"] = provincia;
             TempData["cantonAutocompletado"] = canton;
             TempData["distritoAutocompletado"] = distrito;
-            var xd = contexto.Tiendas;
+
             // Obtiene los resultados de la base de datos
             IList<AgregarTiendaVM> resultados
                 = contexto.Tiendas

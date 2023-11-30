@@ -316,11 +316,12 @@ table td::before {
 
 /* Contenedor para el gif y un mensaje */
 .Favoritos-contenedor-gif {
-    display: flex; /* Add this to create a flex container */
-    flex-direction: column; /* Stack items vertically */
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     max-width: 300px;
+    margin: 0 auto;
 }
 
 /* Gif */
@@ -335,4 +336,24 @@ table td::before {
     font-size: 30px;
     text-align: center;
     max-width: 100%;
+}
+
+.Favoritos-boton {
+    align-self: flex-end;
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    height: 27px;
+    max-height: 27px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition-duration: 0.4s;
+    font: 16px system-ui;
 }
