@@ -1,4 +1,100 @@
-﻿/* Contenedor de fila */
+﻿.InfoProducto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    background-color: white;
+    border: 2px solid #1A7254;
+    overflow: auto;
+    border-radius: 5px;
+    padding: 5px 10px;
+    max-width: 97%;
+    margin-bottom: 10px;
+}
+
+.TituloProducto {
+    font-family: Arial, sans-serif;
+    margin-left: 37%;
+    font-size: 24px;
+}
+
+.InfoProductoColumnas {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    width:90%;
+}
+
+.ContenedorInfoColumnas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+    margin: 10px 0;
+    width:100%;
+}
+
+.InfoColumnas {
+    width: calc(50vw - 100px);
+    margin-right: 30px;
+    margin-left: 30px;
+    text-align: left;
+    font-size: 16px;
+}
+
+
+.InfoColumnaNegrita {
+    width: 30%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.InfoColumn p {
+    font-family: Helvetica, sans-serif;
+}
+
+
+.precio {
+    text-align: right;
+    margin-right: 10px;
+}
+
+
+.precioAgrupado {
+    text-align: right;
+    margin-left: 25px;
+}
+
+
+table tbody td.elementos {
+    text-align: left;
+}
+
+.Contenedor {
+    position: absolute;
+    margin-bottom: 5px;
+    width: 1000px;
+    height: 100%;
+}
+
+.Contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+.Contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    padding: 0px 6px;
+    font-size: 16px;
+    width: 100%;
+    height: 80%;
+}
+
+/* Contenedor de fila */
 .Favoritos-contenedor-fila {
     display: flex;
     align-items: flex-start;
@@ -67,57 +163,68 @@ table {
         height: 30px;
     }
 
-/* Características de hover */
-table td:not(.no-hover):hover::before {
-    content: attr(data-tooltip);
-    display: block;
-    position: absolute;
-    background-color: #4E7366;
-    color: white;
-    padding: 5px;
-    border-radius: 4px;
-    top: -80%;
-    left: 35%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    z-index: 1;
-}
+    /* Características de hover */
+    table td:not(.no-hover):hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -80%;
+        left: 35%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
 
-table td::before {
-    content: "";
-}
+    table td::before {
+        content: "";
+    }
 
-/* Contenido de la celda del Corazón */
-.contenidoCeldaCorazon {
-    min-width: 50px;
-    max-width: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Producto */
 .contenidoCeldaProducto {
-    max-width: 150px;
+    padding-left: 10px;
     min-width: 150px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Categoria */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 100px;
+    max-width: 100px;
+    margin-right:70px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaUnidad {
+    margin-right:20px;
+    min-width: 100px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .contenidoCeldaCategoria {
-    min-width: 108px;
-    max-width: 108px;
+    margin-left: 10px;
+    min-width: 120px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Marca */
 .contenidoCeldaMarca {
-    min-width: 108px;
-    max-width: 108px;
+    margin-left:20px;
+    min-width: 100px;
+    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -242,118 +349,3 @@ table td::before {
         color: black;
         text-decoration: none;
     }
-
-/* Contenedor para el gif y un mensaje */
-.Favoritos-contenedor-gif {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Gif */
-.Favoritos-gif {
-    max-width: 35%;
-    height: auto;
-}
-
-/* Estilo para el texto en la página */
-.Favoritos-texto {
-    color: black;
-    font-size: 30px;
-    text-align: center;
-}
-
-/* Corazón */
-.corazon {
-    font-size: 20px;
-    color: #aaa;
-    cursor: pointer;
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Corazón lleno */
-.corazon-lleno {
-    color: red;
-    animation: latido 0.3s ease 1;
-}
-
-/* Corazón con cursor deshabilitado */
-.corazon-deshabilitado {
-    cursor: auto;
-}
-
-/* Animación de latido */
-@keyframes latido {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Agrega una clase para la transición suave */
-.eliminacion-suave {
-    opacity: 1;
-    transition: opacity 0.3s ease-out; /* Ajusta la duración y la función de transición según lo necesites */
-}
-
-    /* Cuando se elimina la fila, se reduce gradualmente la opacidad */
-    .eliminacion-suave.eliminando {
-        opacity: 0;
-    }
-
-/* Contenedor para el gif y un mensaje */
-.Favoritos-contenedor-gif {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-/* Gif */
-.Favoritos-gif {
-    max-width: 90%;
-    height: auto;
-}
-
-/* Estilo para el texto en la página */
-.Favoritos-texto {
-    color: black;
-    font-size: 30px;
-    text-align: center;
-    max-width: 100%;
-}
-
-.Favoritos-boton {
-    align-self: flex-end;
-    margin-top: 10px;
-    margin-right: 10px;
-    background-color: #033F63;
-    color: white;
-    width: 150px;
-    height: 27px;
-    max-height: 27px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition-duration: 0.4s;
-    font: 16px system-ui;
-}

@@ -5,6 +5,7 @@ using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using LoCoMPro.Utils;
 
 namespace LoCoMPro.Pages.VerRegistros
 {
@@ -145,7 +146,7 @@ namespace LoCoMPro.Pages.VerRegistros
             IQueryable<VerRegistrosVM> registrosIQ = this.ObtenerRegistros();
 
             Registros = await registrosIQ.ToListAsync();
-            this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
+            this.resultadoRegistros = ControladorJson.ConvertirAJson(Registros);
 
             // Actualizar el atributo de fotografías para poder trabajar con todas las imagenes asociadas al registro
             var fotografiasEnlazadas = contexto.Fotografias
