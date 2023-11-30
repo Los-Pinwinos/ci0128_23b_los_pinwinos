@@ -13,6 +13,8 @@
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Home/Index.css" asp-append-version="true" />
+    <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <!-- Contenido de la página -->
@@ -21,7 +23,9 @@
     <div class="HomeIndice-contenedor-centrado">
         <form class="HomeIndice-contenedor-centrado" method="get">
             <!-- Logotipo de Penguin -->
-            <img src="~/img/pinwino_imagen.png" alt="Logotipo de Los pinwinos" class="HomeIndice-logo" id="pinwinoLogo">
+            <img src="~/img/pinwino_imagen.png" alt="Logotipo de Los pinwinos" class="HomeIndice-logo" id="pinwinoLogo" style="z-index:2;">
+            <!-- Flecha que se precarga desde el inicio de la página para evitar errores -->
+            <span class="material-symbols-outlined Favoritos-FlechaOrdenamiento" id="cachedImage" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); z-index: 1; padding-bottom: 20px;"> expand_more </span>
             <!-- Texto de LoComPro -->
             <h2 class="HomeIndice-titulo">LoCoMPro</h2>
             <!-- Barra de búsqueda -->

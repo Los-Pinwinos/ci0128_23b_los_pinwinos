@@ -38,6 +38,113 @@
     </script>
     <script src="~/js/Pages/Busqueda/Favoritos/cliente.js" asp-append-version="true"></script>
 </head>
+<div>
+    <div class="Favoritos-contenedor-fila" id="ContenedorPrincipal" style="display: flex; justify-content: center;">
+        @if (Model.favoritos != "Sin resultados")
+        {
+            <!-- Tabla de resultados -->
+            <div class="Favoritos-tabla">
+                <table>
+                    <caption style="display:none;">Tabla de favoritos</caption>
+                    <thead>
+                        <tr>
+                            <th style="padding-left:10px">
+                                <!-- Columna con el nombre de la tienda -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreTienda)
+                            </th>
+                            <th style="padding-left:20px">
+                                <!-- Columna con el nombre de la provincia -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreProvincia)
+                            </th>
+                            <th style="padding-left:30px">
+                                <!-- Columna con el nombre del cantón -->
+                                @Html.DisplayNameFor(model => model.busquedaFavoritoVM.nombreCanton)
+                            </th>
+                            <th style="padding-left:20px">
+                                <!-- Columna con la cantidad de productos encontrados -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('cantidad')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.cantidadEncontrada)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendenteCantidad" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('cantidad')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendenteCantidad" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('cantidad')">
+                                    expand_more
+                                </span>
+                            </th>
+                            <th>
+                                <!-- Columna con el precio total -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('precio')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.precioTotal)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendentePrecio" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('precio')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendentePrecio" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('precio')">
+                                    expand_more
+                                </span>
+                            </th>
+                            <th>
+                                <!-- Columna con la distancia total -->
+                                <label class="Favoritos-titulo-columna" onclick="ordenar('distancia')">
+                                    @Html.DisplayNameFor(model => model.busquedaFavoritoVM.distanciaTotal)
+                                </label>
+                                <!-- Flecha de ordenamiento descendiente -->
+                                <span id="DescendenteDistancia" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('distancia')">
+                                    expand_less
+                                </span>
+                                <!-- Flecha de ordenamiento ascendiente -->
+                                <span id="AscendenteDistancia" class="material-symbols-outlined Favoritos-FlechaOrdenamiento" onclick="ordenar('distancia')">
+                                    expand_more
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="Favoritos-contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Favoritos-gif" id="PinwinoTriste">
+                <p class="Favoritos-texto">No hay resultados para su búsqueda</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.favoritos != "Sin resultados")
+{
+    <!-- Paginación -->
+    <div class="Favoritos-contenedor-paginacion">
+        <div class="Favoritos-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="Favoritos-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="Favoritos-texto-paginacion">  </span>
+
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="Favoritos-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+}
 
 <!-- Script para mostrar un popUp y redireccionar -->
 <script>
