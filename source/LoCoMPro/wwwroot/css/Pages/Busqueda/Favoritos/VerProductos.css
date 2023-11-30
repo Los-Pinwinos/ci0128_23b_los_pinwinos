@@ -7,14 +7,13 @@
     overflow: auto;
     border-radius: 5px;
     padding: 5px 10px;
-    width: 1100px;
-    min-width: 1100px;
+    max-width: 97%;
     margin-bottom: 10px;
 }
 
 .TituloProducto {
     font-family: Arial, sans-serif;
-    margin-left: 38%;
+    margin-left: 37%;
     font-size: 24px;
 }
 
@@ -22,19 +21,22 @@
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    width:100%;
+    width:90%;
 }
 
 .ContenedorInfoColumnas {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    justify-items: center;
     margin: 10px 0;
+    width:100%;
 }
 
 .InfoColumnas {
     width: calc(50vw - 100px);
-    margin-right: 20px;
-    margin-left: 45px;
+    margin-right: 30px;
+    margin-left: 30px;
     text-align: left;
     font-size: 16px;
 }
