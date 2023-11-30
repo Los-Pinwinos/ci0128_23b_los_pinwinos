@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\Pages\Busqueda\Favoritos\cliente.js" />
+    <None Include="wwwroot\js\Pages\Busqueda\Favoritos\ordenador.js" />
+    <None Include="wwwroot\js\Pages\Busqueda\Favoritos\paginador.js" />
     <None Include="wwwroot\js\Pages\Cuenta\Favoritos\cliente.js" />
   </ItemGroup>
 
