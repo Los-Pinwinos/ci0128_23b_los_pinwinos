@@ -48,5 +48,30 @@ namespace LoCoMPro.Utils
 
             return url;
         }
-    }
+
+		// Cálculo de la distancia en kilómetros entre dos puntos geográficos usando la Fórmula del Haversine
+		public static double DistanciaKm(double latOrigen, double lonOrigen, double latDestino, double lonDestino)
+		{
+			// Distancia a kilómetros
+			double radioTierraKm = 6371.0;
+			// Deltas
+			double difLatitud = GradosARadianes(latDestino - latOrigen);
+			double difLongitud = GradosARadianes(lonDestino - lonOrigen);
+
+			double a = Math.Sin(difLatitud / 2) * Math.Sin(difLatitud / 2) +
+					   Math.Cos(GradosARadianes(latOrigen)) * Math.Cos(GradosARadianes(latDestino)) *
+					   Math.Sin(difLongitud / 2) * Math.Sin(difLongitud / 2);
+
+			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+			// Distancia a kilómetros
+			double distancia = radioTierraKm * c;
+			return distancia;
+		}
+
+		// Pasar grados a radianes
+		private static double GradosARadianes(double degrees)
+		{
+			return degrees * Math.PI / 180.0;
+		}
+	}
 }
