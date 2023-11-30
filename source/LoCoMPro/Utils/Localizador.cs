@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace LoCoMPro.Utils
 {
     // Clase que permite localizar puntos geográficos
-    public class Localizador
+    public static class Localizador
     {
         public static async Task<(double, double)> ObtenerCoordenadas(HttpClient cliente, string apiUrl)
         {
@@ -17,12 +17,12 @@ namespace LoCoMPro.Utils
             {
                 // Obtener el contenido JSON de la respuesta del fetch
                 string contenidoJSON = await respuesta.Content.ReadAsStringAsync();
-                AdaptadorArgcisJSON objetoJSON;
+                AdaptadorArgcisJson objetoJSON;
 
                 if (contenidoJSON != null)
                 {
                     // Convertir el contenido del JSON en un objeto conocido
-                    objetoJSON = JsonConvert.DeserializeObject<AdaptadorArgcisJSON>(contenidoJSON);
+                    objetoJSON = JsonConvert.DeserializeObject<AdaptadorArgcisJson>(contenidoJSON);
 
                     if (objetoJSON != null && objetoJSON.Candidatos != null)
                     {
