@@ -12,7 +12,7 @@ using Microsoft.Win32;
 using LoCoMPro.ViewModels.Cuenta;
 using System.Diagnostics;
 
-namespace LoCoMProTests.Pages.Cuenta.CambiarContrasena
+namespace LoCoMProTests.Pages.Cuenta
 {
     // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
     [TestClass]

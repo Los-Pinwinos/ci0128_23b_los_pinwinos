@@ -4,7 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using LoCoMProTestFuncionales.PageModels.Home;
 using LoCoMProTestFuncionales.PageModels.Cuenta.CambiarContrasena;
 
-namespace LoCoMProFunctionalTests.Pages.Cuenta.CambiarContrasenaTest
+namespace LoCoMProFunctionalTests.Pages.Cuenta
 {
     [TestFixture]
 

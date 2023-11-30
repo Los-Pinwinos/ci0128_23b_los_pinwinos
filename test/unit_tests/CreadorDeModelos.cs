@@ -64,5 +64,12 @@ namespace LoCoMProTests
             usuarioAsociado = usuarioAsociado ?? CrearUsuarioPorDefecto();
             return new Registro { creacion = DateTime.Now, productoAsociado = productoAsociado.nombre, usuarioCreador = usuarioAsociado.nombreDeUsuario, precio = 999.99M, nombreTienda = tiendaAsociada.nombre, nombreDistrito = tiendaAsociada.nombreDistrito, nombreCanton = tiendaAsociada.nombreCanton, nombreProvincia = tiendaAsociada.nombreProvincia, tienda = tiendaAsociada, producto = productoAsociado, creador = usuarioAsociado, visible = true};
         }
+
+        public static Reporte CrearReportePorDefecto(Usuario? creador = null, Registro? registro = null)
+        {
+            creador = creador ?? CrearUsuarioPorDefecto();
+            registro = registro ?? CrearRegistroPorDefecto();
+            return new Reporte { comentario = "Ejemplo reporte", creacion = DateTime.Now, usuarioCreadorReporte = creador.nombreDeUsuario, creadorReporte = creador, usuarioCreadorRegistro = registro.usuarioCreador, creacionRegistro = registro.creacion, registro = registro, verificado = false };
+        }
     }
 }
