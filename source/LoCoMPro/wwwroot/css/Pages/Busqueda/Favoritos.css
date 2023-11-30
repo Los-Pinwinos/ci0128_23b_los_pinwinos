@@ -87,26 +87,19 @@ table td::before {
     content: "";
 }
 
-/* Contenido de la celda del Corazón */
-.contenidoCeldaCorazon {
-    min-width: 50px;
-    max-width: 50px;
+/* Contenido de la celda de tienda */
+.contenidoCeldaTienda {
+    padding-left: 10px;
+    max-width: 120px;
+    min-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Producto */
-.contenidoCeldaProducto {
-    max-width: 150px;
-    min-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Contenido de la celda de Categoria */
-.contenidoCeldaCategoria {
+/* Contenido de la celda de provincia */
+.contenidoCeldaProvincia {
+    padding-left: 20px;
     min-width: 108px;
     max-width: 108px;
     overflow: hidden;
@@ -114,10 +107,46 @@ table td::before {
     white-space: nowrap;
 }
 
-/* Contenido de la celda de Marca */
-.contenidoCeldaMarca {
-    min-width: 108px;
-    max-width: 108px;
+/* Contenido de la celda de cantón */
+.contenidoCeldaCanton {
+    padding-left: 30px;
+    min-width: 170px;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de cantidad encontrada */
+.contenidoCeldaCantidad {
+    padding-left: 20px;
+    min-width: 200px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de precio total */
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 170px;
+    max-width: 170px;
+    direction: rtl;
+    padding-right: 90px;
+    margin-right:-50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de distancia total */
+.contenidoCeldaDistancia {
+    text-align: right;
+    min-width: 110px;
+    max-width: 110px;
+    padding-right: 10px;
+    direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -249,79 +278,7 @@ table td::before {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-/* Gif */
-.Favoritos-gif {
-    max-width: 35%;
-    height: auto;
-}
-
-/* Estilo para el texto en la página */
-.Favoritos-texto {
-    color: black;
-    font-size: 30px;
-    text-align: center;
-}
-
-/* Corazón */
-.corazon {
-    font-size: 20px;
-    color: #aaa;
-    cursor: pointer;
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Corazón lleno */
-.corazon-lleno {
-    color: red;
-    animation: latido 0.3s ease 1;
-}
-
-/* Corazón con cursor deshabilitado */
-.corazon-deshabilitado {
-    cursor: auto;
-}
-
-/* Animación de latido */
-@keyframes latido {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Agrega una clase para la transición suave */
-.eliminacion-suave {
-    opacity: 1;
-    transition: opacity 0.3s ease-out; /* Ajusta la duración y la función de transición según lo necesites */
-}
-
-    /* Cuando se elimina la fila, se reduce gradualmente la opacidad */
-    .eliminacion-suave.eliminando {
-        opacity: 0;
-    }
-
-/* Contenedor para el gif y un mensaje */
-.Favoritos-contenedor-gif {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     max-width: 300px;
-    margin: 0 auto;
 }
 
 /* Gif */
@@ -338,22 +295,25 @@ table td::before {
     max-width: 100%;
 }
 
-.Favoritos-boton {
-    align-self: flex-end;
-    margin-top: 10px;
-    margin-right: 10px;
-    background-color: #033F63;
-    color: white;
-    width: 150px;
-    height: 150px;
-    max-height: 25px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: none;
-    border-radius: 5px;
+/* Flechas de ordenamiento */
+.Favoritos-FlechaOrdenamiento {
     cursor: pointer;
-    margin-bottom: 10px;
-    transition-duration: 0.4s;
-    font: 13px system-ui;
+    clip-path: polygon(10% 20%, 90% 20%, 90% 80%, 10% 80%);
+    vertical-align: middle;
+    position: absolute;
 }
+
+/* Ordenamientos */
+
+/* Titulo presionable para ordenamiento */
+.Favoritos-titulo-columna {
+    color: black;
+    text-decoration: underline;
+}
+
+    /* Hover para titulo de ordenamiento */
+    .Favoritos-titulo-columna:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }

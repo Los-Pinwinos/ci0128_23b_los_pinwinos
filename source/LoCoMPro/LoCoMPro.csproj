@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="SQLScripts\" />
-    <Folder Include="wwwroot\css\Pages\Busqueda\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
     <Folder Include="wwwroot\js\Pages\Moderacion\" />
@@ -41,6 +40,7 @@
     <None Include="wwwroot\js\Pages\Busqueda\Favoritos\ordenador.js" />
     <None Include="wwwroot\js\Pages\Busqueda\Favoritos\paginador.js" />
     <None Include="wwwroot\js\Pages\Cuenta\Favoritos\cliente.js" />
+    <None Include="wwwroot\js\Pages\Cuenta\Favoritos\paginador.js" />
   </ItemGroup>
 
 </Project>
