@@ -1,0 +1,61 @@
+﻿@page
+@model LoCoMPro.Pages.Busqueda.FavoritosModel
+@{
+    ViewData["Title"] = "Productos favoritos";
+}
+
+<!-- Metadatos -->
+<head>
+    <title>Productos favoritos</title>
+    <!-- Enlace al archivo CSS con los estilos de la página -->
+    <!-- El valor true hace que la versión se agregue a la URL -->
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Favoritos.css" asp-append-version="true" />
+    <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="~/js/Pages/Busqueda/Favoritos/paginador.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Busqueda/Favoritos/ordenador.js" asp-append-version="true"></script>
+    <script>
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.favoritos');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.favoritos' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var ordenador = new OrdenadorDeBusqueda();;
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
+    <script src="~/js/Pages/Busqueda/Favoritos/cliente.js" asp-append-version="true"></script>
+</head>
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
+    if (mensajeRedirect) {
+        alert(mensajeRedirect);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
+<script>
+    if ('@Model.favoritos' != "Sin resultados") {
+        ordenador.esconderFlechas();
+        var favoritosVM = paginar(paginaDefault);
+
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(favoritosVM);
+    }
+</script>
