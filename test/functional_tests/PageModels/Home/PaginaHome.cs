@@ -48,6 +48,16 @@ namespace LoCoMProTestFuncionales.PageModels.Home
             return new PaginaPerfil(this.driver);
         }
 
+        public Cuenta.PaginaFavoritos IrAFavoritos()
+        {
+            DesplegarDropdownPefil();
+
+            IWebElement botonLayoutFavoritos = driver.FindElement(PerfilLayoutFavoritos);
+            botonLayoutFavoritos.Click();
+
+            return new Cuenta.PaginaFavoritos(this.driver);
+        }
+
         public PaginaAvanzada IrABuscarAvanzado()
         {
             IWebElement botonBusquedaAvanzada = this.driver.FindElement(this.BotonBusquedaAvanzada);
