@@ -180,13 +180,13 @@ function agregarFilaALaTabla(cuerpoTabla, datos) {
         cuerpoTabla.appendChild(row);
 
         // Redirecciona a ver los productos de la tienda
-        /*(function (tienda, provincia, canton, distrito, precio, distancia) {
+        (function (tienda, provincia, canton, distrito, precio, distancia) {
             row.addEventListener("click", function () {
                 window.location.href = `/Busqueda/Favoritos/VerProductos?&nombreTienda=${encodeURIComponent(tienda)}\&nombreProvincia=${encodeURIComponent(provincia)}&nombreCanton=${encodeURIComponent(canton)}&nombreDistrito=${encodeURIComponent(distrito)}&precioTotal=${encodeURIComponent(precio)}&distanciaTotal=${encodeURIComponent(distancia)}`;
             });
         })(datos.nombreTienda, datos.nombreProvincia, datos.nombreCanton, datos.nombreDistrito,
             agregarSeparador(parseFloat(datos.precioTotal.toFixed(2))), datos.distanciaTotal.toFixed(2).replace('.', ','));
-    */}
+    }
 }
 
 // Renderizar tabla
