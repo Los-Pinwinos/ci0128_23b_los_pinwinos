@@ -3,7 +3,7 @@
 namespace LoCoMPro.Utils.Interfaces
 {
     // Buscador genérico
-    public interface IBuscador<Tipo>
+    public interface IBuscador<out Tipo>
     {
         // Método genérico de búsqueda
         public IQueryable<Tipo> buscar();

@@ -56,7 +56,7 @@ namespace LoCoMPro.Utils.Buscadores
             // Ver si se usa el nombre de busqueda
             if (!string.IsNullOrEmpty(this.marca))
             {
-                return entradaIQ.Where(r => r.marca.Contains(this.marca));
+                return entradaIQ.Where(r => r.marca!.Contains(this.marca));
             }
             else
             {

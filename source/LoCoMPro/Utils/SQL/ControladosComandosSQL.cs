@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Text;
 
 namespace LoCoMPro.Utils.SQL
 {
@@ -66,18 +67,24 @@ namespace LoCoMPro.Utils.SQL
 
             string cadenaComando = "SELECT dbo." + nombreComando + "(";
 
+            var stringBuilder = new StringBuilder(cadenaComando);
+
             for (int i = 0; i < parametros.Count; i++)
             {
-                cadenaComando += parametros[i].ParameterName + ", ";
+                stringBuilder.Append(parametros[i].ParameterName);
+                stringBuilder.Append(", ");
             }
 
             if (parametros.Count > 0)
             {
                 // Remover la última coma y espacio
-                cadenaComando = cadenaComando.Substring(0, cadenaComando.Length - 2);
+                stringBuilder.Length -= 2;
             }
 
-            cadenaComando += ")";
+            stringBuilder.Append(")");
+
+            cadenaComando = stringBuilder.ToString();
+
 
             SqlCommand comando = new SqlCommand(cadenaComando, this.conexion);
 
