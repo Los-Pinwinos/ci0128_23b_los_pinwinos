@@ -153,7 +153,7 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
         } else {
             paginaLink.classList.add("pagina-seleccionable");
             paginaLink.addEventListener("click", function () {
-                pasarPagina(pagina, presionado);
+                pasarPagina(pagina);
             });
         }
 

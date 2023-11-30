@@ -55,35 +55,44 @@ as
 begin
 	declare @esModerador bit, @cantidadRegistros int, @calificacionUsuario float
 
-	-- Obtener cantidad de registros realizados
-	select @cantidadRegistros = count(r.usuarioCreador)
-		from Registros as r
-		where r.usuarioCreador = @nombreUsuario and
-			  r.visible = 1;
+	BEGIN TRY
+        BEGIN TRANSACTION tActualizarModeracion;
+			SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
-	if (@cantidadRegistros > 0) begin
-			-- Obtener calificación promedio del usuario basada en sus registros
-			select @calificacionUsuario = u.calificacion
-			from Usuario AS u
-			where u.nombreDeUsuario = @nombreUsuario
+			-- Obtener cantidad de registros realizados
+			select @cantidadRegistros = count(r.usuarioCreador)
+				from Registros as r
+				where r.usuarioCreador = @nombreUsuario and
+						r.visible = 1;
 
-			if (@cantidadRegistros >= 10 and @calificacionUsuario >= 4.9) begin
-				-- Cumple con los requisitos para ser moderador
-				set @esModerador = 1
+			if (@cantidadRegistros > 0) begin
+					-- Obtener calificación promedio del usuario basada en sus registros
+					select @calificacionUsuario = u.calificacion
+					from Usuario AS u
+					where u.nombreDeUsuario = @nombreUsuario
+
+					if (@cantidadRegistros >= 10 and @calificacionUsuario >= 4.9) begin
+						-- Cumple con los requisitos para ser moderador
+						set @esModerador = 1
+					end
+					else begin
+						set @esModerador = 0 
+					end
 			end
 			else begin
 				set @esModerador = 0 
 			end
-	end
-	else begin
-		set @esModerador = 0 
-	end
 
-	update Usuario
-    set esModerador = @esModerador
-    where nombreDeUsuario = @nombreUsuario;
+			update Usuario
+			set esModerador = @esModerador
+			where nombreDeUsuario = @nombreUsuario;
+		COMMIT TRANSACTION tActualizarModeracion;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION tActualizarModeracion;
+        THROW;
+    END CATCH;
 end;
-
 
 -- Procedimiento creado por Angie Sofía Solís Manzano - C17686
 go
