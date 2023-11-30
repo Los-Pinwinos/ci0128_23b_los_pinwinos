@@ -12,6 +12,7 @@ namespace LoCoMProTestFuncionales.PageModels.Home
         protected By PerfilDropdown = By.Id("perfilDropdown");
         protected By PerfilLayoutPerfil = By.Id("BotonPerfilLayout");
 
+
         public PaginaHome(IWebDriver driver) : base(driver) { }
 
         public PaginaBusqueda Buscar(string nombreDeProducto)

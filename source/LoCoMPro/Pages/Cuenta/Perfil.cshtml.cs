@@ -65,6 +65,7 @@ namespace LoCoMPro.Pages.Cuenta
             this.provincias = new List<Provincia>();
             this.cantones = new List<Canton>();
             this.distritos = new List<Distrito>();
+            this.calificacionUsuario = "0";
         }
 
         public IActionResult OnGet()
