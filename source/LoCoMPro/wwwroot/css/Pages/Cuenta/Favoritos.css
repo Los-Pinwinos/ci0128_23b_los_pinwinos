@@ -345,8 +345,8 @@ table td::before {
     background-color: #033F63;
     color: white;
     width: 150px;
-    height: 150px;
-    max-height: 25px;
+    height: 27px;
+    max-height: 27px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -355,5 +355,5 @@ table td::before {
     cursor: pointer;
     margin-bottom: 10px;
     transition-duration: 0.4s;
-    font: 13px system-ui;
+    font: 16px system-ui;
 }

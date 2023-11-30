@@ -153,37 +153,37 @@ function crearCeldaContenido(contenido, clase) {
 }
 
 function agregarFilaALaTabla(cuerpoTabla, datos) {
+    const tienda = document.getElementById("Tienda").value;
+    const provincia = document.getElementById("Provincia").value;
+    const canton = document.getElementById("Canton").value;
+
     const row = document.createElement("tr");
     row.classList.add("result-row");
 
-    if (typeof datos.nombreTienda !== 'undefined' && datos.nombreTienda !== "") {
-        const tiendaCelda = crearCeldaContenido(datos.nombreTienda, "contenidoCeldaTienda");
-        const provinciaCelda = crearCeldaContenido(datos.nombreProvincia, "contenidoCeldaProvincia");
-        const cantonCelda = crearCeldaContenido(datos.nombreCanton, "contenidoCeldaCanton");
-
-        const cantidadArreglada = `${datos.cantidadEncontrada} (${parseFloat(datos.porcentajeEncontrado.toFixed(2))}%)`;
-        const cantidadCelda = crearCeldaContenido(cantidadArreglada, "contenidoCeldaCantidad");
-        const precioArreglado = "₡" + agregarSeparador(parseFloat(datos.precioTotal.toFixed(2)));
+    if (typeof datos.producto !== 'undefined' && datos.producto !== "") {
+        const productoCelda = crearCeldaContenido(datos.producto, "contenidoCeldaProducto");
+        const precioArreglado = "₡" + agregarSeparador(parseFloat(datos.precio.toFixed(2)));
         const precioCelda = crearCeldaContenido(precioArreglado, "contenidoCeldaPrecio");
-        const distanciaArreglada = `${datos.distanciaTotal.toFixed(2).replace('.', ',')}km`;
-        const distanciaCelda = crearCeldaContenido(distanciaArreglada, "contenidoCeldaDistancia");
 
-        row.appendChild(tiendaCelda);
-        row.appendChild(provinciaCelda);
-        row.appendChild(cantonCelda);
-        row.appendChild(cantidadCelda);
+        const unidadCelda = crearCeldaContenido(datos.unidad, "contenidoCeldaUnidad");
+        const categoriaCelda = crearCeldaContenido(datos.categoria, "contenidoCeldaCategoria");
+        const marcaCelda = crearCeldaContenido(datos.marca, "contenidoCeldaMarca");
+
+
+        row.appendChild(productoCelda);
         row.appendChild(precioCelda);
-        row.appendChild(distanciaCelda);
+        row.appendChild(unidadCelda);
+        row.appendChild(categoriaCelda);
+        row.appendChild(marcaCelda);
 
         cuerpoTabla.appendChild(row);
 
         // Redirecciona a ver los productos de la tienda
-        (function (tienda, provincia, canton, distrito, precio, distancia) {
+        (function (productoNombre, categoriaNombre, marcaNombre, unidadNombre, tiendaNombre, provinciaNombre, cantonNombre) {
             row.addEventListener("click", function () {
-                window.location.href = `/Busqueda/Favoritos/VerProductos?&nombreTienda=${encodeURIComponent(tienda)}\&nombreProvincia=${encodeURIComponent(provincia)}&nombreCanton=${encodeURIComponent(canton)}&nombreDistrito=${encodeURIComponent(distrito)}&precioTotal=${encodeURIComponent(precio)}&distanciaTotal=${encodeURIComponent(distancia)}`;
+                window.location.href = `/VerRegistros/VerRegistros?productoNombre=${encodeURIComponent(productoNombre)}&categoriaNombre=${encodeURIComponent(categoriaNombre)}&marcaNombre=${encodeURIComponent(marcaNombre)}&unidadNombre=${encodeURIComponent(unidadNombre)}&tiendaNombre=${encodeURIComponent(tiendaNombre)}&provinciaNombre=${encodeURIComponent(provinciaNombre)}&cantonNombre=${encodeURIComponent(cantonNombre)}`;
             });
-        })(datos.nombreTienda, datos.nombreProvincia, datos.nombreCanton, datos.nombreDistrito,
-            agregarSeparador(parseFloat(datos.precioTotal.toFixed(2))), datos.distanciaTotal.toFixed(2).replace('.', ','));
+        })(datos.producto, datos.categoria, datos.marca, datos.unidad, tienda, provincia, canton);
     }
 }
 
