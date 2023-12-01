@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="F23.StringSimilarity" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
@@ -32,7 +33,6 @@
     <Folder Include="SQLScripts\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
-    <Folder Include="wwwroot\js\Pages\Moderacion\" />
   </ItemGroup>
 
   <ItemGroup>

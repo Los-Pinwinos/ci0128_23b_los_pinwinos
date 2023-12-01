@@ -1,0 +1,234 @@
+﻿body {
+}
+/* Tabla */
+.Clustering-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+.Tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Gif */
+.Contenedor-gif {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Pinwino-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+.Texto-grande {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* Paginación */
+.Contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+}
+
+.Boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+    .Boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    
+    .Boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+.Boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+}
+
+    .Boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+.Texto-paginacion {
+    margin: 0 10px;
+}
+
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+    }
+
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: none;
+        position: relative;
+    }
+
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+    table tbody tr {
+        color: white;
+        height: 30px;
+    }
+
+    /* Características de hover */
+    table td:not(.no-hover):hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -80%;
+        left: 35%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    table td::before {
+        content: "";
+    }
+
+.contenidoCeldaProducto {
+    padding-left: 3%;
+    max-width: 150px;
+    min-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaMarca {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaUnidad {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
