@@ -1,0 +1,30 @@
+﻿body {
+}
+/* Tabla */
+.Clustering-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Gif */
+.Contenedor-gif {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Pinwino-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+.Texto-grande {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}

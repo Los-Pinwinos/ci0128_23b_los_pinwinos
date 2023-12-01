@@ -7,34 +7,57 @@
 <head>
     <!-- Título de la pagina -->
     <title>Productos Similares</title>
+    <!-- Estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Moderacion/ProductosSimilares.css" asp-append-version="true"/>
 </head>
 
 <body>
-    <div class="Clustering-tabla">
-        <table>
-            <caption style="display:none;">Tabla de productos similares</caption>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Columna con el nombre del producto -->
-                        Producto con similares
-                    </th>
-                    <th>
-                        <!-- Columna con el nombre de la categoria -->
-                        Categoría
-                    </th>
-                    <th>
-                        <!-- Columna con la marca -->
-                        Marca
-                    </th>
-                    <th>
-                        <!-- Columna con la unidad -->
-                        Unidad
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"></tbody>
-        </table>
+    <div id="ContenedorPrincipal" style="display: flex;flex-direction: column;">
+        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.resultados != "0")
+        {
+            <div class="Clustering-tabla">
+                <table>
+                    <caption style="display:none;">Tabla de productos similares</caption>
+                    <thead>
+                        <tr>
+                            <th>
+                                <!-- Columna con el nombre del producto -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreProducto)
+                            </th>
+                            <th>
+                                <!-- Columna con el nombre de la categoria -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreCategoria)
+                            </th>
+                            <th>
+                                <!-- Columna con la marca -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreMarca)
+                            </th>
+                            <th>
+                                <!-- Columna con la unidad -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.unidad)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="Contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino feliz" class="Pinwino-gif" id="PinwinoFeliz">
+                <p class="Texto-grande">No se encontraron agrupaciones</p>
+            </div>
+        }
+
     </div>
-    
 </body>
+
+<script>
+    var mensajeError = "@ViewData["MensajeError"]";
+    if (mensajeError) {
+        alert(mensajeError);
+        window.location.href = "/Home/Index";
+    }
+</script>
