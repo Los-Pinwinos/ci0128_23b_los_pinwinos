@@ -34,7 +34,7 @@ namespace LoCoMPro.Pages.Moderacion
                 distrito = ""
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 8);
         }
 
         public IActionResult OnGet()

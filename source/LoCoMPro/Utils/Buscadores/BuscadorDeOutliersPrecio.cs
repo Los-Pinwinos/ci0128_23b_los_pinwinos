@@ -90,8 +90,10 @@ namespace LoCoMPro.Utils.Buscadores
         private void analizarTiendas(List<RegistroOutlierPrecioVM> registrosOutliers,
             List<RegistroOutlierPrecioVM> registrosProducto)
         {
-            List<RegistroOutlierPrecioVM> registrosProdTienda = new();
-            registrosProdTienda.Add(registrosProducto[0]);
+            List<RegistroOutlierPrecioVM> registrosProdTienda = new()
+            {
+                registrosProducto[0]
+            };
             int posUltimo = registrosProdTienda.Count - 1;
 
             // Se comienza en 1 porque ya se agregó el primero
@@ -101,7 +103,8 @@ namespace LoCoMPro.Utils.Buscadores
                 if (registrosProducto[i].tienda != registrosProdTienda[posUltimo].tienda
                     || registrosProducto[i].provincia != registrosProdTienda[posUltimo].provincia
                     || registrosProducto[i].canton != registrosProdTienda[posUltimo].canton
-                    || registrosProducto[i].distrito != registrosProdTienda[posUltimo].distrito)
+                    || registrosProducto[i].distrito != registrosProdTienda[posUltimo].distrito
+                    || i == (registrosProducto.Count - 1))
                 { // Se tiene la lista completa de los registros que se deben analizar
                     if (registrosProdTienda.Count > 4)
                     {  // Si es menor a 4, no se puede realizar el cálculo para saber si es outlier

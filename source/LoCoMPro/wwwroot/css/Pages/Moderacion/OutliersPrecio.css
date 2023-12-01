@@ -86,10 +86,11 @@ table {
 }
 
 .contenidoCeldaProducto {
-    width: 170px;
+    width: 150px;
+    padding: 1%;
+    overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .contenidoCeldaTienda {
@@ -97,6 +98,7 @@ table {
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 1%;
 }
 
 .contenidoCeldaProvincia {
@@ -104,6 +106,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 .contenidoCeldaCanton {
@@ -112,6 +115,7 @@ table {
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 1%;
 }
 
 .contenidoCeldaPrecio {
@@ -121,6 +125,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 .contenidoCeldaMinimo {
@@ -130,6 +135,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 .contenidoCeldaMaximo {
@@ -139,6 +145,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 .contenidoCeldaDesviacion {
@@ -148,6 +155,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 .contenidoCeldaPromedio {
@@ -157,6 +165,7 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1%;
 }
 
 
@@ -307,3 +316,19 @@ table {
     .eliminacion-suave.eliminando {
         opacity: 0;
     }
+
+.Boton {
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+    margin-top: 2%;
+}
