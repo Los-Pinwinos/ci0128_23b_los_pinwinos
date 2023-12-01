@@ -36,7 +36,7 @@ namespace LoCoMPro.Pages.Moderacion
 
         public IActionResult OnGet()
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("moderador"))
             {
                 IBuscador<ProductosSimilaresVM> buscador = new BuscadorDeAgrupaciones(this.contexto);
                 IQueryable<ProductosSimilaresVM> busqueda = buscador.buscar();
@@ -51,7 +51,7 @@ namespace LoCoMPro.Pages.Moderacion
             }
             else
             {
-                ViewData["MensajeError"] = "Por favor ingrese al sistema.";
+                ViewData["MensajeError"] = "Por favor ingrese al sistema como moderador.";
             }
             return Page();
         }

@@ -97,25 +97,33 @@ namespace LoCoMPro.Pages.Moderacion
 
         public async Task<IActionResult> OnGetAsync(string tipo)
         {
-            this.tipoPagina = tipo;
-            if (this.tipoPagina == "reportadores")
+            if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("moderador"))
             {
-                IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportadores();
-                this.Usuarios = await topUsuarios.ToListAsync();
-                this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
-            } else
-            {
-                // Se asume que tipo == reportados. Si se desea agregar estadísticas nuevas, se puede
-                // agregar otro if/else acá.
-                IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportados();
-                this.Usuarios = await topUsuarios.ToListAsync();
-                this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+                this.tipoPagina = tipo;
+                if (this.tipoPagina == "reportadores")
+                {
+                    IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportadores();
+                    this.Usuarios = await topUsuarios.ToListAsync();
+                    this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+                }
+                else
+                {
+                    // Se asume que tipo == reportados. Si se desea agregar estadísticas nuevas, se puede
+                    // agregar otro if/else acá.
+                    IQueryable<UsuarioEstadisticasVM> topUsuarios = buscarUsuariosReportados();
+                    this.Usuarios = await topUsuarios.ToListAsync();
+                    this.resultadosEstadisticas = JsonConvert.SerializeObject(Usuarios);
+                }
+                // En caso de que las búsquedas retornen Usuarios inválidos para cumplir
+                // con los 10 usuarios en total, se realiza un conteo para
+                // verificar si se debe o no mostrar la imagen del pinwino que indica
+                // que no hay usuarios que califiquen para la estadística.
+                this.cantidadValidos = contarUsuariosValidos();
             }
-            // En caso de que las búsquedas retornen Usuarios inválidos para cumplir
-            // con los 10 usuarios en total, se realiza un conteo para
-            // verificar si se debe o no mostrar la imagen del pinwino que indica
-            // que no hay usuarios que califiquen para la estadística.
-            this.cantidadValidos = contarUsuariosValidos();
+            else
+            {
+                ViewData["MensajeError"] = "Por favor ingrese al sistema como moderador.";
+            }
             return Page();
         }
     }

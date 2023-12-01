@@ -25,7 +25,7 @@ namespace LoCoMPro.Utils.Buscadores
             var resultadosCluster = agrupador.agrupar(nombreProductos);
             if (resultadosCluster == null || resultadosCluster.Count == 0)
             {
-                return Enumerable.Empty<ProductosSimilaresVM>().AsQueryable(); ;
+                return Enumerable.Empty<ProductosSimilaresVM>().AsQueryable();
                 
             }
             return this.obtenerPrimeros(resultadosCluster);
