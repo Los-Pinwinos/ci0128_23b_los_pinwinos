@@ -6,7 +6,7 @@
     return textoNum;
 }
 
-function paginar(numeroPagina = registrosVM.IndicePagina) {
+function paginar(numeroPagina = registrosPag.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
 
@@ -136,6 +136,9 @@ function crearCeldaContenido(contenido, clase) {
     return celda;
 }
 
+// Variable con todas los registros que se desean eliminar
+var filasEliminar = [];
+
 function renderizarTabla(datos) {
     // Obtener la tabla
     var cuerpoTabla = document.getElementById("CuerpoResultados");
@@ -146,7 +149,7 @@ function renderizarTabla(datos) {
     // Iterar
     for (var dato in datos) {
         if (datos[dato] != null && typeof datos[dato].producto !== 'undefined' && datos[dato].producto !== "") {
-            var row = document.createElement("tr");
+            var fila = document.createElement("tr");
 
             const valorPrecio = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
             const valorMinimo = "₡" + agregarSeparador(parseFloat(datos[dato].minimo));
@@ -161,16 +164,19 @@ function renderizarTabla(datos) {
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = 'checkbox_' + dato;
-            checkbox.value = dato;
-
-            // TODO(Angie): cambiar
-            /*
-            checkbox.addEventListener('change', function (evento) {
+            checkbox.addEventListener('click', function (evento) {
                 var checkboxCambiado = evento.target;
                 var filaAEliminar = checkboxCambiado.closest("tr");
-                eliminarRegistro(filaAEliminar);
+                if (checkboxCambiado.checked) {
+                    // Hay que agregarlo
+                    filasEliminar.push(filaAEliminar);
+                } else {
+                    // TODO(Angie): probar
+
+                    // Hay que borrarlo
+                    filasEliminar = filasEliminar.filter(fila => fila.rowElement !== filaAEliminar);
+                }
             });
-            */
 
             var checkboxCelda = document.createElement("td");
             checkboxCelda.classList.add('no-hover');
@@ -188,71 +194,86 @@ function renderizarTabla(datos) {
             var provinciaCelda = crearCeldaContenido(datos[dato].provincia, "contenidoCeldaPronvincia");
             var cantonCelda = crearCeldaContenido(datos[dato].canton, "contenidoCeldaCanton");
 
+            // Se almacena el índice al que está asociado
+            fila.dataset.fecha = datos[dato].fecha;
+            fila.dataset.usuario = datos[dato].usuario;
+
             // Agregar celdas a fila
-            row.appendChild(checkboxCelda);
-            row.appendChild(productoCelda);
-            row.appendChild(precioCelda);
-            row.appendChild(minimoCelda);
-            row.appendChild(maximoCelda);
-            row.appendChild(desviacionCelda);
-            row.appendChild(promedioCelda);
-            row.appendChild(tiendaCelda);
-            row.appendChild(provinciaCelda);
-            row.appendChild(cantonCelda);
+            fila.appendChild(checkboxCelda);
+            fila.appendChild(productoCelda);
+            fila.appendChild(precioCelda);
+            fila.appendChild(minimoCelda);
+            fila.appendChild(maximoCelda);
+            fila.appendChild(desviacionCelda);
+            fila.appendChild(promedioCelda);
+            fila.appendChild(tiendaCelda);
+            fila.appendChild(provinciaCelda);
+            fila.appendChild(cantonCelda);
 
             // Agregar fila
-            cuerpoTabla.appendChild(row);
+            cuerpoTabla.appendChild(fila);
         }
     }
 }
 
 // TODO(Angie): cambiar
 // Función que devuelve una lista eliminando el elemento seleccionado
-function removerElementoDeResultados(datos, producto) {
+function removerElementoDeResultados(datos, creacion, usuarioCreador) {
     lista = []
+
     for (var dato in datos) {
-        if (typeof datos[dato].nombreProducto !== 'undefined' && datos[dato].nombreProducto !== "") {
-            if (datos[dato].nombreProducto != producto)
-                lista.push(datos[dato]);
+        if (typeof datos[dato].fecha !== 'undefined' && datos[dato].fecha !== "" &&
+                datos[dato].usuario !== 'undefined' && datos[dato].usuario !== "" &&
+                (datos[dato].fecha !== creacion || datos[dato].usuario !== usuarioCreador)) {
+            lista.push(datos[dato]);
         }
     }
+
     return lista;
 }
 
-// TODO(Angie): cambiar
-function eliminarRegistro(filaEliminar) {
-    // TODO(Angie): cambiar
-
-    // Deshabilitar paginacion momentaneamente
+function eliminarRegistros() {
+    // Deshabilitar paginacion momentáneamente
     paginacionHabilitada = false;
 
-    // Obtener el producto asociado
-    var producto = filaEliminar.querySelector('.contenidoCeldaProducto').textContent;
-    // Agrega la clase para la transición suave y eliminación
-    filaEliminar.classList.add('eliminacion-suave', 'eliminando');
-    setTimeout(function () {
-        numeroPagina = registrosPag.IndicePagina;
-        // Remover la fila
-        filaEliminar.remove();
-        // Remover el producto de los resultados
-        resultados = removerElementoDeResultados(resultados, producto);
-        // Verificar si quedan productos
-        if (resultados.length > 0) {
-            // Remover el producto de los resultados paginados
-            registrosPag = removerElementoDeResultados(registrosPag, producto);
-            // Paginar la pagina actual o la anterior si ya no quedan resultados en la actual
-            registrosPag = registrosPag.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
-            // Renderizar
-            renderizarPaginacion();
-            renderizarTabla(registrosPag);
-        } else {
-            renderizarPinwinoTriste();
+    var registrosParaEliminar = [];
+
+    for (var indice = 0; indice < filasEliminar.length; ++indice) {
+        var fecha = filasEliminar[indice].dataset.fecha;
+        var usuario = filasEliminar[indice].dataset.usuario;
+
+        // Recoger la fila para eliminar
+        filasEliminar[indice].remove();
+        resultados = removerElementoDeResultados(resultados, fechaEliminar, usuarioEliminar);
+        registrosParaEliminar.push({fecha, usuario});
+    }
+
+    // Verificar si quedan outliers
+    if (resultados.length > 0) {
+        // Eliminar de registrosPag solo las combinaciones únicas
+        for (var i = 0; i < registrosParaEliminar.length; ++i) {
+            var fechaEliminar = registrosParaEliminar[i].fecha;
+            var usuarioEliminar = registrosParaEliminar[i].usuario;
+            registrosPag = removerElementoDeResultados(registrosPag, fechaEliminar, usuarioEliminar);
         }
-        fetch(`/Cuenta/Favoritos?handler=RemoverDeFavoritos&nombreProducto=${producto}`);
-        // Volver a habilitar paginacion
-        paginacionHabilitada = true;
-    }, 300);
+
+        numeroPagina = registrosPag.IndicePagina;
+
+        // Paginar la página actual o la anterior si ya no quedan resultados en la actual
+        registrosPag = registrosPag.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(registrosPag);
+    } else {
+        renderizarPinwinoTriste();
+    }
+
+    //fetch(`/Cuenta/Favoritos?handler=RemoverDeFavoritos&nombreProducto=${producto}`);
+
+    // Volver a habilitar paginacion
+    paginacionHabilitada = true;
 }
+
 
 function renderizarPinwinoFeliz() {
     var filaDeContenedores = document.getElementById("ContenedorPrincipal");

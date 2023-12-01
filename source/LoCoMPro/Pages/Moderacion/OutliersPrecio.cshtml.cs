@@ -65,7 +65,13 @@ namespace LoCoMPro.Pages.Moderacion
             return Page();
         }
 
-        public void OnGetEliminarRegistro(string fechaHora, string usuario)
+        public void OnGetElminarRegistros(string registros)
+        {
+            // TODO(Angie): hacer
+            Console.WriteLine("on get eliminar registros");
+        }
+
+        /*public void OnGetEliminarRegistro(string fechaHora, string usuario)
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
@@ -94,6 +100,6 @@ namespace LoCoMPro.Pages.Moderacion
                     contexto.SaveChanges();
                 }
             }
-        }
+        }*/
     }
 }
