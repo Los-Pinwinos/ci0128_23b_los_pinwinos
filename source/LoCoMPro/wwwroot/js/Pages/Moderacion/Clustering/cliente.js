@@ -1,5 +1,5 @@
 ﻿// Paginar
-function paginar(numeroPagina = aportesVM.IndicePagina) {
+function paginar(numeroPagina = resultadosPagina.IndicePagina) {
     return paginador.paginar(resultados, numeroPagina);
 }
 
@@ -16,20 +16,20 @@ function renderizarPaginacion() {
 }
 
 function renderizarUltimoNumeroPagina(paginacionContenedor, paginaFinal) {
-    if (paginaFinal < aportesVM.PaginasTotales) {
+    if (paginaFinal < resultadosPagina.PaginasTotales) {
         const finalElipsis = document.createElement("span");
         // Agregar ... a la ultima pagina si fuera necesario
 
-        if (paginaFinal !== aportesVM.PaginasTotales - 1) finalElipsis.textContent = " ... ";
+        if (paginaFinal !== resultadosPagina.PaginasTotales - 1) finalElipsis.textContent = " ... ";
         else finalElipsis.textContent = " ";
         paginacionContenedor.appendChild(finalElipsis);
 
         const linkUltimaPagina = document.createElement("span");
-        linkUltimaPagina.textContent = aportesVM.PaginasTotales;
+        linkUltimaPagina.textContent = resultadosPagina.PaginasTotales;
         linkUltimaPagina.classList.add("pagina-seleccionable");
 
         linkUltimaPagina.addEventListener("click", function () {
-            pasarPagina(aportesVM.PaginasTotales);
+            pasarPagina(resultadosPagina.PaginasTotales);
         });
         paginacionContenedor.appendChild(linkUltimaPagina);
     }
@@ -62,8 +62,8 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
 
     const numeroDeLinksDePaginas = 5;
 
-    let paginaInicial = Math.max(1, aportesVM.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
-    let paginaFinal = Math.min(aportesVM.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
+    let paginaInicial = Math.max(1, resultadosPagina.IndicePagina - Math.floor(numeroDeLinksDePaginas / 2));
+    let paginaFinal = Math.min(resultadosPagina.PaginasTotales, paginaInicial + numeroDeLinksDePaginas - 1);
 
     if (paginaFinal - paginaInicial + 1 < numeroDeLinksDePaginas) {
         paginaInicial = Math.max(1, paginaFinal - numeroDeLinksDePaginas + 1);
@@ -73,7 +73,7 @@ function renderizarNumerosPaginaIntermedios(paginacionContenedor) {
         const paginaLink = document.createElement("span");
         paginaLink.textContent = pagina;
 
-        if (pagina === aportesVM.IndicePagina) {
+        if (pagina === resultadosPagina.IndicePagina) {
             paginaLink.classList.add("pagina");
         } else {
             paginaLink.classList.add("pagina-seleccionable");
@@ -99,7 +99,7 @@ function renderizarBotonesSiguienteAnterior() {
     var botonPaginaSiguiente = document.getElementById("PaginaSiguiente");
     var botonSinPaginaSiguiente = document.getElementById("SinPaginaSiguiente");
 
-    if (aportesVM.TienePaginaPrevia) {
+    if (resultadosPagina.TienePaginaPrevia) {
         botonPaginaPrevia.style.display = "block";
         botonSinPaginaPrevia.style.display = "none";
     } else {
@@ -107,7 +107,7 @@ function renderizarBotonesSiguienteAnterior() {
         botonSinPaginaPrevia.style.display = "block";
     }
 
-    if (aportesVM.TieneProximaPagina) {
+    if (resultadosPagina.TieneProximaPagina) {
         botonPaginaSiguiente.style.display = "block";
         botonSinPaginaSiguiente.style.display = "none";
     } else {
@@ -116,7 +116,49 @@ function renderizarBotonesSiguienteAnterior() {
     }
 }
 
-// Renderizar tabla
-function renderizarTabla(datos) {
+function pasarPagina(numeroPagina) {
+    if (paginacionHabilitada) {
+        // Paginar
+        resultadosPagina = paginar(numeroPagina);
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(resultadosPagina);
+        window.scrollTo(0, 0);
+    }
+}
 
+function crearCeldaContenido(contenido, clase) {
+    const divContenido = document.createElement("div");
+    divContenido.className = clase;
+    divContenido.textContent = contenido;
+
+    const celda = document.createElement("td");
+    celda.setAttribute('data-tooltip', contenido);
+    celda.appendChild(divContenido);
+
+    return celda;
+}
+
+function renderizarTabla(resultados) {
+    var tabla = document.getElementById("CuerpoResultados");
+    tabla.innerHTML = "";
+
+    for (var actual in resultados) {
+        if (resultados[actual] != null && typeof resultados[actual].nombreProducto !== 'undefined' && resultados[actual].nombreProducto !== "") {
+            var fila = document.createElement("tr");
+            fila.classList.add("result-row");
+
+            nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
+            categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
+            marca = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaMarca");
+            unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
+
+            fila.appendChild(nombre);
+            fila.appendChild(categoria);
+            fila.appendChild(marca);
+            fila.appendChild(unidad);
+
+            tabla.appendChild(fila);
+        }
+    }
 }

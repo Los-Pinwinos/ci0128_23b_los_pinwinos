@@ -33,7 +33,6 @@
     <Folder Include="SQLScripts\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
-    <Folder Include="wwwroot\js\Pages\Moderacion\" />
   </ItemGroup>
 
   <ItemGroup>

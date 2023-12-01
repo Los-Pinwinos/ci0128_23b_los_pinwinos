@@ -9,36 +9,63 @@
     <title>Productos Similares</title>
     <!-- Estilos de la página -->
     <link rel="stylesheet" href="~/css/Pages/Moderacion/ProductosSimilares.css" asp-append-version="true"/>
+    <!-- Cliente -->
+    <script src="~/js/Pages/Moderacion/Clustering/cliente.js" asp-append-version="true"></script>
+    <!-- Paginación -->
+    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
+    <script>
+        paginacionHabilitada = true;
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados() {
+            var resultadosDecodificados = traducirCodificacion('@Model.principalesGrupo');
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.principalesGrupo' != "0") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
 </head>
 
 <body>
     <div id="ContenedorPrincipal" style="display: flex;flex-direction: column;">
-        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.resultados != "0")
+        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.principalesGrupo != "0")
         {
             <div class="Clustering-tabla">
                 <table>
                     <caption style="display:none;">Tabla de productos similares</caption>
                     <thead>
                         <tr>
-                            <th>
+                            <th style="padding-left:4%;">
                                 <!-- Columna con el nombre del producto -->
                                 @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreProducto)
                             </th>
-                            <th>
+                            <th style="padding-left:1%;">
                                 <!-- Columna con el nombre de la categoria -->
                                 @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreCategoria)
                             </th>
-                            <th>
+                            <th style="padding-left:1%;">
                                 <!-- Columna con la marca -->
                                 @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreMarca)
                             </th>
-                            <th>
+                            <th style="padding-left:1%;">
                                 <!-- Columna con la unidad -->
                                 @Html.DisplayNameFor(model => model.productosSimilaresVM.unidad)
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"></tbody>
+                    <tbody class="Tabla-resultados" id="CuerpoResultados"></tbody>
                 </table>
             </div>
         }
@@ -52,6 +79,33 @@
         }
 
     </div>
+
+    <!-- Paginación -->
+    @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.principalesGrupo != "0")
+    {
+        <div class="Contenedor-paginacion">
+            <div class="Contenedor-caja-paginacion">
+                <!-- Botón anterior -->
+                <div id="PaginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPagina.IndicePagina - 1)">
+                    Anterior
+                </div>
+                <div id="SinPaginaPrevia" class="Boton-paginacion-deshabilitado">
+                    Anterior
+                </div>
+
+                <!-- Botones de número de página -->
+                <span id="TextoPaginacion" class="Texto-paginacion">  </span>
+
+                <!-- Botón siguiente -->
+                <div id="PaginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPagina.IndicePagina + 1)">
+                    Siguiente
+                </div>
+                <div id="SinPaginaSiguiente" class="Boton-paginacion-deshabilitado">
+                    Siguiente
+                </div>
+            </div>
+        </div>
+    }
 </body>
 
 <script>
@@ -59,5 +113,15 @@
     if (mensajeError) {
         alert(mensajeError);
         window.location.href = "/Home/Index";
+    }
+</script>
+
+<script>
+    if ('@Model.principalesGrupo' != "0") {
+        var resultadosPagina = paginar(paginaDefault);
+
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(resultadosPagina);
     }
 </script>
