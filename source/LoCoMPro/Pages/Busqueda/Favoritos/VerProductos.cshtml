@@ -1,0 +1,171 @@
+﻿@page
+@model LoCoMPro.Pages.Busqueda.Favoritos.VerProductosModel
+@{
+	ViewData["Title"] = "Productos favoritos en tienda";
+}
+
+<head>
+    <title>Productos favoritos en tienda</title>
+    <link rel="stylesheet" href="~/css/Pages/Busqueda/Favoritos/VerProductos.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <script>
+
+        function adaptarCaracteresEspeciales(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        function obtenerResultados() {
+            var resultadosAdaptados = adaptarCaracteresEspeciales('@Model.favoritos')
+            return JSON.parse(resultadosAdaptados);
+        }
+
+        // Cliente
+        if ('@Model.favoritos' != "Sin resultados") {
+            var resultados = obtenerResultados();
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
+    <script src="~/js/Pages/Busqueda/Favoritos/VerProductos/cliente.js" asp-append-version="true"></script>
+</head>
+<body>
+    <div id="ContenedorPrincipal" style="display: flex; justify-content: center;flex-direction: column;">
+        @if (Model.favoritos != "Sin resultados")
+        {
+            <!-- Entradas ocultas -->
+            <input type="hidden" value="@Model.tienda" id="Tienda"/>
+            <input type="hidden" value="@Model.provincia" id="Provincia"/>
+            <input type="hidden" value="@Model.canton" id="Canton"/>
+
+            <div class="Contendor">
+                <div class="InfoProducto">
+
+                    <div class="Contenedor-fila" style="align-items: center;">
+                        <div class="Contenedor-caja-texto">
+                            <!-- Nombre de la tienda -->
+                            <h2 class="TituloProducto">@Model.tienda</h2>
+
+                            <div class="InfoProductoColumnas">
+                                <div class="ContenedorInfoColumnas">
+                                    <!-- Nombre de la provincia -->
+                                    <div class="InfoColumnas">
+                                        <p><strong>Provincia:</strong> @Model.provincia</p>
+                                    </div>
+
+                                    <!-- Nombre del cantón -->
+                                    <div class="InfoColumnas">
+                                        <p><strong>Cantón:</strong> @Model.canton</p>
+                                    </div>
+
+                                    <!-- Precio total -->
+                                    <div class="InfoColumnas">
+                                        <p><strong>Precio total:</strong> @Model.precioTotal</p>
+                                    </div>
+
+                                    <!-- Distancia total -->
+                                    <div class="InfoColumnas">
+                                        <p><strong>Distancia total:</strong> @Model.distanciaTotal</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="Contenedor-fila">
+        
+                <!-- Tablas de resultados -->
+                <div class="Favoritos-tabla">
+                    <table>
+                        <caption style="display:none;">Tabla de favoritos</caption>
+
+                        <thead>
+                            <tr id="TitulosTabla">
+                                <th style="padding-left:10px;">
+                                    <!-- Columna con el nombre del producto -->
+                                    @Html.DisplayNameFor(model => model.productoFavoritoVM.producto)
+                                </th>
+                                <th style="padding-left:55px;">
+                                    <!-- Columna con el precio -->
+                                    @Html.DisplayNameFor(model => model.productoFavoritoVM.precio)
+                                </th>
+                                <th>
+                                    <!-- Columna con el nombre de la unidad -->
+                                    @Html.DisplayNameFor(model => model.productoFavoritoVM.unidad)
+                                </th>
+                                <th style="padding-left:10px;">
+                                    <!-- Columna con el nombre de la categoría -->
+                                    @Html.DisplayNameFor(model => model.productoFavoritoVM.categoria)
+                                </th>
+                                <th style ="padding-left:20px;">
+                                    <!-- Columna con el nombre de la marca -->
+                                    @Html.DisplayNameFor(model => model.productoFavoritoVM.marca)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="Favoritos-tabla-resultados" id="CuerpoResultados"> </tbody>
+                    </table>
+                </div>
+            </div>
+    }
+    else
+    {
+        <div class="Favoritos-contenedor-gif">
+            <!-- Logotipo de Penguin -->
+            <img src="~/img/Pinwino_triste.gif" alt="Pinwino triste" class="Favoritos-gif" id="PinwinoTriste">
+            <p class="Favoritos-texto">No hay resultados para su búsqueda</p>
+        </div>
+    }
+    </div>
+</body>
+
+@if (Model.favoritos != "Sin resultados")
+{
+    <!-- Paginación -->
+    <div class="Favoritos-contenedor-paginacion">
+        <div class="Favoritos-contenedor-caja-paginacion">
+            <!-- Botón anterior -->
+            <div id="PaginaPrevia" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="SinPaginaPrevia" class="Favoritos-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <!-- Botones de número de página -->
+            <span id="TextoPaginacion" class="Favoritos-texto-paginacion">  </span>
+
+            <!-- botón siguiente -->
+            <div id="PaginaSiguiente" class="Favoritos-boton-paginacion" onclick="pasarPagina(favoritosVM.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="SinPaginaSiguiente" class="Favoritos-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Script para mostrar un popUp y redireccionar -->
+<script>
+    var mensajeRedirect = "@ViewData["MensajeRedireccion"]";
+    if (mensajeRedirect) {
+        alert(mensajeRedirect);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<!-- Script para renderizar los resultados de la tabla inicialmente -->
+<script>
+    if ('@Model.favoritos' != "Sin resultados") {
+        var favoritosVM = paginar(paginaDefault);
+
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(favoritosVM);
+    }
+</script>

@@ -5,6 +5,7 @@ using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using LoCoMPro.Utils;
 
 namespace LoCoMPro.Pages.VerRegistros
 {
@@ -122,7 +123,7 @@ namespace LoCoMPro.Pages.VerRegistros
                     precio = group.Key.precio,
                     calificacion = group.Key.calificacion,
                     descripcion = group.Key.descripcion,
-                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
+                    fotografias = group.SelectMany(registro => registro.fotografias!).ToList()
                 })
              .OrderByDescending(r => r.creacion);
 
@@ -145,12 +146,12 @@ namespace LoCoMPro.Pages.VerRegistros
             IQueryable<VerRegistrosVM> registrosIQ = this.ObtenerRegistros();
 
             Registros = await registrosIQ.ToListAsync();
-            this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
+            this.resultadoRegistros = ControladorJson.ConvertirAJson(Registros);
 
             // Actualizar el atributo de fotografías para poder trabajar con todas las imagenes asociadas al registro
             var fotografiasEnlazadas = contexto.Fotografias
                 .AsEnumerable()
-                .Where(f => Registros.Any(r => r.fotografias.Contains(f)))
+                .Where(f => Registros.Any(r => r.fotografias!.Contains(f)))
                 .ToList();
 
             fotografias = fotografiasEnlazadas;

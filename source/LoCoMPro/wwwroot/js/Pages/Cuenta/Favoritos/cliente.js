@@ -269,9 +269,11 @@ function alternarCorazon(idIcono, filaEliminar) {
 
 function renderizarPinwinoTriste() {
     var filaDeContenedores = document.getElementById("ContenedorPrincipal");
+    var botonBusqueda = document.getElementById("BotonBusqueda");
     var tabla = document.getElementsByClassName("Favoritos-tabla");
     var paginacion = document.getElementsByClassName("Favoritos-contenedor-paginacion");
 
+    botonBusqueda.remove();
     for (var i = 0; i < paginacion.length; i++) {
         paginacion[i].remove();
     }

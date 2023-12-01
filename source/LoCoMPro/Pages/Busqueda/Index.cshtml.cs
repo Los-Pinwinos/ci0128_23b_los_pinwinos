@@ -57,7 +57,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombre = "",
                 canton = "",
-                fecha = new DateTime(),
+                fecha = DateTime.Now,
                 precio = 0,
                 marca = "",
                 provincia = "",

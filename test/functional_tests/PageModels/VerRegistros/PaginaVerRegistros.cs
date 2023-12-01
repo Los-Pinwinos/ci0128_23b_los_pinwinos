@@ -6,7 +6,7 @@ namespace LoCoMProTestFuncionales.PageModels.VerRegistros
 {
     public class PaginaVerRegistros : PaginaBase
     {
-
+        protected By iconoCorazon = By.Id("iconoCorazon");
         protected By checkboxDia = By.XPath("//div[1]/label/span");
         protected By checkboxSemana = By.XPath("//div[2]/label/span");
         protected By checkboxMes = By.XPath("//div[3]/label/span");
@@ -57,6 +57,26 @@ namespace LoCoMProTestFuncionales.PageModels.VerRegistros
             else
             {
                 return "";
+            }
+        }
+
+        public void AgregarProductoAFavoritos()
+        {
+            IWebElement corazon = driver.FindElement(this.iconoCorazon);
+            
+            String[] clases = corazon.GetAttribute("class").Split(" ");
+            if (!clases.Contains("corazon-lleno")) {
+                corazon.Click();
+            }
+        }
+
+        public void EliminarProductoDeFavoritos()
+        {
+            IWebElement corazon = driver.FindElement(this.iconoCorazon);
+
+            String[] clases = corazon.GetAttribute("class").Split(" ");
+            if (clases.Contains("corazon-lleno")) {
+                corazon.Click();
             }
         }
 

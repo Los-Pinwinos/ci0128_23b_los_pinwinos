@@ -63,6 +63,9 @@
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes">Registros reportados</a>
                                         <!-- Botón que lleva a la página de ver registros con precios anómalos" -->
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/OutliersPrecio">Precios anómalos</a>
+                                        <!-- Botón que lleva a la página de ver usuarios más reportados con el texto "Registros reportados" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportadores">Usuarios que más reportan</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportados">Usuarios más reportados</a>
                                     </div>
                                 </li>
                             }
@@ -85,7 +88,7 @@
                                     <!-- Botón que lleva a la página de aportes con el texto "Ver aportes" -->
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Aportes">Ver aportes</a>
                                     <!-- Botón que llevará a la página de productos favoritos con el texto "Favoritos" (se debe modificar) -->
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Favoritos">Favoritos</a>
+                                    <a class="nav-link text-dark" id="BotonFavoritosLayout" asp-area="" asp-page="/Cuenta/Favoritos">Favoritos</a>
                                     <!-- Botón que lleva a la página del perfil con el texto "Perfil" -->
                                     <a class="nav-link text-dark" id="BotonPerfilLayout" asp-page="/Cuenta/Perfil">Perfil</a>
                                     <!-- Botón para cerrar sesión (se renderiza como una vista parcial) -->

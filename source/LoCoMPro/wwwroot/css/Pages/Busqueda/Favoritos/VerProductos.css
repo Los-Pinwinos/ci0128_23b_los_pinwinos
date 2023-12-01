@@ -1,0 +1,351 @@
+﻿.InfoProducto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    background-color: white;
+    border: 2px solid #1A7254;
+    overflow: auto;
+    border-radius: 5px;
+    padding: 5px 10px;
+    max-width: 97%;
+    margin-bottom: 10px;
+}
+
+.TituloProducto {
+    font-family: Arial, sans-serif;
+    margin-left: 37%;
+    font-size: 24px;
+}
+
+.InfoProductoColumnas {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    width:90%;
+}
+
+.ContenedorInfoColumnas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+    margin: 10px 0;
+    width:100%;
+}
+
+.InfoColumnas {
+    width: calc(50vw - 100px);
+    margin-right: 30px;
+    margin-left: 30px;
+    text-align: left;
+    font-size: 16px;
+}
+
+
+.InfoColumnaNegrita {
+    width: 30%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.InfoColumn p {
+    font-family: Helvetica, sans-serif;
+}
+
+
+.precio {
+    text-align: right;
+    margin-right: 10px;
+}
+
+
+.precioAgrupado {
+    text-align: right;
+    margin-left: 25px;
+}
+
+
+table tbody td.elementos {
+    text-align: left;
+}
+
+.Contenedor {
+    position: absolute;
+    margin-bottom: 5px;
+    width: 1000px;
+    height: 100%;
+}
+
+.Contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+.Contenedor-caja-texto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    padding: 0px 6px;
+    font-size: 16px;
+    width: 100%;
+    height: 80%;
+}
+
+/* Contenedor de fila */
+.Favoritos-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Tabla */
+.Favoritos-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Tabla de resultados */
+.Favoritos-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    /* Thead th */
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+    }
+
+    /* Tbody td */
+    table tbody td {
+        background-color: #1A7254;
+        cursor: pointer;
+        text-align: left;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: none;
+        position: relative;
+    }
+        /* Tbody td ultimo */
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* Tbody td primero */
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+    /* Tbody fila */
+    table tbody tr {
+        color: white;
+        height: 30px;
+    }
+
+    /* Características de hover */
+    table td:not(.no-hover):hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -80%;
+        left: 35%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    table td::before {
+        content: "";
+    }
+
+.contenidoCeldaProducto {
+    padding-left: 10px;
+    min-width: 150px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaPrecio {
+    text-align: right;
+    min-width: 100px;
+    max-width: 100px;
+    margin-right:70px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaUnidad {
+    margin-right:20px;
+    min-width: 100px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaCategoria {
+    margin-left: 10px;
+    min-width: 120px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaMarca {
+    margin-left:20px;
+    min-width: 100px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Paginacion */
+
+/* Contenedor de paginacion */
+.Favoritos-contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor de caja de paginacion */
+.Favoritos-contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+/* Boton de paginacion */
+.Favoritos-boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+    /* Botón de paginacion al hacer hover */
+    .Favoritos-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    /* Bordes de boton de paginacion */
+    .Favoritos-boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Boton de paginacion deshabilitado */
+.Favoritos-boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+}
+
+    /* Bordes de boton de paginacion deshabilitado */
+    .Favoritos-boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+
+/* Texto en paginacion */
+.Favoritos-texto-paginacion {
+    margin: 0 10px;
+}
+
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
