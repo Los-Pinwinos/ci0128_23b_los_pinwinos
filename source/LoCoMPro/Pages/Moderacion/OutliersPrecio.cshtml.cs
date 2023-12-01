@@ -2,6 +2,7 @@ using LoCoMPro.Data;
 using LoCoMPro.Models;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
+using LoCoMPro.Utils;
 using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -34,7 +35,7 @@ namespace LoCoMPro.Pages.Moderacion
                 distrito = ""
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 8);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaOutliers", 8);
         }
 
         public IActionResult OnGet()
@@ -55,7 +56,7 @@ namespace LoCoMPro.Pages.Moderacion
             if (resultados.Count != 0)
             {
                 // Asignar data de JSON
-                this.outliers = JsonConvert.SerializeObject(resultados);
+                this.outliers = ControladorJson.ConvertirAJson(resultados);
             }
             else
             {
