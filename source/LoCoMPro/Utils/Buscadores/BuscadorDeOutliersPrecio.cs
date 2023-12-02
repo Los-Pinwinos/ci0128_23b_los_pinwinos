@@ -106,6 +106,7 @@ namespace LoCoMPro.Utils.Buscadores
                     || registrosProducto[i].distrito != registrosProdTienda[posUltimo].distrito
                     || i == (registrosProducto.Count - 1))
                 { // Se tiene la lista completa de los registros que se deben analizar
+                    registrosProdTienda.Add(registrosProducto[i]);
                     if (registrosProdTienda.Count > 4)
                     {  // Si es menor a 4, no se puede realizar el cálculo para saber si es outlier
                         encontrarOutliers(registrosProdTienda, registrosOutliers);
@@ -131,7 +132,7 @@ namespace LoCoMPro.Utils.Buscadores
             double desviacionEstandar = calcularDesviacionEstandar(registrosProducto, promedio);
             decimal q1 = calcularCuartil(registrosProducto, 1);
             decimal q3 = calcularCuartil(registrosProducto, 3);
-            decimal iqr = q3 - q1;
+            decimal iqr = q3 - q1;  // Rango intercuartílico
             decimal distanciaOutlier = 1.5m * iqr;  // Distancia necesaria para ser considerado un outlier
 
             // Recorrer los registros verificando si son outliers
@@ -163,13 +164,38 @@ namespace LoCoMPro.Utils.Buscadores
         private static decimal calcularCuartil(List<RegistroOutlierPrecioVM> registrosProducto, int cuartil)
         {
             // El primer cuartil es tal que el 25% de los datos son menores a él
+            // El segundo cuartil es la mediana
             // El tercer cuatil es tal que el 75% de los datos son menores a él
-            double percentil = (cuartil == 1) ? 0.25 : 0.75;
 
-            int termino = (int) (registrosProducto.Count * percentil);
-            decimal resultadoCuartil = (registrosProducto[termino].precio + registrosProducto[termino+1].precio) / 2;
+            int posCorte = registrosProducto.Count / 2;
+            decimal resultado = 0;
 
-            return resultadoCuartil;
+            switch(cuartil)
+            {
+                case 1:  // Se debe tomar la primera mitad de la lista
+                    resultado = resultadoCuartil(registrosProducto.Take(posCorte).ToList());
+                    break;
+                case 2:  // Se debe tomar la lista completa
+                    resultado = resultadoCuartil(registrosProducto);
+                    break;
+                case 3:  // Se debe tomar la segunda mitad de la lista
+                    resultado = resultadoCuartil(registrosProducto.Skip(posCorte).ToList());
+                    break;
+            }
+
+            return resultado;
+        }
+
+        private static decimal resultadoCuartil(List<RegistroOutlierPrecioVM> registros)
+        {
+            int posMitad = registros.Count / 2;
+            decimal resultado = registros[posMitad].precio;
+            if (registros.Count % 2 == 0)
+            {
+                resultado = (resultado + registros[posMitad - 1].precio) / 2;
+            }
+
+            return resultado;
         }
     }
 }
