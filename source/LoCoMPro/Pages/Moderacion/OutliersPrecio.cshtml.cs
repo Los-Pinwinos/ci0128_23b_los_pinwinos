@@ -65,41 +65,32 @@ namespace LoCoMPro.Pages.Moderacion
             return Page();
         }
 
-        public void OnGetElminarRegistros(string registros)
+        public void OnGetEliminarRegistros(string registrosStr)
         {
-            // TODO(Angie): hacer
-            Console.WriteLine("on get eliminar registros");
-        }
-
-        /*public void OnGetEliminarRegistro(string fechaHora, string usuario)
-        {
-            if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
+            if (registrosStr != null)
             {
-                if (!fechaHora.Contains("."))
+                List<RegistroEliminarVM> registros = JsonConvert.DeserializeObject<List<RegistroEliminarVM>>(registrosStr);
+                if (registros != null && registros.Count > 0)
                 {
-                    fechaHora += ".0000000";
-                }
-                else
-                {
-                    for (int i = fechaHora.IndexOf('.'); i <= fechaHora.IndexOf('.') + 7; i++)
+                    try
                     {
-                        if (i == fechaHora.Length)
+                        for (int registro = 0; registro < registros.Count; ++registro)
                         {
-                            fechaHora += "0";
+                            // Obtener el registro de la base de datos
+                            Registro? registroEliminar = contexto.Registros
+                                .FirstOrDefault(r => r.creacion == registros[registro].fecha && r.usuarioCreador == registros[registro].usuario);
+                            if (registroEliminar != null)
+                            {  // Ocultar el registro
+                                registroEliminar.visible = false;
+                                this.contexto.SaveChanges();
+                            }
                         }
+                    } catch (Exception ex)
+                    {
+                        Console.Error.WriteLine("Error al intentar eliminar registros inválidos: " + ex);
                     }
                 }
-                DateTime fecha = DateTime.ParseExact(fechaHora, "yyyy-MM-ddTHH:mm:ss.fffffff", System.Globalization.CultureInfo.InvariantCulture);
-
-                // Obtener el registro de la base de datos
-                Registro? registro = contexto.Registros.FirstOrDefault(r => r.creacion == fecha && r.usuarioCreador == usuario);
-                if (registro != null)
-                {
-                    // Ocultar el registro
-                    registro.visible = false;
-                    contexto.SaveChanges();
-                }
             }
-        }*/
+        }
     }
 }

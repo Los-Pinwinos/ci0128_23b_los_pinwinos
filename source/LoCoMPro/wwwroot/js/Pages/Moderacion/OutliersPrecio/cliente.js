@@ -171,10 +171,8 @@ function renderizarTabla(datos) {
                     // Hay que agregarlo
                     filasEliminar.push(filaAEliminar);
                 } else {
-                    // TODO(Angie): probar
-
                     // Hay que borrarlo
-                    filasEliminar = filasEliminar.filter(fila => fila.rowElement !== filaAEliminar);
+                    filasEliminar = filasEliminar.filter(fila => fila !== filaAEliminar);
                 }
             });
 
@@ -216,11 +214,9 @@ function renderizarTabla(datos) {
     }
 }
 
-// TODO(Angie): cambiar
 // Función que devuelve una lista eliminando el elemento seleccionado
 function removerElementoDeResultados(datos, creacion, usuarioCreador) {
     lista = []
-
     for (var dato in datos) {
         if (typeof datos[dato].fecha !== 'undefined' && datos[dato].fecha !== "" &&
                 datos[dato].usuario !== 'undefined' && datos[dato].usuario !== "" &&
@@ -228,57 +224,66 @@ function removerElementoDeResultados(datos, creacion, usuarioCreador) {
             lista.push(datos[dato]);
         }
     }
-
     return lista;
 }
 
+function confirmarAccion() {
+    if (filasEliminar.length > 0) {
+        if (confirm("¿Está seguro que desea eliminar los registros seleccionados?\n\n(Esta acción tendrá consecuencias)")) {
+            eliminarRegistros();
+        }
+    } else {
+        alert("Debe seleccionar los registros que desea eliminar");
+    }
+}
+
 function eliminarRegistros() {
+    var listaEliminar = [];
+
     // Deshabilitar paginacion momentáneamente
     paginacionHabilitada = false;
-
-    var registrosParaEliminar = [];
 
     for (var indice = 0; indice < filasEliminar.length; ++indice) {
         var fecha = filasEliminar[indice].dataset.fecha;
         var usuario = filasEliminar[indice].dataset.usuario;
 
-        // Recoger la fila para eliminar
+        numeroPagina = registrosPag.IndicePagina;
+        // Remover la fila
         filasEliminar[indice].remove();
-        resultados = removerElementoDeResultados(resultados, fechaEliminar, usuarioEliminar);
-        registrosParaEliminar.push({fecha, usuario});
-    }
-
-    // Verificar si quedan outliers
-    if (resultados.length > 0) {
-        // Eliminar de registrosPag solo las combinaciones únicas
-        for (var i = 0; i < registrosParaEliminar.length; ++i) {
-            var fechaEliminar = registrosParaEliminar[i].fecha;
-            var usuarioEliminar = registrosParaEliminar[i].usuario;
-            registrosPag = removerElementoDeResultados(registrosPag, fechaEliminar, usuarioEliminar);
+        // Remover el outlier de los resultados
+        resultados = removerElementoDeResultados(resultados, fecha, usuario);
+        // Verificar si quedan outliers
+        if (resultados.length > 0) {
+            registrosPag = removerElementoDeResultados(registrosPag, fecha, usuario);
+            // Paginar la página actual o la anterior si ya no quedan resultados en la actual
+            registrosPag = registrosPag.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
+            // Renderizar
+            renderizarPaginacion();
+            renderizarTabla(registrosPag);
+        } else {
+            // Terminó de revisar
+            renderizarPinwinoFeliz();
         }
 
-        numeroPagina = registrosPag.IndicePagina;
-
-        // Paginar la página actual o la anterior si ya no quedan resultados en la actual
-        registrosPag = registrosPag.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
-        // Renderizar
-        renderizarPaginacion();
-        renderizarTabla(registrosPag);
-    } else {
-        renderizarPinwinoTriste();
+        listaEliminar.push({ fecha, usuario });
     }
 
-    //fetch(`/Cuenta/Favoritos?handler=RemoverDeFavoritos&nombreProducto=${producto}`);
+    const listaEliminarStr = JSON.stringify(listaEliminar);
+    fetch(`/Moderacion/OutliersPrecio?handler=EliminarRegistros&registrosStr=${listaEliminarStr}`);
 
     // Volver a habilitar paginacion
     paginacionHabilitada = true;
+
+    // Se limpia
+    filasEliminar = [];
 }
 
-
 function renderizarPinwinoFeliz() {
-    var filaDeContenedores = document.getElementById("ContenedorPrincipal");
+    // Borrar lo que hay
+    var contenedorPrincipal = document.getElementById("ContenedorPrincipal");
     var tabla = document.getElementsByClassName("Tabla");
     var paginacion = document.getElementsByClassName("Contenedor-paginacion");
+    var boton = document.getElementById("Eliminar");
 
     for (var i = 0; i < paginacion.length; i++) {
         paginacion[i].remove();
@@ -288,9 +293,11 @@ function renderizarPinwinoFeliz() {
         tabla[i].remove();
     }
 
+    boton.remove();
+
+    // Agregar lo nuevo
     var contenedorDiv = document.createElement("div");
     contenedorDiv.className = "Contenedor-gif";
-    contenedorDiv.id = "ContenedorGif";
 
     var imagenGif = document.createElement("img");
     imagenGif.src = "/img/Pinwino_feliz.gif";
@@ -305,7 +312,7 @@ function renderizarPinwinoFeliz() {
     contenedorDiv.appendChild(imagenGif);
     contenedorDiv.appendChild(parrafo);
 
-    filaDeContenedores.appendChild(contenedorDiv);
+    contenedorPrincipal.appendChild(contenedorDiv);
 }
 
 // Pasar pagina
