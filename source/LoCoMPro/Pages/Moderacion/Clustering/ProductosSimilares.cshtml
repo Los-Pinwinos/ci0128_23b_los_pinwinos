@@ -24,14 +24,14 @@
         }
 
         // Obtener resultados de busqueda principal
-        function obtenerResultados() {
-            var resultadosDecodificados = traducirCodificacion('@Model.principalesGrupo');
+        function obtenerResultados(cadena) {
+            var resultadosDecodificados = traducirCodificacion(cadena);
             return JSON.parse(resultadosDecodificados);
         }
 
         // Cliente
         if ('@Model.principalesGrupo' != "0") {
-            var resultados = obtenerResultados();
+            var resultados = obtenerResultados('@Model.principalesGrupo');
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;
         }
@@ -106,6 +106,7 @@
             </div>
         </div>
     }
+    <label id="escondido" style="display:none;">@Model.gruposJson</label>
 </body>
 
 <script>

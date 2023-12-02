@@ -11,4 +11,10 @@
 
 <body>
     <label>Test</label>
+    @if (@Model.resultadosJson != null)
+    {
+        <label>@Model.resultadosJson</label>
+
+        <label>@Model.nombreProducto</label>
+    }
 </body>

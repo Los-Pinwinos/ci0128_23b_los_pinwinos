@@ -12,6 +12,7 @@ namespace LoCoMPro.Utils.Buscadores
     {
         protected readonly LoCoMProContext contexto;
         private Agrupador agrupador;
+        private Dictionary<string, List<string>>? resultadosCluster { get; set; }
 
         public BuscadorDeAgrupaciones(LoCoMProContext contexto)
         {
@@ -22,13 +23,13 @@ namespace LoCoMPro.Utils.Buscadores
         public IQueryable<ProductosSimilaresVM> buscar()
         {
             var nombreProductos = this.buscarTodos();
-            var resultadosCluster = agrupador.agrupar(nombreProductos);
-            if (resultadosCluster == null || resultadosCluster.Count == 0)
+            this.resultadosCluster = agrupador.agrupar(nombreProductos);
+            if (this.resultadosCluster == null || this.resultadosCluster.Count == 0)
             {
                 return Enumerable.Empty<ProductosSimilaresVM>().AsQueryable();
                 
             }
-            return this.obtenerPrimeros(resultadosCluster);
+            return this.obtenerPrimeros(this.resultadosCluster);
         }
 
         private List<string> buscarTodos()
@@ -55,6 +56,15 @@ namespace LoCoMPro.Utils.Buscadores
                 }).AsQueryable();
 
             return resultadosIQ;
+        }
+
+        public Dictionary<string, List<string>> getResultadosCluster()
+        {
+            if (this.resultadosCluster == null)
+            {
+                return new Dictionary<string, List<string>>();
+            }
+            return this.resultadosCluster;
         }
     }
 }

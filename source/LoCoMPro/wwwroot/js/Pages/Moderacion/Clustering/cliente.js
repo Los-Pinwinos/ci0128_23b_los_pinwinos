@@ -150,7 +150,7 @@ function renderizarTabla(resultados) {
 
             nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
             categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
-            marca = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaMarca");
+            marca = crearCeldaContenido(resultados[actual].nombreMarca, "contenidoCeldaMarca");
             unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
 
             fila.appendChild(nombre);
@@ -161,4 +161,19 @@ function renderizarTabla(resultados) {
             tabla.appendChild(fila);
         }
     }
+    establecerRedireccion();
+}
+
+function establecerRedireccion() {
+    diccionarioReenviar = document.getElementById("escondido").textContent;
+    document.addEventListener("click", function () {
+        const filas = document.querySelectorAll(".result-row");
+
+        filas.forEach(fila => {
+            fila.addEventListener("click", function () {
+                const nombreProducto = fila.querySelector("td:nth-child(1)").textContent;
+                window.location.href = `ResultadoProductosSimilares?resultadosJson=${diccionarioReenviar}&nombreProducto=${nombreProducto}`;
+            });
+        });
+    });
 }

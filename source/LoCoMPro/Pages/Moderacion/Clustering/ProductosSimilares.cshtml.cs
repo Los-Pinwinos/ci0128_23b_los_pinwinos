@@ -13,6 +13,7 @@ namespace LoCoMPro.Pages.Moderacion
         protected readonly LoCoMProContext contexto;
         protected readonly IConfiguration configuracion;
         public string? principalesGrupo;
+        public string? gruposJson;
         public int paginaDefault { get; set; }
         public int resultadosPorPagina { get; set; }
         public ProductosSimilaresVM productosSimilaresVM { get; set; }
@@ -38,15 +39,18 @@ namespace LoCoMPro.Pages.Moderacion
         {
             if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("moderador"))
             {
-                IBuscador<ProductosSimilaresVM> buscador = new BuscadorDeAgrupaciones(this.contexto);
+                BuscadorDeAgrupaciones buscador = new BuscadorDeAgrupaciones(this.contexto);
                 IQueryable<ProductosSimilaresVM> busqueda = buscador.buscar();
                 List<ProductosSimilaresVM> resultados = busqueda.ToList();
                 // Se asume que no hay resultados
                 this.principalesGrupo = "0";
-                if (resultados.Count > 0)
+                this.gruposJson = "0";
+                var resultadosCluster = buscador.getResultadosCluster();
+                if (resultados.Count > 0 && resultadosCluster != null && resultadosCluster.Count > 0)
                 {
-                    // Se actualiza si hay resultados
+                    // Se actualizan si hay resultados
                     this.principalesGrupo = ControladorJson.ConvertirAJson(resultados);
+                    this.gruposJson = ControladorJson.ConvertirAJson(resultadosCluster);
                 }
             }
             else

@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Moderacion\Clustering\" />
     <Folder Include="SQLScripts\" />
     <Folder Include="Utils\Validadores\" />
     <Folder Include="wwwroot\js\Pages\DetallesRegistro\" />
