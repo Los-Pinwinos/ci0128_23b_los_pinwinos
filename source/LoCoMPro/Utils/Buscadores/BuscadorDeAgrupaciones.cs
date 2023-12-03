@@ -50,9 +50,10 @@ namespace LoCoMPro.Utils.Buscadores
                 .Select(producto => new ProductosSimilaresVM
                 {
                     nombreProducto = producto.nombre,
-                    nombreCategoria = producto.categoria.nombre,
-                    nombreMarca = producto.marca,
-                    unidad = producto.unidad.nombre
+                    nombreCategoria = producto.nombreCategoria,
+                    nombreMarca = !string.IsNullOrEmpty(producto!.marca) ?
+                        producto!.marca : "Sin marca",
+                    unidad = producto.nombreUnidad
                 }).AsQueryable();
 
             return resultadosIQ;
@@ -75,14 +76,14 @@ namespace LoCoMPro.Utils.Buscadores
                 .Select(producto => new ProductosSimilaresVM
                 {
                     nombreProducto = producto.nombre,
-                    nombreCategoria = producto.categoria.nombre,
-                    nombreMarca = producto.marca,
-                    unidad = producto.unidad.nombre
+                    nombreCategoria = producto.nombreCategoria,
+                    nombreMarca = !string.IsNullOrEmpty(producto!.marca) ?
+                        producto!.marca : "Sin marca",
+                    unidad = producto.nombreUnidad
                 }).ToList();
                 resultado.Add(llave, listaVM);
             }
             return resultado;
         }
-
     }
 }

@@ -232,3 +232,12 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* Checkboxes */
+contenidoCeldaCheckbox {
+    width: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 30%;
+}

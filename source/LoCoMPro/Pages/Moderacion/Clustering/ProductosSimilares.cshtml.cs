@@ -18,7 +18,6 @@ namespace LoCoMPro.Pages.Moderacion
         public int resultadosPorPagina { get; set; }
         public ProductosSimilaresVM productosSimilaresVM { get; set; }
 
-
         // Constructor
         public ProductosSimilares(LoCoMProContext contexto, IConfiguration configuracion)
         {
