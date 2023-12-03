@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using LoCoMProTestFuncionales.PageModels.Busqueda;
+using LoCoMProTestFuncionales.PageModels.DetallesRegistros;
 
 namespace LoCoMProTestFuncionales.PageModels.VerRegistros
 {
@@ -11,6 +11,7 @@ namespace LoCoMProTestFuncionales.PageModels.VerRegistros
         protected By checkboxSemana = By.XPath("//div[2]/label/span");
         protected By checkboxMes = By.XPath("//div[3]/label/span");
         protected By checkboxAno = By.XPath("//div[4]/label/span");
+        protected By cuerpoDeTablaDeResultados = By.TagName("tbody");
         protected List<By> titulos;
 
         public PaginaVerRegistros(IWebDriver driver) : base(driver)
@@ -78,6 +79,19 @@ namespace LoCoMProTestFuncionales.PageModels.VerRegistros
             if (clases.Contains("corazon-lleno")) {
                 corazon.Click();
             }
+        }
+
+        public PaginaDetallesRegistro SeleccionarResultado(int resultado)
+        {
+            IWebElement cuerpoTabla = driver.FindElement(this.cuerpoDeTablaDeResultados);
+
+            IList<IWebElement> filas = cuerpoTabla.FindElements(By.TagName("tr"));
+
+            if (filas.Count > resultado)
+            {
+                filas[resultado].Click();
+            }
+            return new PaginaDetallesRegistro(this.driver);
         }
 
         new public string ObtenerURL()

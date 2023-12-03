@@ -1,8 +1,6 @@
 using LoCoMPro.ViewModels.Tienda;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
