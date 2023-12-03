@@ -30,7 +30,7 @@
         }
 
         // Cliente
-        if ('@Model.principalesGrupo' != "0") {
+        if ('@Model.principalesGrupo' !== "0") {
             var resultados = obtenerResultados('@Model.principalesGrupo');
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;

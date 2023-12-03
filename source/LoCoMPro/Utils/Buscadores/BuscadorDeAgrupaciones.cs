@@ -58,13 +58,31 @@ namespace LoCoMPro.Utils.Buscadores
             return resultadosIQ;
         }
 
-        public Dictionary<string, List<string>> getResultadosCluster()
+        public Dictionary<string, List<ProductosSimilaresVM>> obtenerResultadosCluster()
         {
+            Dictionary<string, List<ProductosSimilaresVM>> resultado = new Dictionary<string, List<ProductosSimilaresVM>>();
             if (this.resultadosCluster == null)
             {
-                return new Dictionary<string, List<string>>();
+                return resultado;
             }
-            return this.resultadosCluster;
+
+            foreach (string llave in this.resultadosCluster.Keys)
+            {
+                List<string> listaBuscar = resultadosCluster[llave];
+                listaBuscar.Add(llave);
+                List<ProductosSimilaresVM> listaVM = this.contexto.Productos
+                .Where(producto => listaBuscar.Contains(producto.nombre))
+                .Select(producto => new ProductosSimilaresVM
+                {
+                    nombreProducto = producto.nombre,
+                    nombreCategoria = producto.categoria.nombre,
+                    nombreMarca = producto.marca,
+                    unidad = producto.unidad.nombre
+                }).ToList();
+                resultado.Add(llave, listaVM);
+            }
+            return resultado;
         }
+
     }
 }

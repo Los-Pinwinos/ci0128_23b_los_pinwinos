@@ -45,7 +45,7 @@ namespace LoCoMPro.Pages.Moderacion
                 // Se asume que no hay resultados
                 this.principalesGrupo = "0";
                 this.gruposJson = "0";
-                var resultadosCluster = buscador.getResultadosCluster();
+                var resultadosCluster = buscador.obtenerResultadosCluster();
                 if (resultados.Count > 0 && resultadosCluster != null && resultadosCluster.Count > 0)
                 {
                     // Se actualizan si hay resultados

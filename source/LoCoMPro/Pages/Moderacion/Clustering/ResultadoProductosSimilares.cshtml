@@ -7,11 +7,32 @@
 <head>
     <!-- Título de la pagina -->
     <title>Productos Similares</title>
+    <script>
+        paginacionHabilitada = true;
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados(cadena) {
+            var resultadosDecodificados = traducirCodificacion(cadena);
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.resultadosJson' !== null && 'Model.nombreProducto' !== null) {
+            var resultados = obtenerResultados('@Model.resultadosJson');
+        }
+    </script>
 </head>
 
 <body>
     <label>Test</label>
-    @if (@Model.resultadosJson != null)
+    @if (@Model.resultadosJson != null && Model.nombreProducto != null)
     {
         <label>@Model.resultadosJson</label>
 
