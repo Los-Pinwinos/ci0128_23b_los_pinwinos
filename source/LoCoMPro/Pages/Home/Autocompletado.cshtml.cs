@@ -9,18 +9,16 @@ namespace LoCoMPro.Pages.Home
 
         public Autocompletado(Data.LoCoMProContext contexto_base)
         {
-            this.contexto = contexto_base;
+            contexto = contexto_base;
         }
         public JsonResult OnGet(string term)
         {
-            IList<string> resultados = new List<string>();
-
-            resultados = contexto.Productos
-                .Where(p => p.marca.StartsWith(term))
-                .Select(p => p.marca)
-                .Distinct()
-                .OrderBy(p => p)
-                .ToList();
+            IList<string?> resultados = this.contexto.Productos
+                                            .Where(p => p.marca!.StartsWith(term))
+                                            .Select(p => p.marca)
+                                            .Distinct()
+                                            .OrderBy(p => p)
+                                            .ToList();
 
             return new JsonResult(resultados);
         }

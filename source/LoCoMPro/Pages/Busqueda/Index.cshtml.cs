@@ -85,8 +85,7 @@ namespace LoCoMPro.Pages.Busqueda
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
                 // Asignar data de JSON
-                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
-
+                this.resultadosBusqueda = ControladorJson.ConvertirAJson(busqueda);
             }
             return Page();
         }

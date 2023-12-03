@@ -6,7 +6,7 @@ namespace LoCoMPro.Utils
     // Clase que permite parsear a formato JSON
     public static class ControladorJson
     {
-        private static string AgregarCaracteresDeEscape(string json)
+        private static string AgregarCaracteresEspeciales(string json)
         {
             // Duplicar el carácter de escape '\'
             json = json.Replace("\\", "\\\\");
@@ -17,12 +17,15 @@ namespace LoCoMPro.Utils
                        .Replace("\t", "\\t")
                        .Replace("\r", "\\r");
 
+            // Duplicar los caracteres de string
+            json = json.Replace("\"", "\\\"");
+
             return json;
         }
         public static string ConvertirAJson(object? objecto)
         {
             string resultadoParseado = JsonConvert.SerializeObject(objecto);
-            return AgregarCaracteresDeEscape(resultadoParseado);
+            return AgregarCaracteresEspeciales(resultadoParseado);
         }
     }
 }

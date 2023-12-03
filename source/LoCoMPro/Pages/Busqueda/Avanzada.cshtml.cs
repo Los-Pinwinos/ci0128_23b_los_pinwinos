@@ -3,7 +3,7 @@ using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Busqueda;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
-using Newtonsoft.Json;
+using LoCoMPro.Utils;
 using LoCoMPro.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +26,7 @@ namespace LoCoMPro.Pages.Busqueda
         [BindProperty(SupportsGet = true)]
         public string? canton { get; set; }
         public IList<string> resultadosAutocompletado { get; set; }
-        public IList<Provincia>? provincias;
+        public IList<Provincia>? provincias { get; set; }
         public int buscarPorCanton { get; set; }
 
         private void InicializarAvanzado()
@@ -35,6 +35,7 @@ namespace LoCoMPro.Pages.Busqueda
             this.marca = "";
             this.provincia = "";
             this.canton = "";
+            this.resultadosAutocompletado = new List<string>();
             this.provincias = new List<Provincia>();
             this.buscarPorCanton = 0;
         }
@@ -68,7 +69,7 @@ namespace LoCoMPro.Pages.Busqueda
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
                 // Asignar data de JSON
-                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
+                this.resultadosBusqueda = ControladorJson.ConvertirAJson(busqueda);
                 if (canton != null)
                 {
                     buscarPorCanton = 1;
@@ -79,8 +80,8 @@ namespace LoCoMPro.Pages.Busqueda
 
         public async Task<IActionResult> OnPostAutocompletar(string hilera)
         {
-            List<string> resultados = await contexto.Productos
-                .Where(p => p.marca.StartsWith(hilera))
+            List<string?> resultados = await contexto.Productos
+                .Where(p => p.marca!.StartsWith(hilera))
                 .Select(p => p.marca)
                 .Distinct()
                 .OrderBy(p => p)

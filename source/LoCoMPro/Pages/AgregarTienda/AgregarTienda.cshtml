@@ -34,9 +34,9 @@
                     <label for="Provincia">Provincia:</label>
                     <select id="Provincia" name="Provincia" class="Ubicacion-comboBox">
                         <!-- Agregar todas las provincias como opciones -->
-                        @foreach (var prov in Model.ListaProvincias)
+                        @foreach (var option in Model.ListaProvincias!.Select(provincia => new SelectListItem { Value = provincia.nombre, Text = provincia.nombre }))
                         {
-                            <option value="@prov.nombre">@prov.nombre</option>
+                            <option value="@option.Value">@option.Text</option>
                         }
                     </select>
                 </div>
@@ -54,7 +54,7 @@
                 <input type="hidden" id="Actualizar" name="Actualizar" onclick="colocar();">
                 <!-- Botón de búsqueda -->
                 <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
-                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
+                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" alt="Buscar" />
                 </button>
             </div>
 
