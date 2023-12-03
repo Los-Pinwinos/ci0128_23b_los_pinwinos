@@ -65,6 +65,9 @@ namespace LoCoMPro.Data
 
                 // Cargar registros base
                 DBInitializer.CargarRegistros(contexto);
+
+                // Cargar calificaciones base
+                DBInitializer.CargarCalificaciones(contexto);
             }
         }
 
@@ -257,6 +260,23 @@ namespace LoCoMPro.Data
             if (registros != null)
             {
                 contexto.Registros.AddRange(registros);
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void CargarCalificaciones(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Calificaciones.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var calificaciones = JsonConvert.DeserializeObject<Calificacion[]>(datosJson);
+
+            // Agregar los datos
+            if (calificaciones != null)
+            {
+                contexto.Calificaciones.AddRange(calificaciones);
                 contexto.SaveChanges();
             }
         }
