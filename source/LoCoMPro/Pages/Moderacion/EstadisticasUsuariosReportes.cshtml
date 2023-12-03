@@ -110,6 +110,13 @@
     </div>
 }
 
+<script>
+    var mensajeError = "@ViewData["MensajeError"]";
+    if (mensajeError) {
+        alert(mensajeError);
+        window.location.href = "/Home/Index";
+    }
+</script>
 
 <script>
     var resultadosPaginados = paginar(paginaDefault);
