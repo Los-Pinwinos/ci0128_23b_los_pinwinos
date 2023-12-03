@@ -7,6 +7,7 @@ using LoCoMPro.ViewModels.Moderacion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using LoCoMPro.Utils.SQL;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -69,7 +70,7 @@ namespace LoCoMPro.Pages.Moderacion
         {
             if (registrosStr != null)
             {
-                List<RegistroEliminarVM> registros = JsonConvert.DeserializeObject<List<RegistroEliminarVM>>(registrosStr);
+                List<RegistroEliminarVM>? registros = JsonConvert.DeserializeObject<List<RegistroEliminarVM>>(registrosStr);
                 if (registros != null && registros.Count > 0)
                 {
                     try
@@ -83,6 +84,8 @@ namespace LoCoMPro.Pages.Moderacion
                             {  // Ocultar el registro
                                 registroEliminar.visible = false;
                                 this.contexto.SaveChanges();
+
+                                actualizarCalificacion(registroEliminar);
                             }
                         }
                     } catch (Exception ex)
@@ -91,6 +94,21 @@ namespace LoCoMPro.Pages.Moderacion
                     }
                 }
             }
+        }
+
+        public void actualizarCalificacion(Registro registroEliminar)
+        {
+            // Actualizar la calificación del usuario
+            ControladorComandosSql comandoActualizarUsuario = new();
+            comandoActualizarUsuario.ConfigurarNombreComando("actualizarCalificacionDeUsuario");
+            comandoActualizarUsuario.ConfigurarParametroComando("nombreDeUsuario", registroEliminar.usuarioCreador);
+            comandoActualizarUsuario.EjecutarProcedimiento();
+
+            // Actualizar el rol de moderador
+            ControladorComandosSql controlador = new();
+            controlador.ConfigurarNombreComando("actualizarModeracion");
+            controlador.ConfigurarParametroComando("nombreUsuario", registroEliminar.usuarioCreador);
+            controlador.EjecutarProcedimiento();
         }
     }
 }

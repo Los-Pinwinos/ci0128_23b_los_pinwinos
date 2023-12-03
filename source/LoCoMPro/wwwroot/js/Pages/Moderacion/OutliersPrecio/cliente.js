@@ -163,16 +163,22 @@ function renderizarTabla(datos) {
 
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.id = 'checkbox_' + dato;
+            checkbox.id = 'checkbox_' + registrosPag.IndicePagina + '_' + dato;
+
+            // Si ya había sido seleccionado, se indica
+            checkbox.checked = (localStorage.getItem(checkbox.id) === 'true');
+
             checkbox.addEventListener('click', function (evento) {
                 var checkboxCambiado = evento.target;
                 var filaAEliminar = checkboxCambiado.closest("tr");
                 if (checkboxCambiado.checked) {
                     // Hay que agregarlo
                     filasEliminar.push(filaAEliminar);
+                    localStorage.setItem(checkboxCambiado.id, 'true');
                 } else {
                     // Hay que borrarlo
-                    filasEliminar = filasEliminar.filter(fila => fila !== filaAEliminar);
+                    filasEliminar = filasEliminar.filter(fila => fila.id !== filaAEliminar.id);
+                    localStorage.removeItem(checkboxCambiado.id);
                 }
             });
 
@@ -238,6 +244,9 @@ function confirmarAccion() {
 }
 
 function eliminarRegistros() {
+    // Se limpia el storage local
+    localStorage.clear();
+
     var listaEliminar = [];
 
     // Deshabilitar paginacion momentáneamente
@@ -274,7 +283,7 @@ function eliminarRegistros() {
     // Volver a habilitar paginacion
     paginacionHabilitada = true;
 
-    // Se limpia
+    // Se limpia el arreglo
     filasEliminar = [];
 }
 

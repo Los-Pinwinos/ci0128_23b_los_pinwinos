@@ -68,7 +68,7 @@ table {
         border-radius: 4px;
         top: -80%;
         left: 35%;
-        transform: translateX(-50%);
+        transform: translateX(-25%);
         white-space: nowrap;
         z-index: 1;
     }
@@ -91,6 +91,7 @@ table {
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .contenidoCeldaTienda {
@@ -111,7 +112,6 @@ table {
 
 .contenidoCeldaCanton {
     width: 100px;
-    margin-left: 10px;
     overflow-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,7 +120,7 @@ table {
 
 .contenidoCeldaPrecio {
     text-align: right;
-    width: 80px;
+    width: 85px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -130,7 +130,7 @@ table {
 
 .contenidoCeldaMinimo {
     text-align: right;
-    width: 80px;
+    width: 85px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -140,12 +140,13 @@ table {
 
 .contenidoCeldaMaximo {
     text-align: right;
-    width: 80px;
+    width: 85px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 1%;
+    padding-right: 5%;
 }
 
 .contenidoCeldaDesviacion {
@@ -160,7 +161,7 @@ table {
 
 .contenidoCeldaPromedio {
     text-align: right;
-    width: 80px;
+    width: 85px;
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -174,6 +175,7 @@ table {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: -2%;
 }
 
 .Contenedor-caja-paginacion {
@@ -184,7 +186,6 @@ table {
     border-radius: 50px;
     padding: 5px;
     position: relative;
-    margin-top: 2%;
 }
 
 .Boton-paginacion {
@@ -327,7 +328,7 @@ table {
     font-size: 16px;
     -ms-transform: translate(-50%, 0%);
     transform: translate(-50%, 0%);
-    margin-top: 1%;
+    margin-top: 3%;
     align-items: center;
     position: relative;
     left: 50%;

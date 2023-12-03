@@ -54,15 +54,15 @@
                                     <!-- Columna con el nombre -->
                                     @Html.DisplayNameFor(model => model.registrosVM.producto)
                                 </th>
-                                <th>
+                                <th style="padding-left:42px;">
                                     <!-- Columna con el precio -->
                                     @Html.DisplayNameFor(model => model.registrosVM.precio)
                                 </th>
-                                <th>
+                                <th style="padding-left:32px;">
                                     <!-- Columna con el precio minimo -->
                                     @Html.DisplayNameFor(model => model.registrosVM.minimo)
                                 </th>
-                                <th>
+                                <th style="padding-left:25px;">
                                     <!-- Columna con el precio maximo -->
                                     @Html.DisplayNameFor(model => model.registrosVM.maximo)
                                 </th>
@@ -70,7 +70,7 @@
                                     <!-- Columna con la desviación estándar del precio -->
                                     @Html.DisplayNameFor(model => model.registrosVM.desviacionEstandar)
                                 </th>
-                                <th>
+                                <th style="padding-left:15px;">
                                     <!-- Columna con el promedio del precio -->
                                     @Html.DisplayNameFor(model => model.registrosVM.promedio)
                                 </th>
@@ -136,6 +136,9 @@
 <!-- Script para renderizar los resultados de la tabla inicialmente -->
 <script>
     if ('@Model.outliers' != "Sin resultados") {
+        // Se limpia el storage local
+        localStorage.clear();
+
         var registrosPag = paginar(paginaDefault);
 
         // Renderizar
