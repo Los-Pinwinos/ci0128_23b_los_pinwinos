@@ -213,14 +213,14 @@ begin
 		if @anteriorExiste is not null and @usuarioExiste is null begin
 			-- Desactivar la verificación de restricciones para
 			-- ejecutar las modificaciones en las tablas
-			alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador
-			alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador
-			alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador
-			alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
-			alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador
-			alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
-			alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte
-			alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario
+			alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador;
+			alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+			alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador;
+			alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+			alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario;
 
 			update Usuario
 			set nombreDeUsuario = @nuevoNombre
@@ -259,27 +259,32 @@ begin
 			where nombreUsuario = @anteriorNombre;
 
 			-- Reactivar la verificación de restricciones en las tablas
-			alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador
-			alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
-			alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador
-			alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
-			alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador
-			alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
-			alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte
-			alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario
+			alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador;
+			alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+			alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+			alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador;
+			alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+			alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario;
 		end
+
+		-- Terminar la transacción
+		commit;
+
 	end try
 	begin catch
 		rollback;
+
 		-- Reactivar la verificación de restricciones en las tablas
-		alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador
-		alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
-		alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador
-		alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
-		alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador
-		alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
-		alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte
-		alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario
+		alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador;
+		alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+		alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+		alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+		alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador;
+		alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+		alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+		alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario;
 	end catch;
 end;
 

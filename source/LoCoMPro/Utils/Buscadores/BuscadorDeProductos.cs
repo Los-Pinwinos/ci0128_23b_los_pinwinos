@@ -47,8 +47,7 @@ namespace LoCoMPro.Utils.Buscadores
                     r.productoAsociado,
                     r.nombreTienda,
                     r.nombreProvincia,
-                    r.nombreCanton,
-                    r.nombreDistrito
+                    r.nombreCanton
                 })
                 .Select(group => new BusquedaVM
                 {
