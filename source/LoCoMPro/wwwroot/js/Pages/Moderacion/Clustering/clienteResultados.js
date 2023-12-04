@@ -251,6 +251,8 @@ function ejecutarAgrupacion() {
     localStorage.clear();
     var listaAgrupar = [];
     paginacionHabilitada = false;
+    const nombreProducto = document.getElementById("CajaDeSeleccionNombre").value;
+    const nombreCategoria = document.getElementById("CajaDeSeleccionCategoria").value;
 
     for (var i = 0; i < filasEliminar.length; ++i) {
         const nombreProducto = filasEliminar[i].childNodes[1].innerText;
@@ -274,7 +276,9 @@ function ejecutarAgrupacion() {
         listaAgrupar.push(nombreProducto);
     }
 
-    // TODO(Luis): Hacer el fetch
+    const jsonAgrupar = JSON.stringify(listaAgrupar);
+
+    fetch(`/Moderacion/Clustering/ResultadoProductosSimilares?handler=Agrupar&productosJson=${jsonAgrupar}&nombre=${nombreProducto}&categoria=${nombreCategoria}`);
 
     paginacionHabilitada = true;
     listaAgrupar = [];
