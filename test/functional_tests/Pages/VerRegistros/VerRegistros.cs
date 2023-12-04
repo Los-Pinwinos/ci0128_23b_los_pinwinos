@@ -29,7 +29,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloSemana()
+        public void VerRegistros_RevisarTituloSemana_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -43,7 +43,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloMes()
+        public void VerRegistros_RevisarTituloMes_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -57,7 +57,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloAno()
+        public void VerRegistros_RevisarTituloAno_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -71,7 +71,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloPrecioMin()
+        public void VerRegistros_RevisarTituloPrecioMin_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -85,7 +85,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloPrecioPromedio()
+        public void VerRegistros_RevisarTituloPrecioPromedio_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -99,7 +99,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloPrecioMax()
+        public void VerRegistros_RevisarTituloPrecioMax_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -113,7 +113,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloCalifPromedio()
+        public void VerRegistros_RevisarTituloCalifPromedio_DebeCambiar()
         {
             // Preparación
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -127,7 +127,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloFechaInicial()
+        public void VerRegistros_RevisarTituloFechaInicial_PorDefecto()
         {
             // Preparación y Acción (se quiere verificar que los títulos inicien como se debe, por lo que la preparación también corresponde a la acción inicial)
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -139,7 +139,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloPrecioInicial()
+        public void VerRegistros_RevisarTituloPrecioInicial_PorDefecto()
         {
             // Preparación y Acción 
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -150,7 +150,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloCalificacionInicial()
+        public void VerRegistros_RevisarTituloCalificacionInicial_PorDefecto()
         {
             // Preparación y Acción 
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");
@@ -161,7 +161,7 @@ namespace LoCoMProTestFuncionales.Pages.VerRegistros
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 2
         [Test]
-        public void RevisarTituloDescripcioneInicial()
+        public void VerRegistros_RevisarTituloDescripcioneInicial_PorDefecto()
         {
             // Preparación y Acción 
             PaginaVerRegistros paginaVerRegistros = this.BuscarElemento("Camisa");

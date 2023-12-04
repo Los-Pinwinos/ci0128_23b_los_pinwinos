@@ -33,7 +33,7 @@ namespace LoCoMProFunctionalTests.Pages.Cuenta
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
         [Test]
-        public void DatosVacios()
+        public void CambioContrasena_DatosVacios_MensajeError()
         {
             // Preparación
             PaginaCambiarContrasena paginaCambio = LlegarACambioContrasena();
@@ -48,7 +48,7 @@ namespace LoCoMProFunctionalTests.Pages.Cuenta
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
         [Test]
-        public void ActualConFormatoIncorrecto()
+        public void CambioContrasena_ActualConFormatoIncorrecto_MensajeError()
         {
             // Preparación
             PaginaCambiarContrasena paginaCambio = LlegarACambioContrasena();
@@ -66,7 +66,7 @@ namespace LoCoMProFunctionalTests.Pages.Cuenta
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
         [Test]
-        public void NuevaConFormatoIncorrecto()
+        public void CambioContrasena_NuevaConFormatoIncorrecto_MensajeError()
         {
             // Preparación
             PaginaCambiarContrasena paginaCambio = LlegarACambioContrasena();
@@ -84,7 +84,7 @@ namespace LoCoMProFunctionalTests.Pages.Cuenta
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
         [Test]
-        public void ActualIncorrecta()
+        public void CambioContrasena_ActualIncorrecta_MensajeError()
         {
             // Preparación
             PaginaCambiarContrasena paginaCambio = LlegarACambioContrasena();
@@ -102,7 +102,7 @@ namespace LoCoMProFunctionalTests.Pages.Cuenta
 
         // Hecho por: Emilia María Víquez Mora - C18625 - Sprint 3
         [Test]
-        public void ConfirmacionDiferente()
+        public void CambioContrasena_ConfirmacionDiferente_MensajeError()
         {
             // Preparación
             PaginaCambiarContrasena paginaCambio = LlegarACambioContrasena();
