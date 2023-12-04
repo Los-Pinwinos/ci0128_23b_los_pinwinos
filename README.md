@@ -340,14 +340,14 @@ Esta prueba se encarga de verificar que los cantones que se muestran en el *comb
 
 ##### **Cambiar vivienda de un usuario**
 
-Para realizar esta prueba se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
+Para realizar estas pruebas se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
 - Nombre de usuario = `Usuario1*`
 - Contraseña = `Usuario1*`
-- Provincia de vivienda != `Guanacaste`
-- Cantón de vivienda !=  `Hojancha`
-- Distrito de vivienda: `Huacas`
+- Provincia de vivienda = `San José`
+- Cantón de vivienda =  `San José`
+- Distrito de vivienda = `Carmen`
 
-El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que el botón para guardar los cambios se vuelve disponible hasta que se seleccionen datos distintos a los que presentaba la cuenta originalmente, es imperativo que la vivienda del usuario no estuviese en Guancaste, Hojancha, Huacas, pues estos son los valores a los que la prueba intentará cambiar la vivienda. Cualquier otra vivienda será válida.
+El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que las opciones de cantones y distritos disponibles son dependientes de la vivienda que se encuentre seleccionada es imperativo que la vivienda del usuario inicialmente este en San José, San José, Carmen, pues estos son los valores que asumirá como iniciales la prueba. Cualquier otra vivienda inicial producirá errores.
 
 
 ##### **Revisar ordenamiento de flechas**
