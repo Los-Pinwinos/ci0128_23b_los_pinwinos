@@ -208,7 +208,14 @@ begin
 	if @anteriorExiste is not null and @usuarioExiste is null begin
 		-- Desactivar la verificación de restricciones para
 		-- ejecutar las modificaciones en las tablas
-		exec sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+		alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador
+        alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador
+		alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador
+		alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
+		alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador
+		alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
+		alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte
+		alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario
 
 		update Usuario
 		set nombreDeUsuario = @nuevoNombre
@@ -227,23 +234,34 @@ begin
 		where usuarioCreador = @anteriorNombre
 
 		update Calificaciones
-		set usuarioCalificador = @nuevoNombre
-		where usuarioCalificador = @anteriorNombre
-
-		update Calificaciones
 		set usuarioCreadorRegistro = @nuevoNombre
 		where usuarioCreadorRegistro = @anteriorNombre
 
-		update Reportes
-		set usuarioCreadorReporte = @nuevoNombre
-		where usuarioCreadorReporte = @anteriorNombre;
+		update Calificaciones
+		set usuarioCalificador = @nuevoNombre
+		where usuarioCalificador = @anteriorNombre
 
 		update Reportes
 		set usuarioCreadorRegistro = @nuevoNombre
 		where usuarioCreadorRegistro = @anteriorNombre;
 
+		update Reportes
+		set usuarioCreadorReporte = @nuevoNombre
+		where usuarioCreadorReporte = @anteriorNombre;
+
+		update Favoritos
+		set nombreUsuario = @nuevoNombre
+		where nombreUsuario = @anteriorNombre;
+
 		-- Reactivar la verificación de restricciones en las tablas
-		exec sp_msforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'
+		alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador
+        alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
+		alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador
+		alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
+		alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador
+		alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
+		alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte
+		alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario
 	end
 end;
 
