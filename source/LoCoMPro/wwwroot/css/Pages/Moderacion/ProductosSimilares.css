@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 3%;
+    margin-top: 1%;
 }
 
 .Contenedor-caja-paginacion {
@@ -239,4 +239,47 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-left: 30%;
+}
+
+.Contenedor-unir {
+    margin-top: 3%;
+    align-items: center;
+    background-color: #D9E2E8;
+    border-radius: 10px;
+    padding-bottom: 1%;
+}
+
+.Contenedor-dropdowns {
+    margin-top: 2%;
+    display: block;
+    margin-left: 10%;
+}
+
+.Dropdown {
+    width: 30%;
+    height: 25px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: auto;
+    border-color: #033F63;
+    border-radius: 30px;
+    border: 1px solid #033F63;
+    background-color: #FFFBF8;
+    padding-left: 1%;
+}
+
+.Boton {
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 16px;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+    margin-top: 3%;
+    position: relative;
+    left: 50%;
 }

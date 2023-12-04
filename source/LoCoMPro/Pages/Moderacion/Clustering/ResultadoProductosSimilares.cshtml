@@ -97,7 +97,17 @@
             </div>
             <label id="escondido" style="display:none;">@Model.nombreProducto</label>
 
+            <div class="Contenedor-unir">
+                <div class="Contenedor-dropdowns">
+                    <label>Nombre:</label>
+                    <select name="nombres" id="CajaDeSeleccionNombre" class="Dropdown"> </select>
+                    <label style="margin-left: 5%;">Categoría:</label>
+                    <select name="categorias" id="CajaDeSeleccionCategoria" class="Dropdown"> </select>
+                </div>
+                <button class="Boton" type="submit" id="Unificar">Unificar</button>
+            </div>
 
+            <button class="Boton" type="submit" id="Salir">Salir</button>
         }
         else
         {
