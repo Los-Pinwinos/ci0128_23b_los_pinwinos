@@ -8,10 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ################## ATENCIÓN #####################
 // Constante para el connection string a utilizar
-// (Recordar cambiar también la connection string en ControladorComandosSQL.cs
-// para ser consistente, de lo contrario el comportamiento será indefinido)
-// TODO(Pinwinos): Sincronizar con la de ControladorComandosSQL.cs
-const string connectionString = "LoCoMProContextRemote";
+string connectionString = builder.Configuration.GetValue<string>("ConnectionStringSeleccionado") ??
+                throw new InvalidOperationException("No se ha seleccionado un Connection string");
 
 // Crea un encriptador para desencriptar el connection string
 Encriptador encriptador = new Encriptador();
@@ -71,6 +69,12 @@ using (var scope = app.Services.CreateScope())
     if (connectionString == "LoCoMProContextLocal" ||
         connectionString == "LoCoMProContextTest")
     {
+        // Si la base es de pruebas, borrarla antes de ejecutar
+        if (connectionString == "LoCoMProContextTest")
+        {
+            context.Database.EnsureDeleted();
+        }
+        
         // Asegurarse de su creación
         context.Database.EnsureCreated();
     }

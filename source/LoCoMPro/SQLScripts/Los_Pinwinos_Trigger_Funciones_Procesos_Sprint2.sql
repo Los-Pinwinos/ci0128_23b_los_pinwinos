@@ -254,57 +254,169 @@ as
 begin
 	declare @anteriorExiste nvarchar(20), @usuarioExiste nvarchar(20);
 
-	-- Verificar si el usuario a modificar existe
-	select @anteriorExiste = nombreDeUsuario
-	from Usuario
-	where nombreDeUsuario = @anteriorNombre;
+	begin try
+		-- Se crea la transacción serializable
+		set transaction isolation level serializable;
+		begin transaction;
 
-	-- Verificar si el usuario nuevo no existe
-	select @usuarioExiste = nombreDeUsuario
-	from Usuario
-	where nombreDeUsuario = @nuevoNombre;
+		-- Verificar si el usuario a modificar existe
+		select @anteriorExiste = nombreDeUsuario
+		from Usuario
+		where nombreDeUsuario = @anteriorNombre;
 
-	-- Si las anteriores dos condiciones se cumplen
-	if @anteriorExiste is not null and @usuarioExiste is null begin
-		-- Desactivar la verificación de restricciones para
-		-- ejecutar las modificaciones en las tablas
-		exec sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+		-- Verificar si el usuario nuevo no existe
+		select @usuarioExiste = nombreDeUsuario
+		from Usuario
+		where nombreDeUsuario = @nuevoNombre;
 
-		update Usuario
-		set nombreDeUsuario = @nuevoNombre
-		where nombreDeUsuario = @anteriorNombre
+		-- Si las anteriores dos condiciones se cumplen
+		if @anteriorExiste is not null and @usuarioExiste is null begin
+			-- Desactivar la verificación de restricciones para
+			-- ejecutar las modificaciones en las tablas
+			alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador;
+			alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+			alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador;
+			alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+			alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario;
 
-		update Registros
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Usuario
+			set nombreDeUsuario = @nuevoNombre
+			where nombreDeUsuario = @anteriorNombre
 
-		update Etiquetas
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Registros
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Fotografias
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Etiquetas
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Calificaciones
-		set usuarioCalificador = @nuevoNombre
-		where usuarioCalificador = @anteriorNombre
+			update Fotografias
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Calificaciones
-		set usuarioCreadorRegistro = @nuevoNombre
-		where usuarioCreadorRegistro = @anteriorNombre
+			update Calificaciones
+			set usuarioCreadorRegistro = @nuevoNombre
+			where usuarioCreadorRegistro = @anteriorNombre
 
-		update Reportes
-		set usuarioCreadorReporte = @nuevoNombre
-		where usuarioCreadorReporte = @anteriorNombre;
+			update Calificaciones
+			set usuarioCalificador = @nuevoNombre
+			where usuarioCalificador = @anteriorNombre
 
-		update Reportes
-		set usuarioCreadorRegistro = @nuevoNombre
-		where usuarioCreadorRegistro = @anteriorNombre;
+			update Reportes
+			set usuarioCreadorRegistro = @nuevoNombre
+			where usuarioCreadorRegistro = @anteriorNombre;
+
+			update Reportes
+			set usuarioCreadorReporte = @nuevoNombre
+			where usuarioCreadorReporte = @anteriorNombre;
+
+			update Favoritos
+			set nombreUsuario = @nuevoNombre
+			where nombreUsuario = @anteriorNombre;
+
+			-- Reactivar la verificación de restricciones en las tablas
+			alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador;
+			alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+			alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+			alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador;
+			alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+			alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+			alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario;
+		end
+
+		-- Terminar la transacción
+		commit;
+
+	end try
+	begin catch
+		rollback;
 
 		-- Reactivar la verificación de restricciones en las tablas
-		exec sp_msforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'
-	end
+		alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador;
+		alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador;
+		alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador;
+		alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro;
+		alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador;
+		alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro;
+		alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte;
+		alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario;
+	end catch;
+end;
+
+-- Procedimiento creado por Kenneth Daniel Villalobos Solís - C18548
+go
+create procedure [dbo].[ocultarRegistrosObsoletos]
+    (@producto nvarchar(256),
+	 @tienda nvarchar(256),
+	 @distrito nvarchar(30),
+	 @canton nvarchar(20),
+	 @provincia nvarchar(10),
+	 @fechaCorte datetime2(7))
+as
+begin
+	-- Declarar variables
+	declare @creacion as datetime2(7) = null;
+	declare @usuario as nvarchar(20) = null;
+
+	-- Try para la transacción
+	begin try
+		-- Establecer el nivel de aislamiento
+		set transaction isolation level serializable;
+
+		-- Crear una transacción
+		begin transaction;
+
+		-- Crear un cursor para pasar por todos los
+		-- registros que se deben ocultar
+		declare cursorRegistro cursor for 
+		select creacion, usuarioCreador
+		from Registros
+		where creacion <= @fechaCorte and
+			  visible = 1 and
+			  productoAsociado = @producto and
+			  nombreTienda = @tienda and
+			  nombreDistrito = @distrito and
+			  nombreCanton = @canton and
+			  nombreProvincia = @provincia;
+
+		-- Abrir cursor y obtener los datos en las variables
+		open cursorRegistro;
+		fetch next from cursorRegistro into  @creacion, @usuario
+	 
+		-- Ciclo while mientras haya tuplas que cumplan
+		while @@FETCH_STATUS = 0 begin
+			-- Ocultar el registro
+			update Registros
+			set visible = 0
+			where creacion = @creacion;
+
+			-- Actualizar la calificacion y moderación del usuario
+			-- creador del registro
+			exec actualizarCalificacionDeUsuario @usuario;
+			exec actualizarModeracion @usuario;
+
+			-- Obtener los proximos datos
+			fetch next from cursorRegistro into  @creacion, @usuario
+		end
+	
+		-- Cerrar y dealocar cursor
+		close cursorRegistro;
+		deallocate cursorRegistro;
+
+	   -- Terminar la transacción
+	   commit;
+
+	end try
+	-- En caso de haber un error
+	begin catch
+		-- Deshacer la transacción
+		rollback;
+	end catch
 end;
 
 
@@ -366,6 +478,81 @@ begin
 end;
 
 
+-- Función creada por Kenneth Daniel Villalobos Solís - C18548
+go
+create function [dbo].[encontrarFechaCorte]
+	(@producto nvarchar(256),
+	 @tienda nvarchar(256),
+	 @distrito nvarchar(30),
+	 @canton nvarchar(20),
+	 @provincia nvarchar(10)) 
+returns datetime2(7)
+as
+begin
+	-- Declara las variables necesarias
+	declare @delta int = 0, @numRegistros int = 0, @offset int;
+	declare @fechaReciente datetime2(7) = null, @fechaDelta datetime2(7) = null, @fechaCorte datetime2(7) = null;
+
+	-- Guarda la fecha más reciente y el número de registros que existe
+	select @fechaReciente = max(creacion), @numRegistros = count(*)
+	from Registros
+	where productoAsociado = @producto and
+		  nombretienda = @tienda and
+		  nombreDistrito = @distrito and
+		  nombreCanton = @canton and
+		  nombreProvincia = @provincia and
+		  visible = 1;
+
+	-- Calcula la cantidad de filas a saltar
+	set @offset = cast(0.8 * @numRegistros as int)-1;
+	if @offset < 0 begin
+		set @offset = 0;
+	end
+
+	-- Guarda la fecha en la posición del 80%
+	select @fechaDelta = creacion
+	from Registros
+	where productoAsociado = @producto and
+		  nombretienda = @tienda and
+		  nombreDistrito = @distrito and
+		  nombreCanton = @canton and
+		  nombreProvincia = @provincia and
+		  visible = 1
+	order by creacion desc
+	offset @offset rows
+	fetch first 1 row only;
+
+	-- Si logró encontrar la fecha en el 80% y la fecha inicial
+    if @fechaDelta is not null and @fechaReciente is not null begin
+		-- Calcula delta
+		set @delta = datediff(second, @fechaDelta, @fechaReciente);
+		-- Calcula la fecha de corte
+		set @fechaCorte = dateadd(second, -@delta, @fechaDelta);
+    end
+
+	-- Si la fecha de corte es la más reciete (está por marcar a todos como outliers)
+	if @fechaCorte >= @fechaReciente begin
+		-- Cambia la fecha de corte a la del siguiente registro más reciente
+		select top 1 @fechaCorte = creacion
+		from Registros
+		where creacion < @fechaReciente and
+			  productoAsociado = @producto and
+			  nombretienda = @tienda and
+			  nombreDistrito = @distrito and
+			  nombreCanton = @canton and
+			  nombreProvincia = @provincia and
+			  visible = 1
+		order by creacion desc;
+
+		-- Si no había ninguno, dejarla en nulo
+		if @fechaCorte >= @fechaReciente begin
+			set @fechaCorte = null
+		end
+	end
+	
+	-- Retorna la fecha de corte (si no hay es nula)
+    return @fechaCorte;
+end;
 
 ------------------------------- Triggers --------------------------------
 -- Trigger realizado por todos los integrantes del equipo

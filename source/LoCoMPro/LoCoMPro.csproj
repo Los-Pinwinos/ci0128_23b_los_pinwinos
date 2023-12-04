@@ -20,6 +20,10 @@
 
   <ItemGroup>
     <PackageReference Include="F23.StringSimilarity" Version="5.1.0" />
+    <Content Remove="wwwroot\js\Pages\Moderacion\FechasObsoletas\cliente.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
@@ -43,6 +47,7 @@
     <None Include="wwwroot\js\Pages\Busqueda\Favoritos\VerProductos\cliente.js" />
     <None Include="wwwroot\js\Pages\Cuenta\Favoritos\cliente.js" />
     <None Include="wwwroot\js\Pages\Cuenta\Favoritos\paginador.js" />
+    <None Include="wwwroot\js\Pages\Moderacion\FechasObsoletas\cliente.js" />
   </ItemGroup>
 
 </Project>

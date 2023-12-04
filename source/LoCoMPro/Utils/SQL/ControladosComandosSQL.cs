@@ -21,8 +21,8 @@ namespace LoCoMPro.Utils.SQL
             // Crea un encriptador para desencriptar el connection string
             Encriptador encriptador = new Encriptador();
             // Crea una constante para el connection string
-            // TODO(Pinwinos): Sincronizar con la de program.cs
-            const string connectionString = "LoCoMProContextRemote";
+            string connectionString = configuracion.GetValue<string>("ConnectionStringSeleccionado") ??
+                throw new InvalidOperationException("No se ha seleccionado un Connection string");
 
             // Abrir una conexion
             this.conexion = new SqlConnection(
@@ -37,7 +37,23 @@ namespace LoCoMPro.Utils.SQL
 
         ~ControladorComandosSql()
         {
+            this.cerrar();
+        }
+
+        public void cerrar()
+        {
             this.conexion.Close();
+        }
+
+        public void reiniciarControlador()
+        {
+            this.nombreComando = null;
+            this.limpiarParametros();
+        }
+
+        public void limpiarParametros()
+        {
+            this.parametros.Clear();
         }
 
         public void ConfigurarNombreComando(string nombreComando)
@@ -94,7 +110,7 @@ namespace LoCoMPro.Utils.SQL
                 comando.Parameters.Add(parametro);
             }
 
-            return this.LlenarResultados(comando.ExecuteReader());
+            return LlenarResultados(comando.ExecuteReader());
         }
 
         public IList<object[]> EjecutarProcedimiento()
@@ -113,10 +129,10 @@ namespace LoCoMPro.Utils.SQL
                 comando.Parameters.Add(parametro);
             }
 
-            return this.LlenarResultados(comando.ExecuteReader());
+            return LlenarResultados(comando.ExecuteReader());
         }
 
-        private IList<object[]> LlenarResultados(SqlDataReader lector)
+        private static IList<object[]> LlenarResultados(SqlDataReader lector)
         {
             IList<object[]> resultados = new List<object[]>();
 

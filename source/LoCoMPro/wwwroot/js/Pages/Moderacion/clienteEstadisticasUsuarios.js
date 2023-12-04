@@ -51,7 +51,7 @@ function renderizarTabla(datos) {
             var divAceptados = document.createElement("div");
             divAceptados.className = "contenidoCeldaNumero";
             divAceptados.style.marginLeft = "60px";
-            divAceptados.textContent = datos[dato].CantidadVerificados + " (" + formatearNumeros(datos[dato].CantidadVerificados*100 / datos[dato].CantidadReportes) + "%)";
+            divAceptados.textContent = datos[dato].CantidadVerificados + " (" + formatearNumeros(datos[dato].CantidadVerificados * 100 / datos[dato].CantidadReportes) + "%)";
             var aceptadosCelda = document.createElement("td");
             aceptadosCelda.setAttribute('data-tooltip', divAceptados.textContent);
             aceptadosCelda.appendChild(divAceptados);
@@ -74,7 +74,7 @@ function pasarPagina(numeroPagina) {
     resultadosPaginados = paginar(numeroPagina);
     renderizarPaginacion();
     renderizarTabla(resultadosPaginados);
-    
+
     window.scrollTo(0, 0);
 }
 

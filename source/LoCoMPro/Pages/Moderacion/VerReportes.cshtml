@@ -6,6 +6,8 @@
 
 <!-- Metadatos -->
 <head>
+    <!-- Titulo de la página -->
+    <title>Ver reportes</title>
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Moderacion/VerReportes.css" asp-append-version="true" />
@@ -195,7 +197,7 @@
 
     <!-- Script para mostrar un popUp y redireccionar -->
     <script>
-        var redireccionar = "@ViewData["MensajeRedireccion"]";
+        var redireccionar = "@ViewData["redireccion"]";
         if (redireccionar) {
             alert("Debe presentar permisos de moderador para acceder a esta página");
             window.location.href = "/Home/Index";
