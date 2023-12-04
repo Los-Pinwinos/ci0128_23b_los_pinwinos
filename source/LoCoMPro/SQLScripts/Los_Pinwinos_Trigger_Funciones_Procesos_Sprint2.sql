@@ -194,75 +194,93 @@ as
 begin
 	declare @anteriorExiste nvarchar(20), @usuarioExiste nvarchar(20);
 
-	-- Verificar si el usuario a modificar existe
-	select @anteriorExiste = nombreDeUsuario
-	from Usuario
-	where nombreDeUsuario = @anteriorNombre;
+	begin try
+		-- Se crea la transacción serializable
+		set transaction isolation level serializable;
+		begin transaction;
 
-	-- Verificar si el usuario nuevo no existe
-	select @usuarioExiste = nombreDeUsuario
-	from Usuario
-	where nombreDeUsuario = @nuevoNombre;
+		-- Verificar si el usuario a modificar existe
+		select @anteriorExiste = nombreDeUsuario
+		from Usuario
+		where nombreDeUsuario = @anteriorNombre;
 
-	-- Si las anteriores dos condiciones se cumplen
-	if @anteriorExiste is not null and @usuarioExiste is null begin
-		-- Desactivar la verificación de restricciones para
-		-- ejecutar las modificaciones en las tablas
-		alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador
-        alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador
-		alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador
-		alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
-		alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador
-		alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
-		alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte
-		alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario
+		-- Verificar si el usuario nuevo no existe
+		select @usuarioExiste = nombreDeUsuario
+		from Usuario
+		where nombreDeUsuario = @nuevoNombre;
 
-		update Usuario
-		set nombreDeUsuario = @nuevoNombre
-		where nombreDeUsuario = @anteriorNombre
+		-- Si las anteriores dos condiciones se cumplen
+		if @anteriorExiste is not null and @usuarioExiste is null begin
+			-- Desactivar la verificación de restricciones para
+			-- ejecutar las modificaciones en las tablas
+			alter table Registros nocheck constraint FK_Registros_Usuario_usuarioCreador
+			alter table Etiquetas nocheck constraint FK_Etiquetas_Registros_creacion_usuarioCreador
+			alter table Fotografias nocheck constraint FK_Fotografias_Registros_creacion_usuarioCreador
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
+			alter table Calificaciones nocheck constraint FK_Calificaciones_Usuario_usuarioCalificador
+			alter table Reportes nocheck constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
+			alter table Reportes nocheck constraint FK_Reportes_Usuario_usuarioCreadorReporte
+			alter table Favoritos nocheck constraint FK_Favoritos_Usuario_nombreUsuario
 
-		update Registros
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Usuario
+			set nombreDeUsuario = @nuevoNombre
+			where nombreDeUsuario = @anteriorNombre
 
-		update Etiquetas
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Registros
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Fotografias
-		set usuarioCreador = @nuevoNombre
-		where usuarioCreador = @anteriorNombre
+			update Etiquetas
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Calificaciones
-		set usuarioCreadorRegistro = @nuevoNombre
-		where usuarioCreadorRegistro = @anteriorNombre
+			update Fotografias
+			set usuarioCreador = @nuevoNombre
+			where usuarioCreador = @anteriorNombre
 
-		update Calificaciones
-		set usuarioCalificador = @nuevoNombre
-		where usuarioCalificador = @anteriorNombre
+			update Calificaciones
+			set usuarioCreadorRegistro = @nuevoNombre
+			where usuarioCreadorRegistro = @anteriorNombre
 
-		update Reportes
-		set usuarioCreadorRegistro = @nuevoNombre
-		where usuarioCreadorRegistro = @anteriorNombre;
+			update Calificaciones
+			set usuarioCalificador = @nuevoNombre
+			where usuarioCalificador = @anteriorNombre
 
-		update Reportes
-		set usuarioCreadorReporte = @nuevoNombre
-		where usuarioCreadorReporte = @anteriorNombre;
+			update Reportes
+			set usuarioCreadorRegistro = @nuevoNombre
+			where usuarioCreadorRegistro = @anteriorNombre;
 
-		update Favoritos
-		set nombreUsuario = @nuevoNombre
-		where nombreUsuario = @anteriorNombre;
+			update Reportes
+			set usuarioCreadorReporte = @nuevoNombre
+			where usuarioCreadorReporte = @anteriorNombre;
 
+			update Favoritos
+			set nombreUsuario = @nuevoNombre
+			where nombreUsuario = @anteriorNombre;
+
+			-- Reactivar la verificación de restricciones en las tablas
+			alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador
+			alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
+			alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador
+			alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
+			alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador
+			alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
+			alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte
+			alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario
+		end
+	end try
+	begin catch
+		rollback;
 		-- Reactivar la verificación de restricciones en las tablas
 		alter table Registros with check check constraint FK_Registros_Usuario_usuarioCreador
-        alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
+		alter table Etiquetas with check check constraint FK_Etiquetas_Registros_creacion_usuarioCreador
 		alter table Fotografias with check check constraint FK_Fotografias_Registros_creacion_usuarioCreador
 		alter table Calificaciones with check check constraint FK_Calificaciones_Registros_creacionRegistro_usuarioCreadorRegistro
 		alter table Calificaciones with check check constraint FK_Calificaciones_Usuario_usuarioCalificador
 		alter table Reportes with check check constraint FK_Reportes_Registros_creacionRegistro_usuarioCreadorRegistro
 		alter table Reportes with check check constraint FK_Reportes_Usuario_usuarioCreadorReporte
 		alter table Favoritos with check check constraint FK_Favoritos_Usuario_nombreUsuario
-	end
+	end catch;
 end;
 
 -- Procedimiento creado por Kenneth Daniel Villalobos Solís - C18548
