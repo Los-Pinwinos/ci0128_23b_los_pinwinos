@@ -251,7 +251,7 @@ function ejecutarAgrupacion() {
     localStorage.clear();
     var listaAgrupar = [];
     paginacionHabilitada = false;
-    const nombreProducto = document.getElementById("CajaDeSeleccionNombre").value;
+    const nombreProductoGuardar = document.getElementById("CajaDeSeleccionNombre").value;
     const nombreCategoria = document.getElementById("CajaDeSeleccionCategoria").value;
 
     for (var i = 0; i < filasEliminar.length; ++i) {
@@ -262,7 +262,7 @@ function ejecutarAgrupacion() {
 
         resultados = limpiarRegistrosPaginables(resultados, nombreProducto);
 
-        if (resultados.length > 0) {
+        if (resultados.length > 1) {
             rellenarDropdowns(resultados);
             resultadosPagina = limpiarRegistrosPaginables(resultados, nombreProducto);
             resultadosPagina = resultadosPagina.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
@@ -270,7 +270,10 @@ function ejecutarAgrupacion() {
             renderizarTabla(resultadosPagina);
         }
         else {
-            alert("Renderizar pinwino");
+            if (!pinguinoRenderizado) {
+                pinguinoRenderizado = true;
+                renderizarPinwino();
+            }
         }
 
         listaAgrupar.push(nombreProducto);
@@ -278,8 +281,47 @@ function ejecutarAgrupacion() {
 
     const jsonAgrupar = JSON.stringify(listaAgrupar);
 
-    fetch(`/Moderacion/Clustering/ResultadoProductosSimilares?handler=Agrupar&productosJson=${jsonAgrupar}&nombre=${nombreProducto}&categoria=${nombreCategoria}`);
+    fetch(`/Moderacion/Clustering/ResultadoProductosSimilares?handler=Agrupar&productosJson=${jsonAgrupar}&nombre=${nombreProductoGuardar}&categoria=${nombreCategoria}`);
 
     paginacionHabilitada = true;
     listaAgrupar = [];
+}
+
+function renderizarPinwino() {
+    // Borrar lo que hay
+    var contenedorPrincipal = document.getElementById("ContenedorPrincipal");
+    var tabla = document.getElementsByClassName("Clustering-tabla");
+    var paginacion = document.getElementsByClassName("Contenedor-paginacion");
+    var seccionAgrupar = document.getElementsByClassName("Contenedor-unir");
+
+    for (var i = 0; i < paginacion.length; ++i) {
+        paginacion[i].remove();
+    }
+
+    for (var i = 0; i < tabla.length; ++i) {
+        tabla[i].remove();
+    }
+
+    for (var i = 0; i < seccionAgrupar.length; ++i) {
+        seccionAgrupar[i].remove();
+    }
+
+    // Agregar lo nuevo
+    var contenedorDiv = document.createElement("div");
+    contenedorDiv.className = "Contenedor-gif";
+
+    var imagenGif = document.createElement("img");
+    imagenGif.src = "/img/Pinwino_feliz.gif";
+    imagenGif.alt = "Pinwino feliz";
+    imagenGif.className = "Pinwino-gif";
+    imagenGif.id = "PinwinoFeliz";
+
+    var parrafo = document.createElement("p");
+    parrafo.className = "Texto-grande";
+    parrafo.textContent = "No quedan agrupaciones por hacer";
+
+    contenedorDiv.appendChild(imagenGif);
+    contenedorDiv.appendChild(parrafo);
+
+    contenedorPrincipal.appendChild(contenedorDiv);
 }

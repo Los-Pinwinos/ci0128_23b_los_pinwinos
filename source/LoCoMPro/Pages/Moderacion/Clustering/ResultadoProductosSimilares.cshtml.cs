@@ -12,7 +12,6 @@ namespace LoCoMPro.Pages.Moderacion.Clustering
     {
         protected readonly IConfiguration configuracion;
         public string? resultadosJson;
-        public string? nombreProducto;
         public int paginaDefault { get; set; }
         public int resultadosPorPagina { get; set; }
         public ProductosSimilaresVM productosSimilaresVM { get; set; }
@@ -31,14 +30,12 @@ namespace LoCoMPro.Pages.Moderacion.Clustering
             this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 5);
         }
 
-        public IActionResult OnGet(string resultadosJson, string nombreProducto)
+        public IActionResult OnGet(string resultadosJson)
         {
             this.resultadosJson = "0";
-            this.nombreProducto = "0";
             if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("moderador"))
             {
                 this.resultadosJson = resultadosJson;
-                this.nombreProducto = nombreProducto;
             }
             else
             {

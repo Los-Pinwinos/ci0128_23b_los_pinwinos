@@ -31,18 +31,17 @@
 
         // Cliente
         if ('@Model.resultadosJson' !== null && 'Model.nombreProducto' !== null) {
-            var json = obtenerResultados('@Model.resultadosJson');
-            var nombreProducto = traducirCodificacion('@Model.nombreProducto');
-            var resultados = json[nombreProducto];
+            var resultados = obtenerResultados('@Model.resultadosJson');
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;
+            var pinguinoRenderizado = false;
         }
     </script>
 </head>
 
 <body>
     <div id="ContenedorPrincipal" style="display: flex;flex-direction: column;">
-        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.resultadosJson != "0" && Model.nombreProducto != "0")
+        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.resultadosJson != "0")
         {
             <div class="Clustering-tabla">
                 <table>
@@ -95,8 +94,7 @@
                     </div>
                 </div>
             </div>
-            <label id="escondido" style="display:none;">@Model.nombreProducto</label>
-
+            <!-- Logotipo de Penguin -->
             <div class="Contenedor-unir">
                 <div class="Contenedor-dropdowns">
                     <label>Nombre:</label>
@@ -129,7 +127,7 @@
 </script>
 
 <script>
-    if ('@Model.resultadosJson' != "0" && '@Model.nombreProducto' != "0") {
+    if ('@Model.resultadosJson' != "0") {
         var resultadosPagina = paginar(paginaDefault);
         localStorage.clear();
         // Renderizar

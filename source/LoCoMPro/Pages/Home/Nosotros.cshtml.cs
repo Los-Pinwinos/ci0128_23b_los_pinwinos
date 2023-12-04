@@ -16,7 +16,7 @@ namespace LoCoMPro.Pages.Home
             textoAngie = "Hola, soy Angie. Me gusta mucho dibujar, diseñar, cocinar y el cine. Me encanta la programación porque para mí es una forma de resolver cualquier problema.";
             textoEmilia = "Hola, soy Emilia. Me gusta mucho nadar, bailar y ver series en Netflix. Comencé a estudiar computación en el año 2021. Me gusta mucho aprender cosas nuevas y programar.";
             textoEnrique = "Hola, soy Enrique. Disfruto mucho ir al gimnasio y la actividad física. También me gusta tocar guitarra acústica y eléctrica. Me encantan los temas de I.A y matemática.";
-            textoLuis = "Hola, soy Luis. Me gusta tocar música, programar y jugar videojuegos.";
+            textoLuis = "Hola, soy Luis. Me gusta tocar música, programar, jugar videojuegos y leer. Tengo interés en temas de compiladores y diseño de juegos.";
             textoKenneth = "Hola, soy Kenneth, pero algunos me llaman: El Diesel Villalobos, entre mis músculos corre gasolina y entre mis venas sangre caliente. \"Quisiera ser una mosca, para pararme en tu piel\" JV.";
         }
         public void OnGet()

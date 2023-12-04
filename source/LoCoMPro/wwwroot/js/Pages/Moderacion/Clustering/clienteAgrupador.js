@@ -165,13 +165,20 @@ function renderizarTabla(resultados) {
 
 function establecerRedireccion() {
     diccionarioReenviar = document.getElementById("escondido").textContent;
+
+    diccionarioReenviar = diccionarioReenviar.replaceAll("\\\"", "\"");
+    diccionarioReenviar = diccionarioReenviar.replaceAll("\\\\", "\\");
+
+    var json = JSON.parse(diccionarioReenviar); 
     document.addEventListener("click", function () {
         const filas = document.querySelectorAll(".result-row");
 
         filas.forEach(fila => {
             fila.addEventListener("click", function () {
                 const nombreProducto = fila.querySelector("td:nth-child(1)").textContent;
-                window.location.href = `ResultadoProductosSimilares?resultadosJson=${diccionarioReenviar}&nombreProducto=${nombreProducto}`;
+                var temporal = json[nombreProducto];
+                var enviar = JSON.stringify(temporal);
+                window.location.href = `ResultadoProductosSimilares?resultadosJson=${enviar}`;
             });
         });
     });
