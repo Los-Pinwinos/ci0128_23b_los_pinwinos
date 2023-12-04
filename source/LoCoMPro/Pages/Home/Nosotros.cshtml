@@ -1,0 +1,157 @@
+﻿@page
+@model LoCoMPro.Pages.Home.NosotrosModel
+@{
+    ViewData["Title"] = "Sobre nosotros";
+}
+
+<!-- Metadatos -->
+<head>
+    <!-- Titulo de la página -->
+    <title>Sobre nosotros</title>
+    <!-- Incluye su archivo de estilo CSS específico -->
+    <link rel="stylesheet" href="~/css/Pages/Home/Nosotros.css" asp-append-version="true"/>
+    <!-- Incluye íconos necesarios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<!-- Cuerpo de la página -->
+<body>
+    <div class="Contenedor-central">
+        <div class="Contenedor-equipo">
+            <img src="~/img/Equipo_de_pinwinos.gif" id="TodosPinwinos" class="Imagen-todos" alt="EquipoLosPinwinos"/>
+            <div class="Columna-gruesa">
+                <label class="Titulo-equipo">Equipo Los Pinwinos</label>
+                <label class="Texto">@Model.textoEquipo</label>
+            </div>
+        </div>
+        <div class="Contenedor-integrantes">
+            <div class="Columna">
+                <img src="~/img/pinwino_luis.png" id="PinwinoLuis" class="Imagen-personal" alt="PinwinoLuis" />
+                <label class="Titulo-persona">Luis Solano</label>
+                <label class="Texto-persona">@Model.textoLuis</label>
+                <div class="Contenedor-Iconos">
+                    <a href="https://github.com/GoninDS" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/luis.dss/" target="_blank">
+                        <i class="fa fa-instagram" style="margin-left: 1em;"></i>
+                    </a>
+                    <a href="mailto:luis.solanosantamaria@ucr.ac.cr.com">
+                        <i class="fa fa-envelope" style="margin-left: 1em;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="Columna">
+                <img src="~/img/pinwino_angie.png" id="PinwinoAngie" class="Imagen-personal" alt="PinwinoAngie"/>
+                <label class="Titulo-persona">Angie Solís</label>
+                <label class="Texto-persona">@Model.textoAngie</label>
+                <div class="Contenedor-Iconos">
+                    <a href="https://github.com/AngieS23" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/angiesolism/" target="_blank">
+                        <i class="fa fa-instagram" style="margin-left: 1em;"></i>
+                    </a>
+                    <a href="mailto:angie.solismanzano@ucr.ac.cr.com">
+                        <i class="fa fa-envelope" style="margin-left: 1em;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="Columna">
+                <img src="~/img/pinwino_enrique.png" id="PinwinoEnrique" class="Imagen-personal" alt="PinwinoEnrique" />
+                <label class="Titulo-persona">Enrique Vílchez</label>
+                <label class="Texto-persona">@Model.textoEnrique</label>
+                <div class="Contenedor-Iconos">
+                    <a href="https://github.com/EnriqueVilchezL" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/envil0705/" target="_blank">
+                        <i class="fa fa-instagram" style="margin-left: 1em;"></i>
+                    </a>
+                    <a href="mailto:enrique.vilchezlizano@ucr.ac.cr.com">
+                        <i class="fa fa-envelope" style="margin-left: 1em;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="Columna">
+                <img src="~/img/pinwino_kenneth.png" id="PinwinoKenneth" class="Imagen-personal" alt="PinwinoKenneth" />
+                <label class="Titulo-persona">Kenneth Villalobos</label>
+                <label class="Texto-persona">@Model.textoKenneth</label>
+                <div class="Contenedor-Iconos">
+                    <a href="https://github.com/kdaniel1652" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/kdanielvillalobos/" target="_blank">
+                        <i class="fa fa-instagram" style="margin-left: 1em;"></i>
+                    </a>
+                    <a href="mailto:kenneth.villalobossolis@ucr.ac.cr.com">
+                        <i class="fa fa-envelope" style="margin-left: 1em;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="Columna">
+                <img src="~/img/pinwino_emilia.png" id="PinwinoEmilia" class="Imagen-personal" alt="PinwinoEmilia" />
+                <label class="Titulo-persona">Emilia Víquez</label>
+                <label class="Texto-persona">@Model.textoEmilia</label>
+                <div class="Contenedor-Iconos">
+                    <a href="https://github.com/EmiliaViq" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/emilia_viq/" target="_blank">
+                        <i class="fa fa-instagram" style="margin-left: 1em;"></i>
+                    </a>
+                    <a href="mailto:emilia.viquez@ucr.ac.cr.com">
+                        <i class="fa fa-envelope" style="margin-left: 1em;"></i>
+                    </a>
+                </div>
+            </div>
+        </div> 
+    </div>
+</body>
+
+<script>
+    // Hover de Angie
+    const angie = document.getElementById('PinwinoAngie');
+    angie.addEventListener('mouseover', () => {
+        angie.src = '@Url.Content("~/img/persona_angie.png")';
+    });
+    angie.addEventListener('mouseout', () => {
+        angie.src = '@Url.Content("~/img/pinwino_angie.png")';
+    });
+
+    // Hover de Enrique
+    const enrique = document.getElementById('PinwinoEnrique');
+    enrique.addEventListener('mouseover', () => {
+        enrique.src = '@Url.Content("~/img/persona_enrique.jpg")';
+    });
+    enrique.addEventListener('mouseout', () => {
+        enrique.src = '@Url.Content("~/img/pinwino_enrique.png")';
+    });
+
+    // Hover de Luis
+    const luis = document.getElementById('PinwinoLuis');
+    luis.addEventListener('mouseover', () => {
+        luis.src = '@Url.Content("~/img/persona_luis.png")';
+    });
+    luis.addEventListener('mouseout', () => {
+        luis.src = '@Url.Content("~/img/pinwino_luis.png")';
+    });
+
+    // Hover de Emilia
+    const emilia = document.getElementById('PinwinoEmilia');
+    emilia.addEventListener('mouseover', () => {
+        emilia.src = '@Url.Content("~/img/persona_emilia.jpg")';
+    });
+    emilia.addEventListener('mouseout', () => {
+        emilia.src = '@Url.Content("~/img/pinwino_emilia.png")';
+    });
+
+    // Hover de Kenneth
+    const kenneth = document.getElementById('PinwinoKenneth');
+    kenneth.addEventListener('mouseover', () => {
+        kenneth.src = '@Url.Content("~/img/persona_kenneth.jpg")';
+    });
+    kenneth.addEventListener('mouseout', () => {
+        kenneth.src = '@Url.Content("~/img/pinwino_kenneth.png")';
+    });
+</script>
