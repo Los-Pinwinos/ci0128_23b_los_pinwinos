@@ -157,7 +157,6 @@ function renderizarTabla(resultados) {
             fila.appendChild(categoria);
             fila.appendChild(marca);
             fila.appendChild(unidad);
-
             tabla.appendChild(fila);
         }
     }

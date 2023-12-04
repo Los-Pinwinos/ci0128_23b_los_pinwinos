@@ -32,7 +32,8 @@
         // Cliente
         if ('@Model.resultadosJson' !== null && 'Model.nombreProducto' !== null) {
             var json = obtenerResultados('@Model.resultadosJson');
-            var resultados = json['@Model.nombreProducto'];
+            var nombreProducto = traducirCodificacion('@Model.nombreProducto');
+            var resultados = json[nombreProducto];
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;
         }
@@ -95,6 +96,8 @@
                 </div>
             </div>
             <label id="escondido" style="display:none;">@Model.nombreProducto</label>
+
+
         }
         else
         {
@@ -118,7 +121,7 @@
 <script>
     if ('@Model.resultadosJson' != "0" && '@Model.nombreProducto' != "0") {
         var resultadosPagina = paginar(paginaDefault);
-
+        localStorage.clear();
         // Renderizar
         renderizarPaginacion();
         renderizarTabla(resultadosPagina);

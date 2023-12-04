@@ -139,6 +139,38 @@ function crearCeldaContenido(contenido, clase) {
     return celda;
 }
 
+var filasEliminar = [];
+function crearCheckbox(actual) {
+    var checkboxDiv = document.createElement("div");
+    checkboxDiv.className = "contenidoCeldaCheckbox";
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = 'checkbox_agrupado_' + resultadosPagina.IndicePagina + '_' + actual;
+
+    checkbox.checked = (localStorage.getItem(checkbox.id) === 'true');
+
+    checkbox.addEventListener('click', function (evento) {
+        var checkboxCambiado = evento.target;
+        var filaAEliminar = checkboxCambiado.closest("tr");
+        if (checkboxCambiado.checked) {
+            // Hay que agregarlo
+            filasEliminar.push(filaAEliminar);
+            localStorage.setItem(checkboxCambiado.id, 'true');
+        } else {
+            // Hay que borrarlo
+            filasEliminar = filasEliminar.filter(fila => fila.id !== filaAEliminar.id);
+            localStorage.removeItem(checkboxCambiado.id);
+        }
+    });
+
+    var checkboxCelda = document.createElement("td");
+    checkboxCelda.classList.add('no-hover');
+    checkboxDiv.appendChild(checkbox);
+    checkboxCelda.appendChild(checkboxDiv);
+
+    return checkboxCelda;
+}
+
 function renderizarTabla(resultados) {
     var tabla = document.getElementById("CuerpoResultados");
     tabla.innerHTML = "";
@@ -148,28 +180,18 @@ function renderizarTabla(resultados) {
             var fila = document.createElement("tr");
             fila.classList.add("result-row");
 
-            var checkboxDiv = document.createElement("div");
-            checkboxDiv.className = "contenidoCeldaCheckbox";
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = 'checkbox_' + resultadosPagina.IndicePagina + '_' + actual;
 
-            var checkboxCelda = document.createElement("td");
-            checkboxCelda.classList.add('no-hover');
-            checkboxDiv.appendChild(checkbox);
-            checkboxCelda.appendChild(checkboxDiv);
+            var checkbox = crearCheckbox(actual);
+            var nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
+            var categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
+            var marca = crearCeldaContenido(resultados[actual].nombreMarca, "contenidoCeldaMarca");
+            var unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
 
-            nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
-            categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
-            marca = crearCeldaContenido(resultados[actual].nombreMarca, "contenidoCeldaMarca");
-            unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
-
-            fila.appendChild(checkboxCelda);
+            fila.appendChild(checkbox);
             fila.appendChild(nombre);
             fila.appendChild(categoria);
             fila.appendChild(marca);
             fila.appendChild(unidad);
-
             tabla.appendChild(fila);
         }
     }
