@@ -56,23 +56,23 @@
                                 <!-- Elemento de lista (dropdown) -->
                                 <li class="nav-item dropdown">
                                     <!-- Botón que abre el dropdown con el texto "Moderar" -->
-                                    <a class="nav-link text-dark" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link text-dark" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="moderador_dropdown">
                                         Moderar
                                     </a>
                                     <!-- Opciones del dropdown -->
                                     <div class="dropdown-menu Layout-dropdown">
-                                        <!-- Botón que lleva a la página para ver reportes con el texto "Registros reportados" -->
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes">Registros reportados</a>
+                                        <!-- Botón que lleva a la página de ver reportes con el texto "Registros reportados" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes" id="Registros_reportados">Registros reportados</a>
                                         <!-- Botón que lleva a la página de ver registros con precios anómalos" -->
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/OutliersPrecio">Precios anómalos</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/OutliersPrecio" id="Outliers_precio">Precios anómalos</a>
                                         <!-- Botón que lleva a la página para ver registros con fechas obsoletas con el texto "Fechas obsoletas" -->
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/FechasObsoletas">Fechas obsoletas</a>
                                         <!-- Botón que lleva a la página de clustering-->
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/ProductosSimilares">Productos similares</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/Clustering/ProductosSimilares" id="Clustering">Productos similares</a>
                                         <!-- Botón que lleva a la página de ver usuarios más reportados con el texto "Usuarios más reportados" -->
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportados">Usuarios más reportados</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" id="MasReportados" asp-route-tipo="reportados">Usuarios más reportados</a>
                                         <!-- Botón que lleva a la página de ver usuarios que más reportan con el texto "Usuarios que más reportan" -->
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportadores">Usuarios que más reportan</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" id="MasReportan"  asp-route-tipo="reportadores">Usuarios que más reportan</a>
                                     </div>
                                 </li>
                             }

@@ -62,10 +62,10 @@
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <div class="Reportar-registro">
-                                <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
+                                <span class="material-symbols-outlined Reportar-registro-span" id="reportar_span" style="margin-top:1%;" onclick="abrirPopup()">
                                     warning
                                 </span>
-                                <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
+                                <label class="Reportar-registro-label" id="reportar_label" onclick="abrirPopup()">Reportar</label>
                             </div>
                         }  
                 </div>

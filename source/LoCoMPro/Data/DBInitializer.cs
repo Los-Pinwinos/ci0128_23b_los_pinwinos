@@ -4,7 +4,7 @@ using LoCoMPro.Utils;
 
 namespace LoCoMPro.Data
 {
-    public class DBInitializer
+    public static class DBInitializer
     {
         public static async Task Initialize(LoCoMProContext contexto)
         {

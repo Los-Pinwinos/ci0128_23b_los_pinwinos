@@ -139,6 +139,38 @@ function crearCeldaContenido(contenido, clase) {
     return celda;
 }
 
+var filasEliminar = [];
+function crearCheckbox(actual) {
+    var checkboxDiv = document.createElement("div");
+    checkboxDiv.className = "contenidoCeldaCheckbox";
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = 'checkbox_agrupado_' + resultadosPagina.IndicePagina + '_' + actual;
+
+    checkbox.checked = (localStorage.getItem(checkbox.id) === 'true');
+
+    checkbox.addEventListener('click', function (evento) {
+        var checkboxCambiado = evento.target;
+        var filaAEliminar = checkboxCambiado.closest("tr");
+        if (checkboxCambiado.checked) {
+            // Hay que agregarlo
+            filasEliminar.push(filaAEliminar);
+            localStorage.setItem(checkboxCambiado.id, 'true');
+        } else {
+            // Hay que borrarlo
+            filasEliminar = filasEliminar.filter(fila => fila.id !== filaAEliminar.id);
+            localStorage.removeItem(checkboxCambiado.id);
+        }
+    });
+
+    var checkboxCelda = document.createElement("td");
+    checkboxCelda.classList.add('no-hover');
+    checkboxDiv.appendChild(checkbox);
+    checkboxCelda.appendChild(checkboxDiv);
+
+    return checkboxCelda;
+}
+
 function renderizarTabla(resultados) {
     var tabla = document.getElementById("CuerpoResultados");
     tabla.innerHTML = "";
@@ -148,17 +180,106 @@ function renderizarTabla(resultados) {
             var fila = document.createElement("tr");
             fila.classList.add("result-row");
 
-            nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
-            categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
-            marca = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaMarca");
-            unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
 
+            var checkbox = crearCheckbox(actual);
+            var nombre = crearCeldaContenido(resultados[actual].nombreProducto, "contenidoCeldaProducto");
+            var categoria = crearCeldaContenido(resultados[actual].nombreCategoria, "contenidoCeldaCategoria");
+            var marca = crearCeldaContenido(resultados[actual].nombreMarca, "contenidoCeldaMarca");
+            var unidad = crearCeldaContenido(resultados[actual].unidad, "contenidoCeldaUnidad");
+
+            fila.appendChild(checkbox);
             fila.appendChild(nombre);
             fila.appendChild(categoria);
             fila.appendChild(marca);
             fila.appendChild(unidad);
-
             tabla.appendChild(fila);
         }
     }
+}
+
+function revisarSelect(idSelect, valor) {
+    var select = document.getElementById(idSelect);
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === valor) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function rellenarDropdowns(resultados) {
+    var cajaNombre = document.getElementById("CajaDeSeleccionNombre");
+    var cajaCategoria = document.getElementById("CajaDeSeleccionCategoria");
+
+    cajaNombre.innerHTML = "";
+    cajaCategoria.innerHTML = "";
+
+    for (i = 0; i < resultados.length; ++i) {
+        if (resultados[i] != null && typeof resultados[i].nombreProducto !== 'undefined' && resultados[i].nombreProducto !== "") {
+            cajaNombre.appendChild(new Option(resultados[i].nombreProducto, resultados[i].nombreProducto));
+            if (!revisarSelect("CajaDeSeleccionCategoria", resultados[i].nombreCategoria)) {
+                cajaCategoria.appendChild(new Option(resultados[i].nombreCategoria, resultados[i].nombreCategoria));
+            }
+        }
+    }
+}
+
+function unificar() {
+    if (filasEliminar.length > 1) {
+        var mensaje = "¿Está seguro que desea agrupar los registros seleccionados?\n\n(Esta acción tendrá consecuencias)";
+        if (confirm(mensaje)) {
+            ejecutarAgrupacion();
+        }
+    }
+    else {
+        alert("Debe seleccionar al menos dos registros para agrupar.");
+    }
+}
+
+function limpiarRegistrosPaginables(datos, nombreProducto) {
+    lista = []
+    for (var dato in datos) {
+        if (typeof datos[dato].nombreProducto !== 'undefined' && datos[dato].nombreProducto !== "" 
+            && datos[dato].nombreProducto !== nombreProducto) {
+            lista.push(datos[dato]);
+        }
+    }
+    return lista;
+}
+
+function ejecutarAgrupacion() {
+    localStorage.clear();
+    var listaAgrupar = [];
+    paginacionHabilitada = false;
+    const nombreProducto = document.getElementById("CajaDeSeleccionNombre").value;
+    const nombreCategoria = document.getElementById("CajaDeSeleccionCategoria").value;
+
+    for (var i = 0; i < filasEliminar.length; ++i) {
+        const nombreProducto = filasEliminar[i].childNodes[1].innerText;
+
+        numeroPagina = resultadosPagina.IndicePagina;
+        filasEliminar[i].remove();
+
+        resultados = limpiarRegistrosPaginables(resultados, nombreProducto);
+
+        if (resultados.length > 0) {
+            rellenarDropdowns(resultados);
+            resultadosPagina = limpiarRegistrosPaginables(resultados, nombreProducto);
+            resultadosPagina = resultadosPagina.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPagina);
+        }
+        else {
+            alert("Renderizar pinwino");
+        }
+
+        listaAgrupar.push(nombreProducto);
+    }
+
+    const jsonAgrupar = JSON.stringify(listaAgrupar);
+
+    fetch(`/Moderacion/Clustering/ResultadoProductosSimilares?handler=Agrupar&productosJson=${jsonAgrupar}&nombre=${nombreProducto}&categoria=${nombreCategoria}`);
+
+    paginacionHabilitada = true;
+    listaAgrupar = [];
 }

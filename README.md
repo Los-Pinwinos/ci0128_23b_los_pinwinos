@@ -373,6 +373,13 @@ Para estas pruebas se ocupa que hayan registros cuya tienda asociada esté en `H
 ##### **Calificar registros**
 Para estas pruebas, se necesitan que estén los registros asociados a `Iphone 14` y un usuario llamado `Usuario1*`. Ambos requerimientos se cumplen si se utiliza el `DBInitializer`. Además, se deben tener los siguientes procedimientos de la base de datos: calificar un registro, actualizar la calificación de un registro, actualizar calificación de un usuario y actualizar rol del moderador.
 
+#### **Confirmar botón de reportar en un registro**
+Para estas pruebas se requiere que se encuentre al menos un producto `Camisa` con un registro y la sesión iniciada con `Usuario1*`. Si se utiliza el `DBInitializer`, ambos requerimientos se van a a cumplir.
+
+#### **Revisiones del panel de moderación**
+
+Para las revisiones del panel de moderación desde home, se debe utilizar el usuario `Usuario1` que posee el status de moderador por default.
+
 ### **Manual de instalación o ejecución del sistema**
 
 Para la ejecución, por simpleza, se puede ejecutar desde `Visual Studio`.

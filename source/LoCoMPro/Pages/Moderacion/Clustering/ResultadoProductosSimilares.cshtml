@@ -1,0 +1,147 @@
+﻿@page
+@model LoCoMPro.Pages.Moderacion.Clustering.ResultadoProductosSimilaresModel
+@{
+    ViewData["Title"] = "Resultado Productos Similares";
+}
+
+<head>
+    <!-- Título de la pagina -->
+    <title>Productos Similares</title>
+    <!-- Estilos de la página -->
+    <link rel="stylesheet" href="~/css/Pages/Moderacion/ProductosSimilares.css" asp-append-version="true" />
+    <!-- Cliente -->
+    <script src="~/js/Pages/Moderacion/Clustering/clienteResultados.js" asp-append-version="true"></script>
+    <!-- Paginación -->
+    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
+    <script>
+        paginacionHabilitada = true;
+
+        // Función de traducción de codificación
+        function traducirCodificacion(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        // Obtener resultados de busqueda principal
+        function obtenerResultados(cadena) {
+            var resultadosDecodificados = traducirCodificacion(cadena);
+            return JSON.parse(resultadosDecodificados);
+        }
+
+        // Cliente
+        if ('@Model.resultadosJson' !== null && 'Model.nombreProducto' !== null) {
+            var json = obtenerResultados('@Model.resultadosJson');
+            var nombreProducto = traducirCodificacion('@Model.nombreProducto');
+            var resultados = json[nombreProducto];
+            var paginador = new Paginador(@Model.resultadosPorPagina);
+            var paginaDefault = @Model.paginaDefault;
+        }
+    </script>
+</head>
+
+<body>
+    <div id="ContenedorPrincipal" style="display: flex;flex-direction: column;">
+        @if (!(User.Identity == null || !User.Identity.IsAuthenticated) && Model.resultadosJson != "0" && Model.nombreProducto != "0")
+        {
+            <div class="Clustering-tabla">
+                <table>
+                    <caption style="display:none;">Tabla de productos similares</caption>
+                    <thead>
+                        <tr>
+                            <!-- Columna para checkboxes -->
+                            <th></th>
+                            <th style="padding-left:1%;">
+                                <!-- Columna con el nombre del producto -->
+                                Nombre
+                            </th>
+                            <th>
+                                <!-- Columna con el nombre de la categoria -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreCategoria)
+                            </th>
+                            <th>
+                                <!-- Columna con la marca -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.nombreMarca)
+                            </th>
+                            <th>
+                                <!-- Columna con la unidad -->
+                                @Html.DisplayNameFor(model => model.productosSimilaresVM.unidad)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Tabla-resultados" id="CuerpoResultados"></tbody>
+                </table>
+            </div>
+            <!-- Paginación -->
+            <div class="Contenedor-paginacion">
+                <div class="Contenedor-caja-paginacion">
+                    <!-- Botón anterior -->
+                    <div id="PaginaPrevia" class="Boton-paginacion" onclick="pasarPagina(resultadosPagina.IndicePagina - 1)">
+                        Anterior
+                    </div>
+                    <div id="SinPaginaPrevia" class="Boton-paginacion-deshabilitado">
+                        Anterior
+                    </div>
+
+                    <!-- Botones de número de página -->
+                    <span id="TextoPaginacion" class="Texto-paginacion">  </span>
+
+                    <!-- Botón siguiente -->
+                    <div id="PaginaSiguiente" class="Boton-paginacion" onclick="pasarPagina(resultadosPagina.IndicePagina + 1)">
+                        Siguiente
+                    </div>
+                    <div id="SinPaginaSiguiente" class="Boton-paginacion-deshabilitado">
+                        Siguiente
+                    </div>
+                </div>
+            </div>
+            <label id="escondido" style="display:none;">@Model.nombreProducto</label>
+
+            <div class="Contenedor-unir">
+                <div class="Contenedor-dropdowns">
+                    <label>Nombre:</label>
+                    <select name="nombres" id="CajaDeSeleccionNombre" class="Dropdown"> </select>
+                    <label style="margin-left: 5%;">Categoría:</label>
+                    <select name="categorias" id="CajaDeSeleccionCategoria" class="Dropdown"> </select>
+                </div>
+                <button class="Boton" type="submit" id="Unificar" onclick="unificar()">Unificar</button>
+            </div>
+
+            <button class="Boton" type="submit" id="Salir" onclick="salir()">Salir</button>
+        }
+        else
+        {
+            <div class="Contenedor-gif">
+                <!-- Logotipo de Penguin -->
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino feliz" class="Pinwino-gif" id="PinwinoFeliz">
+                <p class="Texto-grande">No quedan agrupaciones por hacer</p>
+            </div>
+        }
+    </div>
+</body>
+
+<script>
+    var mensajeError = "@ViewData["MensajeError"]";
+    if (mensajeError) {
+        alert(mensajeError);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<script>
+    if ('@Model.resultadosJson' != "0" && '@Model.nombreProducto' != "0") {
+        var resultadosPagina = paginar(paginaDefault);
+        localStorage.clear();
+        // Renderizar
+        renderizarPaginacion();
+        renderizarTabla(resultadosPagina);
+        rellenarDropdowns(resultados);
+    }
+</script>
+
+<script>
+    function salir() {
+        window.location.href = "/Moderacion/Clustering/ProductosSimilares";
+    }
+</script>
+
