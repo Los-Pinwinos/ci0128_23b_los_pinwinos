@@ -104,10 +104,10 @@
                     <label style="margin-left: 5%;">Categoría:</label>
                     <select name="categorias" id="CajaDeSeleccionCategoria" class="Dropdown"> </select>
                 </div>
-                <button class="Boton" type="submit" id="Unificar">Unificar</button>
+                <button class="Boton" type="submit" id="Unificar" onclick="unificar()">Unificar</button>
             </div>
 
-            <button class="Boton" type="submit" id="Salir">Salir</button>
+            <button class="Boton" type="submit" id="Salir" onclick="salir()">Salir</button>
         }
         else
         {
@@ -135,5 +135,13 @@
         // Renderizar
         renderizarPaginacion();
         renderizarTabla(resultadosPagina);
+        rellenarDropdowns(resultados);
     }
 </script>
+
+<script>
+    function salir() {
+        window.location.href = "/Moderacion/Clustering/ProductosSimilares";
+    }
+</script>
+

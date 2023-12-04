@@ -196,3 +196,86 @@ function renderizarTabla(resultados) {
         }
     }
 }
+
+function revisarSelect(idSelect, valor) {
+    var select = document.getElementById(idSelect);
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === valor) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function rellenarDropdowns(resultados) {
+    var cajaNombre = document.getElementById("CajaDeSeleccionNombre");
+    var cajaCategoria = document.getElementById("CajaDeSeleccionCategoria");
+
+    cajaNombre.innerHTML = "";
+    cajaCategoria.innerHTML = "";
+
+    for (i = 0; i < resultados.length; ++i) {
+        if (resultados[i] != null && typeof resultados[i].nombreProducto !== 'undefined' && resultados[i].nombreProducto !== "") {
+            cajaNombre.appendChild(new Option(resultados[i].nombreProducto, resultados[i].nombreProducto));
+            if (!revisarSelect("CajaDeSeleccionCategoria", resultados[i].nombreCategoria)) {
+                cajaCategoria.appendChild(new Option(resultados[i].nombreCategoria, resultados[i].nombreCategoria));
+            }
+        }
+    }
+}
+
+function unificar() {
+    if (filasEliminar.length > 1) {
+        var mensaje = "¿Está seguro que desea agrupar los registros seleccionados?\n\n(Esta acción tendrá consecuencias)";
+        if (confirm(mensaje)) {
+            ejecutarAgrupacion();
+        }
+    }
+    else {
+        alert("Debe seleccionar al menos dos registros para agrupar.");
+    }
+}
+
+function limpiarRegistrosPaginables(datos, nombreProducto) {
+    lista = []
+    for (var dato in datos) {
+        if (typeof datos[dato].nombreProducto !== 'undefined' && datos[dato].nombreProducto !== "" 
+            && datos[dato].nombreProducto !== nombreProducto) {
+            lista.push(datos[dato]);
+        }
+    }
+    return lista;
+}
+
+function ejecutarAgrupacion() {
+    localStorage.clear();
+    var listaAgrupar = [];
+    paginacionHabilitada = false;
+
+    for (var i = 0; i < filasEliminar.length; ++i) {
+        const nombreProducto = filasEliminar[i].childNodes[1].innerText;
+
+        numeroPagina = resultadosPagina.IndicePagina;
+        filasEliminar[i].remove();
+
+        resultados = limpiarRegistrosPaginables(resultados, nombreProducto);
+
+        if (resultados.length > 0) {
+            rellenarDropdowns(resultados);
+            resultadosPagina = limpiarRegistrosPaginables(resultados, nombreProducto);
+            resultadosPagina = resultadosPagina.length != 0 ? paginar(numeroPagina) : paginar(numeroPagina - 1);
+            renderizarPaginacion();
+            renderizarTabla(resultadosPagina);
+        }
+        else {
+            alert("Renderizar pinwino");
+        }
+
+        listaAgrupar.push(nombreProducto);
+    }
+
+    // TODO(Luis): Hacer el fetch
+
+    paginacionHabilitada = true;
+    listaAgrupar = [];
+}
