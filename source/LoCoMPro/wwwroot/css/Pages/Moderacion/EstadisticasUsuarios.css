@@ -99,7 +99,7 @@ table {
 
 
 .contenidoCeldaCalificacion {
-    text-align: right;
+    text-align: center;
     min-width: 100px;
     max-width: 100px;
     overflow: hidden;
@@ -108,13 +108,12 @@ table {
 }
 
 .contenidoCeldaNumero {
-    text-align: right;
+    text-align: center;
     min-width: 75px;
     max-width: 75px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    direction: rtl;
 }
 
 

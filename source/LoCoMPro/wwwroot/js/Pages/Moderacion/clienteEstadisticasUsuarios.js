@@ -42,7 +42,7 @@ function renderizarTabla(datos) {
             var divRealizados = document.createElement("div");
             divRealizados.className = "contenidoCeldaNumero";
             divRealizados.textContent = datos[dato].CantidadReportes;
-            divRealizados.style.marginLeft = "65px";
+            divRealizados.style.marginLeft = "60px";
             var realizadosCelda = document.createElement("td");
             realizadosCelda.setAttribute('data-tooltip', divRealizados.textContent);
             realizadosCelda.appendChild(divRealizados);
@@ -50,11 +50,8 @@ function renderizarTabla(datos) {
             // La cantidad de reportes aprobados debe contener un porcentaje entre paréntesis (debe ser formateado al igual que la calificación)
             var divAceptados = document.createElement("div");
             divAceptados.className = "contenidoCeldaNumero";
-            divAceptados.style.minWidth = "85px"
-            divAceptados.style.maxWidth = "85px"
-            divAceptados.style.marginLeft = "auto";
-            divAceptados.style.paddingRight = "10px";
-            divAceptados.textContent = datos[dato].CantidadVerificados + " (" + formatearNumeros(datos[dato].CantidadVerificados*100 / datos[dato].CantidadReportes) + "%)";
+            divAceptados.style.marginLeft = "60px";
+            divAceptados.textContent = datos[dato].CantidadVerificados + " (" + formatearNumeros(datos[dato].CantidadVerificados * 100 / datos[dato].CantidadReportes) + "%)";
             var aceptadosCelda = document.createElement("td");
             aceptadosCelda.setAttribute('data-tooltip', divAceptados.textContent);
             aceptadosCelda.appendChild(divAceptados);
@@ -77,7 +74,7 @@ function pasarPagina(numeroPagina) {
     resultadosPaginados = paginar(numeroPagina);
     renderizarPaginacion();
     renderizarTabla(resultadosPaginados);
-    
+
     window.scrollTo(0, 0);
 }
 

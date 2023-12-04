@@ -286,7 +286,7 @@ table {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font: 13px system-ui;
+    font-size: 16px;
     align-items: center;
 }
 
