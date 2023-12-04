@@ -419,30 +419,42 @@ on Reportes
 instead of insert
 as
 begin
-	-- Declarar las variables requeridas del insert
-	declare @creadorReporte as nvarchar(20),
-			@creadorRegistro as nvarchar(20),
-			@creacionRegisto as datetime2(7),
-			@comentario as nvarchar(256),
-			@creacionReporte as datetime2(7);
-	-- Seleccionar los datos insertados
-	select @creadorReporte = usuarioCreadorReporte,
-		   @creadorRegistro = usuarioCreadorRegistro,
-		   @creacionRegisto = creacionRegistro,
-		   @comentario = comentario,
-		   @creacionReporte = creacion
-	from inserted;
-	-- Revisar si un usuario ha realizado un reporte de este registro previamente
-	if exists (select * from Reportes
-			   where usuarioCreadorReporte = @creadorReporte and
-			   usuarioCreadorRegistro = @creadorRegistro and
-			   creacionRegistro = @creacionRegisto) begin
-		delete from Reportes
-		where usuarioCreadorReporte = @creadorReporte and
-		usuarioCreadorRegistro = @creadorRegistro and
-		creacionRegistro = @creacionRegisto;
-	end
-	-- Insertar el nuevo reporte
-	insert into Reportes
-	values(@creadorReporte, @creadorRegistro, @creacionRegisto, @comentario, @creacionReporte, 0, null);
+	begin try
+		set transaction isolation level serializable;
+		begin transaction manejarReporte
+		-- Declarar las variables requeridas del insert
+		declare @creadorReporte as nvarchar(20),
+				@creadorRegistro as nvarchar(20),
+				@creacionRegisto as datetime2(7),
+				@comentario as nvarchar(256),
+				@creacionReporte as datetime2(7);
+		-- Seleccionar los datos insertados
+		select @creadorReporte = usuarioCreadorReporte,
+			   @creadorRegistro = usuarioCreadorRegistro,
+			   @creacionRegisto = creacionRegistro,
+			   @comentario = comentario,
+			   @creacionReporte = creacion
+		from inserted;
+		-- Revisar si un usuario ha realizado un reporte de este registro previamente
+		if exists (select * from Reportes
+				   where usuarioCreadorReporte = @creadorReporte and
+				   usuarioCreadorRegistro = @creadorRegistro and
+				   creacionRegistro = @creacionRegisto) begin
+			delete from Reportes
+			where usuarioCreadorReporte = @creadorReporte and
+			usuarioCreadorRegistro = @creadorRegistro and
+			creacionRegistro = @creacionRegisto;
+		end;
+		-- Insertar el nuevo reporte
+		insert into Reportes
+		values(@creadorReporte, @creadorRegistro, @creacionRegisto, @comentario, @creacionReporte, 0, null);
+		commit transaction
+	end try
+
+	begin catch
+		rollback transaction manejarReporte;
+		throw;
+	end catch;
 end;
+
+drop trigger reemplazarReporte
