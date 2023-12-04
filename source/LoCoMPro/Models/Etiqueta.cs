@@ -14,7 +14,6 @@ namespace LoCoMPro.Models
         [Display(Name = "Etiquetas")]
         public required string etiqueta { get; set; }
 
-        // TODO(Los Pinwinos): Investigar DisplayFormatAttribute annotation
         // Fecha y hora de creación
         [DataType(DataType.DateTime)]
         [Range(typeof(DateTime), "1/1/2000", "1/1/2200")]

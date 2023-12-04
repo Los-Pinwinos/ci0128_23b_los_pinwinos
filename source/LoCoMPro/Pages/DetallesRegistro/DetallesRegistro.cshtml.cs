@@ -33,6 +33,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 nombreUnidad = " ",
                 productoAsociado = " "
             };
+            this.reportePopup = "";
         }
 
         public IActionResult OnGet(string fechaHora, string usuario)
