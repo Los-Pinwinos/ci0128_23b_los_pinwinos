@@ -499,7 +499,6 @@ function renderizarTabla(datos) {
 }
 
 // Redirecionar a ver registros
-
 document.addEventListener("click", function () {
     const rows = document.querySelectorAll(".result-row");
 

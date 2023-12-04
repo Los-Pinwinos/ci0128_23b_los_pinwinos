@@ -1,9 +1,12 @@
 ﻿using OpenQA.Selenium;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LoCoMProTestFuncionales.PageModels.DetallesRegistros
 {
     public class PaginaDetallesRegistro : PaginaBase
     {
+        protected By BotonReportar = By.Id("reportar_label");
+        protected By PopupReportar = By.Id("popup");
         protected By Calificacion = By.Id("CalificacionTotal");
         protected By CantidadCalificaciones = By.Id("CantidadCalificacionesTotal");
         protected By MensajeUltimaCalificacion = By.Id("UltimaCalificacion");
@@ -50,6 +53,11 @@ namespace LoCoMProTestFuncionales.PageModels.DetallesRegistros
                     driver.FindElement(Estrella5).Click();
                     break;
             }
+        }
+
+        public bool revisarBotonReportar()
+        {
+            return driver.FindElement(BotonReportar).Displayed;
         }
     }
 }

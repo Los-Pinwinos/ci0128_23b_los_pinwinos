@@ -17,7 +17,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(50);
         }
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
@@ -146,6 +146,20 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
             // Verificación _________________________________________________________________
             string resultado = paginaDetalles.ObtenerMensajeCalificacion();
             Assert.That(resultado, Is.EqualTo("Ha calificado con: 2"));
+        }
+
+        // Hecho por: Luis David Solano Santamaría - C17634 - Sprint 3
+        [Test]
+        public void PaginaDetallesRegistro_UsuarioIngresado_DeberiaVerReportar()
+        {
+            // Preparación 
+            PaginaHome paginaHome = IniciarSesion();
+            PaginaBusqueda paginaBusqueda = paginaHome.Buscar("Camisa");
+            PaginaVerRegistros paginaRegistros = paginaBusqueda.SeleccionarResultado(0);
+            PaginaDetallesRegistro paginaDetalles = paginaRegistros.SeleccionarResultado(0);
+
+            // Verificación
+            Assert.IsTrue(paginaDetalles.revisarBotonReportar());
         }
 
         private PaginaHome IniciarSesion()

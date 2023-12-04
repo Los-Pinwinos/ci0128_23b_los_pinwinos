@@ -10,7 +10,7 @@
     <!-- Estilos de la página -->
     <link rel="stylesheet" href="~/css/Pages/Moderacion/ProductosSimilares.css" asp-append-version="true"/>
     <!-- Cliente -->
-    <script src="~/js/Pages/Moderacion/Clustering/cliente.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Moderacion/Clustering/clienteAgrupador.js" asp-append-version="true"></script>
     <!-- Paginación -->
     <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
     <script>
@@ -24,14 +24,14 @@
         }
 
         // Obtener resultados de busqueda principal
-        function obtenerResultados() {
-            var resultadosDecodificados = traducirCodificacion('@Model.principalesGrupo');
+        function obtenerResultados(cadena) {
+            var resultadosDecodificados = traducirCodificacion(cadena);
             return JSON.parse(resultadosDecodificados);
         }
 
         // Cliente
-        if ('@Model.principalesGrupo' != "0") {
-            var resultados = obtenerResultados();
+        if ('@Model.principalesGrupo' !== "0") {
+            var resultados = obtenerResultados('@Model.principalesGrupo');
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;
         }
@@ -77,7 +77,6 @@
                 <p class="Texto-grande">No se encontraron agrupaciones</p>
             </div>
         }
-
     </div>
 
     <!-- Paginación -->
@@ -106,6 +105,7 @@
             </div>
         </div>
     }
+    <label id="escondido" style="display:none;">@Model.gruposJson</label>
 </body>
 
 <script>

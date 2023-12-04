@@ -6,6 +6,12 @@ namespace LoCoMProTestFuncionales.PageModels.Home
 {
     public class PaginaHome : PaginaBase
     {
+        private By OutliersPrecio = By.Id("Outliers_precio");
+        private By RegistrosReportados = By.Id("Registros_reportados");
+        private By Clustering = By.Id("Clustering");
+        private By MasReportados = By.Id("MasReportados");
+        private By MasReportan = By.Id("MasReportan");
+        private By ModeradorDropdown = By.Id("moderador_dropdown");
         private By CajaDeTextoProducto = By.Id("CajaDeTextoProducto");
         private By BotonDeBusqueda = By.Id("BotonBuscar");
         private By BotonBusquedaAvanzada = By.Id("BotonBusquedaAvanzada");
@@ -36,6 +42,37 @@ namespace LoCoMProTestFuncionales.PageModels.Home
         {
             IWebElement dropdownPerfil = driver.FindElement(PerfilDropdown);
             dropdownPerfil.Click();
+        }
+
+        public void DesplegarDropdownModerador()
+        {
+            IWebElement dropdownModerador = driver.FindElement(ModeradorDropdown);
+            dropdownModerador.Click();
+        }
+
+        public bool RegistrosReportadosVisibles()
+        {
+            return driver.FindElement(RegistrosReportados).Displayed;
+        }
+
+        public bool OutliersPrecioVisible()
+        {
+            return driver.FindElement(OutliersPrecio).Displayed;
+        }
+
+        public bool ClusteringVisible()
+        {
+            return driver.FindElement(Clustering).Displayed;
+        }
+
+        public bool MasReportanVisible()
+        {
+            return driver.FindElement(MasReportan).Displayed;
+        }
+
+        public bool MasReportadosVisible()
+        {
+            return driver.FindElement(MasReportados).Displayed;
         }
 
         public PaginaPerfil IrAPerfil()
