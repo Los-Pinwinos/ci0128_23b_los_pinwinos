@@ -104,34 +104,46 @@ create procedure [dbo].[calificarRegistro]
 	 @calificacion int)
 as
 begin
-	declare @calificacionRegistrada int;
+	begin try
+		-- Se crea la transacción serializable
+		set transaction isolation level serializable;
+		begin transaction transaccionCalificarRegistro;
 
-	-- Primero se debe averiguar si el usuario ya ha calificado ese registro
-	select @calificacionRegistrada = calificacion
-	from Calificaciones
-	where usuarioCalificador = @usuarioCalificador
-		and usuarioCreadorRegistro = @usuarioCreadorRegistro
-		and creacionRegistro = @creacionRegistro;
+		declare @calificacionRegistrada int;
 
-	-- Si el usuario no ha calificado ese registro
-	if @calificacionRegistrada is null begin
-		-- Inserta la nueva calificacion
-		insert into Calificaciones
-			values (@usuarioCalificador, @usuarioCreadorRegistro, @creacionRegistro, @calificacion, null);
-	end
-	else begin
-		-- Se revisa que el usuario esté actualizando su calificación
-		if @calificacion != @calificacionRegistrada begin
-			-- Actualiza la tupla a la nueva calificación
-			update Calificaciones
-			set calificacion = @calificacion
-			where usuarioCalificador = @usuarioCalificador
-				and usuarioCreadorRegistro = @usuarioCreadorRegistro
-				and creacionRegistro = @creacionRegistro;
+		-- Primero se debe averiguar si el usuario ya ha calificado ese registro
+		select @calificacionRegistrada = calificacion
+		from Calificaciones
+		where usuarioCalificador = @usuarioCalificador
+			and usuarioCreadorRegistro = @usuarioCreadorRegistro
+			and creacionRegistro = @creacionRegistro;
+
+		-- Si el usuario no ha calificado ese registro
+		if @calificacionRegistrada is null begin
+			-- Inserta la nueva calificacion
+			insert into Calificaciones
+				values (@usuarioCalificador, @usuarioCreadorRegistro, @creacionRegistro, @calificacion, null);
 		end
-	end
-end;
+		else begin
+			-- Se revisa que el usuario esté actualizando su calificación
+			if @calificacion != @calificacionRegistrada begin
+				-- Actualiza la tupla a la nueva calificación
+				update Calificaciones
+				set calificacion = @calificacion
+				where usuarioCalificador = @usuarioCalificador
+					and usuarioCreadorRegistro = @usuarioCreadorRegistro
+					and creacionRegistro = @creacionRegistro;
+			end
+		end
 
+		-- Se cierra la transacción
+		commit transaction transaccionCalificarRegistro;
+	end try
+	begin catch
+		rollback transaction transaccionCalificarRegistro;
+		throw;
+	end catch;
+end;
 
 -- Procedimiento creado por Angie Sofía Solís Manzano - C17686
 go
@@ -139,27 +151,39 @@ create procedure [dbo].[actualizarCalificacionDeUsuario]
 	(@nombreDeUsuario nvarchar(20))
 as
 begin
-	declare @totalCalificaciones int, @sumaCalificaciones int, @promedioCalificaciones float;
+	begin try
+		-- Se crea la transacción serializable
+		set transaction isolation level serializable;
+		begin transaction transaccionCalificacionUsuario;
 
-	-- Se obtiene el total de calificaciones y la suma de dichas calificaciones
-	select @totalCalificaciones = count(c.usuarioCreadorRegistro), @sumaCalificaciones = sum(c.calificacion)
-	from Calificaciones as c join Registros as r on
-		 c.creacionRegistro = r.creacion and
-		 c.usuarioCreadorRegistro = r.usuarioCreador
-	where c.usuarioCreadorRegistro = @nombreDeUsuario and
-		  r.visible = 1;
+		declare @totalCalificaciones int, @sumaCalificaciones int, @promedioCalificaciones float;
 
-	-- Se actualiza la calificación del usuario
-	set @promedioCalificaciones = (1.0 * @sumaCalificaciones) / (1.0 * @totalCalificaciones);
+		-- Se obtiene el total de calificaciones y la suma de dichas calificaciones
+		select @totalCalificaciones = count(c.usuarioCreadorRegistro), @sumaCalificaciones = sum(c.calificacion)
+		from Calificaciones as c join Registros as r on
+			 c.creacionRegistro = r.creacion and
+			 c.usuarioCreadorRegistro = r.usuarioCreador
+		where c.usuarioCreadorRegistro = @nombreDeUsuario and
+			  r.visible = 1;
 
-	if @promedioCalificaciones is null
-		set @promedioCalificaciones = 0
+		-- Se actualiza la calificación del usuario
+		set @promedioCalificaciones = (1.0 * @sumaCalificaciones) / (1.0 * @totalCalificaciones);
 
-	update Usuario
-	set calificacion = @promedioCalificaciones
-	where nombreDeUsuario = @nombreDeUsuario;
+		if @promedioCalificaciones is null
+			set @promedioCalificaciones = 0
+
+		update Usuario
+		set calificacion = @promedioCalificaciones
+		where nombreDeUsuario = @nombreDeUsuario;
+
+		-- Se cierra la transacción
+		commit transaction transaccionCalificacionUsuario;
+	end try
+	begin catch
+		rollback transaction transaccionCalificacionUsuario;
+		throw;
+	end catch
 end;
-
 
 -- Procedimiento creado por Kenneth Daniel Villalobos Solís - C18548
 go

@@ -22,7 +22,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarCalificacion()
+        public void PaginaDetallesRegistro_RevisarCalificacion_DeberiaSerCero()
         {
             // Preparación __________________________________________________________________
             // Se realiza una búsqueda con "Iphone"
@@ -43,7 +43,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarCantidadCalificaciones()
+        public void PaginaDetallesRegistro_RevisarCantidadCalificaciones_DeberiaSerCero()
         {
             // Preparación __________________________________________________________________
             PaginaHome paginaHome = new PaginaHome(this.driver);
@@ -64,7 +64,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarMensajeHaCalificado()
+        public void PaginaDetallesRegistro_RevisarMensajeHaCalificado_DeberiaSerCinco()
         {
             // Preparación __________________________________________________________________
             PaginaHome paginaHome = IniciarSesion();
@@ -84,7 +84,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarAlCalificarActualizarCalificacion()
+        public void PaginaDetallesRegistro_RevisarAlCalificarActualizarCalificacion_DeberiaSerUno()
         {
             // Preparación __________________________________________________________________
             PaginaHome paginaHome = IniciarSesion();
@@ -106,7 +106,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarAlCalificarActualizarCantidad()
+        public void PaginaDetallesRegistro_RevisarAlCalificarActualizarCantidad_DeberiaSerUno()
         {
             // Preparación __________________________________________________________________
             PaginaHome paginaHome = IniciarSesion();
@@ -128,7 +128,7 @@ namespace LoCoMProFunctionalTests.Pages.DetallesRegistro
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 3
         [Test]
-        public void RevisarAlCalificarActualizarMensaje()
+        public void PaginaDetallesRegistro_RevisarAlCalificarActualizarMensaje_DeberiaSerDos()
         {
             // Preparación __________________________________________________________________
             PaginaHome paginaHome = IniciarSesion();

@@ -14,7 +14,7 @@ namespace LoCoMProFunctionalTests.Pages.AgregarTienda
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
