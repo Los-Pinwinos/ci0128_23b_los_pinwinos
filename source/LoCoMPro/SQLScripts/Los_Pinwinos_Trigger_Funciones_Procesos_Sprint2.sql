@@ -213,6 +213,77 @@ begin
 	end
 end;
 
+-- Procedimiento creado por Kenneth Daniel Villalobos Solís - C18548
+go
+create procedure [dbo].[ocultarRegistrosObsoletos]
+    (@producto nvarchar(256),
+	 @tienda nvarchar(256),
+	 @distrito nvarchar(30),
+	 @canton nvarchar(20),
+	 @provincia nvarchar(10),
+	 @fechaCorte datetime2(7))
+as
+begin
+	-- Declarar variables
+	declare @creacion as datetime2(7) = null;
+	declare @usuario as nvarchar(20) = null;
+
+	-- Try para la transacción
+	begin try
+		-- Establecer el nivel de aislamiento
+		set transaction isolation level serializable;
+
+		-- Crear una transacción
+		begin transaction;
+
+		-- Crear un cursor para pasar por todos los
+		-- registros que se deben ocultar
+		declare cursorRegistro cursor for 
+		select creacion, usuarioCreador
+		from Registros
+		where creacion <= @fechaCorte and
+			  visible = 1 and
+			  productoAsociado = @producto and
+			  nombreTienda = @tienda and
+			  nombreDistrito = @distrito and
+			  nombreCanton = @canton and
+			  nombreProvincia = @provincia;
+
+		-- Abrir cursor y obtener los datos en las variables
+		open cursorRegistro;
+		fetch next from cursorRegistro into  @creacion, @usuario
+	 
+		-- Ciclo while mientras haya tuplas que cumplan
+		while @@FETCH_STATUS = 0 begin
+			-- Ocultar el registro
+			update Registros
+			set visible = 0
+			where creacion = @creacion;
+
+			-- Actualizar la calificacion y moderación del usuario
+			-- creador del registro
+			exec actualizarCalificacionDeUsuario @usuario;
+			exec actualizarModeracion @usuario;
+
+			-- Obtener los proximos datos
+			fetch next from cursorRegistro into  @creacion, @usuario
+		end
+	
+		-- Cerrar y dealocar cursor
+		close cursorRegistro;
+		deallocate cursorRegistro;
+
+	   -- Terminar la transacción
+	   commit;
+
+	end try
+	-- En caso de haber un error
+	begin catch
+		-- Deshacer la transacción
+		rollback;
+	end catch
+end;
+
 
 
 ------------------------------- Funciones --------------------------------
@@ -323,6 +394,26 @@ begin
 		-- Calcula la fecha de corte
 		set @fechaCorte = dateadd(second, -@delta, @fechaDelta);
     end
+
+	-- Si la fecha de corte es la más reciete (está por marcar a todos como outliers)
+	if @fechaCorte >= @fechaReciente begin
+		-- Cambia la fecha de corte a la del siguiente registro más reciente
+		select top 1 @fechaCorte = creacion
+		from Registros
+		where creacion < @fechaReciente and
+			  productoAsociado = @producto and
+			  nombretienda = @tienda and
+			  nombreDistrito = @distrito and
+			  nombreCanton = @canton and
+			  nombreProvincia = @provincia and
+			  visible = 1
+		order by creacion desc;
+
+		-- Si no había ninguno, dejarla en nulo
+		if @fechaCorte >= @fechaReciente begin
+			set @fechaCorte = null
+		end
+	end
 	
 	-- Retorna la fecha de corte (si no hay es nula)
     return @fechaCorte;

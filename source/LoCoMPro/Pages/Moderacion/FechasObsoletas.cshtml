@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="~/css/Pages/Moderacion/FechasObsoletas.css" asp-append-version="true" />
     <!-- Enlace a Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <script src="~/js/Pages/Cuenta/paginador.js" asp-append-version="true"></script>
     <script src="~/js/Pages/Moderacion/FechasObsoletas/paginador.js" asp-append-version="true"></script>
     <script>
         // Habilitar paginacion
@@ -36,16 +35,17 @@
             var resultados = obtenerResultados();
             var paginador = new Paginador(@Model.resultadosPorPagina);
             var paginaDefault = @Model.paginaDefault;
+            var seleccion = new Array(resultados.length).fill(false);
         }
     </script>
     <script src="~/js/Pages/Moderacion/FechasObsoletas/cliente.js" asp-append-version="true"></script>
 </head>
 <div>
-    <div class="FechasObsoletas-contenedor-fila" id="ContenedorPrincipal" style="display: flex; justify-content: center;">
+    <div class="FechasObsoletas-contenedor-principal" id="ContenedorPrincipal">
         @if (Model.outliers != "Sin resultados")
         {
             <!-- Tabla de resultados -->
-            <div class="FechasObsoletas-tabla">
+            <div class="FechasObsoletas-tabla" id="ContenedorTabla">
                 <table>
                     <caption style="display:none;">Tabla de registros con fechas obsoletas</caption>
                     <thead>
@@ -96,7 +96,7 @@
 @if (Model.outliers != "Sin resultados")
 {
     <!-- Paginación -->
-    <div class="FechasObsoletas-contenedor-paginacion">
+    <div class="FechasObsoletas-contenedor-paginacion" id="ContenedorPaginacion">
         <div class="FechasObsoletas-contenedor-caja-paginacion">
             <!-- Botón anterior -->
             <div id="PaginaPrevia" class="FechasObsoletas-boton-paginacion" onclick="pasarPagina(outliersVM.IndicePagina - 1)">
@@ -118,6 +118,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Botón para eliminar -->
+    <div class="FechasObsoletas-contenedor-principal" style="margin-top: 3%;" id="ContenedorBoton">
+        <button class="FechasObsoletas-boton" onclick="confirmarEliminacion()">Eliminar</button>
+    </div>
 }
 
 <!-- Script para mostrar un popUp y redireccionar -->
@@ -136,6 +141,6 @@
 
         // Renderizar
         renderizarPaginacion();
-        renderizarTabla(outliersVM);
+        renderizarTabla(outliersVM, 1);
     }
 </script>

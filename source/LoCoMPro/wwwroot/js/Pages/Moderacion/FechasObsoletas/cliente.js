@@ -130,7 +130,7 @@ function renderizarBotonesSiguienteAnterior() {
 }
 
 // Renderizar tabla
-function renderizarTabla(datos) {
+function renderizarTabla(datos, numeroPagina) {
     // Obtener la tabla
     var cuerpoTabla = document.getElementById("CuerpoResultados");
 
@@ -138,10 +138,11 @@ function renderizarTabla(datos) {
     cuerpoTabla.innerHTML = "";
 
     // Iterar
-    for (var dato in datos) {
+    for (var dato = 0; dato < datos.length; dato++) {
         var row = document.createElement("tr");
         // result-row se utiliza para redirigir los datos de la fila selecionada a la página de búsqueda
-        row.classList.add("result-row")
+        row.classList.add("result-row");
+        let indiceSeleccion = (paginador.resultadosPorPagina() * (numeroPagina - 1)) + dato;
 
         if (datos[dato] != null && typeof datos[dato].producto !== 'undefined' && datos[dato].producto !== "") {
             
@@ -151,9 +152,13 @@ function renderizarTabla(datos) {
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.value = "";
-            checkbox.checked = false;
+            checkbox.checked = seleccion[indiceSeleccion];
             checkbox.id = 'checkbox_' + datos[dato].producto + '_' + datos[dato].tienda + '_' + datos[dato].provincia + '_' + datos[dato].canton;
             checkbox.style.cursor = "pointer";
+
+            checkbox.addEventListener('click', function (event) {
+                seleccion[indiceSeleccion] = !seleccion[indiceSeleccion];
+            });
 
             var checkboxCelda = document.createElement("td");
             checkboxDiv.appendChild(checkbox);
@@ -218,6 +223,72 @@ function renderizarTabla(datos) {
     }
 }
 
+function confirmarEliminacion() {
+    // Obtiene la cantidad de resultados seleccionada
+    const cantidadSeleccionada = seleccion.filter(value => value === true).length;
+
+    // Si el usuario seleccionó al menos uno
+    if (cantidadSeleccionada > 0) {
+        if (confirm("¿Está seguro que desea eliminar los resultados seleccionados?\n\n(Esta acción tendrá consecuencias)")) {
+            eliminarRegistros();
+        }
+    } else {
+        alert("Debe seleccionar los resultados que desea eliminar");
+    }
+}
+
+function eliminarRegistros() {
+    var listaEliminar = [];
+
+    for (let indice = seleccion.length - 1; indice >= 0; --indice) {
+        if (seleccion[indice]) {
+            listaEliminar.push(resultados[indice]);
+            resultados.splice(indice, 1);
+            seleccion.splice(indice, 1);
+        }
+    }
+
+    if (seleccion.length > 0) {
+        outliersVM = paginar(paginaDefault);
+        renderizarPaginacion();
+        renderizarTabla(outliersVM, 1);
+    } else {
+        renderizarPinwinoFeliz();
+    }
+
+    const listaEliminarStr = JSON.stringify(listaEliminar);
+    fetch(`/Moderacion/FechasObsoletas?handler=EliminarRegistros&registrosStr=${listaEliminarStr}`);
+}
+
+function renderizarPinwinoFeliz() {
+    // Borrar lo que hay
+    var tabla = document.getElementById("ContenedorTabla");
+    var paginacion = document.getElementById("ContenedorPaginacion");
+    var boton = document.getElementById("ContenedorBoton");
+    tabla.remove();
+    paginacion.remove();
+    boton.remove();
+
+    // Agregar lo nuevo
+    var contenedorPrincipal = document.getElementById("ContenedorPrincipal");
+    var gifDiv = document.createElement("div");
+    gifDiv.className = "FechasObsoletas-contenedor-gif";
+
+    var gif = document.createElement("img");
+    gif.src = "/img/Pinwino_feliz.gif";
+    gif.alt = "Pinwino feliz";
+    gif.className = "FechasObsoletas-gif";
+    gif.id = "PinwinoFeliz";
+
+    var texto = document.createElement("p");
+    texto.className = "FechasObsoletas-texto";
+    texto.textContent = "No existen registros obsoletos";
+
+    gifDiv.appendChild(gif);
+    gifDiv.appendChild(texto);
+    contenedorPrincipal.appendChild(gifDiv);
+}
+
 // Pasar pagina
 function pasarPagina(numeroPagina) {
     if (paginacionHabilitada) {
@@ -225,7 +296,7 @@ function pasarPagina(numeroPagina) {
         outliersVM = paginar(numeroPagina);
         // Renderizar
         renderizarPaginacion();
-        renderizarTabla(outliersVM);
+        renderizarTabla(outliersVM, numeroPagina);
         window.scrollTo(0, 0);
     }
 }

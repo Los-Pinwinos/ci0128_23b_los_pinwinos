@@ -16,14 +16,15 @@ class Paginador {
     resetearUso() {
         this.usado = false;
     }
+
+    // Método para obtener la cantidad de resultados por página con la que se configuró el paginador
+    resultadosPorPagina() {
+        return this.configuracion
+    }
 }
 
 // Lista paginada
 class ListaPaginada extends Array {
-    constructor(...items) {
-        super(...items);
-    }
-
     constructor(elementos, cantidad, indicePagina, tamPagina) {
         super(...elementos);
         this.Cantidad = cantidad; // La cantidad total de elementos en la lista.

@@ -1,10 +1,11 @@
 using LoCoMPro.Data;
 using LoCoMPro.Utils.Buscadores;
-using LoCoMPro.Utils.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using LoCoMPro.ViewModels.Moderacion;
+using LoCoMPro.Utils.SQL;
+using System.Text.RegularExpressions;
 
 namespace LoCoMPro.Pages.Moderacion
 {
@@ -59,7 +60,7 @@ namespace LoCoMPro.Pages.Moderacion
             else
             {
                 // Configurar buscador
-                IBuscador<OutlierFechaVM> buscador = new BuscadorDeOutliersFecha(this.contexto);
+                BuscadorDeOutliersFecha buscador = new BuscadorDeOutliersFecha(this.contexto);
                 // Consultar la base de datos
                 IQueryable<OutlierFechaVM> busqueda = buscador.buscar();
 
@@ -76,6 +77,36 @@ namespace LoCoMPro.Pages.Moderacion
                 }
             }
             return Page();
+        }
+
+        public void OnGetEliminarRegistros(string registrosStr)
+        {
+            // Si se recibieron registros por eliminar
+            if (registrosStr != null)
+            {
+                List<OutlierFechaVM> registros = JsonConvert.DeserializeObject<List<OutlierFechaVM>>(registrosStr)!;
+                if (registros != null && registros.Count > 0)
+                {
+                    // Por cada registro obsoleto
+                    foreach (OutlierFechaVM outlier in registros)
+                    {
+                        // Crea un controlador de comandos para llamar al procedimiento de ocultar registros obsoletos
+                        ControladorComandosSql ocultador = new ControladorComandosSql();
+                        ocultador.ConfigurarNombreComando("ocultarRegistrosObsoletos");
+                        // Establece sus parametros
+                        ocultador.ConfigurarParametroComando("producto", outlier.producto);
+                        ocultador.ConfigurarParametroComando("tienda", outlier.tienda);
+                        ocultador.ConfigurarParametroComando("distrito", outlier.distrito);
+                        ocultador.ConfigurarParametroComando("canton", outlier.canton);
+                        ocultador.ConfigurarParametroComando("provincia", outlier.provincia);
+                        // Se le agrega un segundo para no tomar en cuenta los microsegundos perdidos
+                        ocultador.ConfigurarParametroComando("fechaCorte", outlier.fechaCorte!.Value.AddSeconds(1));
+
+                        // Ejecuta el procedimiento
+                        ocultador.EjecutarProcedimiento();
+                    }
+                }
+            }
         }
     }
 }

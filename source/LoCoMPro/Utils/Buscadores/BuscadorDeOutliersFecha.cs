@@ -77,8 +77,10 @@ namespace LoCoMPro.Utils.Buscadores
                 calculadorFechasCorte.ConfigurarParametroComando("canton", grupo.canton);
                 calculadorFechasCorte.ConfigurarParametroComando("provincia", grupo.provincia);
 
-                grupo.fechaCorte = (DateTime)(calculadorFechasCorte.EjecutarFuncion()[0][0]);
-                
+                object fechaObtenida = calculadorFechasCorte.EjecutarFuncion()[0][0];
+                grupo.fechaCorte = (fechaObtenida is DBNull)?
+                  null : (DateTime) fechaObtenida;
+
                 // Cerrar el calculador para liberar la conexión
                 calculadorFechasCorte.cerrar();
 
