@@ -11,12 +11,14 @@ using LoCoMPro.Utils.SQL;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LoCoMPro.Pages.Cuenta
 {
     public class ModeloPerfil : PageModel
     {
         private readonly LoCoMProContext contexto;
+        private readonly IConfiguration configuracion;
 
         public Usuario usuario { get; set; }
 
@@ -36,13 +38,25 @@ namespace LoCoMPro.Pages.Cuenta
         public ModeloPerfil(LoCoMProContext contexto)
         {
             this.contexto = contexto;
+
+            // Accede al archivo de configuración
+            this.configuracion = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json")
+               .Build();
+
             // Crea un usuario con datos vacíos para no tener nulo
             this.usuario = new Usuario
             {
                 nombreDeUsuario = "",
                 correo = "",
                 hashContrasena = "",
-                calificacion = 0.0
+                calificacion = 0.0,
+                distritoVivienda = "",
+                cantonVivienda = "",
+                provinciaVivienda = "",
+                latitudVivienda = 0,
+                longitudVivienda = 0
             };
             // Crea un ModificarUsuarioVM con datos vacíos para no tener nulo
             this.usuarioActual = new ModificarUsuarioVM
@@ -51,6 +65,7 @@ namespace LoCoMPro.Pages.Cuenta
             this.provincias = new List<Provincia>();
             this.cantones = new List<Canton>();
             this.distritos = new List<Distrito>();
+            this.calificacionUsuario = "0";
         }
 
         public IActionResult OnGet()
@@ -59,7 +74,7 @@ namespace LoCoMPro.Pages.Cuenta
             if (TempData.ContainsKey("ErrorCambiarUsuario"))
             {
                 // Muestra el error
-                ModelState.AddModelError(string.Empty, TempData["ErrorCambiarUsuario"].ToString());
+                ModelState.AddModelError(string.Empty, TempData["ErrorCambiarUsuario"]!.ToString()!);
             }
 
             this.provincias = this.contexto.Provincias.ToList();
@@ -143,11 +158,30 @@ namespace LoCoMPro.Pages.Cuenta
                 if (ModelState.IsValid)
                 {
                     // Actualiza el usuario con los datos del modelo vista
-                    this.usuario.provinciaVivienda = this.usuarioActual.provinciaVivienda;
-                    this.usuario.cantonVivienda = this.usuarioActual.cantonVivienda;
-                    this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda;
+                    this.usuario.provinciaVivienda = this.usuarioActual.provinciaVivienda ?? "";
+                    this.usuario.cantonVivienda = this.usuarioActual.cantonVivienda ?? "";
+                    this.usuario.distritoVivienda = this.usuarioActual.distritoVivienda ?? "";
+
+                    // Crear un cliente para consultar las coordenadas a un API
+                    using (HttpClient cliente = new HttpClient())
+                    {
+                        // Consultar a la API las coordenadas de la ubicación del usuario
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(this.usuario.provinciaVivienda, this.usuario.cantonVivienda, this.usuario.distritoVivienda);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                        if (latitud != 0 && longitud != 0)
+                        {
+                            this.usuario.latitudVivienda = latitud;
+                            this.usuario.longitudVivienda = longitud;
+                            this.contexto.SaveChanges();
+                        }
+                        else
+                        {
+                            // Guarda el error para mostrarlo en la página principal
+                            TempData["ErrorCambiarUsuario"] = "Hubieron problemas al procesar su ubicación. Inténtelo más tarde";
+                        }
+                    }
                     
-                    this.contexto.SaveChanges();
 
                     // Si el nombre de usuario cambió
                     if (this.usuario.nombreDeUsuario != this.usuarioActual.nombreDeUsuario &&
@@ -164,12 +198,9 @@ namespace LoCoMPro.Pages.Cuenta
                             controlador.ConfigurarParametroComando("nuevoNombre", this.usuarioActual.nombreDeUsuario);
                             controlador.EjecutarProcedimiento();
 
-                            // Limpia la sesión
-                            HttpContext.Session.Clear();
-                            // Cierra sesión
-                            await HttpContext.SignOutAsync();
-                            // Redirecciona a la página de inicio
-                            return RedirectToPage("/Home/Index");
+
+                            // Reinicia la sesión para actualizar los claims
+                            await this.reiniciarSesion();
 
                         } else
                         {
@@ -181,6 +212,62 @@ namespace LoCoMPro.Pages.Cuenta
             }
             
             return RedirectToPage("/Cuenta/Perfil");
+        }
+
+        private async Task reiniciarSesion()
+        {
+            // Cierra la swsión
+            await this.cerrarSesion();
+            // Vuelve a iniciar la sesión
+            await this.iniciarSesion();
+        }
+
+        private async Task cerrarSesion()
+        {
+            // Remueve la información guardada en la sesión
+            HttpContext.Session.Remove("NombreDeUsuario");
+            // Limpia la sesión
+            HttpContext.Session.Clear();
+            // Cierra sesión
+            await HttpContext.SignOutAsync();
+        }
+
+        private async Task iniciarSesion()
+        {
+            // Obtiene el usuario de la base de datos
+            var usuarioEncontrado = this.contexto.Usuarios.FirstOrDefault(
+                    u => u.nombreDeUsuario == this.usuarioActual.nombreDeUsuario);
+
+            // Si encuentra al usuario
+            if (usuarioEncontrado != null)
+            {
+                // Guarda la información del nombre de usuario en la sesión actual
+                HttpContext.Session.SetString("NombreDeUsuario", usuarioEncontrado.nombreDeUsuario);
+
+                // Establece los Claims para guardar los datos del usuario en las páginas
+                var claims = new List<Claim>
+                {
+                    // Crea un claim con el nombre de usuario
+                    new Claim(ClaimTypes.Name, usuarioEncontrado.nombreDeUsuario),
+                    // Crea un claim con el rol del usuario
+                    new Claim(ClaimTypes.Role, usuarioEncontrado.esModerador? "moderador":"regular")
+                };
+
+                // Agrega los claims a la autentificación con cookies
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Inicia sesión en el contexto http con los nuevos claims
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(
+                            this.configuracion.GetValue<int>("minutosTimeout"))
+                    });
+            }
         }
     }
 }

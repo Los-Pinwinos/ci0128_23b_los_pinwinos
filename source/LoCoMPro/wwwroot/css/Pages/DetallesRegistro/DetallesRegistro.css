@@ -29,11 +29,10 @@
 }
 
 .Etiqueta-calificacion {
-    display: flow;
-    padding: 10px;
     text-align: right;
-    margin-top: 235%;
     font-size: 18px;
+    margin-right: 3%;
+    margin-top: 0.5%;
 }
 
 .Etiqueta-final {
@@ -130,17 +129,15 @@
 
 .Contenedor-calificacion {
     display: flex;
-    justify-content: flex-end;
     margin-bottom: 0.6%;
     margin-top: 5%;
-    margin-right: 30%;
 }
 
 .CalificacionReciente {
     font-size: 16px;
     white-space: nowrap;
-    margin-right: 50%;
     color: dimgray;
+    text-align: left;
 }
 
 .Calificacion-label {
@@ -184,21 +181,29 @@
 }
 
 .Reportar-registro {
-    color: #893636;
+    color: white;
     position: absolute;
     top: 10%;
-    width: 20%;
+    padding-right: 6px;
+    padding-left: 6px;
+    justify-content: right;
+    background-color: #893636;
+    font-size: 18px;
+    border-radius: 6px;
 }
 
-.Reportar-registro-label {
+.Reportar-registro-label,
+.Reportar-registro-span {
+    color: white; 
     vertical-align: middle;
     cursor: pointer;
 }
 
 .Reportar-registro-span {
-    cursor: pointer;
-    vertical-align: middle;
+    background-color: #893636; 
 }
+
+
 
 .Popup-container {
     width: 400px;

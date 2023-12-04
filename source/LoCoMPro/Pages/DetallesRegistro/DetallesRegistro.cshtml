@@ -40,7 +40,7 @@
                     <span class="Caja-texto">@Model.registro.nombreUnidad</span>
                 </div>
                 <div class="Contenedor Caja-texto-larga">
-                    <span class="Caja-texto-grande">@Model.registro.descripcion</span>
+                    <span class="Caja-texto-grande"> @(String.IsNullOrEmpty(Model.registro.descripcion) ? "Sin descripción" : Model.registro.descripcion)</span>
                 </div>
             </div>
         </div>
@@ -49,17 +49,26 @@
         <form method="post">
             <div class="Popup-container" id="popup">
                 <label>Reportar registro</label>
-                <textarea class="Popup-input" id="reportePopup" asp-for="reportePopup"></textarea>
+                <textarea class="Popup-input" maxlength="256" id="reportePopup" asp-for="reportePopup"></textarea>
                 <button type="button" class="Popup-boton" onclick="cerrarPopup()">Enviar</button>
                 <button id="botonPopup" style="visibility: hidden;" type="submit" asp-page-handler="Reportar" />
             </div>
         </form>
 
         <div class="Contenedor-fila" style="margin-left:5%;">
-            <div class="Contenedor-columna" style="margin-top:19%;">
-                <span class="Etiqueta-calificacion">Calificación:</span>
-            </div>
             <div class="Contenedor-columna">
+                <!-- Opción para reportar -->
+                <div class="Contenedor-fila" style="justify-content:right;">  
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <div class="Reportar-registro">
+                                <span class="material-symbols-outlined Reportar-registro-span" id="reportar_span" style="margin-top:1%;" onclick="abrirPopup()">
+                                    warning
+                                </span>
+                                <label class="Reportar-registro-label" id="reportar_label" onclick="abrirPopup()">Reportar</label>
+                            </div>
+                        }  
+                </div>
                 <div id="galeriaImagenes" class="GaleriaImagenes">
                     <div id="imagenAnterior" class="NavegacionImagen NavegacionImagen-Anterior" onclick="verImagenAnterior()">&lt;</div>
                     <div id="currentImage" class="CurrentImage">
@@ -68,6 +77,7 @@
                     <div id="siguienteImagen" class="NavegacionImagen NavegacionImagen-Siguiente" onclick="verImagenSiguiente()">&gt;</div>
                 </div>
                 <div class="Contenedor-calificacion">
+                    <p class="Etiqueta-calificacion">Calificación:</p>
                     @if (User.Identity == null || !User.Identity.IsAuthenticated)
                     {
                         <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacion)"></p>
@@ -86,8 +96,8 @@
                             </fieldset>
                         </form>
                     }
-                    <p id="CalificacionTotal" class="Calificacion">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
-                    <p id="CantidadCalificacionesTotal" class="Conteo">(@Model.registro.cantidadCalificaciones)</p>
+                    <p class="Calificacion" id="CalificacionTotal">@Model.registro.calificacion.ToString("0.0")[0],@Model.registro.calificacion.ToString("0.0")[2] de 5,0</p>
+                    <p class="Conteo" id="CantidadCalificacionesTotal">(@Model.registro.cantidadCalificaciones)</p>
                 </div>
                 <p class="CalificacionReciente" id="UltimaCalificacion">Ha calificado con: @Model.ultimaCalificacion</p>
             </div>
@@ -96,16 +106,6 @@
     <div class="Boton">
         <input type="button" class="Boton-estandar" onclick="recargar()" value="Regresar" />
     </div>
-    <!-- Opción para reportar -->
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <div class="Reportar-registro">
-            <span class="material-symbols-outlined Reportar-registro-span" style="margin-top:1%;" onclick="abrirPopup()">
-                warning
-            </span>
-            <label class="Reportar-registro-label" onclick="abrirPopup()">Reportar</label>
-        </div>
-    }
 </body>
 
 <script>

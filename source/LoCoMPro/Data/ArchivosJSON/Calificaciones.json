@@ -1,0 +1,14 @@
+[
+  {
+    "usuarioCalificador": "Usuario1*",
+    "usuarioCreadorRegistro": "Usuario1*",
+    "creacionRegistro": "2019-09-01 10:30:45",
+    "calificacion": 5
+  },
+  {
+    "usuarioCalificador": "Usuario1*",
+    "usuarioCreadorRegistro": "Usuario1*",
+    "creacionRegistro": "2020-05-15 14:20:30",
+    "calificacion": 5
+  }
+]

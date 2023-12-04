@@ -1,17 +1,11 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LoCoMPro.Data;
-using LoCoMPro.ViewModels.Busqueda;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LoCoMPro.ViewModels.VerRegistros;
 using LoCoMPro.Models;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using LoCoMPro.Utils;
 
 namespace LoCoMPro.Pages.VerRegistros
 {
@@ -36,6 +30,8 @@ namespace LoCoMPro.Pages.VerRegistros
         public string? NombreCanton { get; set; }
         public string? NombreUsuario { get; set; }
 
+        public int? EsFavorito { get; set; }
+
         public string? resultadoRegistros { get; set; }
 
         public ICollection<Fotografia>? fotografias { get; set; }
@@ -48,6 +44,59 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreTienda = tiendaNombre;
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
+            EsFavorito = 0;
+        }
+
+        public int EsProductoFavorito(string productoNombre)
+        {
+            bool productoEncontrado = false;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Usuario? usuario = contexto.Usuarios.Include(u => u.favoritos).FirstOrDefault(u => u.nombreDeUsuario == User.Identity.Name);
+                productoEncontrado = usuario?.favoritos.Any(producto => producto.nombre == productoNombre) ?? false;
+            }
+
+            return productoEncontrado ? 1 : 0;
+        }
+
+        public void OnGetAgregarAFavoritos(string nombreProducto)
+        {
+
+            // Revisar que el usuario esté loggeado
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Usuario? usuario = contexto.Usuarios.Include(u => u.favoritos).FirstOrDefault(u => u.nombreDeUsuario == User.Identity.Name);
+                if (usuario != null)
+                {
+                    // Obtener el producto de la base de datos
+                    Producto? producto = contexto.Productos.FirstOrDefault(p => p.nombre == nombreProducto);
+                    if (producto != null)
+                    {
+                        usuario.favoritos.Add(producto);
+                        contexto.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public void OnGetRemoverDeFavoritos(string nombreProducto)
+        {
+
+            // Revisar que el usuario esté loggeado
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Usuario? usuario = contexto.Usuarios.Include(u => u.favoritos).FirstOrDefault(u => u.nombreDeUsuario == User.Identity.Name);
+                if (usuario != null)
+                {
+                    // Obtener el producto de la base de datos
+                    Producto? producto = contexto.Productos.FirstOrDefault(p => p.nombre == nombreProducto);
+                    if (producto != null)
+                    {
+                        usuario.favoritos.Remove(producto);
+                        contexto.SaveChanges();
+                    }
+                }
+            }
         }
 
         public IQueryable<VerRegistrosVM> ObtenerRegistros()
@@ -74,7 +123,7 @@ namespace LoCoMPro.Pages.VerRegistros
                     precio = group.Key.precio,
                     calificacion = group.Key.calificacion,
                     descripcion = group.Key.descripcion,
-                    fotografias = group.SelectMany(registro => registro.fotografias).ToList()
+                    fotografias = group.SelectMany(registro => registro.fotografias!).ToList()
                 })
              .OrderByDescending(r => r.creacion);
 
@@ -92,16 +141,17 @@ namespace LoCoMPro.Pages.VerRegistros
             NombreTienda = tiendaNombre;
             NombreProvincia = provinciaNombre;
             NombreCanton = cantonNombre;
+            EsFavorito = EsProductoFavorito(productoNombre);
 
             IQueryable<VerRegistrosVM> registrosIQ = this.ObtenerRegistros();
 
             Registros = await registrosIQ.ToListAsync();
-            this.resultadoRegistros = JsonConvert.SerializeObject(Registros);
+            this.resultadoRegistros = ControladorJson.ConvertirAJson(Registros);
 
             // Actualizar el atributo de fotografías para poder trabajar con todas las imagenes asociadas al registro
             var fotografiasEnlazadas = contexto.Fotografias
                 .AsEnumerable()
-                .Where(f => Registros.Any(r => r.fotografias.Contains(f)))
+                .Where(f => Registros.Any(r => r.fotografias!.Contains(f)))
                 .ToList();
 
             fotografias = fotografiasEnlazadas;

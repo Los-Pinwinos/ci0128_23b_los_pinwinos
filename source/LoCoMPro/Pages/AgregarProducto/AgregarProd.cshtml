@@ -91,7 +91,7 @@
             <!-- Agregar imágenes -->
             <div class="AgregarProd-contenedor-imagen">
                 <label for="subida_imagen" class="agregar-imagen">Agregar Imagen</label>
-                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="checkFileCount(this)" style="display: none;"/>
+                <input type="file" name="subida_imagen" id="subida_imagen" accept=".png, .jpg, .jpeg" multiple onchange="conteoArchivos(this)" style="display: none;"/>
                 <button type="button" class="material-symbols-outlined boton-ojo" onclick="abrirPopup()">visibility</button>
                 <div class="popup_imagenes" id="popup_imagenes">
                     <label class="eliminar_imagenes">Eliminar imágenes</label>
@@ -108,7 +108,7 @@
             <!-- Descripción -->
             <div class="AgregarProd-contenedor-texto">
                 <label for="DescripcionTexto">Descripción:</label>
-                <input asp-for="ViewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion">
+                <textarea maxlength="150" asp-for="ViewModel.descripcion" type="text" class="AgregarProd-caja-texto-descripcion" id="Descripcion"></textarea>
             </div>
             <!-- Botones de aceptar y cancelar -->
             <div class="AgregarProd-contenedor-texto">
@@ -153,7 +153,8 @@
                 // No entregar el formulario
                 return false;
             }
-            return true; // Enviar el formulario para procesarse
+            // Enviar el formulario para procesarse
+            return true; 
         }
     </script>
     <script>
@@ -178,7 +179,7 @@
     </script>
     <script>
         // Se encarga de no permitir más de 5 imágenes
-        function checkFileCount(input) {
+        function conteoArchivos(input) {
             if (input.files.length > 5) {
                 alert("Más de 5 imágenes seleccionadas");
                 input.value = '';
@@ -198,46 +199,54 @@
         }
     </script>
     <script>
-        // Script para rellenar elementos de popup de manera dinámica y permitir
-        // borrarlos con un click
-        // Variables requeridas
-        const inputArchivos = document.getElementById('subida_imagen');
-        const listaOrdenada = document.getElementById('lista_archivos');
-        // Script para rellenar lista con nombres de archivo
-        inputArchivos.addEventListener('change', function () {
+        function borrarArchivo(elementoLista, archivo) {
+            // Crear arreglo para reemplazar en el input
+            const archivosNuevos = Array.from(inputArchivos.files).filter(archivoActual => archivoActual !== archivo);
+
+            // Utilizar un data transfer para reemplazar el input
+            const datosTemporales = new DataTransfer();
+            archivosNuevos.forEach(archivoTemporal => datosTemporales.items.add(archivoTemporal));
+            inputArchivos.files = datosTemporales.files;
+
+            // Borrar el elemento visual de la lista
+            listaOrdenada.removeChild(elementoLista);
+        }
+
+        function crearListaVisual(archivo) {
+            // Preparar elementos a ser agregados
+            const elementoLista = document.createElement('li');
+            const spanEliminar = document.createElement('span');
+            elementoLista.textContent = archivo.name;
+            spanEliminar.innerHTML = "close";
+            // Estilo para que se muestre con el API de Google
+            spanEliminar.classList.add("material-symbols-outlined");
+            spanEliminar.classList.add("eliminar_imagen_visual");
+            elementoLista.appendChild(spanEliminar);
+            
+            // Agregar evento para borrar imágenes al darle click
+            spanEliminar.addEventListener('click', function () {
+                borrarArchivo(elementoLista, archivo);
+            });
+
+            return elementoLista;
+        }
+
+        function prepararInputArchivos() {
             const archivos = inputArchivos.files;
-            // Limpiar lista previa
             listaOrdenada.innerHTML = '';
-            // Script para eliminar elementos al darle click
-            function borrarArchivo(elementoLista, archivo) {
-                // Arreglo de archivos
-                var nuevosArchivos = Array.from(inputArchivos.files);
-                // Borrar elemento de la lista nueva
-                const indice = nuevosArchivos.indexOf(archivo);
-                nuevosArchivos.splice(indice, 1);
-                // Establecer la nueva lista de archivos sin el elemento borrado
-                const datosTemporales = new DataTransfer();
-                for (const archivoTemporal of nuevosArchivos) {
-                    datosTemporales.items.add(archivoTemporal);
-                }
-                inputArchivos.files = datosTemporales.files;
-                // Remover de lista visual
-                listaOrdenada.removeChild(elementoLista);
-            }
-            // Iterar por archivos agregados
             for (let i = 0; i < archivos.length; ++i) {
-                // Crear un elemento de la lista para ser agregado
-                const elementoLista = document.createElement('li');
-                // Establecer nombre del archivo como elemento de la lista
-                elementoLista.textContent = archivos[i].name;
-                // Establecer evento con click para eliminarlo cuando se le hace click
-                elementoLista.addEventListener('click', function () {
-                    borrarArchivo(elementoLista, archivos[i]);
-                });
-                // Agregar a lista ordenada
+                // Crear un elemento visual para la lista
+                const elementoLista = crearListaVisual(archivos[i]);
                 listaOrdenada.appendChild(elementoLista);
             }
-        });
+        }
+
+        // Conseguir elementos de la página
+        const inputArchivos = document.getElementById('subida_imagen');
+        const listaOrdenada = document.getElementById('lista_archivos');
+
+        // Establece evento para manejar el cambio de la lista de archivos
+        inputArchivos.addEventListener('change', prepararInputArchivos);
     </script>
     <script>
         // Función de alineado para las cajas de texto

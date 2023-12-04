@@ -45,8 +45,6 @@
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.provinciaVivienda" for="CajaDeSeleccionProvincia">Provincia:</label>
                 <select asp-for="usuarioActual.provinciaVivienda" id="CajaDeSeleccionProvincia">
-                    <!-- Agrega la opción básica -->
-                    <option value="">No deseo indicarla</option>
                     <!-- Agregar todas las provincias como opciones -->
                     @foreach (var provincia in Model.provincias)
                     {
@@ -60,8 +58,6 @@
             <div class="Perfil-contenedor-caja-de-texto">
                 <label asp-for="usuarioActual.cantonVivienda" for="CajaDeSeleccionCanton">Cantón:</label>
                 <select asp-for="usuarioActual.cantonVivienda" id="CajaDeSeleccionCanton">>
-                    <!-- Agrega la opción básica -->
-                    <option value="">No deseo indicarlo</option>
                     @foreach (var canton in Model.cantones)
                     {
                         <option value="@canton.nombre">@canton.nombre</option>
@@ -74,8 +70,6 @@
             <div class="Perfil-contenedor-caja-de-texto" style="margin-bottom: 2%;">
                 <label asp-for="usuarioActual.distritoVivienda" for="CajaDeSeleccionDistrito">Distrito:</label>
                 <select asp-for="usuarioActual.distritoVivienda" id="CajaDeSeleccionDistrito">>
-                    <!-- Agrega la opción básica -->
-                    <option value="">No deseo indicarlo</option>
                     @foreach (var distrito in Model.distritos)
                     {
                         <option value="@distrito.nombre">@distrito.nombre</option>
@@ -90,9 +84,10 @@
                 <p class="Perfil-contenedor-calificacion-conteo">(@Model.cantidadAportes)</p>
             </div>
             <!-- Botón para ver los aportes realizados por el usuario -->
-            <a class="Perfil-boton-basico" href="/Cuenta/Aportes"> Ver aportes </a>
+            <a class="Perfil-boton-basico" href="/Cuenta/Aportes" style="margin-bottom: 1px;" id="botonVerAportes"> Ver aportes </a>
+            <a class="Perfil-boton-basico" href="/Cuenta/Contrasena" style="margin-top: 10px;" id="botonCambioContrasena"> Cambiar contraseña </a>
             <!-- Botón para actualizar los datos del usuario -->
-            <button class="Perfil-boton-basico" asp-page-handler="ActualizarUsuario" id="BotonGuardarCambios" style="display: none;"> Guardar cambios </button>
+            <button class="Perfil-boton-basico" asp-page-handler="ActualizarUsuario" id="BotonGuardarCambios" style="display: none; margin-top: 3%;"> Guardar cambios </button>
         </div>
     </form>
 
@@ -180,52 +175,13 @@
         var cajaDeSeleccionDistrito = document.getElementById("CajaDeSeleccionDistrito");
 
         // Llamar a esta función cada vez que se produzca un cambio en
-        // la caja de selección de provincia
-        cajaDeSeleccionProvincia.addEventListener("change", function () {
-            // Obtener la provincia seleccionada
-            var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
-
-            // Limpiar las opciones de las otras cajas de selección
-            cajaDeSeleccionCanton.innerHTML = "<option value=''>No deseo indicarlo</option>";
-            cajaDeSeleccionDistrito.innerHTML = "<option value=''>No deseo indicarlo</option>";
-            cajaDeSeleccionDistrito.disabled = true;
-
-            // Si se eligió una provincia
-            if (provinciaSeleccionada) {
-                // Usar el Fetch API para llamar al handler de CantonesPorProvincia
-                // con la provincia seleccionada
-                fetch(`/Cuenta/Perfil?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Por cada cantón
-                        data.forEach(canton => {
-                            // Crear una opción
-                            var opcion = document.createElement("option");
-                            // Establecer su valor y texto de mostrado
-                            opcion.value = canton.nombre;
-                            opcion.text = canton.nombre;
-                            // Agregarla a la caja de selección de cantón
-                            cajaDeSeleccionCanton.appendChild(opcion);
-                        });
-                    });
-                // Habilitar la caja de selección de cantón
-                cajaDeSeleccionCanton.disabled = false;
-
-            // Si no se eligió una provincia
-            } else {
-                // Deshabilitar las otras cajas de selección
-                cajaDeSeleccionCanton.disabled = true;
-            }
-        });
-
-        // Llamar a esta función cada vez que se produzca un cambio en
         // la caja de selección de cantón
         cajaDeSeleccionCanton.addEventListener("change", function () {
             // Obtener el cantón seleccionado
             var cantonSeleccionado = cajaDeSeleccionCanton.value;
 
             // Limpiar las opciones de la caja de selección de distrito
-            cajaDeSeleccionDistrito.innerHTML = "<option value=''>No deseo indicarlo</option>";
+            cajaDeSeleccionDistrito.innerHTML = "";
 
             // Si se eligió un cantón
             if (cantonSeleccionado) {
@@ -247,15 +203,42 @@
                             cajaDeSeleccionDistrito.appendChild(opcion);
                         });
                     });
-                // Habilitar la caja de selección de distrito
-                cajaDeSeleccionDistrito.disabled = false;
-
-            // Si no se eligió un cantón
-            } else {
-                // Deshabilitar la caja de selección de distrito
-                cajaDeSeleccionDistrito.disabled = true;
             }
         });
+
+        // Llamar a esta función cada vez que se produzca un cambio en
+        // la caja de selección de provincia
+        cajaDeSeleccionProvincia.addEventListener("change", async function () {
+            // Obtener la provincia seleccionada
+            var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+
+            // Limpiar las opciones de las otras cajas de selección
+            cajaDeSeleccionCanton.innerHTML = "";
+            cajaDeSeleccionDistrito.innerHTML = "";
+
+            // Si se eligió una provincia
+            if (provinciaSeleccionada) {
+                // Usar el Fetch API para llamar al handler de CantonesPorProvincia
+                // con la provincia seleccionada
+                await fetch(`/Cuenta/Perfil?handler=CantonesPorProvincia&provincia=${provinciaSeleccionada}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Por cada cantón
+                        data.forEach(canton => {
+                            // Crear una opción
+                            var opcion = document.createElement("option");
+                            // Establecer su valor y texto de mostrado
+                            opcion.value = canton.nombre;
+                            opcion.text = canton.nombre;
+                            // Agregarla a la caja de selección de cantón
+                            cajaDeSeleccionCanton.appendChild(opcion);
+                        });
+                    });
+            }
+            var event = new Event("change");
+            cajaDeSeleccionCanton.dispatchEvent(event);
+        });
+
     </script>
 
     <!-- Sección para realizar validaciones de los datos del lado del cliente -->

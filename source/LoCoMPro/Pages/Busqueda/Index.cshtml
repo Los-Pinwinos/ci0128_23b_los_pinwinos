@@ -1,25 +1,18 @@
 ﻿@page
 @model BusquedaModel
 @{
-    ViewData["Title"] = "Busqueda";
+    ViewData["Title"] = "Búsqueda";
 }
 
 <!-- Metadatos -->
 <head>
-
-
+    <title>Búsqueda</title>
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
     <script src="~/js/Pages/Busqueda/filtrador.js" asp-append-version="true" ></script>
     <script src="~/js/Pages/Busqueda/ordenador.js" asp-append-version="true" ></script>
     <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true" ></script>
-
-    <link href="~/js/jquery/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/jquery/external/jquery/jquery.js" type="text/javascript" asp-append-version="true"></script>
-    <script src="~/js/jquery/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
-    <link href="~/js/jquery/jquery-ui.css" rel="stylesheet">
-
     <!-- Enlace al stylesheet de Google para agregar íconos de flechas -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script>
@@ -43,6 +36,8 @@
         var ordenador = new OrdenadorDeBusqueda();;
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
+        var filtrosDesplegados = Array(5).fill(0);
+        var filtroAplicado = false;
     </script>
     <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
@@ -76,11 +71,11 @@
     <div class="BusquedaIndice-contenedor-fila" id="FilaDeFiltrosYResultados">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltrosFuncion()" id="AplicarFiltrosBoton"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltrosFuncion()" style="margin-bottom:5px;" id="LimpiarFiltrosBoton"> Limpiar filtros</button>
             <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(1)" onmouseleave="ocultarDesplegable(1)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1">Provincia</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown1">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1" onclick="toggleDesplegable(1)">Provincia</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro1">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -93,8 +88,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(2)" onmouseleave="ocultarDesplegable(2)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown2">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2" onclick="toggleDesplegable(2)">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -107,8 +102,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(3)" onmouseleave="ocultarDesplegable(3)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown3">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3" onclick="toggleDesplegable(3)">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -121,8 +116,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(4)" onmouseleave="ocultarDesplegable(4)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown4">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4" onclick="toggleDesplegable(4)">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -135,8 +130,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(5)" onmouseleave="ocultarDesplegable(5)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5">Categoría</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown5">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5" onclick="toggleDesplegable(5)">Categoría</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro5">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -241,7 +236,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th style="padding-left:20px;">
+                        <th style="padding-left:2px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('fecha')">
                                 @Html.DisplayNameFor(model => model.productoVM.fecha)
@@ -305,8 +300,7 @@
     </div>
 </div>
 
-
-    <!-- Paginación -->
+<!-- Paginación -->
 <div class="BusquedaIndice-contenedor-paginacion">
     <div class="BusquedaIndice-contenedor-caja-paginacion">
         <!-- Botón anterior -->
@@ -335,7 +329,10 @@
     formatoPrecioFiltro();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
+    establecerFechaMaxima();
+    establecerFechaDinamica();
 </script>
+
 <script>
     var productosVM = paginar(paginaDefault);
 
@@ -354,5 +351,57 @@
             return true;
         }
     }
+</script>
+
+<script>
+    function aplicarFiltrosFuncion() {
+        cerrarDesplegados();
+        filtrar();
+        filtroAplicado = true;
+    }
+
+    function limpiarFiltrosFuncion() {
+        cerrarDesplegados();
+        limpiarFiltros();
+        if (filtroAplicado) {
+            ordenador.esconderFlechas();
+            filtroAplicado = false;
+        }
+    }
+
+    function toggleDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        var dropdownButton = document.getElementById('BotonFiltro' + index);
+        var dropdown = document.getElementById('Dropdown' + index);
+        if (dropdownContent.style.display === 'block') {
+            ocultarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 0;
+        } else {
+            cerrarDesplegados();
+            mostrarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 1;
+        }
+    }
+
+    function cerrarDesplegados() {
+        for (var i = 0; i < 5; i++) {
+            if (filtrosDesplegados[i] === 1) {
+                toggleDesplegable(i + 1);
+            }
+        }
+    }
+
+    function mostrarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'block';
+    }
+
+    function ocultarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'none'; 
+    }
+
 </script>
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

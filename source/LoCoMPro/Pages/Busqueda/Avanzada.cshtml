@@ -6,6 +6,7 @@
 
 <!-- Metadatos -->
 <head>
+    <title>Búsqueda Avanzada</title>
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
@@ -41,6 +42,8 @@
         var ordenador = new OrdenadorDeBusqueda();;
         var paginador = new Paginador(@Model.resultadosPorPagina);
         var paginaDefault = @Model.paginaDefault;
+        var filtrosDesplegados = Array(5).fill(0);
+        var filtroAplicado = false;
     </script>
     <script src="~/js/Pages/Busqueda/cliente.js" asp-append-version="true"></script>
 </head>
@@ -76,10 +79,10 @@
                                     Provincia
                                 </div>
                                 <select name="nombreProvincia" asp-for="provincia" id="CajaDeSeleccionProvincia" class="BusquedaAvanzada-caja-combo">
-                                    <option name="provincia" value=""></option>
-                                    @foreach (var provincia in Model.provincias)
+                                    <option name="provincia" value="">Todas</option>
+                                    @foreach (var option in Model.provincias!.Select(provincia => new SelectListItem { Value = provincia.nombre, Text = provincia.nombre }))
                                     {
-                                        <option name="provincia" value="@provincia.nombre">@provincia.nombre</option>
+                                        <option value="@option.Value">@option.Text</option>
                                     }
                                 </select>
                             </div>
@@ -88,7 +91,7 @@
                                     Cantón
                                 </div>
                                 <select name="nombreCanton" asp-for="canton" id="CajaDeSeleccionCanton" class="BusquedaAvanzada-caja-combo">
-                                    <option name="canton" value=""></option>
+                                    <option name="canton" value="">Todos</option>
                                 </select>
                             </div>
                         </div>
@@ -105,11 +108,11 @@
     <div class="BusquedaIndice-contenedor-fila" id="FilaDeFiltrosYResultados">
         <form class="BusquedaIndice-filtros">
             <!-- Botones de filtros -->
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="filtrar()"> Aplicar filtros</button>
-            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltros()" style="margin-bottom:5px;"> Limpiar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="aplicarFiltrosFuncion()" id="AplicarFiltrosBoton"> Aplicar filtros</button>
+            <button type="button" class="BusquedaIndice-boton-filtros" onclick="limpiarFiltrosFuncion()" style="margin-bottom:5px;" id="LimpiarFiltrosBoton"> Limpiar filtros</button>
             <div lang="es" class="BusquedaIndice-contenedor-filtros" id="ContenedorFiltros">
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(1)" onmouseleave="ocultarDesplegable(1)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1">Provincia</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown1">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro1" onclick="toggleDesplegable(1)">Provincia</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro1">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -122,8 +125,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(2)" onmouseleave="ocultarDesplegable(2)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2">Cantón</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown2">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro2" onclick="toggleDesplegable(2)">Cantón</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro2">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -136,8 +139,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(3)" onmouseleave="ocultarDesplegable(3)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3">Tienda</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown3">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro3" onclick="toggleDesplegable(3)">Tienda</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro3">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -150,8 +153,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(4)" onmouseleave="ocultarDesplegable(4)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4">Marca</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown4">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro4" onclick="toggleDesplegable(4)">Marca</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro4">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -164,8 +167,8 @@
                         }
                     </div>
                 </div>
-                <div class="BusquedaIndice-dropdown" onmouseenter="mostrarDesplegable(5)" onmouseleave="ocultarDesplegable(5)">
-                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5">Categoría</button>
+                <div class="BusquedaIndice-dropdown" id="Dropdown5">
+                    <button type="button" class="BusquedaIndice-boton-dropdown" id="BotonFiltro5" onclick="toggleDesplegable(5)">Categoría</button>
                     <div class="BusquedaIndice-dropdown-content" id="ContenidoFiltro5">
                         <!-- Contenido del menú desplegable -->
                         @{
@@ -271,7 +274,7 @@
                                 expand_more
                             </span>
                         </th>
-                        <th style="padding-left:20px;">
+                        <th style="padding-left:2px;">
                             <!-- Nombre de columna -->
                             <label class="BusquedaIndice-titulo-columna" onclick="ordenar('fecha')">
                                 @Html.DisplayNameFor(model => model.productoVM.fecha)
@@ -335,29 +338,29 @@
     </div>
 </div>
 
-    <!-- Paginación -->
-    <div class="BusquedaIndice-contenedor-paginacion">
-        <div class="BusquedaIndice-contenedor-caja-paginacion">
-            <!-- Botón anterior -->
-            <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
-                Anterior
-            </div>
-            <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Anterior
-            </div>
+<!-- Paginación -->
+<div class="BusquedaIndice-contenedor-paginacion">
+    <div class="BusquedaIndice-contenedor-caja-paginacion">
+        <!-- Botón anterior -->
+        <div id="PaginaPrevia" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina - 1)">
+            Anterior
+        </div>
+        <div id="SinPaginaPrevia" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Anterior
+        </div>
 
-            <!-- Botones de número de página -->
-            <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
+        <!-- Botones de número de página -->
+        <span id="TextoPaginacion" class="BusquedaIndice-texto-paginacion">  </span>
 
-            <!-- botón siguiente -->
-            <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
-                Siguiente
-            </div>
-            <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
-                Siguiente
-            </div>
+        <!-- botón siguiente -->
+        <div id="PaginaSiguiente" class="BusquedaIndice-boton-paginacion" onclick="pasarPagina(productosVM.IndicePagina + 1)">
+            Siguiente
+        </div>
+        <div id="SinPaginaSiguiente" class="BusquedaIndice-boton-paginacion-deshabilitado">
+            Siguiente
         </div>
     </div>
+</div>
 
 <!-- Función para autocompletar -->
 <script type="text/javascript">
@@ -381,6 +384,8 @@
     formatoPrecioFiltro();
     limpiarInput("precioMin", "precioMax");
     limpiarInput("fechaMin", "fechaMax");
+    establecerFechaMaxima();
+    establecerFechaDinamica();
 </script>
 
 <script>
@@ -423,7 +428,7 @@
 
         var opcionNula = document.createElement("option");
         opcionNula.value = "";
-        opcionNula.text = "";
+        opcionNula.text = "Todos";
         cajaDeSeleccionCanton.appendChild(opcionNula);
 
         // Si se eligió una provincia
@@ -471,6 +476,57 @@
     }
     
     revisarCanton();
+</script>
+
+<script>
+    function aplicarFiltrosFuncion() {
+        cerrarDesplegados();
+        filtrar();
+        filtroAplicado = true;
+    }
+
+    function limpiarFiltrosFuncion() {
+        cerrarDesplegados();
+        limpiarFiltros();
+        if (filtroAplicado) {
+            ordenador.esconderFlechas();
+            filtroAplicado = false;
+        }
+    }
+
+    function toggleDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        var dropdownButton = document.getElementById('BotonFiltro' + index);
+        var dropdown = document.getElementById('Dropdown' + index);
+        if (dropdownContent.style.display === 'block') {
+            ocultarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 0;
+        } else {
+            cerrarDesplegados();
+            mostrarDesplegable(index);
+            dropdown.classList.toggle('clicked');
+            filtrosDesplegados[index - 1] = 1;
+        }
+    }
+
+    function cerrarDesplegados() {
+        for (var i = 0; i < 5; i++) {
+            if (filtrosDesplegados[i] === 1) {
+                toggleDesplegable(i + 1);
+            }
+        }
+    }
+
+    function mostrarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'block';
+    }
+
+    function ocultarDesplegable(index) {
+        var dropdownContent = document.getElementById('ContenidoFiltro' + index);
+        dropdownContent.style.display = 'none';
+    }
 </script>
 
 <script src="~/js/Pages/Busqueda/dropdown.js" asp-append-version="true"></script>

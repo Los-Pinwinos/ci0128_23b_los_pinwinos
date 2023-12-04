@@ -5,10 +5,7 @@ using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Text;
-using System.Web;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -36,13 +33,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 nombreUnidad = " ",
                 productoAsociado = " "
             };
+            this.reportePopup = "";
         }
 
         public IActionResult OnGet(string fechaHora, string usuario)
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
-                if (!fechaHora.Contains("."))
+                if (!fechaHora.Contains('.'))
                 {
                     fechaHora += ".0000000";
                 }
@@ -62,7 +60,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 AlmacenarTempData(this.registro.usuarioCreador, fecha);
 
-                ActualizarCantidadCalificaciones(fecha, usuario);
+                this.registro.cantidadCalificaciones = ActualizarCantidadCalificaciones(fecha, usuario);
 
                 ActualizarUltimaCalificacion(fecha, usuario);
 
@@ -78,12 +76,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             char[] numeroTexto = Math.Truncate(this.registro.precio).ToString().ToCharArray();
             Array.Reverse(numeroTexto);
-            string numeroAlReves = new string(numeroTexto);
-            StringBuilder resultado = new StringBuilder();
+            string numeroAlReves = new(numeroTexto);
+            StringBuilder resultado = new();
 
             for (int i = 0; i < numeroAlReves.Length; i++)
             {
-                if (i > 0 && i % 3 == 0)
+                if (i % 3 == 0 && i != 0)
                 {
                     resultado.Append(separador);
                 }
@@ -95,25 +93,44 @@ namespace LoCoMPro.Pages.DetallesRegistro
             return new string(numeroTexto);
         }
 
-        public async Task<IActionResult> OnGetCalificar(int calificacion)
+        public IActionResult OnGetCalificar(int calificacion)
         {
             string usuario = User.Identity?.Name ?? "desconocido";
             string usuarioCreador = TempData["RegistroUsuario"]?.ToString() ?? "";
+            int conteo = 0;
+            string promedioStr = "";
+
             if (TempData.ContainsKey("RegistroCreacion")
                 && TempData["RegistroCreacion"] is DateTime creacion)
             {
                 AlmacenarTempData(usuarioCreador, creacion);
                 ActualizarTablaCalificaciones(usuario, usuarioCreador, creacion, calificacion);
                 ActualizarCalificacionUsuario(usuarioCreador);
-                ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
+                IList<object[]> resultado = ActualizarCalificacionRegistro(creacion, usuarioCreador, calificacion);
                 ActualizarModeracionUsuario(usuarioCreador);
+
+                conteo = (int) resultado[0][0];
+                promedioStr = resultado[0][1]?.ToString() ?? "";
+                if (promedioStr != null)
+                {
+                    if (!promedioStr.Contains('.'))
+                    {
+                        promedioStr += ",0";
+                    }
+                    else
+                    {
+                        int pos = promedioStr.IndexOf('.');
+                        promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
+                    }
+                }
             }
-            return Page();
+            
+            return new JsonResult(new { Conteo = conteo, Calificacion = promedioStr });
         }
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
         {
-            var detallesIQ = contexto.Registros
+            List<DetallesRegistroVM> detallesIQ = contexto.Registros
                     .Include(r => r.producto)
                     .Include(r => r.fotografias)
                     .Where(r => r.creacion == fecha && r.usuarioCreador.Equals(usuario))
@@ -125,31 +142,33 @@ namespace LoCoMPro.Pages.DetallesRegistro
                         calificacion = r.calificacion,
                         descripcion = r.descripcion,
                         productoAsociado = r.productoAsociado,
-                        nombreUnidad = r.producto.nombreUnidad,
+                        nombreUnidad = r.producto!.nombreUnidad,
                         fotografias = r.fotografias
-                    }).ToList();
-            return detallesIQ.FirstOrDefault();
+                    })
+                    .ToList();
+            return detallesIQ.FirstOrDefault()!;
         }
 
-        private void ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
+        private int ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
         {
-            this.registro.cantidadCalificaciones = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
-                                                .Equals(usuario) && r.calificacion != 0).Count();
+            return this.contexto.Calificaciones
+                        .Where(r => r.creacionRegistro == fecha && r.usuarioCreadorRegistro
+                        .Equals(usuario) && r.calificacion != 0)
+                        .Count();
         }
 
         private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
         {
             string usuarioCalificador = User.Identity?.Name ?? "desconocido";
-            var ultimaCalificacion = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha
-                                                    && r.usuarioCreadorRegistro.Equals(usuario)
-                                                    && r.usuarioCalificador.Equals(usuarioCalificador))
-                                                .FirstOrDefault();
+            var calificacion = this.contexto.Calificaciones
+                                    .Where(r => r.creacionRegistro == fecha
+                                        && r.usuarioCreadorRegistro.Equals(usuario)
+                                        && r.usuarioCalificador.Equals(usuarioCalificador))
+                                    .FirstOrDefault();
             this.ultimaCalificacion = 0;
-            if (ultimaCalificacion != null)
+            if (calificacion != null)
             {
-                this.ultimaCalificacion = ultimaCalificacion.calificacion;
+                this.ultimaCalificacion = calificacion.calificacion;
             }
         }
 
@@ -179,14 +198,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
             comandoActualizarUsuario.EjecutarProcedimiento();
         }
 
-        private static void ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
+        private static IList<object[]> ActualizarCalificacionRegistro(DateTime creacion, string usuario, int calificacion)
         {
             ControladorComandosSql comandoActualizarRegistro = new ControladorComandosSql();
             comandoActualizarRegistro.ConfigurarNombreComando("actualizarCalificacionDeRegistro");
             comandoActualizarRegistro.ConfigurarParametroDateTimeComando("creacionDeRegistro", creacion);
             comandoActualizarRegistro.ConfigurarParametroComando("usuarioCreadorDeRegistro", usuario);
             comandoActualizarRegistro.ConfigurarParametroComando("nuevaCalificacion", calificacion);
-            comandoActualizarRegistro.EjecutarProcedimiento();
+            return comandoActualizarRegistro.EjecutarProcedimiento();
         }
 
         private static void ActualizarModeracionUsuario(string usuario)
@@ -207,14 +226,14 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
                 if (reportePopup != "" && reportePopup != null)
                 {
-                    crearReporte(usuarioCreador, creacion);
+                    CrearReporte(usuarioCreador, creacion);
                 }
                 return OnGet(creacion.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"), usuarioCreador);
             }
             return RedirectToPage("/Home/Index");
         }
 
-        private void crearReporte(string usuarioCreador, DateTime creacion)
+        private void CrearReporte(string usuarioCreador, DateTime creacion)
         {
             if (User.Identity != null && User.Identity.Name != null)
             {

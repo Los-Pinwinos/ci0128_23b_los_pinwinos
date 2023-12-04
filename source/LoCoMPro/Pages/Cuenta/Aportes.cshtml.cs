@@ -4,6 +4,7 @@ using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Cuenta;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
+using LoCoMPro.Utils;
 using Newtonsoft.Json;
 
 namespace LoCoMPro.Pages.Cuenta
@@ -46,7 +47,7 @@ namespace LoCoMPro.Pages.Cuenta
                 calificacion = 0
             };
             this.paginaDefault = 1;
-            this.resultadosPorPagina = this.configuracion.GetValue("TamPagina", 10);
+            this.resultadosPorPagina = this.configuracion.GetValue("TamPaginaCuenta", 10);
         }
 
         // Método On get para cargar los resultados o redireccionar
@@ -69,7 +70,7 @@ namespace LoCoMPro.Pages.Cuenta
                 if (resultados.Count != 0)
                 {
                     // Asignar data de JSON
-                    this.aportes = JsonConvert.SerializeObject(resultados);
+                    this.aportes = ControladorJson.ConvertirAJson(resultados);
                 }
                 else
                 {

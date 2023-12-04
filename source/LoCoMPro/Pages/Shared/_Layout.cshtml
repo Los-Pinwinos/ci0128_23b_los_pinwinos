@@ -1,14 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Configuración -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LoCoMPro</title>
+
+    <!-- Archivos CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LoCoMPro.styles.css" asp-append-version="true" />
-    <!-- Incluir el archivo CSS custom para estilos de la barra de navegación -->
     <link rel="stylesheet" href="~/css/Pages/Shared/_Layout.css" asp-append-version="true" />
+
+    <!-- Scripts de bootstrap -->
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
@@ -22,55 +29,87 @@
                         <img src="~/img/pinwino_imagen.png" style="height: 30px; width: 30px;" alt="Your Image" />
                     </a>
                 }
+                <!-- Nombre de la página que devuelve al Home -->
                 <a class="navbar-brand" asp-area="" asp-page="/Home/Index">LoCoMPro</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- Botón que lleva a la página de Nosotros -->
+                <a class="nav-link text-dark" asp-area="" asp-page="/Home/Nosotros">Sobre nosotros</a>
+                <!-- Elementos de la barra de navegación -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <!-- Lista de elementos alineados a la izquierda -->
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- Si hay un usuario ingresado -->
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Agregar registro</a>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Aportes">Ver aportes</a>
+                            <!-- Elemento de lista -->
+                            <li class="nav-item">
+                                <!-- Botón que lleva a la página de agregar tienda con el texto "Agregar registro" -->
+                                <a class="nav-link text-dark" asp-area="" asp-page="/AgregarTienda/AgregarTienda">Agregar registro</a>
+                            </li>
 
+                            <!-- Si el usuario ingresado es moderador -->
                             if (User.IsInRole("moderador"))
                             {
-                                <ul class="navbar-nav flex-grow-1">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes">Ver reportes</a>
-                                </ul>
+                                <!-- Elemento de lista (dropdown) -->
+                                <li class="nav-item dropdown">
+                                    <!-- Botón que abre el dropdown con el texto "Moderar" -->
+                                    <a class="nav-link text-dark" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="moderador_dropdown">
+                                        Moderar
+                                    </a>
+                                    <!-- Opciones del dropdown -->
+                                    <div class="dropdown-menu Layout-dropdown">
+                                        <!-- Botón que lleva a la página de ver reportes con el texto "Registros reportados" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes" id="Registros_reportados">Registros reportados</a>
+                                        <!-- Botón que lleva a la página de ver registros con precios anómalos" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/OutliersPrecio" id="Outliers_precio">Precios anómalos</a>
+                                        <!-- Botón que lleva a la página para ver registros con fechas obsoletas con el texto "Fechas obsoletas" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/FechasObsoletas">Fechas obsoletas</a>
+                                        <!-- Botón que lleva a la página de clustering-->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/Clustering/ProductosSimilares" id="Clustering">Productos similares</a>
+                                        <!-- Botón que lleva a la página de ver usuarios más reportados con el texto "Usuarios más reportados" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" id="MasReportados" asp-route-tipo="reportados">Usuarios más reportados</a>
+                                        <!-- Botón que lleva a la página de ver usuarios que más reportan con el texto "Usuarios que más reportan" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" id="MasReportan"  asp-route-tipo="reportadores">Usuarios que más reportan</a>
+                                    </div>
+                                </li>
                             }
                         }
                     </ul>
-                    <!-- Lista no ordenada para los elementos alineados a la derecha -->
+                    <!-- Lista de elementos alineados a la derecha -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Si hay un usuario ingresado -->
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            <!-- Agregar la ventana parcial de salir y su modelo como elemento de navegación -->
-                            <li class="nav-item">
-                                @await Html.PartialAsync("/Pages/Cuenta/SalirParcial.cshtml", new LoCoMPro.Pages.Cuenta.ModeloSalirParcial())
-                            </li>
-                            <!-- Texto presionable que llevará a la ventana del perfil de la cuenta -->
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="BotonMiPerfilLayout" asp-page="/Cuenta/Perfil">Mi perfil</a>
-                            </li>
-                            <!-- Icono de perfil que llevará a la ventana del perfil de la cuenta -->
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <img src="~/img/icono_perfil.png" alt="Profile Image" class="Layout-icono-perfil">
+                            <!-- Elemento de lista (dropdown) -->
+                            <li class="nav-item dropdown">
+                                <!-- Botón que abre el dropdown con el texto "Mi perfil" y el ícono respectivo -->
+                                <a class="nav-link text-dark" role="button" id="perfilDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Mi perfil
+                                    <img src="~/img/icono_perfil.png" alt="Imagen perfil" class="Layout-icono-perfil">
                                 </a>
+                                <!-- Opciones del dropdown -->
+                                <div class="dropdown-menu Layout-dropdown">
+                                    <!-- Botón que lleva a la página de aportes con el texto "Ver aportes" -->
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Aportes">Ver aportes</a>
+                                    <!-- Botón que llevará a la página de productos favoritos con el texto "Favoritos" (se debe modificar) -->
+                                    <a class="nav-link text-dark" id="BotonFavoritosLayout" asp-area="" asp-page="/Cuenta/Favoritos">Favoritos</a>
+                                    <!-- Botón que lleva a la página del perfil con el texto "Perfil" -->
+                                    <a class="nav-link text-dark" id="BotonPerfilLayout" asp-page="/Cuenta/Perfil">Perfil</a>
+                                    <!-- Botón para cerrar sesión (se renderiza como una vista parcial) -->
+                                    @await Html.PartialAsync("/Pages/Cuenta/SalirParcial.cshtml", new LoCoMPro.Pages.Cuenta.ModeloSalirParcial())
+                                </div>
                             </li>
                         }
                         else
                         {
-                            <!-- Texto presionable que llevá a la ventana de ingresar con una cuenta -->
+                            <!-- Elemento de lista -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" id="BotonIngresarLayout" asp-page="/Cuenta/Ingresar">Iniciar sesión</a>
-                            </li>
-                            <!-- Icono de perfil que lleva a la ventana de ingresar con una cuenta -->
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/Cuenta/Ingresar">
+                                <!-- Botón que lleva a la página para ingresar con el texto "Iniciar sesión" y el ícono respectivo -->
+                                <a class="nav-link text-dark" id="BotonIngresarLayout" asp-page="/Cuenta/Ingresar">
+                                    Iniciar sesión
                                     <img src="~/img/icono_perfil.png" alt="Icono perfil" class="Layout-icono-perfil">
                                 </a>
                             </li>
@@ -80,21 +119,20 @@
             </div>
         </nav>
     </header>
+    <!-- Cuerpo de la página correspondiente -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    <!-- Pie de la página -->
     <footer class="border-top footer text-muted">
+        <!-- Mensaje de copyright -->
         <div class="container">
             &copy; 2023 - LoCoMPro
         </div>
     </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

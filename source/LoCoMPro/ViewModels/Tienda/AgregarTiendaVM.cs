@@ -29,5 +29,10 @@ namespace LoCoMPro.ViewModels.Tienda
         [StringLength(10, MinimumLength = 5)]
         [RegularExpression(@"[a-zA-ZÀ-ÿ]+( ?[a-zA-ZÀ-ÿ])*")]
         public required string nombreProvincia { get; set; }
+
+        // Coordenadas
+        public double latitud { get; set; }
+        public double longitud { get; set; }
+
     }
 }

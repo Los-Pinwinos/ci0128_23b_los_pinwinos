@@ -57,6 +57,8 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Ingresar al sistema con un usuario válido
 
++ Cambiar contraseña
+
 + Búsqueda simple
 
 + Búsqueda avanzada
@@ -89,6 +91,20 @@ Las funcionalidades básicas implementadas, actualmente, en la aplicación consi
 
 + Aceptar o rechazar reportes para los registros
 
++ Agregar productos a la lista de favoritos
+
++ Búsqueda por favoritos
+
++ Lista de los 10 usuarios que más reportan
+
++ Lista de los 10 usuarios más reportados
+
++ Mecanismo de identificaicón de outliers de registros según su precio
+
++ Mecanismo de identificación de outliers de registros según su fecha de creación
+
++ Mecanismo de identificación de productos con nombres similares
+
 Se debe tomar en cuenta que no todas las funcionalidades requieren estar loggeado al sistema como un usuario. Las funcionalidades que lo requieren son: ver los aportes realizados, agregar un registro de un producto, reportar un registro y calificar un registro. Además, solo los usuarios loggeados que son moderadores pueden visualizar, aceptar o rechazar los reportes realizados.
 
 
@@ -104,6 +120,10 @@ Una vez encontrado en esa página, debe darle click al botón de `Registrase` e 
 Para ingresar al sistema como un usuario válido, debe haber pasado previamente por el proceso de registrarse como usuario al sistema y debe haber validado su cuenta con el botón de confirmación que se muestra en el correo electrónico. 
 
 Posteriormente, debe ingresar los datos solicitados de su respectivo usuario.
+
+#### **Cambiar contraseña**
+
+Para cambiar la contraseña, un usuario puede ingresar a la ventana de `Mi perfil` en donde encontrará la opción de cambiar su contraseña ingresando su contraseña actual, la contraseña nueva y la confirmación de la contraseña nueva. Cabe resaltar que la contraseña nueva y la confirmación deben ser iguales y cumplir con los requerimientos establecidos para que una contraseña sea válida (tener entre 8 y 20 caracteres, tener al menos una letra en minúscula, en mayúscula, al menos un caracter numérico y al menos un caracter especial.)
 
 
 #### **Búsqueda simple**
@@ -136,6 +156,8 @@ Una vez encontrados los resultados, sin importar el tipo de búsqueda, se puede 
 + Tienda
 
 + Marca
+
++ Categoría
 
 + Precio
 
@@ -192,6 +214,16 @@ Una vez ingresado en el sistema, se muestra en las opciones en la parte superior
 Una vez igresado en el sistema, tanto en la ventana de `Mi Perfil` como en el menú de la ventana principal, se muestra la opción de `Ver aportes`. En esta página se muestran los registros ingresados al sistema por dicho usuario.
 
 
+#### **Agregar productos a la lista de favoritos**
+
+Dentro de la ventana de `Ver Registros`, se encontrará, dentro de la información del producto, un corazón gris, el cual se puede seleccionar para agregar el producto a la lista de productos favoritos del usuario. Una vez agregado, se puede volver a seleccionar el corazón para que dicho producto sea eliminado de la lista. Si se desea observar la lista de favoritos, se puede acceder al menú de `Mi perfil`, en donde encontrará la opción de `Favoritos` y podrá desplegar la lista de productos favoritos (y eliminar dicho producto de la lista seleccionando el corazón si así lo desea).
+
+Cabe resaltar que esta funcionalidad solo es accesible cuando el usuario está ingresado en el sistema, de lo contrario, no se le desplegarán dichas opciones.
+
+#### **Búsqueda por favoritos**
+
+Dentro de la ventana que muestra la lista de favoritos, es posible seleccionar la opción de `Ubicar productos`, la cual lo redireccionará a una ventana en donde se mostrarán los resultados de la búsqueda con los múltiples productos presentes en la lista. Cada uno de estos resultados es seleccionable y permite desplegar qué productos se encuentran en la tienda indicada y el precio de cada uno de estos.
+
 #### **Obtener rol de moderador**
 
 Para ser moderador, un usuario debe cumplir con las siguientes características:
@@ -200,10 +232,10 @@ Para ser moderador, un usuario debe cumplir con las siguientes características:
 
 2. Tener una calificación mayor o igual a 4.9 según el promedio de calificaciones de sus registros.
 
-Una vez cumplidas las características, el usuario moderador podrá ver la opción de `Ver reportes`, que le permite aceptar o rechazar los reportes del usuario. Es importante indicar que si el usuario que se convirtió en moderador se encuentra ingresado en el sistema en el momento en el que su estado cambia, no se le notificará hasta que no cierre su sesión y vuelva a ingresar al sistema.
+Una vez cumplidas las características, el usuario moderador podrá ver las opciones de `Ver reportes`, `Precios anómalos`, `Fechas obsoletas`, `Productos similares`, `Usuarios más reportados` y `Usuarios que más reportan`. Es importante indicar que si el usuario que se convirtió en moderador se encuentra ingresado en el sistema en el momento en el que su estado cambia, no se le notificará hasta que no cierre su sesión y vuelva a ingresar al sistema.
 
 
-#### **Ver los reportes agregados a los diferentes registros**
+#### **Ver los reportes de los diferentes registros**
 
 En la página principal, los usuarios con permisos de moderador pueden ver la opción de `Ver reportes`. En esta ventana, el usuario puede decidir si:
 
@@ -212,6 +244,36 @@ En la página principal, los usuarios con permisos de moderador pueden ver la op
 2. Rechazar un reporte: esto significa indicar que el reporte es inválido y que no se quiere ocultar el registro.
 
 3. Saltar un reporte: esto significa que el moderador no quiere tomar ninguna decisión sobre dicho reporte.
+
+
+#### **Lista de los 10 usuarios que más reportan**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios que más reportan`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más productos reportan junto con la cantidad de reportes que hizo cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponible para usuarios moderadores.
+
+
+#### **Lista de los 10 usuarios más reportados**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Usuarios más reportados`. Al seleccionarla se despliega la lista de los 10 usuarios (si los hay) que más reportes reciben junto con la cantidad de reportes que recibió cada usuario y la cantidad de esos reportes que están aprobados.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+
+#### **Mecanismo de identificaicón de outliers de registros según su precio**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Precios anómalos`. Dicha función despliega una lista de los registros cuyo precio indica que puede estar obsoleto. El usuario puede seleccionar los registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+
+#### **Mecanismo de identificación de outliers de registros según su fecha de creación**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Fechas obsoletas`. Dicha función despliega una lista de los registros cuya fecha indica que pueden estar obsoletos. El usuario puede seleccionar los grupos de registros y eliminarlos, de forma tal que no se muestren a los usuarios cuando estos se buscan y no afecten en los datos mostrados para el producto.
+
+Dicha función solo está disponibles para usuarios moderadores.
+
+
+#### **Mecanismo de identificación de productos con nombres similares**
+Dentro de la página `Home`, se muestra la opción de `Moderar`. Dentro de este menú desplegable se encuentra la opción de `Productos similares`. Dicha función despliega una lista de productos cuyo nombre indica que podría ser el mismo producto. Al seleccioanr una opción de la lista, se despliega la lista de productos cuyo nombre es similar y se permite que el usuario los seleccione y una en un solo producto. De esta forma se evita la existencia de productos duplicados en el sistema.
+
+Dicha función solo está disponibles para usuarios moderadores.
 
 
 ## **Manual técnico de la aplicación**
@@ -244,7 +306,7 @@ En caso de estar utilizando una IP de la ECCI, se debe utilizar el **VPN de la E
 #### **Para la ejecución de las pruebas funcionales**
 
 ##### **Prerequisitos**
-Primeramente, debe hacerse un cambio en los archivos `Program.cs` y `ControladorComandosSQL.cs`. En el archivo `Program.cs`, debe cambiar la constante `connectionString` para que esta contenga el string: `LoCoMProContextTest`. En el archivo `ControladorComandosSQL.cs` se debe cambiar la constante `connectionString` en el constructor para que contenga el mismo string mencionado anteriormente. Una vez realizado esto, debe ejecutar el programa para crear la base de datos necesaria para realizar las pruebas. 
+Primeramente, debe hacerse un cambio en los archivos `Program.cs` y `ControladorComandosSQL.cs`. En el archivo `Program.cs`, debe cambiar la constante `connectionString` para que esta contenga el string: `LoCoMProContextTest`. En el archivo `ControladorComandosSQL.cs` (que se encuentra en la carpeta [SQL](/source/LoCoMPro/Utils/SQL)) se debe cambiar la constante `connectionString` en el constructor para que contenga el mismo string mencionado anteriormente. Una vez realizado esto, debe ejecutar el programa para crear la base de datos necesaria para realizar las pruebas. Cabe resaltar que, si se han ejecutado pruebas anteriores con el esta base de datos, es recomendado utilizar el comando `drop-database` antes de ejecutar el programa.
 
 Una vez creada la base de datos, debe ejecutar los procedimientos, funciones y triggers en la nueva base de datos que se encuentra en la carpeta [SQLScripts](./source/LoCoMPro/SQLScripts).
 
@@ -278,18 +340,45 @@ Esta prueba se encarga de verificar que los cantones que se muestran en el *comb
 
 ##### **Cambiar vivienda de un usuario**
 
-Para realizar esta prueba se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
+Para realizar estas pruebas se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
 - Nombre de usuario = `Usuario1*`
 - Contraseña = `Usuario1*`
-- Provincia de vivienda != `Guanacaste`
-- Cantón de vivienda !=  `Hojancha`
-- Distrito de vivienda: `Huacas`
+- Provincia de vivienda = `San José`
+- Cantón de vivienda =  `San José`
+- Distrito de vivienda = `Carmen`
 
-El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que el botón para guardar los cambios se vuelve disponible hasta que se seleccionen datos distintos a los que presentaba la cuenta originalmente, es imperativo que la vivienda del usuario no estuviese en Guancaste, Hojancha, Huacas, pues estos son los valores a los que la prueba intentará cambiar la vivienda. Cualquier otra vivienda será válida.
+El nombre de usuario y contraseña serán utilizados como credenciales para ingresar al sistema con el fin de acceder a la página de Mi perfil, donde se probará la funcionalidad para cambiar la vivienda del usuario. Debido a esto y dado que las opciones de cantones y distritos disponibles son dependientes de la vivienda que se encuentre seleccionada es imperativo que la vivienda del usuario inicialmente este en San José, San José, Carmen, pues estos son los valores que asumirá como iniciales la prueba. Cualquier otra vivienda inicial producirá errores.
+
 
 ##### **Revisar ordenamiento de flechas**
 
 Para realizar esta prueba se requiere la conexión con la base de datos para realizar una búsqueda, pero no es dependiente de los resultados ya que solo se revisa la presencia de las flechas.
+
+##### **Cambiar contraseña de un usuario**
+Para realizar estas pruebas se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
+Para realizar esta prueba se debe contar con un usuario válido y autenticado en el sistema que cumpla con las siguientes características:
+- Nombre de usuario = `Usuario1*`
+- Contraseña = `Usuario1*`
+- Estado = `A`
+
+##### **Agregar elementos a favoritos**
+En estas pruebas se necesita un usuario que se llame `Envil0705!` en la base de datos, y además que haya al menos un registro de un producto cuyo nombre empiece con `aceite`.
+
+##### **Búsqueda avanzada desde la página Home con el Mapa**
+En estas pruebas se necesita que existan productos cuya tienda asociada esté en el cantón y provincia `Heredia`. Además, se requiere que exista al menos un registro con marca `Apple` en la provincia y cantón `San José`.
+
+##### **Resultados de búsqueda avanzada**
+Para estas pruebas se ocupa que hayan registros cuya tienda asociada esté en `Heredia`, al menos uno. Adicionalmente, se requiere que exista al menos un registro cuyo producto asociado sea `Iphone 14` y marca `Apple`.
+
+##### **Calificar registros**
+Para estas pruebas, se necesitan que estén los registros asociados a `Iphone 14` y un usuario llamado `Usuario1*`. Ambos requerimientos se cumplen si se utiliza el `DBInitializer`. Además, se deben tener los siguientes procedimientos de la base de datos: calificar un registro, actualizar la calificación de un registro, actualizar calificación de un usuario y actualizar rol del moderador.
+
+#### **Confirmar botón de reportar en un registro**
+Para estas pruebas se requiere que se encuentre al menos un producto `Camisa` con un registro y la sesión iniciada con `Usuario1*`. Si se utiliza el `DBInitializer`, ambos requerimientos se van a a cumplir.
+
+#### **Revisiones del panel de moderación**
+
+Para las revisiones del panel de moderación desde home, se debe utilizar el usuario `Usuario1` que posee el status de moderador por default.
 
 ### **Manual de instalación o ejecución del sistema**
 
@@ -361,6 +450,25 @@ Dentro del Sprint 2 se entragaron tres avances, con sus respectivos archivos de 
 #### **Segundo avance**
 
 + [Diagramas UML de casos de uso, actividad y clases](https://app.diagrams.net/#G1qJkUy_LJMj5MtduuwwVkmtTsn6y5Bip9)
+
+
+#### **Tercer avance**
+
++ [Código fuente del proyecto](./source/LoCoMPro)
+
++ [Código fuente de las pruebas unitarias](./test/unit_tests/)
+
++ [Código fuente de las pruebas funcionales](./test/functional_tests/)
+
+
+
+### **Reporte del Sprint 3**
+
+Dentro del Sprint 3 se entragaron tres avances, con sus respectivos archivos de diseño y progreso (el primero de estos corresponde al grooming en el backlog, por lo que no se presenta en las secciones siguientes). Posteriormente, puede encontrar el acceso a ciertos de estos archivos según su respectivo avance:
+
+#### **Segundo avance**
+
++ [Diseño del *mockup*](./design/sprint3/mockups/Mockup_Sprint3_Avance2.pdf)
 
 
 #### **Tercer avance**

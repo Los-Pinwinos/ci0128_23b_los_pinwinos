@@ -68,9 +68,17 @@ namespace LoCoMPro.Models
         [ForeignKey("distritoVivienda, cantonVivienda, provinciaVivienda")]
         public Distrito? vivienda { get; set; }
 
+        // Coordenadas
+        public required double latitudVivienda { get; set; }
+        public required double longitudVivienda { get; set; }
+
         // Colecciones
         public ICollection<Registro>? registros { get; set; }
         public ICollection<Reporte>? reportes { get; set; }
         public ICollection<Calificacion>? calificaciones { get; set; }
+
+        [ForeignKey("nombreUsuario")]
+        [InverseProperty("usuariosInteresados")]
+        public ICollection<Producto> favoritos { get; set; } = new List<Producto>();
     }
 }

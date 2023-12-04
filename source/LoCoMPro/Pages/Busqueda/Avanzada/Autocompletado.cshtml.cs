@@ -13,10 +13,8 @@ namespace LoCoMPro.Pages.Busqueda
         }
         public JsonResult OnGet(string term)
         {
-            IList<string> resultados = new List<string>();
-
-            resultados = contexto.Productos
-                .Where(p => p.marca.StartsWith(term))
+            IList<string?> resultados = this.contexto.Productos
+                .Where(p => p.marca!.StartsWith(term))
                 .Select(p => p.marca)
                 .Distinct()
                 .OrderBy(p => p)

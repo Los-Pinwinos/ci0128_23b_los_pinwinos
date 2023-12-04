@@ -1,0 +1,53 @@
+﻿@page
+@model ModeloContrasena
+
+@{
+    ViewData["Title"] = "Contrasena";
+}
+
+<head>
+    <title>Cambio de contraseña</title>
+    <script src="~/js/Pages/alinear.js"></script>
+    <link rel="stylesheet" href="~/css/Pages/Cuenta/Contrasena.css" asp-append-version="true" />
+</head>
+
+<body>
+    <form method="post">
+        <!-- Validación del lado del cliente:-->
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" ></div>
+        @if (!string.IsNullOrEmpty(TempData["ExitoContrasena"]?.ToString()))
+        {
+            <div class="alert alert-success">@TempData["ExitoContrasena"]</div>
+        }
+        <div class="Contrasena-contenedor-centrado-primario">
+            <!-- Titulo de la página -->
+            <p class="Contrasena-titulo">Cambiar contraseña</p>
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoActual">Contraseña actual:</label>
+                <input type="password" id="CajaDeTextoActual" asp-for="usuarioActual.contrasenaActual">
+            </div>
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoNueva">Contraseña nueva:</label>
+                <input type="password" id="CajaDeTextoNueva" asp-for="usuarioActual.contrasenaNueva">
+            </div>
+            <div class="Contrasena-contenedor-caja-de-texto" style="margin-bottom: 3%;">
+                <label for="CajaDeTextoConfirmacion">Confirmar contraseña nueva:</label>
+                <input type="password" id="CajaDeTextoConfirmacion" asp-for="usuarioActual.confirmarContrasena">
+            </div>
+            <button class="Contrasena-boton-basico" asp-page-handler="Aceptar" id="BotonGuardarCambios"> Aceptar cambio </button>
+        </div>
+    </form>
+
+
+    <script>
+        alinearContenedoresDeBarrasDeTexto(".Contrasena-contenedor-caja-de-texto", 185);
+    </script>
+
+    <script>
+        var mensaje = "@ViewData["Redireccionar"]";
+        if (mensaje) {
+            alert(mensaje);
+            window.location.href = "/Home/Index";
+        }
+    </script>
+</body>

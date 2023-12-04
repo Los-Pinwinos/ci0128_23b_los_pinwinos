@@ -11,7 +11,7 @@ namespace LoCoMProTests
     {
         public static Usuario CrearUsuarioPorDefecto()
         {
-            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena" };
+            return new Usuario { nombreDeUsuario = "Usuario1", correo = "usuario1@gmail.com", hashContrasena = "hashContrasena", longitudVivienda = 0, latitudVivienda = 0 };
         }
         public static Provincia CrearProvinciaPorDefecto()
         {
@@ -33,7 +33,7 @@ namespace LoCoMProTests
         public static Tienda CrearTiendaPorDefecto(Distrito? distritoAsociado = null)
         {
             distritoAsociado = distritoAsociado ?? CrearDistritoPorDefecto();
-            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado };
+            return new Tienda { nombre = "Tienda", nombreDistrito = distritoAsociado.nombre, nombreCanton = distritoAsociado.nombreCanton, nombreProvincia = distritoAsociado.nombreProvincia, distrito = distritoAsociado, longitud = 0, latitud = 0 };
         }
 
         public static Categoria CrearCategoriaPorDefecto()
@@ -63,6 +63,13 @@ namespace LoCoMProTests
             tiendaAsociada = tiendaAsociada ?? CrearTiendaPorDefecto();
             usuarioAsociado = usuarioAsociado ?? CrearUsuarioPorDefecto();
             return new Registro { creacion = DateTime.Now, productoAsociado = productoAsociado.nombre, usuarioCreador = usuarioAsociado.nombreDeUsuario, precio = 999.99M, nombreTienda = tiendaAsociada.nombre, nombreDistrito = tiendaAsociada.nombreDistrito, nombreCanton = tiendaAsociada.nombreCanton, nombreProvincia = tiendaAsociada.nombreProvincia, tienda = tiendaAsociada, producto = productoAsociado, creador = usuarioAsociado, visible = true};
+        }
+
+        public static Reporte CrearReportePorDefecto(Usuario? creador = null, Registro? registro = null)
+        {
+            creador = creador ?? CrearUsuarioPorDefecto();
+            registro = registro ?? CrearRegistroPorDefecto();
+            return new Reporte { comentario = "Ejemplo reporte", creacion = DateTime.Now, usuarioCreadorReporte = creador.nombreDeUsuario, creadorReporte = creador, usuarioCreadorRegistro = registro.usuarioCreador, creacionRegistro = registro.creacion, registro = registro, verificado = false };
         }
     }
 }

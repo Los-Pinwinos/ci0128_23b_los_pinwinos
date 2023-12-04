@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 namespace LoCoMProFunctionalTests.Pages.AgregarTienda
 {
     // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2
-    internal class Tienda
+    internal class TiendaTest
     {
         private IWebDriver driver;
 
@@ -14,7 +14,7 @@ namespace LoCoMProFunctionalTests.Pages.AgregarTienda
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(2000);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
         // Hecho por: Angie Sofía Solís Manzano - C17686 - Sprint 2

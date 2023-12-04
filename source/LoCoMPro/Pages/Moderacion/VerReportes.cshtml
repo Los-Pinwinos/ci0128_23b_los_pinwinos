@@ -6,6 +6,8 @@
 
 <!-- Metadatos -->
 <head>
+    <!-- Titulo de la página -->
+    <title>Ver reportes</title>
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Moderacion/VerReportes.css" asp-append-version="true" />
@@ -36,28 +38,28 @@
                     </div>
 
                     <!-- Contenedor para los datos del registro, alineado en forma de columna (de filas de datos) -->
-                    <div class="VerReportes-contenedor-rectangular-subcontenedor-columna" style="margin-left: 10%">
+                    <div class="VerReportes-contenedor-rectangular-subcontenedor-columna" style="width: 100%;">
                         <!-- Primera fila -->
-                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
+                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila" style="justify-content: space-between;">
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Precio:</span> ₡@Model.registro.precio</label>
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Tienda:</span> @Model.registro.tienda</label>
-                            <label class="VerReportes-label-corto"> <span class="subtitulo">Fecha:</span> @Model.registro.fecha</label>
+                            <label class="VerReportes-label-corto"> <span class="subtitulo">Fecha:</span> @Model.registro.fecha.ToString("dd-MM-yyyy")</label>
                         </div>
 
                         <!-- Segunda fila -->
-                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
+                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila" style="justify-content: space-between;">
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Unidad:</span> @Model.registro.unidad</label>
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Provincia:</span> @Model.registro.provincia</label>
-                            <label> <span class="subtitulo">Usuario:</span> @Model.registro.usuario</label>
+                            <label class="VerReportes-label-corto"> <span class="subtitulo">Usuario:</span> @Model.registro.usuario</label>
                             </div>
 
                         <!-- Tercera fila -->
-                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
+                        <div class="VerReportes-contenedor-rectangular-subcontenedor-fila" style="justify-content: space-between;">
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Marca:</span> @Model.registro.marca</label>
                             <label class="VerReportes-label-corto"> <span class="subtitulo">Cantón:</span> @Model.registro.canton</label>
                             <!-- Estrellas y calificación del usuario -->
                             <div class="VerReportes-contenedor-calificacion">
-                                <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacionCreador)"></p>
+                                <p class="starability-result" style="zoom: 0.5" data-rating="@Math.Round(Model.registro.calificacionCreador)"></p>
                                 <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionCreador.ToString("0.0", Model.culturaComas) de 5,0</p>
                                 <p class="VerReportes-contenedor-calificacion-conteo">(@Model.registro.cantidadCalificacionesCreador)</p>
                             </div>
@@ -70,14 +72,14 @@
 
                         <!-- Quinta fila -->
                         <div class="VerReportes-contenedor-rectangular-subcontenedor-fila">
-                            <label class="VerReportes-label-largo"> <span class="subtitulo">Descripción:</span> @Model.registro.descripcion.</label>
+                            <label class="VerReportes-label-largo"> <span class="subtitulo">Descripción:</span> @(String.IsNullOrEmpty(Model.registro.descripcion) ? "Sin descripción" : Model.registro.descripcion)</label>
                         </div>
 
                         <!-- Sexta fila -->
                         <div class="VerReportes-contenedor-rectangular-subcontenedor-fila" style="margin-bottom: 40px;">
                             <!-- Estrellas y calificación del registro -->
                             <div class="VerReportes-contenedor-calificacion">
-                                <p class="starability-result" data-rating="@Math.Round(Model.registro.calificacionRegistro)"></p>
+                                <p class="starability-result" style="zoom: 0.5" data-rating="@Math.Round(Model.registro.calificacionRegistro)"></p>
                                 <p class="VerReportes-contenedor-calificacion-calificacion">@Model.registro.calificacionRegistro.ToString("0.0", Model.culturaComas) de 5,0</p>
                                 <p class="VerReportes-contenedor-calificacion-conteo">(@Model.registro.cantidadCalificacionesRegistro)</p>
                             </div>
@@ -97,11 +99,11 @@
                         <label class="VerReportes-label-corto"> <span class="subtitulo">Por:</span> @Model.reporte.creador</label>
                         <!-- Estrellas y calificación del usuario -->
                         <div class="VerReportes-contenedor-calificacion" style="margin-left: -60px;">
-                            <p class="starability-result" data-rating="@Math.Round(Model.reporte.calificacionCreador)"></p>
+                            <p class="starability-result" style="zoom: 0.5" data-rating="@Math.Round(Model.reporte.calificacionCreador)"></p>
                             <p class="VerReportes-contenedor-calificacion-calificacion">@Model.reporte.calificacionCreador.ToString("0.0", Model.culturaComas) de 5,0</p>
                             <p class="VerReportes-contenedor-calificacion-conteo">(@Model.reporte.cantidadCalificacionesCreador)</p>
                         </div>
-                        <label class="VerReportes-label-corto" style="margin-left:auto; text-align:right;"> <span class="subtitulo">Fecha:</span> @Model.reporte.fecha</label>
+                        <label class="VerReportes-label-corto" style="margin-left:auto; text-align:right;"> <span class="subtitulo">Fecha:</span> @Model.reporte.fecha.ToString("dd-MM-yyyy")</label>
                     </div>
 
                     <!-- Segunda fila -->
@@ -195,7 +197,7 @@
 
     <!-- Script para mostrar un popUp y redireccionar -->
     <script>
-        var redireccionar = "@ViewData["MensajeRedireccion"]";
+        var redireccionar = "@ViewData["redireccion"]";
         if (redireccionar) {
             alert("Debe presentar permisos de moderador para acceder a esta página");
             window.location.href = "/Home/Index";

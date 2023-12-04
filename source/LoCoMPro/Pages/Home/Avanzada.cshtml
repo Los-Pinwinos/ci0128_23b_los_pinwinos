@@ -10,6 +10,7 @@
 
 <!-- Metadatos -->
 <head>
+    <title>Home Búsqueda Avanzada</title>
     <!-- Enlace a la biblioteca JavaScript Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Incluye su archivo de estilo CSS específico -->
@@ -35,9 +36,9 @@
                 <div class="HomeAvanzada-contenedor-fila">
                     <label for="CajaDeSeleccionProvincia" style="margin-right:15px;">Provincia:</label>
                     <select asp-for="provincia" id="CajaDeSeleccionProvincia" class="HomeAvanzada-caja-texto HomeAvanzada-caja-combo">
-                        @foreach (var provincia in Model.provincias)
+                        @foreach (var option in Model.provincias!.Select(provincia => new SelectListItem { Value = provincia.nombre, Text = provincia.nombre }))
                         {
-                            <option value="@provincia.nombre">@provincia.nombre</option>
+                            <option value="@option.Value">@option.Text</option>
                         }
                     </select>
                 </div>
@@ -86,6 +87,12 @@
 </body>
 
 @section Scripts {
+    <script>
+        // Longitud y latitud del usuario
+        const longitud = @Model.longitudUsuario;
+        const latitud = @Model.latitudUsuario;
+    </script>
+
     <script>
         // Obtiene las cajas de selección
         const cajaDeSeleccionProvincia = document.getElementById("CajaDeSeleccionProvincia");
@@ -156,7 +163,6 @@
             return cantones;
         }
     </script>
-
 
     <!-- Carga el archivo JavaScript en esta ruta -->
     <script src="~/js/Pages/Busqueda/mapaAvanzada.js" asp-append-version="true"></script>

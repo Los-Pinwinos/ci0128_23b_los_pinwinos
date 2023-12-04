@@ -34,35 +34,42 @@
                     <label for="Provincia">Provincia:</label>
                     <select id="Provincia" name="Provincia" class="Ubicacion-comboBox">
                         <!-- Agregar todas las provincias como opciones -->
-                        @foreach (var prov in Model.ListaProvincias)
+                        @foreach (var option in Model.ListaProvincias!.Select(provincia => new SelectListItem { Value = provincia.nombre, Text = provincia.nombre }))
                         {
-                            <option value="@prov.nombre">@prov.nombre</option>
+                            <option value="@option.Value">@option.Text</option>
                         }
                     </select>
                 </div>
                 <!-- Cuadro de texto de Cantón -->
                 <div class="Ubicacion-contenedor-caja-texto">
                     <label for="Canton">Cantón:</label>
-                    <select id="Canton" name="Canton" class="Ubicacion-comboBox" onChange="colocar();"></select>
+                    <select id="Canton" name="Canton" class="Ubicacion-comboBox"></select>
+                </div>
+                <!-- Cuadro de texto de Distrito -->
+                <div class="Ubicacion-contenedor-caja-texto">
+                    <label for="Distrito">Distrito:</label>
+                    <select id="Distrito" name="Distrito" class="Ubicacion-comboBox" onChange="colocar();"></select>
                 </div>
                 <!-- Espacio oculto para para actualizar los datos -->
                 <input type="hidden" id="Actualizar" name="Actualizar" onclick="colocar();">
                 <!-- Botón de búsqueda -->
                 <button type="button" class="Ubicacion-boton-localizacion" id="BotonBusqueda" name="BotonBusqueda">
-                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" />
+                    <img src="~/img/white_search_icon.png" id="Boton" class="Ubicacion-icono-busqueda" alt="Buscar" />
                 </button>
             </div>
 
-            <input type="hidden" id="CajaTextoLongitud" name="CajaTextoLongitud">
-            <input type="hidden" id="CajaTextoLatitud" name="CajaTextoLatitud">
+            <input type="hidden" id="CajaTextoLongitud" asp-for="Longitud" name="Longitud">
+            <input type="hidden" id="CajaTextoLatitud" asp-for="Latitud" name="Latitud">
 
+            <!-- Mapa interactivo -->
+            <label class="AgregarTienda-texto">Marque el lugar exacto de la tienda en el mapa</label>
             <!-- Mapa interactivo -->
             <div id="map" class="AgregarTienda-mapa"></div>
 
             <!-- Nombre de la tienda -->
             <div class="Ubicacion-contenedor-form Ubicacion-margen-caja-texto">
                 <label asp-for="Tienda.nombre">Tienda:</label>
-                <input asp-for="Tienda.nombre" type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre">
+                <input asp-for="Tienda.nombre" type="text" class="AgregarTienda-caja-texto-tienda" id="Nombre" name="Nombre" />
             </div>
 
             <!-- Botón para seguir y para cancelar -->
@@ -100,6 +107,7 @@
     // Obtiene las cajas de selección
     const cajaDeSeleccionProvincia = document.getElementById("Provincia");
     const cajaDeSeleccionCanton = document.getElementById("Canton");
+    const cajaDeSeleccionDistrito = document.getElementById("Distrito");
 
     async function actualizarCantones() {
         // Obtener la provincia seleccionada
@@ -126,6 +134,39 @@
                     cajaDeSeleccionCanton.appendChild(opcion);
                 });
             });
+
+        // Notificar un evento de cambio en la provincia
+        var event = new Event('change');
+        cajaDeSeleccionCanton.dispatchEvent(event);
+    }
+
+    async function actualizarDistritos() {
+        // Obtener la provincia seleccionada
+        var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
+        // Obtener el canton seleccionado
+        var cantonSeleccionado = cajaDeSeleccionCanton.value;
+
+        // Eliminar las opciones de cantones
+        if (cajaDeSeleccionDistrito.options.length > 0) {
+            cajaDeSeleccionDistrito.options.length = 0;
+        }
+
+        // Usar el Fetch API para llamar al handler de DistritosPorCanton
+        // con la provincia y canton seleccionados
+        await fetch(`/AgregarTienda/AgregarTienda?handler=DistritosPorCanton&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`)
+            .then(response => response.json())
+            .then(data => {
+                // Por cada distrito
+                data.forEach(distrito => {
+                    // Crear una opción
+                    var opcion = document.createElement("option");
+                    // Establecer su valor y texto de mostrado
+                    opcion.value = distrito.nombre;
+                    opcion.text = distrito.nombre;
+                    // Agregarla a la caja de selección de cantón
+                    cajaDeSeleccionDistrito.appendChild(opcion);
+                });
+            });
     }
 
     // Función para asignar el distrito correspondiente
@@ -133,14 +174,19 @@
         // Obtiene la provincia y cantón seleccionados
         var provinciaSeleccionada = cajaDeSeleccionProvincia.value;
         var cantonSeleccionado = cajaDeSeleccionCanton.value;
-
+        var distritoSeleccionado = cajaDeSeleccionDistrito.value;
         // Usa el Fetch API para llamar al handler de ColocarDatosTemporales
-        await fetch(`/AgregarTienda/AgregarTienda?handler=ColocarDatosTemporales&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}`);
+        await fetch(`/AgregarTienda/AgregarTienda?handler=ColocarDatosTemporales&provincia=${provinciaSeleccionada}&canton=${cantonSeleccionado}&distrito=${distritoSeleccionado}`);
     }
 
     // Cada vez que la provincia cambia, la función ocurre
     cajaDeSeleccionProvincia.addEventListener("change", async function () {
         await actualizarCantones();
+    });
+
+    // Cada vez que el canton cambia, la funcion ocurre
+    cajaDeSeleccionCanton.addEventListener("change", async function () {
+        await actualizarDistritos();
     });
 
     // Obtiene la lista de provincias
@@ -164,6 +210,19 @@
         }
 
         return cantones;
+    }
+
+    // Obtiene la lista de distritos de un canton
+    async function obtenerDistritos() {
+        await actualizarDistritos();
+
+        const opciones = Distrito.options;
+        var distritos = [];
+        for (let i = 0; i < opciones.length; i++) {
+            distritos.push(opciones[i].value);
+        }
+
+        return distritos;
     }
 </script>
 

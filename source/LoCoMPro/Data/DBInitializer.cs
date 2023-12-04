@@ -1,15 +1,12 @@
-﻿using LoCoMPro.Data.CR;
-using LoCoMPro.Models;
-using Microsoft.Win32;
+﻿using LoCoMPro.Models;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Text.Json;
+using LoCoMPro.Utils;
 
 namespace LoCoMPro.Data
 {
-    public class DBInitializer
+    public static class DBInitializer
     {
-        public static void Initialize(LoCoMProContext contexto)
+        public static async Task Initialize(LoCoMProContext contexto)
         {
             // Si no tiene distritos, cantones ni provincias
             if (!contexto.Distritos.Any() &&
@@ -57,31 +54,20 @@ namespace LoCoMPro.Data
                 !contexto.Productos.Any() &&
                 !contexto.Registros.Any())
             {
-                // TODO(Pinwinos): Agregar usuarios para cada miembro
-                // Crear Usuario base
-                var usuario = new Usuario
-                {
-                    nombreDeUsuario = "Usuario1*"
-                    , correo = "prueba@gmail.com"
-                    , hashContrasena = "AQAAAAIAAYagAAAAEKsU2+AMT85bnzhsCNuFBikWncWXvbzB+a1mkc5MX7GnEcXY0F+4TNoLD45JU7c+WQ=="
-                    , estado = 'A'
-                    , calificacion = 0
-                    , distritoVivienda = "Garita"
-                    , cantonVivienda = "Alajuela"
-                    , provinciaVivienda = "Alajuela"
-                    , esModerador = true
-                };
-                contexto.Usuarios.Add(usuario);
-                contexto.SaveChanges();
+                // Crear usuarios base
+                await DBInitializer.CargarUsuarios(contexto);
 
                 // Cargar tiendas base
-                DBInitializer.CargarTiendas(contexto);
+                await DBInitializer.CargarTiendas(contexto);
 
                 // Cargar productos base
                 DBInitializer.CargarProductos(contexto);
 
                 // Cargar registros base
                 DBInitializer.CargarRegistros(contexto);
+
+                // Cargar calificaciones base
+                DBInitializer.CargarCalificaciones(contexto);
             }
         }
 
@@ -106,10 +92,10 @@ namespace LoCoMPro.Data
         private static void AgregarDatos(LoCoMProContext contexto, CR.CostaRica costaRica)
         {
             if (costaRica.Provincias != null)
-            foreach (var entradaProvincia in costaRica.Provincias.Values)
-            {
-                AgregarProvincias(contexto, entradaProvincia);
-            }
+                foreach (var entradaProvincia in costaRica.Provincias.Values)
+                {
+                    AgregarProvincias(contexto, entradaProvincia);
+                }
         }
 
         private static void AgregarProvincias(LoCoMProContext contexto, CR.Provincia entradaProvincia)
@@ -126,10 +112,10 @@ namespace LoCoMPro.Data
             }
 
             if (entradaProvincia.Cantones != null && entradaProvincia.Nombre != null)
-            foreach (var entradaCanton in entradaProvincia.Cantones.Values)
-            {
-                AgregarCantones(contexto, entradaProvincia.Nombre, entradaCanton);
-            }
+                foreach (var entradaCanton in entradaProvincia.Cantones.Values)
+                {
+                    AgregarCantones(contexto, entradaProvincia.Nombre, entradaCanton);
+                }
         }
 
         private static void AgregarCantones(LoCoMProContext contexto, string nombreProv, CR.Canton entradaCanton)
@@ -152,10 +138,10 @@ namespace LoCoMPro.Data
             }
 
             if (entradaCanton.Distritos != null && nombreCant != null)
-            foreach (var entradaDistrito in entradaCanton.Distritos.Values)
-            {
-                AgregarDistrito(contexto, nombreProv, nombreCant, entradaDistrito);
-            }
+                foreach (var entradaDistrito in entradaCanton.Distritos.Values)
+                {
+                    AgregarDistrito(contexto, nombreProv, nombreCant, entradaDistrito);
+                }
         }
 
         private static void AgregarDistrito(LoCoMProContext contexto, string nombreProv, string nombreCant, string nombreDistrito)
@@ -171,6 +157,41 @@ namespace LoCoMPro.Data
                 contexto.Distritos.Add(distrito);
 
                 // Guarda los cambios en la base de datos
+                contexto.SaveChanges();
+            }
+        }
+
+        private static async Task CargarUsuarios(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Usuarios.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var usuarios = JsonConvert.DeserializeObject<Usuario[]>(datosJson);
+
+            // Crear un cliente
+            using (HttpClient cliente = new HttpClient())
+            {
+                if (usuarios != null)
+                {
+                    foreach (Usuario usuario in usuarios)
+                    {
+                        // Obtener las coordenadas de la tienda
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(usuario.provinciaVivienda, usuario.cantonVivienda, usuario.distritoVivienda);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                        // Verificar si se obtuvieron las coordenadas con éxito
+                        if (longitud != 0 && latitud != 0)
+                        {
+                            usuario.latitudVivienda = latitud;
+                            usuario.longitudVivienda = longitud;
+
+                            contexto.Usuarios.Add(usuario);
+                        }
+
+                    }
+                }
                 contexto.SaveChanges();
             }
         }
@@ -192,7 +213,7 @@ namespace LoCoMPro.Data
             }
         }
 
-        private static void CargarTiendas(LoCoMProContext contexto)
+        private static async Task CargarTiendas(LoCoMProContext contexto)
         {
             // Cargar JSON
             string pathArchivoJson = "./Data/ArchivosJSON/Tiendas.json";
@@ -200,11 +221,28 @@ namespace LoCoMPro.Data
 
             // Deserializar
             var tiendas = JsonConvert.DeserializeObject<Tienda[]>(datosJson);
-
-            // Agregar los datos
-            if (tiendas != null)
+            // Crear un cliente
+            using (HttpClient cliente = new HttpClient())
             {
-                contexto.Tiendas.AddRange(tiendas);
+                if (tiendas != null)
+                {
+                    foreach (Tienda tienda in tiendas)
+                    {
+                        // Obtener las coordenadas de la tienda
+                        string apiURL = Localizador.ObtenerUrlLocalizacion(tienda.nombreProvincia, tienda.nombreCanton, tienda.nombreDistrito, tienda.nombre);
+                        var (latitud, longitud) = await Localizador.ObtenerCoordenadas(cliente, apiURL);
+
+                        // Verificar si se obtuvieron las coordenadas con éxito
+                        if (longitud != 0 && latitud != 0)
+                        {
+                            tienda.latitud = latitud;
+                            tienda.longitud = longitud;
+
+                            contexto.Tiendas.Add(tienda);
+                        }
+
+                    }
+                }
                 contexto.SaveChanges();
             }
         }
@@ -222,6 +260,23 @@ namespace LoCoMPro.Data
             if (registros != null)
             {
                 contexto.Registros.AddRange(registros);
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void CargarCalificaciones(LoCoMProContext contexto)
+        {
+            // Cargar JSON
+            string pathArchivoJson = "./Data/ArchivosJSON/Calificaciones.json";
+            string datosJson = File.ReadAllText(pathArchivoJson);
+
+            // Deserializar
+            var calificaciones = JsonConvert.DeserializeObject<Calificacion[]>(datosJson);
+
+            // Agregar los datos
+            if (calificaciones != null)
+            {
+                contexto.Calificaciones.AddRange(calificaciones);
                 contexto.SaveChanges();
             }
         }

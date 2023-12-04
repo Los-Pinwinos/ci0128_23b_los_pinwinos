@@ -78,7 +78,6 @@ function renderizarTabla(datos) {
     tituloNormal(titulosTabla);
     for (var dato in datos) {
         var fila = document.createElement("tr");
-        console.log(datos[dato].creacion);
         if (typeof datos[dato].creacion !== 'undefined' && datos[dato].creacion !== "") {
 
             var divFecha = document.createElement("div");
@@ -93,7 +92,7 @@ function renderizarTabla(datos) {
             var precioArreglado = "₡" + agregarSeparador(parseFloat(datos[dato].precio));
             divPrecio.textContent = precioArreglado;
             divPrecio.classList.add("precio");
-            divPrecio.style.marginLeft = "60px";
+            divPrecio.style.marginLeft = "40px";
             var precioCelda = document.createElement("td");
             precioCelda.classList.add("precio");
             precioCelda.setAttribute('data-tooltip', precioArreglado);
@@ -109,7 +108,7 @@ function renderizarTabla(datos) {
 
             var divDescripcion = document.createElement("div");
             divDescripcion.className = "contenidoCeldaDescripcion";
-            divDescripcion.textContent = datos[dato].descripcion;
+            divDescripcion.textContent = !datos[dato].descripcion? "Sin descripción" : datos[dato].descripcion;
             var descripcionCelda = document.createElement("td");
             descripcionCelda.appendChild(divDescripcion);
 
@@ -120,7 +119,6 @@ function renderizarTabla(datos) {
             fila.appendChild(descripcionCelda);
 
             cuerpoTabla.appendChild(fila);
-            console.log(cuerpoTabla == null);
 
             var fechaHoraEnviar = datos[dato].creacion;
             var usuarioEnviar = datos[dato].usuarioCreador;
@@ -287,12 +285,14 @@ function generarDatosDia(datos) {
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
         var maxPrecio = Math.max(...precios);
 
-        var totalCalificaciones = calificaciones.length;
+        var calificacionesNoNulas = calificaciones.filter(val => val !== 0);
 
-        var sumCalificaciones = calificaciones.reduce((acc, val) => acc + val, 0);
+        var totalCalificacionesNoNulas = calificacionesNoNulas.length;
 
-        var promedioCalificacion = totalCalificaciones > 0
-            ? sumCalificaciones / totalCalificaciones
+        var sumCalificacionesNoNulas = calificacionesNoNulas.reduce((acc, val) => acc + val, 0);
+
+        var promedioCalificacion = totalCalificacionesNoNulas > 0
+            ? sumCalificacionesNoNulas / totalCalificacionesNoNulas
             : 0;
 
         var entradaAgregada = {
@@ -453,13 +453,16 @@ function generarDatosSemana(datos) {
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
         var maxPrecio = Math.max(...precios);
 
-        var totalCalificaciones = calificaciones.length;
+        var calificacionesNoNulas = calificaciones.filter(val => val !== 0);
 
-        var sumCalificaciones = calificaciones.reduce((acc, val) => acc + val, 0);
+        var totalCalificacionesNoNulas = calificacionesNoNulas.length;
 
-        var promedioCalificacion = totalCalificaciones > 0
-            ? sumCalificaciones / totalCalificaciones
+        var sumCalificacionesNoNulas = calificacionesNoNulas.reduce((acc, val) => acc + val, 0);
+
+        var promedioCalificacion = totalCalificacionesNoNulas > 0
+            ? sumCalificacionesNoNulas / totalCalificacionesNoNulas
             : 0;
+
 
         var entradaAgregada = {
             fechaInicialSemana: fechaInicialSemana,
@@ -592,13 +595,16 @@ function generarDatosMes(datos) {
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
         var maxPrecio = Math.max(...precios);
 
-        var totalCalificaciones = calificaciones.length;
+        var calificacionesNoNulas = calificaciones.filter(val => val !== 0);
 
-        var sumCalificaciones = calificaciones.reduce((acc, val) => acc + val, 0);
+        var totalCalificacionesNoNulas = calificacionesNoNulas.length;
 
-        var promedioCalificacion = totalCalificaciones > 0
-            ? sumCalificaciones / totalCalificaciones
+        var sumCalificacionesNoNulas = calificacionesNoNulas.reduce((acc, val) => acc + val, 0);
+
+        var promedioCalificacion = totalCalificacionesNoNulas > 0
+            ? sumCalificacionesNoNulas / totalCalificacionesNoNulas
             : 0;
+
 
         var entradaAgregada = {
             ano: groupKey.split("-")[0],
@@ -727,11 +733,16 @@ function generarDatosAno(datos) {
         var promedioPrecio = Math.round(precios.reduce((acc, val) => acc + val, 0) / precios.length);
         var maxPrecio = Math.max(...precios);
 
-        var totalCalificaciones = calificaciones.length;
-        var sumCalificaciones = calificaciones.reduce((acc, val) => acc + val, 0);
-        var promedioCalificacion = totalCalificaciones > 0
-            ? sumCalificaciones / totalCalificaciones
+        var calificacionesNoNulas = calificaciones.filter(val => val !== 0);
+
+        var totalCalificacionesNoNulas = calificacionesNoNulas.length;
+
+        var sumCalificacionesNoNulas = calificacionesNoNulas.reduce((acc, val) => acc + val, 0);
+
+        var promedioCalificacion = totalCalificacionesNoNulas > 0
+            ? sumCalificacionesNoNulas / totalCalificacionesNoNulas
             : 0;
+
 
         var entradaAgregada = {
             ano: ano,

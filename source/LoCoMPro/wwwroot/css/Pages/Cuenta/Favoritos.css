@@ -1,0 +1,359 @@
+﻿/* Contenedor de fila */
+.Favoritos-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Tabla */
+.Favoritos-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+/* Tabla de resultados */
+.Favoritos-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+/* Tabla */
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    /* Thead th */
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+    }
+
+    /* Tbody td */
+    table tbody td {
+        background-color: #1A7254;
+        cursor: pointer;
+        text-align: left;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: none;
+        position: relative;
+    }
+        /* Tbody td ultimo */
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* Tbody td primero */
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+    /* Tbody fila */
+    table tbody tr {
+        color: white;
+        height: 30px;
+    }
+
+/* Características de hover */
+table td:not(.no-hover):hover::before {
+    content: attr(data-tooltip);
+    display: block;
+    position: absolute;
+    background-color: #4E7366;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    top: -80%;
+    left: 35%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+table td::before {
+    content: "";
+}
+
+/* Contenido de la celda del Corazón */
+.contenidoCeldaCorazon {
+    min-width: 50px;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Producto */
+.contenidoCeldaProducto {
+    max-width: 150px;
+    min-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Categoria */
+.contenidoCeldaCategoria {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Contenido de la celda de Marca */
+.contenidoCeldaMarca {
+    min-width: 108px;
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Paginacion */
+
+/* Contenedor de paginacion */
+.Favoritos-contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor de caja de paginacion */
+.Favoritos-contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+/* Boton de paginacion */
+.Favoritos-boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+    /* Botón de paginacion al hacer hover */
+    .Favoritos-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    /* Bordes de boton de paginacion */
+    .Favoritos-boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Boton de paginacion deshabilitado */
+.Favoritos-boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+}
+
+    /* Bordes de boton de paginacion deshabilitado */
+    .Favoritos-boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+
+/* Texto en paginacion */
+.Favoritos-texto-paginacion {
+    margin: 0 10px;
+}
+
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
+
+/* Contenedor para el gif y un mensaje */
+.Favoritos-contenedor-gif {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gif */
+.Favoritos-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.Favoritos-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* Corazón */
+.corazon {
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Corazón lleno */
+.corazon-lleno {
+    color: red;
+    animation: latido 0.3s ease 1;
+}
+
+/* Corazón con cursor deshabilitado */
+.corazon-deshabilitado {
+    cursor: auto;
+}
+
+/* Animación de latido */
+@keyframes latido {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Agrega una clase para la transición suave */
+.eliminacion-suave {
+    opacity: 1;
+    transition: opacity 0.3s ease-out; /* Ajusta la duración y la función de transición según lo necesites */
+}
+
+    /* Cuando se elimina la fila, se reduce gradualmente la opacidad */
+    .eliminacion-suave.eliminando {
+        opacity: 0;
+    }
+
+/* Contenedor para el gif y un mensaje */
+.Favoritos-contenedor-gif {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Gif */
+.Favoritos-gif {
+    max-width: 90%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.Favoritos-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+    max-width: 100%;
+}
+
+.Favoritos-boton {
+    align-self: flex-end;
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    height: 27px;
+    max-height: 27px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition-duration: 0.4s;
+    font: 16px system-ui;
+}

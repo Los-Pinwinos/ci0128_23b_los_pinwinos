@@ -1,8 +1,6 @@
 using LoCoMPro.ViewModels.Tienda;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace LoCoMPro.Pages.AgregarTienda
 {
@@ -43,7 +41,7 @@ namespace LoCoMPro.Pages.AgregarTienda
             TempData["distritoAutocompletado"] = distrito;
 
             // Obtiene los resultados de la base de datos
-            IList<AgregarTiendaVM> resultados = resultados
+            IList<AgregarTiendaVM> resultados
                 = contexto.Tiendas
                 .Where(r => r.nombre.StartsWith(term))
                 .Select(r => new AgregarTiendaVM
@@ -51,7 +49,9 @@ namespace LoCoMPro.Pages.AgregarTienda
                     nombre = r.nombre,
                     nombreDistrito = r.nombreDistrito,
                     nombreCanton = r.nombreCanton,
-                    nombreProvincia = r.nombreProvincia
+                    nombreProvincia = r.nombreProvincia,
+                    longitud = r.longitud,
+                    latitud = r.latitud
                 }).ToList();
 
             // Obtiene solo nos nombres de las tiendas que cumplen

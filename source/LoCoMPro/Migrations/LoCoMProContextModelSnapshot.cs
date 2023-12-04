@@ -295,6 +295,12 @@ namespace LoCoMPro.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<double>("latitud")
+                        .HasColumnType("float");
+
+                    b.Property<double>("longitud")
+                        .HasColumnType("float");
+
                     b.HasKey("nombre", "nombreDistrito", "nombreCanton", "nombreProvincia");
 
                     b.HasIndex("nombreDistrito", "nombreCanton", "nombreProvincia");
@@ -357,6 +363,12 @@ namespace LoCoMPro.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("latitudVivienda")
+                        .HasColumnType("float");
+
+                    b.Property<double>("longitudVivienda")
+                        .HasColumnType("float");
+
                     b.Property<string>("provinciaVivienda")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -368,6 +380,21 @@ namespace LoCoMPro.Migrations
                     b.HasIndex("distritoVivienda", "cantonVivienda", "provinciaVivienda");
 
                     b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("ProductoUsuario", b =>
+                {
+                    b.Property<string>("nombreProducto")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("nombreUsuario")
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("nombreProducto", "nombreUsuario");
+
+                    b.HasIndex("nombreUsuario");
+
+                    b.ToTable("Favoritos", (string)null);
                 });
 
             modelBuilder.Entity("LoCoMPro.Models.Calificacion", b =>
@@ -529,6 +556,21 @@ namespace LoCoMPro.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("vivienda");
+                });
+
+            modelBuilder.Entity("ProductoUsuario", b =>
+                {
+                    b.HasOne("LoCoMPro.Models.Producto", null)
+                        .WithMany()
+                        .HasForeignKey("nombreProducto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LoCoMPro.Models.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("nombreUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LoCoMPro.Models.Canton", b =>

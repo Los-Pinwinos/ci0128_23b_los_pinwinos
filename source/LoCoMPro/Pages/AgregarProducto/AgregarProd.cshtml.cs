@@ -23,8 +23,8 @@ namespace LoCoMPro.Pages.AgregarProducto
         public AgregarProdVM ViewModel { get; set; }
 
         // Utilizados para cargar el combobox de unidad y categoría
-        public SelectList OpcionesUnidad { get; set; }
-        public SelectList OpcionesCategoria { get; set; }
+        public SelectList? OpcionesUnidad { get; set; }
+        public SelectList? OpcionesCategoria { get; set; }
         
         public AgregarProdModel(LoCoMPro.Data.LoCoMProContext contexto)
         {

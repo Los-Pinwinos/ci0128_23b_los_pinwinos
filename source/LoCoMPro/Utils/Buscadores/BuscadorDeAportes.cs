@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoCoMPro.Utils.Buscadores
 {
-    // Buscador especializado para la pagina de busqueda
+    // Buscador especializado para la pagina de aportes
     public class BuscadorDeAportes : IBuscador<AporteVM>
     {
         // Contexto
@@ -40,7 +40,7 @@ namespace LoCoMPro.Utils.Buscadores
                         fecha = r.creacion,
                         producto = r.productoAsociado,
                         precio = r.precio,
-                        unidad = r.producto.nombreUnidad,
+                        unidad = r.producto!.nombreUnidad,
                         categoria = r.producto.nombreCategoria,
                         tienda = r.nombreTienda,
                         provincia = r.nombreProvincia,
