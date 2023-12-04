@@ -4,6 +4,7 @@ using LoCoMPro.Data;
 using LoCoMPro.ViewModels.Cuenta;
 using LoCoMPro.Utils.Buscadores;
 using LoCoMPro.Utils.Interfaces;
+using LoCoMPro.Utils;
 using Newtonsoft.Json;
 
 namespace LoCoMPro.Pages.Cuenta
@@ -69,7 +70,7 @@ namespace LoCoMPro.Pages.Cuenta
                 if (resultados.Count != 0)
                 {
                     // Asignar data de JSON
-                    this.aportes = JsonConvert.SerializeObject(resultados);
+                    this.aportes = ControladorJson.ConvertirAJson(resultados);
                 }
                 else
                 {

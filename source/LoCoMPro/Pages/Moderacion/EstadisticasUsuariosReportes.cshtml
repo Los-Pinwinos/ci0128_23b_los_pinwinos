@@ -1,0 +1,125 @@
+﻿@page
+@model LoCoMPro.Pages.Moderacion.EstadisticasUsuariosReportesModel
+@{
+    ViewData["Title"] = "Estadísticas Usuarios";
+}
+
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Pages/Moderacion/EstadisticasUsuarios.css" asp-append-version="true" />
+    <script src="~/js/Pages/Busqueda/paginador.js" asp-append-version="true"></script>
+    <script>
+
+        function adaptarCaracteresEspeciales(cadena) {
+            var elementoTemporal = document.createElement("div");
+            elementoTemporal.innerHTML = cadena;
+            return elementoTemporal.textContent;
+        }
+
+        function obtenerResultados() {
+            var resultadosAdaptados = adaptarCaracteresEspeciales('@Model.resultadosEstadisticas')
+            return JSON.parse(resultadosAdaptados);
+        }
+
+        var resultados = obtenerResultados();
+        var paginador = new Paginador(5); // El número 5 se refiere al número de registros por página
+        var paginaDefault = 1; // Inicia en la página 1 por defecto
+    </script>
+    <script src="~/js/Pages/Moderacion/clienteEstadisticasUsuarios.js" asp-append-version="true"></script>
+</head>
+<div>
+    <div class="Estadisticas-titulo">
+        <h2 id="contenidoTitulo">
+            @if (Model.tipoPagina == "reportadores")
+            {
+                <text>Usuarios que más reportan</text>
+            }
+            else if (Model.tipoPagina == "reportados")
+            {
+                <text>Usuarios más reportados</text>
+            }
+        </h2>
+    </div>
+    <div class="Estadisticas-contenedor-fila">
+        @if (@Model.cantidadValidos != 0)
+        {
+            <div class="Estadisticas-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding-left:10px;" id="tituloUsuario">
+                                Nombre de usuario
+                            </th>
+                            <th style="padding-left:60px;" id="tituloCalificacion">
+                                Calificación
+                            </th>
+                            <th style="padding-left:30px;" id="tituloContribuciones">
+                                Contribuciones
+                            </th>
+                            <th style="padding-left:4.7px;" id="tituloReportes">
+                                @if (Model.tipoPagina == "reportadores")
+                                {
+                                    <text>Reportes Realizados</text>
+                                }
+                                else if (Model.tipoPagina == "reportados")
+                                {
+                                    <text>Reportes Recibidos</text>
+                                }
+                            </th>
+                            <th style="text-align: right; padding-right: 10px" id="tituloAceptados">
+                                Reportes aceptados
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="Estadisticas-tabla-resultados" id="cuerpoResultados"></tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="Estadisticas-contenedor-gif">
+                <!-- Logotipo de Pinwino -->
+                <img src="~/img/Pinwino_feliz.gif" alt="Pinwino feliz" class="Estadisticas-gif" id="PinwinoFeliz">
+                <p class="Estadisticas-texto">Ningún usuario califica para la estadística</p>
+            </div>
+        }
+
+    </div>
+</div>
+
+@if (@Model.cantidadValidos != 0)
+{
+    <div class="Estadisticas-contenedor-paginacion">
+        <div class="Estadisticas-contenedor-caja-paginacion">
+            <div id="paginaPrevia" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina - 1)">
+                Anterior
+            </div>
+            <div id="sinPaginaPrevia" class="Estadisticas-boton-paginacion-deshabilitado">
+                Anterior
+            </div>
+
+            <span id="textoPaginacion" class="Estadisticas-texto-paginacion">  </span>
+
+            <div id="paginaSiguiente" class="Estadisticas-boton-paginacion" onclick="pasarPagina(resultadosPaginados.IndicePagina + 1)">
+                Siguiente
+            </div>
+            <div id="sinPaginaSiguiente" class="Estadisticas-boton-paginacion-deshabilitado">
+                Siguiente
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var mensajeError = "@ViewData["MensajeError"]";
+    if (mensajeError) {
+        alert(mensajeError);
+        window.location.href = "/Home/Index";
+    }
+</script>
+
+<script>
+    var resultadosPaginados = paginar(paginaDefault);
+    renderizarPaginacion();
+    renderizarTabla(resultadosPaginados);
+</script>

@@ -6,6 +6,7 @@
 
 <!-- Metadatos -->
 <head>
+    <title>Búsqueda Avanzada</title>
     <!-- Enlace al archivo CSS con los estilos de la página -->
     <!-- El valor true hace que la versión se agregue a la URL -->
     <link rel="stylesheet" href="~/css/Pages/Busqueda/Index.css" asp-append-version="true" />
@@ -79,9 +80,9 @@
                                 </div>
                                 <select name="nombreProvincia" asp-for="provincia" id="CajaDeSeleccionProvincia" class="BusquedaAvanzada-caja-combo">
                                     <option name="provincia" value="">Todas</option>
-                                    @foreach (var provincia in Model.provincias)
+                                    @foreach (var option in Model.provincias!.Select(provincia => new SelectListItem { Value = provincia.nombre, Text = provincia.nombre }))
                                     {
-                                        <option name="provincia" value="@provincia.nombre">@provincia.nombre</option>
+                                        <option value="@option.Value">@option.Text</option>
                                     }
                                 </select>
                             </div>

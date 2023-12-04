@@ -35,6 +35,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- Botón que lleva a la página de Nosotros -->
+                <a class="nav-link text-dark" asp-area="" asp-page="/Home/Nosotros">Sobre nosotros</a>
                 <!-- Elementos de la barra de navegación -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <!-- Lista de elementos alineados a la izquierda -->
@@ -61,8 +63,16 @@
                                     <div class="dropdown-menu Layout-dropdown">
                                         <!-- Botón que lleva a la página para ver reportes con el texto "Registros reportados" -->
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/VerReportes">Registros reportados</a>
+                                        <!-- Botón que lleva a la página de ver registros con precios anómalos" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/OutliersPrecio">Precios anómalos</a>
                                         <!-- Botón que lleva a la página para ver registros con fechas obsoletas con el texto "Fechas obsoletas" -->
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/FechasObsoletas">Fechas obsoletas</a>
+                                        <!-- Botón que lleva a la página de clustering-->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/ProductosSimilares">Productos similares</a>
+                                        <!-- Botón que lleva a la página de ver usuarios más reportados con el texto "Usuarios más reportados" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportados">Usuarios más reportados</a>
+                                        <!-- Botón que lleva a la página de ver usuarios que más reportan con el texto "Usuarios que más reportan" -->
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Moderacion/EstadisticasUsuariosReportes" asp-route-tipo="reportadores">Usuarios que más reportan</a>
                                     </div>
                                 </li>
                             }
@@ -85,7 +95,7 @@
                                     <!-- Botón que lleva a la página de aportes con el texto "Ver aportes" -->
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Aportes">Ver aportes</a>
                                     <!-- Botón que llevará a la página de productos favoritos con el texto "Favoritos" (se debe modificar) -->
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Cuenta/Favoritos">Favoritos</a>
+                                    <a class="nav-link text-dark" id="BotonFavoritosLayout" asp-area="" asp-page="/Cuenta/Favoritos">Favoritos</a>
                                     <!-- Botón que lleva a la página del perfil con el texto "Perfil" -->
                                     <a class="nav-link text-dark" id="BotonPerfilLayout" asp-page="/Cuenta/Perfil">Perfil</a>
                                     <!-- Botón para cerrar sesión (se renderiza como una vista parcial) -->

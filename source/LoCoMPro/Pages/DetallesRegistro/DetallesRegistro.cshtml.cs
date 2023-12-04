@@ -5,10 +5,7 @@ using LoCoMPro.ViewModels.DetallesRegistro;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Text;
-using System.Web;
 
 namespace LoCoMPro.Pages.DetallesRegistro
 {
@@ -42,7 +39,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             if (!string.IsNullOrEmpty(fechaHora) || !string.IsNullOrEmpty(usuario))
             {
-                if (!fechaHora.Contains("."))
+                if (!fechaHora.Contains('.'))
                 {
                     fechaHora += ".0000000";
                 }
@@ -78,12 +75,12 @@ namespace LoCoMPro.Pages.DetallesRegistro
         {
             char[] numeroTexto = Math.Truncate(this.registro.precio).ToString().ToCharArray();
             Array.Reverse(numeroTexto);
-            string numeroAlReves = new string(numeroTexto);
-            StringBuilder resultado = new StringBuilder();
+            string numeroAlReves = new(numeroTexto);
+            StringBuilder resultado = new();
 
             for (int i = 0; i < numeroAlReves.Length; i++)
             {
-                if (i > 0 && i % 3 == 0)
+                if (i % 3 == 0 && i != 0)
                 {
                     resultado.Append(separador);
                 }
@@ -112,14 +109,18 @@ namespace LoCoMPro.Pages.DetallesRegistro
                 ActualizarModeracionUsuario(usuarioCreador);
 
                 conteo = (int) resultado[0][0];
-                promedioStr = resultado[0][1].ToString();
-                if (!promedioStr.Contains("."))
+                promedioStr = resultado[0][1]?.ToString() ?? "";
+                if (promedioStr != null)
                 {
-                    promedioStr += ",0";
-                } else
-                {
-                    int pos = promedioStr.IndexOf('.');
-                    promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
+                    if (!promedioStr.Contains('.'))
+                    {
+                        promedioStr += ",0";
+                    }
+                    else
+                    {
+                        int pos = promedioStr.IndexOf('.');
+                        promedioStr = promedioStr.Remove(pos, 1).Insert(pos, ",");
+                    }
                 }
             }
             
@@ -128,7 +129,7 @@ namespace LoCoMPro.Pages.DetallesRegistro
 
         private DetallesRegistroVM ActualizarRegistro(DateTime fecha, string usuario)
         {
-            var detallesIQ = contexto.Registros
+            List<DetallesRegistroVM> detallesIQ = contexto.Registros
                     .Include(r => r.producto)
                     .Include(r => r.fotografias)
                     .Where(r => r.creacion == fecha && r.usuarioCreador.Equals(usuario))
@@ -140,10 +141,11 @@ namespace LoCoMPro.Pages.DetallesRegistro
                         calificacion = r.calificacion,
                         descripcion = r.descripcion,
                         productoAsociado = r.productoAsociado,
-                        nombreUnidad = r.producto.nombreUnidad,
+                        nombreUnidad = r.producto!.nombreUnidad,
                         fotografias = r.fotografias
-                    }).ToList();
-            return detallesIQ.FirstOrDefault();
+                    })
+                    .ToList();
+            return detallesIQ.FirstOrDefault()!;
         }
 
         private int ActualizarCantidadCalificaciones(DateTime fecha, string usuario)
@@ -157,15 +159,15 @@ namespace LoCoMPro.Pages.DetallesRegistro
         private void ActualizarUltimaCalificacion(DateTime fecha, string usuario)
         {
             string usuarioCalificador = User.Identity?.Name ?? "desconocido";
-            var ultimaCalificacion = this.contexto.Calificaciones
-                                                .Where(r => r.creacionRegistro == fecha
-                                                    && r.usuarioCreadorRegistro.Equals(usuario)
-                                                    && r.usuarioCalificador.Equals(usuarioCalificador))
-                                                .FirstOrDefault();
+            var calificacion = this.contexto.Calificaciones
+                                    .Where(r => r.creacionRegistro == fecha
+                                        && r.usuarioCreadorRegistro.Equals(usuario)
+                                        && r.usuarioCalificador.Equals(usuarioCalificador))
+                                    .FirstOrDefault();
             this.ultimaCalificacion = 0;
-            if (ultimaCalificacion != null)
+            if (calificacion != null)
             {
-                this.ultimaCalificacion = ultimaCalificacion.calificacion;
+                this.ultimaCalificacion = calificacion.calificacion;
             }
         }
 

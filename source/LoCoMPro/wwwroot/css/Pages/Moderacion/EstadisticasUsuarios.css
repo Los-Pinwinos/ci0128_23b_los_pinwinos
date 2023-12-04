@@ -1,0 +1,244 @@
+﻿.Estadisticas-titulo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+    .Estadisticas-titulo h2 {
+        font-size: 24px;
+        color: black; 
+        margin: 0;
+    }
+
+
+.Estadisticas-contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+.Estadisticas-tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+.Estadisticas-tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+    }
+
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: none;
+        position: relative;
+    }
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+    table tbody tr {
+        color: white;
+        height: 30px;
+    }
+
+    table td:hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -30%;
+        left: 70%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    table td::before {
+        content: "";
+    }
+
+.contenidoCeldaUsuario {
+    min-width: 100px;
+    max-width: 100px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.contenidoCeldaCalificacion {
+    text-align: right;
+    min-width: 100px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaNumero {
+    text-align: right;
+    min-width: 75px;
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: rtl;
+}
+
+
+/* Paginacion */
+.Estadisticas-contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Estadisticas-contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+.Estadisticas-boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+    .Estadisticas-boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .Estadisticas-boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+.Estadisticas-boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    padding-left: 6px;
+}
+
+    .Estadisticas-boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+
+.Estadisticas-texto-paginacion {
+    margin: 0 10px;
+}
+
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
+
+.Estadisticas-contenedor-gif {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Estadisticas-gif {
+    max-width: 35%;
+    height: auto;
+}
+
+.Estadisticas-texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}

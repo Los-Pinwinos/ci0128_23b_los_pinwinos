@@ -1,0 +1,335 @@
+﻿.Contenedor-fila {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1px;
+    width: 100%;
+    height: calc(70vh - 50px);
+}
+
+.Tabla {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 15px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: unset;
+}
+
+.Tabla-resultados {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 15px;
+    overflow-y: auto;
+    overflow-x: unset;
+}
+
+table {
+    border-collapse: separate;
+    width: 100%;
+    max-width: 97%;
+    border-spacing: 0 10px;
+    font-size: 15px;
+}
+    table thead th {
+        background-color: white;
+        text-align: left;
+        border: none;
+    }
+
+    table tbody td {
+        background-color: #1A7254;
+        text-align: left;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: none;
+        position: relative;
+    }
+        table tbody td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        table tbody td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+    table tbody tr {
+        color: white;
+        height: 30px;
+    }
+
+    /* Características de hover */
+    table td:not(.no-hover):hover::before {
+        content: attr(data-tooltip);
+        display: block;
+        position: absolute;
+        background-color: #4E7366;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        top: -80%;
+        left: 35%;
+        transform: translateX(-25%);
+        white-space: nowrap;
+        z-index: 1;
+    }
+
+    table td::before {
+        content: "";
+    }
+
+.contenidoCeldaCheckbox {
+    width: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 30%;
+}
+
+.contenidoCeldaProducto {
+    width: 150px;
+    padding: 1%;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contenidoCeldaTienda {
+    width: 100px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1%;
+}
+
+.contenidoCeldaProvincia {
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+}
+
+.contenidoCeldaCanton {
+    width: 100px;
+    overflow-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1%;
+}
+
+.contenidoCeldaPrecio {
+    text-align: right;
+    width: 85px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+}
+
+.contenidoCeldaMinimo {
+    text-align: right;
+    width: 85px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+}
+
+.contenidoCeldaMaximo {
+    text-align: right;
+    width: 85px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+    padding-right: 5%;
+}
+
+.contenidoCeldaDesviacion {
+    text-align: right;
+    width: 140px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+}
+
+.contenidoCeldaPromedio {
+    text-align: right;
+    width: 85px;
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1%;
+}
+
+
+/* Paginacion */
+.Contenedor-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2%;
+}
+
+.Contenedor-caja-paginacion {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+}
+
+.Boton-paginacion {
+    width: 60px;
+    height: 20px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    position: relative;
+    padding-left: 6px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+    /* Botón de paginacion al hacer hover */
+    .Boton-paginacion:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    /* Bordes de boton de paginacion */
+    .Boton-paginacion::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+/* Boton de paginacion deshabilitado */
+.Boton-paginacion-deshabilitado {
+    width: 60px;
+    height: 20px;
+    color: grey;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    white-space: nowrap;
+    position: relative;
+    padding-left: 6px;
+}
+
+    /* Bordes de boton de paginacion deshabilitado */
+    .Boton-paginacion-deshabilitado::before {
+        content: "";
+        position: absolute;
+        top: -25%;
+        left: -9%;
+        right: -9%;
+        bottom: -25%;
+        border: 1.5px solid black;
+        border-radius: 50px;
+    }
+
+
+.Numeros-paginacion {
+    margin: 0 10px;
+}
+
+/* Numero de paginacion seleccionable */
+.pagina-seleccionable {
+    color: black;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina-seleccionable:hover {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+/* Numero de paginacion actual */
+.pagina {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    /* Hover para numero de paginacion seleccionable */
+    .pagina:hover {
+        cursor: auto;
+        color: black;
+        text-decoration: none;
+    }
+
+.Contenedor-gif {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+}
+
+.Gif {
+    max-width: 90%;
+    height: auto;
+}
+
+/* Estilo para el texto en la página */
+.Texto {
+    color: black;
+    font-size: 30px;
+    text-align: center;
+    max-width: 100%;
+}
+
+/* Agrega una clase para la transición suave */
+.eliminacion-suave {
+    opacity: 1;
+    /* Duración y la función de transición */
+    transition: opacity 0.3s ease-out;
+}
+
+    /* Cuando se elimina la fila, se reduce gradualmente la opacidad */
+    .eliminacion-suave.eliminando {
+        opacity: 0;
+    }
+
+.Boton {
+    background-color: #033F63;
+    color: white;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 16px;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+    margin-top: 3%;
+    align-items: center;
+    position: relative;
+    left: 50%;
+}

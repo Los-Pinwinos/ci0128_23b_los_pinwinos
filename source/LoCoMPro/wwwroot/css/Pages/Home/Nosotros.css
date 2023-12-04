@@ -1,0 +1,103 @@
+.Contenedor-central {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.Contenedor-equipo {
+    display: flex;
+}
+
+.Contenedor-integrantes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.Columna {
+    position: static;
+    padding: 2%;
+    border: 2px solid #033F63;
+    border-radius: 5px;
+    display: flex;
+    height: 350px;
+    max-height:500px;
+    flex-direction: column;
+    align-items: center;
+    width: calc(20% - 8px);
+}
+
+.Imagen-todos {
+    height: 180px;
+    padding-right: 5%;
+    padding-bottom: 1%;
+}
+
+.Imagen-personal {
+    height: calc(90vh - 50px);
+    max-height:80px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.Titulo-equipo {
+    color: #033F63;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.Titulo-persona {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.Texto {
+    overflow-y: auto;
+    font-size: 16px;
+    text-align: justify;
+    height: 100%;
+    width: calc(100% - 8px);
+}
+
+.Texto-persona {
+    font-size: 14px;
+    text-align: justify;
+    overflow: clip;
+    height: 60%;
+}
+
+.Contenedor-iconos {
+    display: inline-block;
+    width: 100%;
+    color: black;
+    text-decoration: none;
+}
+
+    .Contenedor-Iconos i {
+        font-size: 1.5em;
+    }
+
+    .Contenedor-Iconos a, .Contenedor-Iconos i {
+        color: black;
+        text-decoration: none;
+    }
+
+    .Contenedor-Iconos a:hover, .Contenedor-Iconos i:hover {
+        color: blue;
+    }

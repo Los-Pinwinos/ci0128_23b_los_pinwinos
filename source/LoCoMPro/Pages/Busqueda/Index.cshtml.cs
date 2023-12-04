@@ -57,7 +57,7 @@ namespace LoCoMPro.Pages.Busqueda
             {
                 nombre = "",
                 canton = "",
-                fecha = new DateTime(),
+                fecha = DateTime.Now,
                 precio = 0,
                 marca = "",
                 provincia = "",
@@ -85,8 +85,7 @@ namespace LoCoMPro.Pages.Busqueda
                 // Cargar filtros
                 this.cargarFiltros(busqueda);
                 // Asignar data de JSON
-                this.resultadosBusqueda = JsonConvert.SerializeObject(busqueda.ToList());
-
+                this.resultadosBusqueda = ControladorJson.ConvertirAJson(busqueda);
             }
             return Page();
         }

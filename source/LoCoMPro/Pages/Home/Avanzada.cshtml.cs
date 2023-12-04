@@ -26,7 +26,7 @@ namespace LoCoMPro.Pages.Home
         }
 
         // Mapa
-        public IList<Provincia>? provincias;
+        public IList<Provincia>? provincias { get; set; }
 
         // Busqueda
         [BindProperty(SupportsGet = true)]
